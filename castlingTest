@@ -1,0 +1,8 @@
+k e8
+r a8
+K e1
+R a1
+P e2
+p e7
+
+relRank(k' < 6) and only(K, R, k, r, p) and relRank(r'y = 3) and relRank(p'a < 6) and sameFile(k'x, p) and sameColor(k'x, r'y) and not(sameColor(k'x, p'a))
