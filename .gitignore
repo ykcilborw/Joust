@@ -19,6 +19,7 @@
 Thumbs.db
 Objectives.txt
 *.ppt
+*.pptx
 *.avi
 out.txt
-
+\bin
