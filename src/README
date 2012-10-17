@@ -1,0 +1,13 @@
+Joust Language Specification
+-----------------------------
+New Name For Program: Needle.ChessGame.Found
+A valid program can search for:
+1) A particular board
+2) A sequence of boards
+
+Also want nice graphs and stats
+Highlighting around chess pieces that are in check, defended, safe, canAttack
+
+Sample valid Joust programs:
+exists(K)
+exists(K) through sameFile(Q, q) until checkmate
