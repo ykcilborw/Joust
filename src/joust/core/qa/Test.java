@@ -19,15 +19,30 @@ public class Test {
 			
 			// add all config test cases here and then compare to our reference output
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+			/* occupies
+			 * captured
+			 * sameFile
+			 * higherFile
+			 * lowerFile
+			 * higherRank
+			 * lowerRank
+			 * betweenFile
+			 * betweenRank
+			 * file
+			 * sameRank
+			 * rank
+			 * relRank
+			 * canAttack
+			 * isDefended
+			 * check
+			 * checkmate
+			 * start
+			 * end
+			 * only
+			 * exists
+			 * sameColor
+			 * wildcard 
+			 */
 			
 			out.close();
 		} catch (Exception e) {
