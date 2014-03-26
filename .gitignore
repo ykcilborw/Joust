@@ -24,3 +24,4 @@ Objectives.txt
 out.txt
 \bin
 *.metadata
+*.classpath
