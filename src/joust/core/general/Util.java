@@ -17,7 +17,7 @@ public class Util {
 			ChessPiece current = actives.get(k);
 			int currX = current.getLocation().getmyX();
 			int currY = current.getLocation().getmyY();
-			newBoard[currX - 1][currY - 1] = current.getmySymbol(); 
+			newBoard[currX - 1][currY - 1] = current.getMySymbol(); 
 		}
 		return newBoard;
 	}

@@ -1,15 +1,18 @@
 package joust.core.chesspiece;
 
-import joust.core.general.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
+import joust.core.general.Game;
+import joust.core.general.Location;
 
+/**
+ * Represents the Bishop chess piece
+ * 
+ * @author Andrew Wroblicky
+ *
+ */
 public class Bishop extends ChessPiece {
-	private Location myLocation;
-	private String myColor;
-	private boolean isAlive;
-	int myID;
+	
 	
 	public Bishop(Location l, String color, int id) {
 		myLocation = l;
@@ -18,27 +21,13 @@ public class Bishop extends ChessPiece {
 		myID = id;
 	}
 	
-	public Location getLocation() {
-		return myLocation;
-	}
-	
-	public String getColor() {
-		return myColor;
-	}
-	
-	public boolean isAlive() {
-		return isAlive;
-	}
-	
-	public int getID() {
-		return myID;
-	}
-	
-	public String getmyType() {
+	@Override
+	public String getMyType() {
 		return "Bishop";
 	}
 	
-	public String getmySymbol() {
+	@Override
+	public String getMySymbol() {
 		if (myColor.equals("b")) {
 			return "b";
 		} else {
@@ -46,48 +35,7 @@ public class Bishop extends ChessPiece {
 		}
 	}
 	
-	public String getFile() {
-		String al = myLocation.getmyAlgebraicLocation();
-		return al.substring(0, 1);
-	}
-	
-	public String getRank() {
-		String al = myLocation.getmyAlgebraicLocation();
-		return al.substring(1, 2);
-	}
-	
-	public String getRelRank() {
-		String al = myLocation.getmyAlgebraicLocation().substring(1, 2);
-		if (myColor.equals("b")) {
-			int x = Integer.parseInt(al);
-			int toReturn = 0;
-			if (x == 1) {
-				toReturn = 8;
-			} else if (x == 2) {
-				toReturn = 7;
-			} else if (x == 3) {
-				toReturn = 6;
-			} else if (x == 4) {
-				toReturn = 5;
-			} else if (x == 5) {
-				toReturn = 4;
-			} else if (x == 6) {
-				toReturn = 3;
-			} else if (x == 7) {
-				toReturn = 2;
-			} else if (x == 8) {
-				toReturn = 1;
-			}
-			return new Integer(toReturn).toString();
-		} else {
-			return al;
-		}
-	}
-	
-	public void nowDead() {
-		isAlive = false;
-	}
-	
+	@Override
 	public ArrayList<Location> getPossibleMoves(Game g){
 		// generate all northwest directions, then northeast, then southwest, then southeast
 		ArrayList<Location> possibles = new ArrayList<Location>();
@@ -169,6 +117,7 @@ public class Bishop extends ChessPiece {
 		return possibles;
 	}
 	
+	@Override
 	public ArrayList<Location> getDefenseMoves(Game g){
 		// generate all northwest directions, then northeast, then southwest, then southeast
 		ArrayList<Location> possibles = new ArrayList<Location>();
@@ -241,6 +190,7 @@ public class Bishop extends ChessPiece {
 		return possibles;
 	}
 	
+	@Override
 	public boolean canReach(Game g, Location l) {
 		ArrayList<Location> possibles = this.getPossibleMoves(g);
 		//System.out.println("bishop canReach size: " + possibles.size());
@@ -255,6 +205,7 @@ public class Bishop extends ChessPiece {
 		return toReturn;
 	}
 	
+	@Override
 	public boolean canDefend(Game g, Location l) {
 		ArrayList<Location> possibles = this.getDefenseMoves(g);
 		boolean toReturn = false;
@@ -265,25 +216,4 @@ public class Bishop extends ChessPiece {
 		}
 		return toReturn;
 	}
-	
-	public void move(Game g, Location l) {
-		HashMap<Location, ChessPiece> positions = g.getmyPositions();
-		Location onBoard = Location.getBoardLocation(g, myLocation);
-		positions.remove(onBoard);
-		//positions.put(onBoard, null);
-		myLocation = l;
-		Location onBoard2 = Location.getBoardLocation(g, l);
-		positions.remove(onBoard2);
-		positions.put(onBoard2, this);
-	}
-	
-	public boolean equals(ChessPiece b) {
-		boolean toReturn = false;
-		if (myID == b.getID() && b.getmyType().equals(this.getmyType())) {
-			toReturn = true;
-		}
-		return toReturn;
-	}
-
-
 }

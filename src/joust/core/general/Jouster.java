@@ -1701,7 +1701,7 @@ public class Jouster {
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (candidates.get(i).getRelRank().equals(arg2)) {
+				if (candidates.get(i).getRelativeRank().equals(arg2)) {
 					toReturn = true;
 					break;
 				}
@@ -1723,7 +1723,7 @@ public class Jouster {
 		for (int i = 0; i < candidates.size(); i++) {
 			//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 			//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-			if (candidates.get(i).getRelRank().equals(arg2)) {
+			if (candidates.get(i).getRelativeRank().equals(arg2)) {
 				toReturn = true;
 				newCandidates.add(candidates.get(i));
 			}
@@ -1746,7 +1746,7 @@ public class Jouster {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (candidates.get(i).getRelRank().equals(arg3)) {
+					if (candidates.get(i).getRelativeRank().equals(arg3)) {
 						toReturn = true;
 						break;
 					}
@@ -1755,7 +1755,7 @@ public class Jouster {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Integer.parseInt(candidates.get(i).getRelRank()) < Integer.parseInt(arg3)) {
+					if (Integer.parseInt(candidates.get(i).getRelativeRank()) < Integer.parseInt(arg3)) {
 						toReturn = true;
 						break;
 					}
@@ -1764,7 +1764,7 @@ public class Jouster {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Integer.parseInt(candidates.get(i).getRelRank()) > Integer.parseInt(arg3)) {
+					if (Integer.parseInt(candidates.get(i).getRelativeRank()) > Integer.parseInt(arg3)) {
 						toReturn = true;
 						break;
 					}
@@ -1773,7 +1773,7 @@ public class Jouster {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Integer.parseInt(candidates.get(i).getRelRank()) >= Integer.parseInt(arg3)) {
+					if (Integer.parseInt(candidates.get(i).getRelativeRank()) >= Integer.parseInt(arg3)) {
 						toReturn = true;
 						break;
 					}
@@ -1782,7 +1782,7 @@ public class Jouster {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Integer.parseInt(candidates.get(i).getRelRank()) <= Integer.parseInt(arg3)) {
+					if (Integer.parseInt(candidates.get(i).getRelativeRank()) <= Integer.parseInt(arg3)) {
 						toReturn = true;
 						break;
 					}
@@ -1806,7 +1806,7 @@ public class Jouster {
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (candidates.get(i).getRelRank().equals(arg2)) {
+				if (candidates.get(i).getRelativeRank().equals(arg2)) {
 					toReturn = true;
 					newCandidates.add(candidates.get(i));
 				}
@@ -1815,7 +1815,7 @@ public class Jouster {
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Integer.parseInt(candidates.get(i).getRelRank()) < Integer.parseInt(arg2)) {
+				if (Integer.parseInt(candidates.get(i).getRelativeRank()) < Integer.parseInt(arg2)) {
 					toReturn = true;
 					newCandidates.add(candidates.get(i));
 				}
@@ -1824,7 +1824,7 @@ public class Jouster {
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Integer.parseInt(candidates.get(i).getRelRank()) > Integer.parseInt(arg2)) {
+				if (Integer.parseInt(candidates.get(i).getRelativeRank()) > Integer.parseInt(arg2)) {
 					toReturn = true;
 					newCandidates.add(candidates.get(i));
 				}
@@ -1833,7 +1833,7 @@ public class Jouster {
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Integer.parseInt(candidates.get(i).getRelRank()) >= Integer.parseInt(arg2)) {
+				if (Integer.parseInt(candidates.get(i).getRelativeRank()) >= Integer.parseInt(arg2)) {
 					toReturn = true;
 					newCandidates.add(candidates.get(i));
 				}
@@ -1842,7 +1842,7 @@ public class Jouster {
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Integer.parseInt(candidates.get(i).getRelRank()) <= Integer.parseInt(arg2)) {
+				if (Integer.parseInt(candidates.get(i).getRelativeRank()) <= Integer.parseInt(arg2)) {
 					toReturn = true;
 					newCandidates.add(candidates.get(i));
 				}
@@ -1943,7 +1943,7 @@ public class Jouster {
 		ArrayList<ChessPiece> pieces = (ArrayList<ChessPiece>) myGame.getActivePieces();
 		if (pieces.size() == args.size()) {
 			for (int i = 0; i < pieces.size(); i++) {
-				String temp = pieces.get(i).getmySymbol();
+				String temp = pieces.get(i).getMySymbol();
 				for (int j = 0; j < args.size(); j++) {
 					String temp2 = args.get(i);
 					if (temp.equals(temp2)) {
@@ -2073,43 +2073,43 @@ public class Jouster {
 			if (arg1.equals("1") || arg1.equals("2") || arg1.equals("3") ||
 					arg1.equals("4") || arg1.equals("5") || arg1.equals("6")) {
 					// see if generic type and specific type match
-					if (arg1.equals("1") && capturer.getmyType().equals("Pawn")) {
+					if (arg1.equals("1") && capturer.getMyType().equals("Pawn")) {
 						didCapture = true;
-					} else if (arg1.equals("2") && capturer.getmyType().equals("Rook")) {
+					} else if (arg1.equals("2") && capturer.getMyType().equals("Rook")) {
 						didCapture = true;
-					} else if (arg1.equals("3") && capturer.getmyType().equals("Horse")) {
+					} else if (arg1.equals("3") && capturer.getMyType().equals("Horse")) {
 						didCapture = true;
-					} else if (arg1.equals("4") && capturer.getmyType().equals("Bishop")) {
+					} else if (arg1.equals("4") && capturer.getMyType().equals("Bishop")) {
 						didCapture = true;
-					} else if (arg1.equals("5") && capturer.getmyType().equals("Queen")) {
+					} else if (arg1.equals("5") && capturer.getMyType().equals("Queen")) {
 						didCapture = true;
-					} else if (arg1.equals("6") && capturer.getmyType().equals("King")) {
+					} else if (arg1.equals("6") && capturer.getMyType().equals("King")) {
 						didCapture = true;
 					}
 			}
 			if (arg2.equals("1") || arg2.equals("2") || arg2.equals("3") ||
 					arg2.equals("4") || arg2.equals("5") || arg2.equals("6")) {
 					// see if generic type and specific type match
-					if (arg2.equals("1") && captured.getmyType().equals("Pawn")) {
+					if (arg2.equals("1") && captured.getMyType().equals("Pawn")) {
 						gotCaptured = true;
-					} else if (arg1.equals("2") && captured.getmyType().equals("Rook")) {
+					} else if (arg1.equals("2") && captured.getMyType().equals("Rook")) {
 						gotCaptured = true;
-					} else if (arg2.equals("3") && captured.getmyType().equals("Horse")) {
+					} else if (arg2.equals("3") && captured.getMyType().equals("Horse")) {
 						gotCaptured = true;
-					} else if (arg2.equals("4") && captured.getmyType().equals("Bishop")) {
+					} else if (arg2.equals("4") && captured.getMyType().equals("Bishop")) {
 						gotCaptured = true;
-					} else if (arg2.equals("5") && captured.getmyType().equals("Queen")) {
+					} else if (arg2.equals("5") && captured.getMyType().equals("Queen")) {
 						gotCaptured = true;
-					} else if (arg2.equals("6") && captured.getmyType().equals("King")) {
+					} else if (arg2.equals("6") && captured.getMyType().equals("King")) {
 						gotCaptured = true;
 					}
 			}
 			//System.out.println("capturer: " + myGame.getCapturer().getmySymbol());
 			//System.out.println("captured: " + myGame.getCaptured().getmySymbol());
-			if (myGame.getCapturer().getmySymbol().equals(arg1)) {
+			if (myGame.getCapturer().getMySymbol().equals(arg1)) {
 				didCapture = true;
 			}
-			if (myGame.getCaptured().getmySymbol().equals(arg2)) {
+			if (myGame.getCaptured().getMySymbol().equals(arg2)) {
 				gotCaptured = true;
 			}
 		}
@@ -2181,45 +2181,45 @@ public class Jouster {
 		if (arg1.equals("1") || arg1.equals("2") || arg1.equals("3") ||
 				arg1.equals("4") || arg1.equals("5") || arg1.equals("6")) {
 				// see if generic type and specific type match
-				if (arg1.equals("1") && capturer.getmyType().equals("Pawn")) {
+				if (arg1.equals("1") && capturer.getMyType().equals("Pawn")) {
 					didCapture = true;
-				} else if (arg1.equals("2") && capturer.getmyType().equals("Rook")) {
+				} else if (arg1.equals("2") && capturer.getMyType().equals("Rook")) {
 					didCapture = true;
-				} else if (arg1.equals("3") && capturer.getmyType().equals("Horse")) {
+				} else if (arg1.equals("3") && capturer.getMyType().equals("Horse")) {
 					didCapture = true;
-				} else if (arg1.equals("4") && capturer.getmyType().equals("Bishop")) {
+				} else if (arg1.equals("4") && capturer.getMyType().equals("Bishop")) {
 					didCapture = true;
-				} else if (arg1.equals("5") && capturer.getmyType().equals("Queen")) {
+				} else if (arg1.equals("5") && capturer.getMyType().equals("Queen")) {
 					didCapture = true;
-				} else if (arg1.equals("6") && capturer.getmyType().equals("King")) {
+				} else if (arg1.equals("6") && capturer.getMyType().equals("King")) {
 					didCapture = true;
 				}
 		}
 		if (arg2.equals("1") || arg2.equals("2") || arg2.equals("3") ||
 				arg2.equals("4") || arg2.equals("5") || arg2.equals("6")) {
 				// see if generic type and specific type match
-				if (arg2.equals("1") && captured.getmyType().equals("Pawn")) {
+				if (arg2.equals("1") && captured.getMyType().equals("Pawn")) {
 					gotCaptured = true;
-				} else if (arg1.equals("2") && captured.getmyType().equals("Rook")) {
+				} else if (arg1.equals("2") && captured.getMyType().equals("Rook")) {
 					gotCaptured = true;
-				} else if (arg2.equals("3") && captured.getmyType().equals("Horse")) {
+				} else if (arg2.equals("3") && captured.getMyType().equals("Horse")) {
 					gotCaptured = true;
-				} else if (arg2.equals("4") && captured.getmyType().equals("Bishop")) {
+				} else if (arg2.equals("4") && captured.getMyType().equals("Bishop")) {
 					gotCaptured = true;
-				} else if (arg2.equals("5") && captured.getmyType().equals("Queen")) {
+				} else if (arg2.equals("5") && captured.getMyType().equals("Queen")) {
 					gotCaptured = true;
-				} else if (arg2.equals("6") && captured.getmyType().equals("King")) {
+				} else if (arg2.equals("6") && captured.getMyType().equals("King")) {
 					gotCaptured = true;
 				}
 		}
 		
 		for (int i = 0; i < candidates.size(); i++) {
-			if (myGame.getCapturer().getmySymbol().equals(sub)) {
+			if (myGame.getCapturer().getMySymbol().equals(sub)) {
 				didCapture = true;
 			}
 		}
 		for (int j = 0; j < candidates2.size(); j++) {
-			if (myGame.getCapturer().getmySymbol().equals(sub2)) {
+			if (myGame.getCapturer().getMySymbol().equals(sub2)) {
 				gotCaptured = true;
 			}
 		}

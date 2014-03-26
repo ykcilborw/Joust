@@ -84,11 +84,11 @@ public class Game {
 	public void removePiece(ChessPiece piece) {
 		myActivePieces.remove(piece);
 		String color = piece.getColor();
-		if (piece.getmySymbol().equals("1") || piece.getmySymbol().equals("2") || piece.getmySymbol().equals("3") ||
-			piece.getmySymbol().equals("4") || piece.getmySymbol().equals("5") || piece.getmySymbol().equals("6")) {
+		if (piece.getMySymbol().equals("1") || piece.getMySymbol().equals("2") || piece.getMySymbol().equals("3") ||
+			piece.getMySymbol().equals("4") || piece.getMySymbol().equals("5") || piece.getMySymbol().equals("6")) {
 			// update individual piece list
 			// determine color
-			if (piece.getmySymbol().equals("1")) {
+			if (piece.getMySymbol().equals("1")) {
 				if (color.equals("b")) {
 					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("p");
 					deadMemberFamily.remove(piece);
@@ -100,7 +100,7 @@ public class Game {
 					stringtoCP.remove("P");
 					stringtoCP.put("P", deadMemberFamily);
 				}
-			} else if (piece.getmySymbol().equals("2")) {
+			} else if (piece.getMySymbol().equals("2")) {
 				if (color.equals("b")) {
 					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("r");
 					deadMemberFamily.remove(piece);
@@ -112,7 +112,7 @@ public class Game {
 					stringtoCP.remove("R");
 					stringtoCP.put("R", deadMemberFamily);
 				}
-			} else if (piece.getmySymbol().equals("3")) {
+			} else if (piece.getMySymbol().equals("3")) {
 				if (color.equals("b")) {
 					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("n");
 					deadMemberFamily.remove(piece);
@@ -124,7 +124,7 @@ public class Game {
 					stringtoCP.remove("N");
 					stringtoCP.put("N", deadMemberFamily);
 				}
-			} else if (piece.getmySymbol().equals("4")) {
+			} else if (piece.getMySymbol().equals("4")) {
 				if (color.equals("b")) {
 					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("b");
 					deadMemberFamily.remove(piece);
@@ -136,7 +136,7 @@ public class Game {
 					stringtoCP.remove("B");
 					stringtoCP.put("B", deadMemberFamily);
 				}
-			} else if (piece.getmySymbol().equals("5")) {
+			} else if (piece.getMySymbol().equals("5")) {
 				if (color.equals("b")) {
 					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("q");
 					deadMemberFamily.remove(piece);
@@ -148,7 +148,7 @@ public class Game {
 					stringtoCP.remove("Q");
 					stringtoCP.put("Q", deadMemberFamily);
 				}
-			} else if (piece.getmySymbol().equals("6")) {
+			} else if (piece.getMySymbol().equals("6")) {
 					if (color.equals("b")) {
 						ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("k");
 						deadMemberFamily.remove(piece);
@@ -163,32 +163,32 @@ public class Game {
 			}
 		} else {
 			// update generic piece list
-			if (piece.getmySymbol().equals("p") || piece.getmySymbol().equals("P")) {
+			if (piece.getMySymbol().equals("p") || piece.getMySymbol().equals("P")) {
 					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("1");
 					deadMemberFamily.remove(piece);
 					stringtoCP.remove("1");
 					stringtoCP.put("1", deadMemberFamily);
-			} else if (piece.getmySymbol().equals("r") || piece.getmySymbol().equals("R")) {
+			} else if (piece.getMySymbol().equals("r") || piece.getMySymbol().equals("R")) {
 					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("2");
 					deadMemberFamily.remove(piece);
 					stringtoCP.remove("2");
 					stringtoCP.put("2", deadMemberFamily);
-			} else if (piece.getmySymbol().equals("n") || piece.getmySymbol().equals("N")) {
+			} else if (piece.getMySymbol().equals("n") || piece.getMySymbol().equals("N")) {
 				ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("3");
 				deadMemberFamily.remove(piece);
 				stringtoCP.remove("3");
 				stringtoCP.put("3", deadMemberFamily);
-			} else if (piece.getmySymbol().equals("b") || piece.getmySymbol().equals("B")) {
+			} else if (piece.getMySymbol().equals("b") || piece.getMySymbol().equals("B")) {
 				ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("4");
 				deadMemberFamily.remove(piece);
 				stringtoCP.remove("4");
 				stringtoCP.put("4", deadMemberFamily);
-			} else if (piece.getmySymbol().equals("q") || piece.getmySymbol().equals("Q")) {
+			} else if (piece.getMySymbol().equals("q") || piece.getMySymbol().equals("Q")) {
 				ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("5");
 				deadMemberFamily.remove(piece);
 				stringtoCP.remove("5");
 				stringtoCP.put("5", deadMemberFamily);
-			} else if (piece.getmySymbol().equals("k") || piece.getmySymbol().equals("K")) {
+			} else if (piece.getMySymbol().equals("k") || piece.getMySymbol().equals("K")) {
 				ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("6");
 				deadMemberFamily.remove(piece);
 				stringtoCP.remove("6");
@@ -209,10 +209,10 @@ public class Game {
 			stringtoCP.remove("l");
 			stringtoCP.put("l", deadMemberFamily);
 		}
-		ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get(piece.getmySymbol());
+		ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get(piece.getMySymbol());
 		deadMemberFamily.remove(piece);
-		stringtoCP.remove(piece.getmySymbol());
-		stringtoCP.put(piece.getmySymbol(), deadMemberFamily);
+		stringtoCP.remove(piece.getMySymbol());
+		stringtoCP.put(piece.getMySymbol(), deadMemberFamily);
 		ArrayList<ChessPiece> deadMemberFamily2 = stringtoCP.get("g");
 		deadMemberFamily2.remove(piece);
 		stringtoCP.remove("g");
@@ -781,7 +781,7 @@ public class Game {
 				ChessPiece current = myActivePieces.get(k);
 				int currX = current.getLocation().getmyX();
 				int currY = current.getLocation().getmyY();
-				board[currX - 1][currY - 1] = current.getmySymbol(); 
+				board[currX - 1][currY - 1] = current.getMySymbol(); 
 			}
 			visitedBoards.add(board);
 			
@@ -810,7 +810,7 @@ public class Game {
 			int y = l.getmyY();
 			ChessPiece current = myPositions.get(l);
 			if (current != null) {
-				board[x - 1][y - 1] = current.getmySymbol();
+				board[x - 1][y - 1] = current.getMySymbol();
 			}
 		}
 		for (int j = 7; j > -1; j--) {

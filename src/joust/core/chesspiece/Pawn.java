@@ -5,12 +5,9 @@ import java.util.*;
 
 
 public class Pawn extends ChessPiece {
-	private Location myLocation;
-	private String myColor;
+	
 	private boolean movedYet;
 	private boolean movedTwice;
-	private boolean isAlive;
-	private int myID;
 	private int round;
 	
 	public Pawn() {
@@ -53,11 +50,11 @@ public class Pawn extends ChessPiece {
 		return round;
 	}
 	
-	public String getmyType() {
+	public String getMyType() {
 		return "Pawn";
 	}
 	
-	public String getmySymbol() {
+	public String getMySymbol() {
 		if (myColor.equals("b")) {
 			return "p";
 		} else {
@@ -75,7 +72,7 @@ public class Pawn extends ChessPiece {
 		return al.substring(1, 2);
 	}
 	
-	public String getRelRank() {
+	public String getRelativeRank() {
 		String al = myLocation.getmyAlgebraicLocation().substring(1, 2);
 		if (myColor.equals("b")) {
 			int x = Integer.parseInt(al);
@@ -192,7 +189,7 @@ public class Pawn extends ChessPiece {
 					if (newX < 8 && newX > -1 && newY > -1 && newY < 8) {
 						Location nLoc = g.getBoard()[newX][newY];
 						ChessPiece c = g.getmyPositions().get(nLoc);
-						Pawn p = c.getmyType().equals("Pawn") ? (Pawn)c : null;
+						Pawn p = c.getMyType().equals("Pawn") ? (Pawn)c : null;
 						if (p != null) {
 							if(p.getMovedTwice() && (p.getRound() == (myRound - 1))) {
 								possibles.add(moveUpLeft);
@@ -221,7 +218,7 @@ public class Pawn extends ChessPiece {
 					if (newX < 8 && newX > -1 && newY > -1 && newY < 8) {
 						Location nLoc = g.getBoard()[newX][newY];
 						ChessPiece c = g.getmyPositions().get(nLoc);
-						Pawn p = c.getmyType().equals("Pawn") ? (Pawn)c : null;
+						Pawn p = c.getMyType().equals("Pawn") ? (Pawn)c : null;
 						if (p != null) {
 							if(p.getMovedTwice() && (p.getRound() == (myRound - 1))) {
 								possibles.add(moveUpRight);
@@ -287,7 +284,7 @@ public class Pawn extends ChessPiece {
 	
 	public boolean equals(ChessPiece b) {
 		boolean toReturn = false;
-		if (myID == b.getID() && b.getmyType().equals(this.getmyType())) {
+		if (myID == b.getID() && b.getMyType().equals(this.getMyType())) {
 			toReturn = true;
 		}
 		return toReturn;

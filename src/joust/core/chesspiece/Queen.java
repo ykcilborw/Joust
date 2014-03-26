@@ -6,10 +6,6 @@ import java.util.HashMap;
 
 
 public class Queen extends ChessPiece {
-	private Location myLocation;
-	private String myColor;
-	private boolean isAlive;
-	private int myID;
 	
 	public Queen(Location l, String c, int id) {
 		myLocation = l;
@@ -34,11 +30,11 @@ public class Queen extends ChessPiece {
 		return myID;
 	}
 	
-	public String getmyType() {
+	public String getMyType() {
 		return "Queen";
 	}
 	
-	public String getmySymbol() {
+	public String getMySymbol() {
 		if (myColor.equals("b")) {
 			return "q";
 		} else {
@@ -56,7 +52,7 @@ public class Queen extends ChessPiece {
 		return al.substring(1, 2);
 	}
 	
-	public String getRelRank() {
+	public String getRelativeRank() {
 		String al = myLocation.getmyAlgebraicLocation().substring(1, 2);
 		if (myColor.equals("b")) {
 			int x = Integer.parseInt(al);
@@ -407,7 +403,7 @@ public class Queen extends ChessPiece {
 	
 	public boolean equals(ChessPiece b) {
 		boolean toReturn = false;
-		if (myID == b.getID() && b.getmyType().equals(this.getmyType())) {
+		if (myID == b.getID() && b.getMyType().equals(this.getMyType())) {
 			toReturn = true;
 		}
 		return toReturn;
