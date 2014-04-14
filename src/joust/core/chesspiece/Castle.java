@@ -10,10 +10,10 @@ public class Castle extends ChessPiece {
 	
 	
 	public Castle(Location l, String c, int id) {
-		myLocation = l;
-		myColor = c;
-		isAlive = true;
-		myID = id;
+		this.myLocation = l;
+		this.myColor = c;
+		this.isAlive = true;
+		this.chessID = id;
 	}
 	
 	@Override

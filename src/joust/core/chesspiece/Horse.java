@@ -1,34 +1,20 @@
 package joust.core.chesspiece;
 
-import joust.core.general.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import joust.core.general.Game;
+import joust.core.general.Location;
 
 
 public class Horse extends ChessPiece {
 	
 	
-	public Horse(Location l, String c, int id) {
-		myLocation = l;
-		myColor = c;
-		isAlive = true;
-		myID = id;
-	}
-	
-	public Location getLocation() {
-		return myLocation;
-	}
-	
-	public String getColor() {
-		return myColor;
-	}
-	
-	public boolean isAlive() {
-		return isAlive;
-	}
-	
-	public int getID() {
-		return myID;
+	public Horse(Location myLocation, String myColor, int chessID) {
+		this.myLocation = myLocation;
+		this.myColor = myColor;
+		this.isAlive = true;
+		this.chessID = chessID;
 	}
 	
 	public String getMyType() {
@@ -160,10 +146,9 @@ public class Horse extends ChessPiece {
 	
 	public boolean equals(ChessPiece b) {
 		boolean toReturn = false;
-		if (myID == b.getID() && b.getMyType().equals(this.getMyType())) {
+		if (chessID == b.getID() && b.getMyType().equals(this.getMyType())) {
 			toReturn = true;
 		}
 		return toReturn;
 	}
-
 }

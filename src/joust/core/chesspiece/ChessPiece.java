@@ -12,7 +12,7 @@ public abstract class ChessPiece {
 	Location myLocation;
 	String myColor;
 	boolean isAlive;
-	int myID;
+	int chessID;
 	
 	
 	public Location getLocation() {
@@ -71,7 +71,7 @@ public abstract class ChessPiece {
 	}
 	
 	public int getID() {
-		return myID;
+		return chessID;
 	}
 	
 	/**
@@ -169,7 +169,7 @@ public abstract class ChessPiece {
 	
 	public boolean equals(ChessPiece chessPiece) {
 		boolean toReturn = false;
-		if (myID == chessPiece.getID() && chessPiece.getMyType().equals(this.getMyType())) {
+		if (chessID == chessPiece.getID() && chessPiece.getMyType().equals(this.getMyType())) {
 			toReturn = true;
 		}
 		return toReturn;

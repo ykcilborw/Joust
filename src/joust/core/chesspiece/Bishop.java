@@ -18,7 +18,7 @@ public class Bishop extends ChessPiece {
 		myLocation = l;
 		myColor = color;
 		isAlive = true;
-		myID = id;
+		chessID = id;
 	}
 	
 	@Override

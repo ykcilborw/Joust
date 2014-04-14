@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Pawn extends ChessPiece {
 	
-	private boolean movedYet;
+	private boolean hasMovedAtAll;
 	private boolean movedTwice;
 	private int round;
 	
@@ -14,38 +14,23 @@ public class Pawn extends ChessPiece {
 	}
 	
 	public Pawn(Location l, String c, int id) {
-		myLocation = l;
-		myColor = c;
-		movedYet = false;
-		movedTwice = false;
-		isAlive = true;
-		myID = id;
-		round = 0;
-	}
-	
-	public Location getLocation() {
-		return myLocation;
-	}
-	
-	public String getColor() {
-		return myColor;
+		this.myLocation = l;
+		this.myColor = c;
+		this.hasMovedAtAll = false;
+		this.movedTwice = false;
+		this.isAlive = true;
+		this.chessID = id;
+		this.round = 0;
 	}
 	
 	public boolean getmovedYet() {
-		return movedYet;
+		return hasMovedAtAll;
 	}
 	
 	public boolean getMovedTwice() {
 		return movedTwice;
 	}
 	
-	public boolean isAlive() {
-		return isAlive;
-	}
-	
-	public int getID() {
-		return myID;
-	}
 	public int getRound() {
 		return round;
 	}
@@ -100,12 +85,12 @@ public class Pawn extends ChessPiece {
 		}
 	}
 	
-	public void setmovedYet(boolean b) {
-		movedYet = b;
+	public void setMovedYet(boolean hasMovedAtAll) {
+		this.hasMovedAtAll = hasMovedAtAll;
 	}
 	
-	public void setMovedTwice(boolean b) {
-		movedTwice = b;
+	public void setMovedTwice(boolean movedTwice) {
+		this.movedTwice = movedTwice;
 	}
 	
 	public void setRound(int r) {
@@ -151,7 +136,7 @@ public class Pawn extends ChessPiece {
 			if (checkAvailability(g, l).equals("unoccupied") && x < 9 && x > 0 && y < 9 && y > 0){
 				possibles.add(l);
 				// Can only move two forward if the immediate space in front is also free
-				if (movedYet == false) {
+				if (hasMovedAtAll == false) {
 					if (myColor.equals("w")) {
 						Location l2 = myLocation.move(2, 0, 0, 0);
 						int x2 = l2.getmyX();
@@ -178,7 +163,7 @@ public class Pawn extends ChessPiece {
 				possibles.add(moveUpLeft);
 			}
 			
-			if (checkAvailability(g, moveUpLeft).equals("unoccupied") && movedYet && ulX < 9 && ulX > 0 && ulY < 9 && ulY > 0) {
+			if (checkAvailability(g, moveUpLeft).equals("unoccupied") && hasMovedAtAll && ulX < 9 && ulX > 0 && ulY < 9 && ulY > 0) {
 				Location moveLeft = myLocation.move(0, 1, 0, 0);
 				int mlX = moveLeft.getmyX();
 				int mlY = moveLeft.getmyY();
@@ -206,7 +191,7 @@ public class Pawn extends ChessPiece {
 			if (checkAvailability(g, moveUpRight).equals("enemy") && urX < 9 && urX > 0 && urY < 9 && urY > 0) {
 				possibles.add(moveUpRight);
 			}
-			if (checkAvailability(g, moveUpRight).equals("unoccupied") && movedYet && urX < 9 && urX > 0 && urY < 9 && urY > 0) {
+			if (checkAvailability(g, moveUpRight).equals("unoccupied") && hasMovedAtAll && urX < 9 && urX > 0 && urY < 9 && urY > 0) {
 				//boolean enemyToRight = false;
 				Location moveRight = myLocation.move(0, 0, 0, 1);
 				int mrX = moveRight.getmyX();
@@ -284,7 +269,7 @@ public class Pawn extends ChessPiece {
 	
 	public boolean equals(ChessPiece b) {
 		boolean toReturn = false;
-		if (myID == b.getID() && b.getMyType().equals(this.getMyType())) {
+		if (chessID == b.getID() && b.getMyType().equals(this.getMyType())) {
 			toReturn = true;
 		}
 		return toReturn;

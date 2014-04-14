@@ -8,26 +8,10 @@ public class King extends ChessPiece{
 	
 	
 	public King(Location l, String color, int id) {
-		myLocation = l;
-		myColor = color;
-		isAlive = true;
-		myID = id;
-	}
-	
-	public Location getLocation() {
-		return myLocation;
-	}
-	
-	public String getColor() {
-		return myColor;
-	}
-	
-	public boolean isAlive() {
-		return isAlive;
-	}
-	
-	public int getID() {
-		return myID;
+		this.myLocation = l;
+		this.myColor = color;
+		this.isAlive = true;
+		this.chessID = id;
 	}
 	
 	public String getMyType() {
@@ -171,7 +155,7 @@ public class King extends ChessPiece{
 	
 	public boolean equals(ChessPiece b) {
 		boolean toReturn = false;
-		if (myID == b.getID() && b.getMyType().equals(this.getMyType())) {
+		if (chessID == b.getID() && b.getMyType().equals(this.getMyType())) {
 			toReturn = true;
 		}
 		return toReturn;
