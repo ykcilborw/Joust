@@ -15,8 +15,8 @@ public class Util {
 		}
 		for (int k = 0; k < actives.size(); k++) {
 			ChessPiece current = actives.get(k);
-			int currX = current.getLocation().getmyX();
-			int currY = current.getLocation().getmyY();
+			int currX = current.getLocation().getXCoordinate();
+			int currY = current.getLocation().getYCoordinate();
 			newBoard[currX - 1][currY - 1] = current.getMySymbol(); 
 		}
 		return newBoard;

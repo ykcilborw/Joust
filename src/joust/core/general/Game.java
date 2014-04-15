@@ -61,7 +61,7 @@ public class Game {
 		return myRound;
 	}
 	
-	public HashMap<Location, ChessPiece> getmyPositions() {
+	public HashMap<Location, ChessPiece> getMyPositions() {
 		return myPositions;
 	}
 	
@@ -83,7 +83,7 @@ public class Game {
 	
 	public void removePiece(ChessPiece piece) {
 		myActivePieces.remove(piece);
-		String color = piece.getColor();
+		String color = piece.getAllegiance().getAllegiance();
 		if (piece.getMySymbol().equals("1") || piece.getMySymbol().equals("2") || piece.getMySymbol().equals("3") ||
 			piece.getMySymbol().equals("4") || piece.getMySymbol().equals("5") || piece.getMySymbol().equals("6")) {
 			// update individual piece list
@@ -293,7 +293,7 @@ public class Game {
 			ChessPiece c = determineChessPiece(currentMove);
 			//System.out.println("c: " + c);
 			Location l = new Location(currentMove);
-			c.move(this, l);
+			c.move(l);
 			myRound += 1;
 		} else if(currentMove.equals("O-O")){
 			handleKingSideCastle();
@@ -310,7 +310,7 @@ public class Game {
 				String move = currentMove.substring(1, 3);
 				Location l = new Location(move);
 				ChessPiece c = determineChessPiece(move, piece);
-				c.move(this, l);
+				c.move(l);
 				myRound += 1;
 			}
 		} else if(currentMove.length() == 4){
@@ -329,7 +329,7 @@ public class Game {
 				String move = currentMove.substring(2, 4);
 				Location l = new Location(move);
 				ChessPiece c = determineFileChessPiece(file, piece, move);
-				c.move(this, l);
+				c.move(l);
 				myRound += 1;
 			}
 			// TODO Implement pawn promotion
@@ -538,7 +538,7 @@ public class Game {
 			ArrayList<ChessPiece> kings = this.getStringToCP().get("K");
 			ChessPiece k = kings.get(0);
 			Location l = new Location("g1");
-			k.move(this, l);
+			k.move(l);
 			ArrayList<ChessPiece> rooks = this.getStringToCP().get("R");
 			ChessPiece r = null;
 			for (int i = 0; i < rooks.size(); i++) {
@@ -547,14 +547,14 @@ public class Game {
 				}
 			}
 			Location l2 = new Location("f1");
-			r.move(this, l2);
+			r.move(l2);
 			myRound += 1;
 		} else {
 			castleMoves.add(new CastleMove(myRound, "b", "king"));
 			ArrayList<ChessPiece> kings = this.getStringToCP().get("k");
 			ChessPiece k = kings.get(0);
 			Location l = new Location("g8");
-			k.move(this, l);
+			k.move(l);
 			ArrayList<ChessPiece> rooks = this.getStringToCP().get("r");
 			ChessPiece r = null;
 			for (int i = 0; i < rooks.size(); i++) {
@@ -563,7 +563,7 @@ public class Game {
 				}
 			}
 			Location l2 = new Location("f8");
-			r.move(this, l2);
+			r.move(l2);
 			myRound += 1;
 		}
 	}
@@ -575,7 +575,7 @@ public class Game {
 			ArrayList<ChessPiece> kings = this.getStringToCP().get("K");
 			ChessPiece k = kings.get(0);
 			Location l = new Location("c1");
-			k.move(this, l);
+			k.move(l);
 			ArrayList<ChessPiece> rooks = this.getStringToCP().get("R");
 			ChessPiece r = null;
 			for (int i = 0; i < rooks.size(); i++) {
@@ -584,14 +584,14 @@ public class Game {
 				}
 			}
 			Location l2 = new Location("d1");
-			r.move(this, l2);
+			r.move(l2);
 			myRound += 1;
 		} else {
 			castleMoves.add(new CastleMove(myRound, "b", "queen"));
 			ArrayList<ChessPiece> kings = this.getStringToCP().get("k");
 			ChessPiece k = kings.get(0);
 			Location l = new Location("c8");
-			k.move(this, l);
+			k.move(l);
 			ArrayList<ChessPiece> rooks = this.getStringToCP().get("r");
 			ChessPiece r = null;
 			for (int i = 0; i < rooks.size(); i++) {
@@ -600,7 +600,7 @@ public class Game {
 				}
 			}
 			Location l2 = new Location("d8");
-			r.move(this, l2);
+			r.move(l2);
 			myRound += 1;
 		}
 	}
@@ -642,7 +642,7 @@ public class Game {
 		removePiece(dead);
 		
 		//move the new one
-		c.move(this, l);
+		c.move(l);
 		myRound += 1;
 		capturer = c;
 		//System.out.println("game capturer: " + capturer);
@@ -689,7 +689,7 @@ public class Game {
 			removePiece(dead);
 			
 			//move the new one
-			c.move(this, l);
+			c.move(l);
 			myRound += 1;
 			capturer = c;
 			//System.out.println("game capturer: " + capturer);
@@ -709,7 +709,7 @@ public class Game {
 		}
 		Location l = new Location(destination);
 		ChessPiece c = determineChessPiece(destination);
-		c.move(this, l);
+		c.move(l);
 		myRound += 1;
 	}
 	
@@ -726,7 +726,7 @@ public class Game {
 		}
 		Location l = new Location(destination);
 		ChessPiece c = determineChessPiece(destination, type);
-		c.move(this, l);
+		c.move(l);
 		myRound += 1;
 	}
 	
@@ -743,7 +743,7 @@ public class Game {
 		}
 		Location l = new Location(dest);
 		ChessPiece c = determineFileChessPiece(file, type, dest);
-		c.move(this, l);
+		c.move(l);
 		myRound += 1;
 	}
 	

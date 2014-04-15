@@ -1,76 +1,44 @@
 package joust.core.chesspiece;
 
-
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import joust.core.general.Game;
 import joust.core.general.Location;
 
-
+/**
+ * Represents the queen chess piece
+ * 
+ * @author Andrew Wroblicky
+ *
+ */
 public class Queen extends ChessPiece {
 	
-	public Queen(Location l, String c, int id) {
-		this.myLocation = l;
-		this.myColor = c;
-		isAlive = true;
+	public Queen(Location l, Allegiance allegiance, int id) {
+		this.location = l;
+		this.allegiance = allegiance;
+		this.alive = true;
 		this.chessID = id;
 	}
 	
+	@Override
 	public String getMyType() {
 		return "Queen";
 	}
 	
+	@Override
 	public String getMySymbol() {
-		if (myColor.equals("b")) {
+		if (isBlack()) {
 			return "q";
 		} else {
 			return "Q";
 		}
 	}
 	
-	public String getFile() {
-		String al = myLocation.getmyAlgebraicLocation();
-		return al.substring(0, 1);
-	}
-	
-	public String getRank() {
-		String al = myLocation.getmyAlgebraicLocation();
-		return al.substring(1, 2);
-	}
-	
-	public String getRelativeRank() {
-		String al = myLocation.getmyAlgebraicLocation().substring(1, 2);
-		if (myColor.equals("b")) {
-			int x = Integer.parseInt(al);
-			int toReturn = 0;
-			if (x == 1) {
-				toReturn = 8;
-			} else if (x == 2) {
-				toReturn = 7;
-			} else if (x == 3) {
-				toReturn = 6;
-			} else if (x == 4) {
-				toReturn = 5;
-			} else if (x == 5) {
-				toReturn = 4;
-			} else if (x == 6) {
-				toReturn = 3;
-			} else if (x == 7) {
-				toReturn = 2;
-			} else if (x == 8) {
-				toReturn = 1;
-			}
-			return new Integer(toReturn).toString();
-		} else {
-			return al;
-		}
-	}
-	
+	@Override
 	public ArrayList<Location> getPossibleMoves(Game g){
 		ArrayList<Location> possibles = new ArrayList<Location>();
-		int x = myLocation.getmyX();
-		int y = myLocation.getmyY();
+		int x = location.getXCoordinate();
+		int y = location.getYCoordinate();
 		int nextX = x;
 		int nextY = y;
 		boolean stillValid = true;
@@ -203,10 +171,11 @@ public class Queen extends ChessPiece {
 		return possibles;
 	}
 	
+	@Override
 	public ArrayList<Location> getDefenseMoves(Game g){
 		ArrayList<Location> possibles = new ArrayList<Location>();
-		int x = myLocation.getmyX();
-		int y = myLocation.getmyY();
+		int x = location.getXCoordinate();
+		int y = location.getYCoordinate();
 		//System.out.println("queen defense x: " + x);
 		//System.out.println("queen defense y: " + y);
 		int nextX = x;
@@ -353,11 +322,12 @@ public class Queen extends ChessPiece {
 		return possibles;
 	}
 	
+	@Override
 	public boolean canReach(Game g, Location l) {
 		ArrayList<Location> possibles = this.getPossibleMoves(g);
 		boolean toReturn = false;
 		for (int i = 0; i < possibles.size(); i++) {
-			//System.out.println("location: " + possibles.get(i).getmyX() + ", " + possibles.get(i).getmyY());
+			//System.out.println("location: " + possibles.get(i).getXCoordinate() + ", " + possibles.get(i).getYCoordinate());
 			if (possibles.get(i).equals(l)) {
 				toReturn = true;
 			}
@@ -365,6 +335,7 @@ public class Queen extends ChessPiece {
 		return toReturn;
 	}
 	
+	@Override
 	public boolean canDefend(Game g, Location l) {
 		ArrayList<Location> possibles = this.getDefenseMoves(g);
 		//System.out.println("can defend size queen: " + possibles.size());
@@ -373,25 +344,6 @@ public class Queen extends ChessPiece {
 			if (possibles.get(i).equals(l)) {
 				toReturn = true;
 			}
-		}
-		return toReturn;
-	}
-	
-	public void move(Game g, Location l) {
-		HashMap<Location, ChessPiece> positions = g.getmyPositions();
-		Location onBoard = Location.getBoardLocation(g, myLocation);
-		positions.remove(onBoard);
-		//positions.put(onBoard, null);
-		myLocation = l;
-		Location onBoard2 = Location.getBoardLocation(g, l);
-		positions.remove(onBoard2);
-		positions.put(onBoard2, this);
-	}
-	
-	public boolean equals(ChessPiece b) {
-		boolean toReturn = false;
-		if (chessID == b.getID() && b.getMyType().equals(this.getMyType())) {
-			toReturn = true;
 		}
 		return toReturn;
 	}

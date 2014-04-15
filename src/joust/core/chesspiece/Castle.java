@@ -9,10 +9,10 @@ import joust.core.general.Location;
 public class Castle extends ChessPiece {
 	
 	
-	public Castle(Location l, String c, int id) {
-		this.myLocation = l;
-		this.myColor = c;
-		this.isAlive = true;
+	public Castle(Location l, Allegiance allegiance, int id) {
+		this.location = l;
+		this.allegiance = allegiance;
+		this.alive = true;
 		this.chessID = id;
 	}
 	
@@ -23,7 +23,7 @@ public class Castle extends ChessPiece {
 	
 	@Override
 	public String getMySymbol() {
-		if (myColor.equals("b")) {
+		if (isBlack()) {
 			return "r";
 		} else {
 			return "R";
@@ -34,8 +34,8 @@ public class Castle extends ChessPiece {
 	@Override
 	public ArrayList<Location> getPossibleMoves(Game g){
 		ArrayList<Location> possibles = new ArrayList<Location>();
-		int x = myLocation.getmyX();
-		int y = myLocation.getmyY();
+		int x = location.getXCoordinate();
+		int y = location.getYCoordinate();
 		int nextX = x;
 		int nextY = y;
 		boolean stillValid = true;
@@ -106,8 +106,8 @@ public class Castle extends ChessPiece {
 	@Override
 	public ArrayList<Location> getDefenseMoves(Game g){
 		ArrayList<Location> possibles = new ArrayList<Location>();
-		int x = myLocation.getmyX();
-		int y = myLocation.getmyY();
+		int x = location.getXCoordinate();
+		int y = location.getYCoordinate();
 		int nextX = x;
 		int nextY = y;
 		boolean stillValid = true;

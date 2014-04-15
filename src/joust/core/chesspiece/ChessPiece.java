@@ -6,27 +6,45 @@ import java.util.HashMap;
 import joust.core.general.Game;
 import joust.core.general.Location;
 
-
+/**
+ * Abstract class representing a chess piece
+ * 
+ * @author Andrew Wroblicky
+ *
+ */
 public abstract class ChessPiece {
 	
-	Location myLocation;
-	String myColor;
-	boolean isAlive;
+	boolean alive;
+	Allegiance allegiance;
 	int chessID;
+	Game game;
+	Location location;
 	
+	public enum Allegiance {
+		
+		BLACK("black"), WHITE("white");
+		
+		private String allegiance;
+		
+		Allegiance (String allegiance) {
+			this.allegiance = allegiance;
+		}
+		
+		public String getAllegiance() {
+			return this.allegiance;
+		}
+	}
 	
 	public Location getLocation() {
-		return myLocation;
+		return this.location;
 	}
 	
 	public String getFile() {
-		String al = myLocation.getmyAlgebraicLocation();
-		return al.substring(0, 1);
+		return this.location.getFile();
 	}
 	
 	public String getRank() {
-		String al = myLocation.getmyAlgebraicLocation();
-		return al.substring(1, 2);
+		return this.location.getRank();
 	}
 	
 	/**
@@ -35,9 +53,9 @@ public abstract class ChessPiece {
 	 * 
 	 */
 	public String getRelativeRank() {
-		String al = myLocation.getmyAlgebraicLocation().substring(1, 2);
-		if (myColor.equals("b")) {
-			int x = Integer.parseInt(al);
+		String rank = this.location.getRank();
+		if (allegiance == Allegiance.BLACK) {
+			int x = Integer.parseInt(rank);
 			int toReturn = 0;
 			if (x == 1) {
 				toReturn = 8;
@@ -58,20 +76,36 @@ public abstract class ChessPiece {
 			}
 			return new Integer(toReturn).toString();
 		} else {
-			return al;
+			return rank;
 		}
 	}
 	
-	public String getColor() {
-		return myColor;
+	public Allegiance getAllegiance() {
+		return allegiance;
 	}
 	
 	public boolean isAlive() {
-		return isAlive;
+		return alive;
+	}
+	
+	public void setAlive(boolean alive) {
+		this.alive = alive;
 	}
 	
 	public int getID() {
 		return chessID;
+	}
+	
+	public boolean isBlack() {
+		return (allegiance == Allegiance.BLACK);
+	}
+	
+	public boolean isWhite() {
+		return (allegiance == Allegiance.WHITE);
+	}
+	
+	public Game getGame() {
+		return game;
 	}
 	
 	/**
@@ -121,20 +155,20 @@ public abstract class ChessPiece {
 	//need to reimplement getdefensemoves and getpossible moves so not needlessly rechecking bounds
 	public String checkAvailability(Game g, Location l) {
 		String toReturn = "";
-		//System.out.println("lx: " + (l.getmyX() - 1));
-		//System.out.println("ly: " + (l.getmyY() - 1));
-		int nextX = l.getmyX() - 1;
-		int nextY = l.getmyY() - 1;
+		//System.out.println("lx: " + (l.getXCoordinate() - 1));
+		//System.out.println("ly: " + (l.getYCoordinate() - 1));
+		int nextX = l.getXCoordinate() - 1;
+		int nextY = l.getYCoordinate() - 1;
 		if (nextX < 8 && nextX > -1 && nextY > -1 && nextY < 8) {
 			//System.out.println("chess piece is in right range");
 			Location newL = g.getBoard()[nextY][nextX];
-			//System.out.println("newLx: " + newL.getmyX());
-			//System.out.println("newLy: " + newL.getmyY());
-			ChessPiece c = g.getmyPositions().get(newL);
+			//System.out.println("newLx: " + newL.getXCoordinate());
+			//System.out.println("newLy: " + newL.getYCoordinate());
+			ChessPiece c = g.getMyPositions().get(newL);
 			//System.out.println("c: " + c);
 			if (c == null) {
 				toReturn = "unoccupied";
-			} else if (c.getColor().equals(this.getColor())) {
+			} else if (c.getAllegiance() == this.getAllegiance()) {
 				toReturn = "friend";
 			} else {
 				toReturn = "enemy";
@@ -150,26 +184,19 @@ public abstract class ChessPiece {
 	 * moving the chess piece to the new position.
 	 *  
 	 */
-	public void move(Game g, Location l) {
-		HashMap<Location, ChessPiece> positions = g.getmyPositions();
-		Location onBoard = Location.getBoardLocation(g, myLocation);
-		positions.remove(onBoard);
-		myLocation = l;
-		Location onBoard2 = Location.getBoardLocation(g, l);
+	public void move(Location newLocation) {
+		HashMap<Location, ChessPiece> positions = this.game.getMyPositions();
+		Location currentLocation = Location.getBoardLocation(this.game, this.location);
+		positions.remove(currentLocation);
+		this.location = newLocation;
+		Location onBoard2 = Location.getBoardLocation(this.game, newLocation);
 		positions.remove(onBoard2);
 		positions.put(onBoard2, this);
 	}
 	
-	/**
-	 * Updates the chess piece to indicate that it is no longer on the board
-	 */
-	public void nowDead() {
-		isAlive = false;
-	}
-	
 	public boolean equals(ChessPiece chessPiece) {
 		boolean toReturn = false;
-		if (chessID == chessPiece.getID() && chessPiece.getMyType().equals(this.getMyType())) {
+		if (chessID == chessPiece.getID() && chessPiece.getClass().equals(this.getClass())) {
 			toReturn = true;
 		}
 		return toReturn;

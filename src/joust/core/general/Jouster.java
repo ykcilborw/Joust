@@ -754,7 +754,7 @@ public class Jouster {
 			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				String side = candidates.get(i).getColor();
+				String side = candidates.get(i).getAllegiance().getAllegiance();
 				if (side.equals("b")) {
 					for (int j = 0; j < myGame.getBlackPieces().size(); j++) {
 						Location mySpot = candidates.get(i).getLocation();
@@ -792,7 +792,7 @@ public class Jouster {
 		}
 		for (int i = 0; i < candidates.size(); i++) {
 			//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-			String side = candidates.get(i).getColor();
+			String side = candidates.get(i).getAllegiance().getAllegiance();
 			if (side.equals("b")) {
 				for (int j = 0; j < myGame.getBlackPieces().size(); j++) {
 					Location mySpot = candidates.get(i).getLocation();
@@ -1993,7 +1993,7 @@ public class Jouster {
 			for (int j = 0; j < candidates.size(); j++) {
 				//System.out.println("samecolor col: " + candidates.get(j).getColor());
 				//System.out.println("samecolor loc: " + candidates.get(j).getLocation());
-				if (candidates.get(j).getColor().equals("b")) {
+				if (candidates.get(j).isBlack()) {
 					currBlackPossible = true;
 				} else {
 					currWhitePossible = true;
@@ -2048,8 +2048,8 @@ public class Jouster {
 			//System.out.println("captured len: " + myGame.getCaptured().getmySymbol());
 			toReturn = execCapturedVar(arg1, arg2);
 		} else {
-			capturerColor = capturer.getColor();
-			capturedColor = captured.getColor();
+			capturerColor = capturer.getAllegiance().getAllegiance();
+			capturedColor = captured.getAllegiance().getAllegiance();
 			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
 			ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
 			if ((arg1.equals("g") || arg1.equals("G"))) {
@@ -2166,16 +2166,16 @@ public class Jouster {
 		if ((arg2.equals("g") || arg2.equals("G"))) {
 			gotCaptured = true;
 		}
-		if ((arg1.equals("l") || arg1.equals("L")) && capturer.getColor().equals("w")) {
+		if ((arg1.equals("l") || arg1.equals("L")) && capturer.isWhite()) {
 			didCapture = true;
 		}
-		if ((arg2.equals("l") || arg2.equals("L")) && captured.getColor().equals("w")) {
+		if ((arg2.equals("l") || arg2.equals("L")) && captured.isWhite()) {
 			gotCaptured = true;
 		}
-		if ((arg1.equals("d") || arg1.equals("D")) && capturer.getColor().equals("b")) {
+		if ((arg1.equals("d") || arg1.equals("D")) && capturer.isBlack()) {
 			didCapture = true;
 		}
-		if ((arg2.equals("d") || arg2.equals("D")) && captured.getColor().equals("b")) {
+		if ((arg2.equals("d") || arg2.equals("D")) && captured.isBlack()) {
 			gotCaptured = true;
 		}
 		if (arg1.equals("1") || arg1.equals("2") || arg1.equals("3") ||

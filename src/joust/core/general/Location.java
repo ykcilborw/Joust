@@ -67,23 +67,23 @@ public class Location {
 		
 	}
 	
-	public int getmyX() {
+	public int getXCoordinate() {
 		return myX;
 	}
 	
-	public int getmyY() {
+	public int getYCoordinate() {
 		return myY;
 	}
 	
-	public String getmyAlgebraicLocation() {
+	public String getAlgebraicLocation() {
 		return myAlgebraicLocation;
 	}
 	
-	public String getmyFile() {
+	public String getFile() {
 		return myFile;
 	}
 	
-	public String getmyRank() {
+	public String getRank() {
 		return myRank;
 	}
 	
@@ -102,7 +102,7 @@ public class Location {
 	
 	public boolean equals(Location l) {
 		boolean toReturn = false;
-		if (l.getmyX() == myX && l.getmyY() == myY) {
+		if (l.getXCoordinate() == myX && l.getYCoordinate() == myY) {
 			toReturn = true;
 		}
 		return toReturn;
@@ -118,10 +118,6 @@ public class Location {
 			l = new Location(myX - left + right, myY + up - down);
 		}
 		return l;
-	}
-	
-	public String toString() {
-		return myAlgebraicLocation;
 	}
 	
 	public static String convert(int x, int y) {
@@ -148,9 +144,13 @@ public class Location {
 	
 	public static Location getBoardLocation(Game g, Location l) {
 		Location[][] board = g.getBoard();
-		int x = l.getmyX();
-		int y = l.getmyY();
+		int x = l.getXCoordinate();
+		int y = l.getYCoordinate();
 		return board[y-1][x-1];
+	}
+	
+	public String toString() {
+		return myAlgebraicLocation;
 	}
 
 }

@@ -14,11 +14,11 @@ import joust.core.general.Location;
 public class Bishop extends ChessPiece {
 	
 	
-	public Bishop(Location l, String color, int id) {
-		myLocation = l;
-		myColor = color;
-		isAlive = true;
-		chessID = id;
+	public Bishop(Location location, Allegiance allegiance, int chessID) {
+		this.alive = true;
+		this.allegiance = allegiance;
+		this.chessID = chessID;
+		this.location = location;
 	}
 	
 	@Override
@@ -28,7 +28,7 @@ public class Bishop extends ChessPiece {
 	
 	@Override
 	public String getMySymbol() {
-		if (myColor.equals("b")) {
+		if (isBlack()) {
 			return "b";
 		} else {
 			return "B";
@@ -39,8 +39,8 @@ public class Bishop extends ChessPiece {
 	public ArrayList<Location> getPossibleMoves(Game g){
 		// generate all northwest directions, then northeast, then southwest, then southeast
 		ArrayList<Location> possibles = new ArrayList<Location>();
-		int x = myLocation.getmyX();
-		int y = myLocation.getmyY();
+		int x = location.getXCoordinate();
+		int y = location.getYCoordinate();
 		//System.out.println("bishop initial loc: " + Location.convert(x, y));
 		int nextX = x;
 		int nextY = y;
@@ -121,8 +121,8 @@ public class Bishop extends ChessPiece {
 	public ArrayList<Location> getDefenseMoves(Game g){
 		// generate all northwest directions, then northeast, then southwest, then southeast
 		ArrayList<Location> possibles = new ArrayList<Location>();
-		int x = myLocation.getmyX();
-		int y = myLocation.getmyY();
+		int x = location.getXCoordinate();
+		int y = location.getYCoordinate();
 		int nextX = x;
 		int nextY = y;
 		boolean stillValid = true;
