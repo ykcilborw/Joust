@@ -47,9 +47,9 @@ public class Queen extends ChessPiece {
 			nextY = nextY + 1;
 			Location l = new Location(nextX, nextY);
 			
-			if ((checkAvailability(g, l).equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
+			if ((checkAvailability(l).equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
-			} else if ((checkAvailability(g, l).equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
+			} else if ((checkAvailability(l).equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
 				stillValid = false;
 			} else {
@@ -63,9 +63,9 @@ public class Queen extends ChessPiece {
 			nextX = nextX + 1;
 			nextY = nextY - 1;
 			Location l = new Location(nextX, nextY);
-			if ((checkAvailability(g, l).equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
+			if ((checkAvailability(l).equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
-			} else if ((checkAvailability(g, l).equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
+			} else if ((checkAvailability(l).equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
 				stillValid = false;
 			}  else {
@@ -79,9 +79,9 @@ public class Queen extends ChessPiece {
 			nextX = nextX - 1;
 			nextY = nextY + 1;
 			Location l = new Location(nextX, nextY);
-			if ((checkAvailability(g, l).equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
+			if ((checkAvailability(l).equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
-			} else if ((checkAvailability(g, l).equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
+			} else if ((checkAvailability(l).equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
 				stillValid = false;
 			}  else {
@@ -95,9 +95,9 @@ public class Queen extends ChessPiece {
 			nextX = nextX - 1;
 			nextY = nextY - 1;
 			Location l = new Location(nextX, nextY);
-			if ((checkAvailability(g, l).equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
+			if ((checkAvailability(l).equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
-			} else if ((checkAvailability(g, l).equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
+			} else if ((checkAvailability(l).equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
 				stillValid = false;
 			}  else {
@@ -111,9 +111,9 @@ public class Queen extends ChessPiece {
 			nextX = nextX + 1;
 			nextY = y;
 			Location l = new Location(nextX, nextY);
-			if ((checkAvailability(g, l).equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
+			if ((checkAvailability(l).equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
-			} else if ((checkAvailability(g, l).equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
+			} else if ((checkAvailability(l).equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
 				stillValid = false;
 			}  else {
@@ -127,9 +127,9 @@ public class Queen extends ChessPiece {
 			nextX = nextX - 1;
 			nextY = y;
 			Location l = new Location(nextX, nextY);
-			if ((checkAvailability(g, l).equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
+			if ((checkAvailability(l).equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
-			} else if ((checkAvailability(g, l).equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
+			} else if ((checkAvailability(l).equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
 				stillValid = false;
 			} else {
@@ -143,9 +143,9 @@ public class Queen extends ChessPiece {
 			nextX = x;
 			nextY = nextY + 1;
 			Location l = new Location(nextX, nextY);
-			if ((checkAvailability(g, l).equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
+			if ((checkAvailability(l).equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
-			} else if ((checkAvailability(g, l).equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
+			} else if ((checkAvailability(l).equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
 				stillValid = false;
 			} else {
@@ -159,9 +159,9 @@ public class Queen extends ChessPiece {
 			nextX = x;
 			nextY = nextY - 1;
 			Location l = new Location(nextX, nextY);
-			if ((checkAvailability(g, l).equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
+			if ((checkAvailability(l).equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
-			} else if ((checkAvailability(g, l).equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
+			} else if ((checkAvailability(l).equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
 				stillValid = false;
 			} else {
@@ -187,8 +187,8 @@ public class Queen extends ChessPiece {
 			Location l = new Location(nextX, nextY);
 			//System.out.println("queen defense nextX: " + nextX);
 			//System.out.println("queen defense nextY: " + nextY);
-			String result = checkAvailability(g, l);
-			//System.out.println("queen defense available: " + checkAvailability(g, l));
+			String result = checkAvailability(l);
+			//System.out.println("queen defense available: " + checkAvailability(l));
 			if ((result.equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 			} else if ((result.equals("friend")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				//System.out.println("queen defense added");
@@ -207,7 +207,7 @@ public class Queen extends ChessPiece {
 			Location l = new Location(nextX, nextY);
 			//System.out.println("queen defense nextX: " + nextX);
 			//System.out.println("queen defense nextY: " + nextY);
-			String result = checkAvailability(g, l);
+			String result = checkAvailability(l);
 			if (result.equals("unoccupied") && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 			} else if (result.equals("friend") && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				//System.out.println("queen defense added");
@@ -226,7 +226,7 @@ public class Queen extends ChessPiece {
 			Location l = new Location(nextX, nextY);
 			//System.out.println("queen defense nextX: " + nextX);
 			//System.out.println("queen defense nextY: " + nextY);
-			String result = checkAvailability(g, l);
+			String result = checkAvailability(l);
 			if (result.equals("unoccupied") && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 			} else if (result.equals("friend") && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				//System.out.println("queen defense added");
@@ -245,7 +245,7 @@ public class Queen extends ChessPiece {
 			Location l = new Location(nextX, nextY);
 			//System.out.println("queen defense nextX: " + nextX);
 			//System.out.println("queen defense nextY: " + nextY);
-			String result = checkAvailability(g, l);
+			String result = checkAvailability(l);
 			if (result.equals("unoccupied") && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 			} else if (result.equals("friend") && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				//System.out.println("queen defense added");
@@ -262,7 +262,7 @@ public class Queen extends ChessPiece {
 			nextX = nextX + 1;
 			nextY = y;
 			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(g, l);
+			String result = checkAvailability(l);
 			if (result.equals("unoccupied") && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 			} else if (result.equals("friend") && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
@@ -278,8 +278,8 @@ public class Queen extends ChessPiece {
 			nextX = nextX - 1;
 			nextY = y;
 			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(g, l);
-			if ((checkAvailability(g, l).equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
+			String result = checkAvailability(l);
+			if ((checkAvailability(l).equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 			} else if (result.equals("friend") && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
 				stillValid = false;
@@ -294,7 +294,7 @@ public class Queen extends ChessPiece {
 			nextX = x;
 			nextY = nextY + 1;
 			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(g, l);
+			String result = checkAvailability(l);
 			if (result.equals("unoccupied") && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 			} else if (result.equals("friend") && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
@@ -310,7 +310,7 @@ public class Queen extends ChessPiece {
 			nextX = x;
 			nextY = nextY - 1;
 			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(g, l);
+			String result = checkAvailability(l);
 			if (result.equals("unoccupied") && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 			} else if (result.equals("friend") && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);

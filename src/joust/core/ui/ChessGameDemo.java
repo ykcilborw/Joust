@@ -20,10 +20,10 @@ public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionL
 	ArrayList<JLabel> capturedPieces;
 	ArrayList<String[][]> myBoards;
 	ArrayList<CastleMove> myCastles;
-	Jouster myJouster;
+	ChessBoardMatcher myJouster;
 	String myProgram;
 	
-	public ChessGameDemo(ArrayList<String[][]> boards, Jouster j, String joustProgram, ArrayList<CastleMove> castles) {
+	public ChessGameDemo(ArrayList<String[][]> boards, ChessBoardMatcher j, String joustProgram, ArrayList<CastleMove> castles) {
 		Dimension boardSize = new Dimension(600, 600);
 		index = 0;
 		myBoards = boards;
@@ -954,7 +954,7 @@ public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionL
 	}
 	*/
 	
-	public static void start(ArrayList<String[][]> boards, Jouster j, String joustProgram, ArrayList<CastleMove> castles) {
+	public static void start(ArrayList<String[][]> boards, ChessBoardMatcher j, String joustProgram, ArrayList<CastleMove> castles) {
 		JFrame frame = new ChessGameDemo(boards, j, joustProgram, castles);
 		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE );
 		frame.pack();

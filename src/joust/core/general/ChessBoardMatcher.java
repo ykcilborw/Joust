@@ -5,12 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import fri.patterns.interpreter.parsergenerator.examples.Joust;
 
-/*
+/**
  * Effectively the Interpreter for the Joust language, it is designed to mirror the
  * Matcher class for regexes in Java
  */
-
-public class Jouster {
+public class ChessBoardMatcher {
 	Game myGame;
 	ArrayList<String> myMoves;
 	HashMap<String, ArrayList<ChessPiece>> mySuspects;
@@ -20,7 +19,7 @@ public class Jouster {
 	boolean myGreedFlag; // for greedy search when dealing with the very last board
 	boolean occursFlag;
 	
-	public Jouster(String pgnGame) {
+	public ChessBoardMatcher(String pgnGame) {
 		myGame = Game.setupDefaultGame();
 		myMoves = PGNParser.getGameMoves(pgnGame);
 		matchedBoards = new ArrayList<String[][]>();
@@ -30,7 +29,7 @@ public class Jouster {
 		occursFlag = false;
 	}
 	
-	public Jouster(String pgnGame, String initialConfigFile) {
+	public ChessBoardMatcher(String pgnGame, String initialConfigFile) {
 		myGame = Game.setupSpecialLayout(initialConfigFile);
 		myMoves = PGNParser.getGameMoves(pgnGame);
 		matchedBoards = new ArrayList<String[][]>();
@@ -40,7 +39,7 @@ public class Jouster {
 		occursFlag = false;
 	}
 	
-	public Jouster(String pgnGame, String initialConfigFile, boolean special) {
+	public ChessBoardMatcher(String pgnGame, String initialConfigFile, boolean special) {
 		myGame = Game.setupSpecialLayout(initialConfigFile);
 		myMoves = PGNParser.getGameMoves(pgnGame);
 		matchedBoards = new ArrayList<String[][]>();

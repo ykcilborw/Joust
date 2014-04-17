@@ -95,7 +95,7 @@ public class Pawn extends ChessPiece {
 			int x = l.getXCoordinate();
 			int y = l.getYCoordinate();
 			
-			if (checkAvailability(g, l).equals("unoccupied") && x < 9 && x > 0 && y < 9 && y > 0){
+			if (checkAvailability(l).equals("unoccupied") && x < 9 && x > 0 && y < 9 && y > 0){
 				possibles.add(l);
 				// Can only move two forward if the immediate space in front is also free
 				if (hasMovedAtAll == false) {
@@ -184,7 +184,7 @@ public class Pawn extends ChessPiece {
 		Location l = location.move(1, 0, 0, 0);
 		int x = l.getXCoordinate();
 		int y = l.getYCoordinate();
-		if (checkAvailability(g, l).equals("friend") && x < 9 && x > 0 && y < 9 && y > 0){
+		if (checkAvailability(l).equals("friend") && x < 9 && x > 0 && y < 9 && y > 0){
 			possibles.add(l);
 		}
 		return possibles;

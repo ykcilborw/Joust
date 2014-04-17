@@ -22,7 +22,7 @@ public class Util {
 		return newBoard;
 	}
 	
-	public static void handleResults(ArrayList<String[][]> boards, ArrayList<Integer> rounds, Jouster jo, String joustProgram) {
+	public static void handleResults(ArrayList<String[][]> boards, ArrayList<Integer> rounds, ChessBoardMatcher jo, String joustProgram) {
 		System.out.println("Printing RESULTS: ");
 		for (int i = 0; i < boards.size(); i++) {
 			int round = rounds.get(i);

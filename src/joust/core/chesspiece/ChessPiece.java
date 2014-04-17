@@ -1,8 +1,8 @@
 package joust.core.chesspiece;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
+import joust.core.board.ChessBoard;
 import joust.core.general.Game;
 import joust.core.general.Location;
 
@@ -17,8 +17,7 @@ public abstract class ChessPiece {
 	boolean alive;
 	Allegiance allegiance;
 	int chessID;
-	Game game;
-	Location location;
+	ChessBoard chessBoard;
 	
 	public enum Allegiance {
 		
@@ -36,15 +35,15 @@ public abstract class ChessPiece {
 	}
 	
 	public Location getLocation() {
-		return this.location;
+		return chessBoard.getLocationByChessPiece(this);
 	}
 	
 	public String getFile() {
-		return this.location.getFile();
+		return chessBoard.getLocationByChessPiece(this).getFile();
 	}
 	
 	public String getRank() {
-		return this.location.getRank();
+		return chessBoard.getLocationByChessPiece(this).getRank();
 	}
 	
 	/**
@@ -53,7 +52,7 @@ public abstract class ChessPiece {
 	 * 
 	 */
 	public String getRelativeRank() {
-		String rank = this.location.getRank();
+		String rank = chessBoard.getLocationByChessPiece(this).getRank();
 		if (allegiance == Allegiance.BLACK) {
 			int x = Integer.parseInt(rank);
 			int toReturn = 0;
@@ -104,10 +103,6 @@ public abstract class ChessPiece {
 		return (allegiance == Allegiance.WHITE);
 	}
 	
-	public Game getGame() {
-		return game;
-	}
-	
 	/**
 	 * Returns the full name of the particular chess piece.
 	 * 
@@ -153,7 +148,7 @@ public abstract class ChessPiece {
 	public abstract boolean canDefend(Game g, Location l);
 	
 	//need to reimplement getdefensemoves and getpossible moves so not needlessly rechecking bounds
-	public String checkAvailability(Game g, Location l) {
+	public String checkAvailability(Location l) {
 		String toReturn = "";
 		//System.out.println("lx: " + (l.getXCoordinate() - 1));
 		//System.out.println("ly: " + (l.getYCoordinate() - 1));
@@ -161,10 +156,10 @@ public abstract class ChessPiece {
 		int nextY = l.getYCoordinate() - 1;
 		if (nextX < 8 && nextX > -1 && nextY > -1 && nextY < 8) {
 			//System.out.println("chess piece is in right range");
-			Location newL = g.getBoard()[nextY][nextX];
+			Location newL = chessBoard.getBoard()[nextY][nextX];
 			//System.out.println("newLx: " + newL.getXCoordinate());
 			//System.out.println("newLy: " + newL.getYCoordinate());
-			ChessPiece c = g.getMyPositions().get(newL);
+			ChessPiece c = chessBoard.getChessPieceByLocation(newL);
 			//System.out.println("c: " + c);
 			if (c == null) {
 				toReturn = "unoccupied";
@@ -184,7 +179,10 @@ public abstract class ChessPiece {
 	 * moving the chess piece to the new position.
 	 *  
 	 */
-	public void move(Location newLocation) {
+	
+	// implemented poorly. Chess piece should ask game object, which holds everything
+	// shouldn't need to update game object and each chess piece's location object
+	/*public void move(Location newLocation) {
 		HashMap<Location, ChessPiece> positions = this.game.getMyPositions();
 		Location currentLocation = Location.getBoardLocation(this.game, this.location);
 		positions.remove(currentLocation);
@@ -192,7 +190,7 @@ public abstract class ChessPiece {
 		Location onBoard2 = Location.getBoardLocation(this.game, newLocation);
 		positions.remove(onBoard2);
 		positions.put(onBoard2, this);
-	}
+	} */
 	
 	public boolean equals(ChessPiece chessPiece) {
 		boolean toReturn = false;

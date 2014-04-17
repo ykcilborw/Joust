@@ -2,6 +2,7 @@ package joust.core.chesspiece;
 
 import java.util.ArrayList;
 
+import joust.core.board.ChessBoard;
 import joust.core.general.Game;
 import joust.core.general.Location;
 
@@ -9,11 +10,11 @@ import joust.core.general.Location;
 public class Horse extends ChessPiece {
 	
 	
-	public Horse(Location location, Allegiance allegiance, int chessID) {
-		this.location = location;
+	public Horse(Allegiance allegiance, int chessID, ChessBoard chessBoard) {
 		this.allegiance = allegiance;
 		this.alive = true;
 		this.chessID = chessID;
+		this.chessBoard = chessBoard;
 	}
 	
 	public String getMyType() {
@@ -30,22 +31,22 @@ public class Horse extends ChessPiece {
 	
 	public ArrayList<Location> getPossibleMoves(Game g){
 		ArrayList<Location> possibles = new ArrayList<Location>();	
-		possibles.add(location.move(2, 1, 0, 0));		//Up: 2, Left: 1
-		possibles.add(location.move(2, 0, 0, 1));		//Up: 2, Right: 1
-		possibles.add(location.move(1, 2, 0, 0));		//Up: 1, Left: 2
-		possibles.add(location.move(1, 0, 0, 2));		//Up: 1, Right: 2
+		possibles.add(getLocation().move(2, 1, 0, 0));		//Up: 2, Left: 1
+		possibles.add(getLocation().move(2, 0, 0, 1));		//Up: 2, Right: 1
+		possibles.add(getLocation().move(1, 2, 0, 0));		//Up: 1, Left: 2
+		possibles.add(getLocation().move(1, 0, 0, 2));		//Up: 1, Right: 2
 		
-		possibles.add(location.move(0, 1, 2, 0));		//Down: 2, Left: 1
-		possibles.add(location.move(0, 0, 2, 1));		//Down: 2, Right: 1
-		possibles.add(location.move(0, 2, 1, 0));		//Down: 1, Left: 2
-		possibles.add(location.move(0, 0, 1, 2));		//Down: 1, Right: 2
+		possibles.add(getLocation().move(0, 1, 2, 0));		//Down: 2, Left: 1
+		possibles.add(getLocation().move(0, 0, 2, 1));		//Down: 2, Right: 1
+		possibles.add(getLocation().move(0, 2, 1, 0));		//Down: 1, Left: 2
+		possibles.add(getLocation().move(0, 0, 1, 2));		//Down: 1, Right: 2
 		
 		ArrayList<Location> possibles2 = new ArrayList<Location>();
 		for (int i = 0; i < possibles.size(); i++) {
 			Location l = possibles.get(i);
 			int x = l.getXCoordinate();
 			int y = l.getYCoordinate();
-			if ((checkAvailability(g, l).equals("unoccupied") || checkAvailability(g, l).equals("enemy")) && x < 9 && x > 0 && y < 9 && y > 0) {
+			if ((checkAvailability(l).equals("unoccupied") || checkAvailability(l).equals("enemy")) && x < 9 && x > 0 && y < 9 && y > 0) {
 				possibles2.add(l);
 			}
 		}
@@ -55,16 +56,16 @@ public class Horse extends ChessPiece {
 	
 	public ArrayList<Location> getDefenseMoves(Game g){
 		ArrayList<Location> possibles = new ArrayList<Location>();
-		possibles.add(location.move(2, 1, 0, 0));
-		possibles.add(location.move(2, 0, 0, 1));
-		possibles.add(location.move(0, 1, 2, 0));
-		possibles.add(location.move(0, 0, 2, 1));
+		possibles.add(getLocation().move(2, 1, 0, 0));
+		possibles.add(getLocation().move(2, 0, 0, 1));
+		possibles.add(getLocation().move(0, 1, 2, 0));
+		possibles.add(getLocation().move(0, 0, 2, 1));
 		ArrayList<Location> possibles2 = new ArrayList<Location>();
 		for (int i = 0; i < possibles.size(); i++) {
 			Location l = possibles.get(i);
 			int x = l.getXCoordinate();
 			int y = l.getYCoordinate();
-			if (checkAvailability(g, l).equals("friend") && x < 9 && x > 0 && y < 9 && y > 0) {
+			if (checkAvailability(l).equals("friend") && x < 9 && x > 0 && y < 9 && y > 0) {
 				possibles2.add(l);
 			}
 		}

@@ -2,6 +2,7 @@ package joust.core.chesspiece;
 
 import java.util.ArrayList;
 
+import joust.core.board.ChessBoard;
 import joust.core.general.Game;
 import joust.core.general.Location;
 
@@ -14,11 +15,11 @@ import joust.core.general.Location;
 public class Bishop extends ChessPiece {
 	
 	
-	public Bishop(Location location, Allegiance allegiance, int chessID) {
+	public Bishop(Allegiance allegiance, int chessID, ChessBoard chessBoard) {
 		this.alive = true;
 		this.allegiance = allegiance;
 		this.chessID = chessID;
-		this.location = location;
+		this.chessBoard = chessBoard;
 	}
 	
 	@Override
@@ -39,8 +40,8 @@ public class Bishop extends ChessPiece {
 	public ArrayList<Location> getPossibleMoves(Game g){
 		// generate all northwest directions, then northeast, then southwest, then southeast
 		ArrayList<Location> possibles = new ArrayList<Location>();
-		int x = location.getXCoordinate();
-		int y = location.getYCoordinate();
+		int x = getLocation().getXCoordinate();
+		int y = getLocation().getYCoordinate();
 		//System.out.println("bishop initial loc: " + Location.convert(x, y));
 		int nextX = x;
 		int nextY = y;
@@ -50,7 +51,7 @@ public class Bishop extends ChessPiece {
 			nextY = nextY + 1;
 			//System.out.println("bishop poss loc: " + Location.convert(nextX, nextY));
 			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(g, l);
+			String result = checkAvailability(l);
 			//System.out.println("result: " + result);
 			if ((result.equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
@@ -68,7 +69,7 @@ public class Bishop extends ChessPiece {
 			nextX = nextX + 1;
 			nextY = nextY - 1;
 			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(g, l);
+			String result = checkAvailability(l);
 			if ((result.equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
 			} else if ((result.equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
@@ -86,7 +87,7 @@ public class Bishop extends ChessPiece {
 			nextY = nextY + 1;
 			//System.out.println("bishop poss loc: " + Location.convert(nextX, nextY));
 			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(g, l);
+			String result = checkAvailability(l);
 			//System.out.println("result: " + result);
 			if ((result.equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
@@ -104,7 +105,7 @@ public class Bishop extends ChessPiece {
 			nextX = nextX - 1;
 			nextY = nextY - 1;
 			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(g, l);
+			String result = checkAvailability(l);
 			if ((result.equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
 			} else if ((result.equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
@@ -121,8 +122,8 @@ public class Bishop extends ChessPiece {
 	public ArrayList<Location> getDefenseMoves(Game g){
 		// generate all northwest directions, then northeast, then southwest, then southeast
 		ArrayList<Location> possibles = new ArrayList<Location>();
-		int x = location.getXCoordinate();
-		int y = location.getYCoordinate();
+		int x = getLocation().getXCoordinate();
+		int y = getLocation().getYCoordinate();
 		int nextX = x;
 		int nextY = y;
 		boolean stillValid = true;
@@ -130,7 +131,7 @@ public class Bishop extends ChessPiece {
 			nextX = nextX + 1;
 			nextY = nextY + 1;
 			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(g, l);
+			String result = checkAvailability(l);
 			if ((result.equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 			} else if ((result.equals("friend")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
@@ -146,7 +147,7 @@ public class Bishop extends ChessPiece {
 			nextX = nextX + 1;
 			nextY = nextY - 1;
 			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(g, l);
+			String result = checkAvailability(l);
 			if ((result.equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 			} else if ((result.equals("friend")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
@@ -162,7 +163,7 @@ public class Bishop extends ChessPiece {
 			nextX = nextX - 1;
 			nextY = nextY + 1;
 			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(g, l);
+			String result = checkAvailability(l);
 			if ((result.equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 			} else if ((result.equals("friend")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
@@ -178,7 +179,7 @@ public class Bishop extends ChessPiece {
 			nextX = nextX - 1;
 			nextY = nextY - 1;
 			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(g, l);
+			String result = checkAvailability(l);
 			if ((result.equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 			} else if ((result.equals("friend")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);

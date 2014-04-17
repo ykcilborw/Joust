@@ -12,13 +12,13 @@ public class Main {
 			String chessGame = args[0];  //a pgn file
 			String initialConfig = args[1];
 			String joustProgram = args[2];
-			Jouster j = new Jouster(chessGame, initialConfig, false);
+			ChessBoardMatcher j = new ChessBoardMatcher(chessGame, initialConfig, false);
 			boolean foundMatch = j.find(joustProgram);
 			System.out.println("foundMatch: " + foundMatch);
 		} else {
 			String chessGame = args[0];  //a pgn file
 			String joustProgram = args[1];
-			Jouster j = new Jouster(chessGame);
+			ChessBoardMatcher j = new ChessBoardMatcher(chessGame);
 			boolean foundMatch = j.find(joustProgram);
 			System.out.println("foundMatch: " + foundMatch);
 		}
@@ -26,13 +26,13 @@ public class Main {
 	
 	// for debugging purposes
 	public static boolean run(String pgnFile, String joustProgram) {
-			Jouster j = new Jouster(pgnFile);
+			ChessBoardMatcher j = new ChessBoardMatcher(pgnFile);
 			return j.find(joustProgram);
 	}
 	
 	// for debugging purposes
 	public static boolean run(String pgnFile, String initialConfig, String joustProgram) {
-		Jouster j = new Jouster(pgnFile, initialConfig);
+		ChessBoardMatcher j = new ChessBoardMatcher(pgnFile, initialConfig);
 		return j.find(joustProgram);
 	}
 

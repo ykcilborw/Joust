@@ -42,7 +42,7 @@ public class King extends ChessPiece{
 			Location l = possibles.get(i);
 			int x = l.getXCoordinate();
 			int y = l.getYCoordinate();
-			if ((checkAvailability(g, l).equals("unoccupied") || checkAvailability(g, l).equals("enemy")) && x < 9 && x > 0 && y < 9 && y > 0) {
+			if ((checkAvailability(l).equals("unoccupied") || checkAvailability(l).equals("enemy")) && x < 9 && x > 0 && y < 9 && y > 0) {
 				possibles2.add(l);
 			}
 		}
@@ -61,7 +61,7 @@ public class King extends ChessPiece{
 			Location l = possibles.get(i);
 			int x = l.getXCoordinate();
 			int y = l.getYCoordinate();
-			if (checkAvailability(g, l).equals("friend") && x < 9 && x > 0 && y < 9 && y > 0) {
+			if (checkAvailability(l).equals("friend") && x < 9 && x > 0 && y < 9 && y > 0) {
 				possibles2.add(l);
 			}
 		}
