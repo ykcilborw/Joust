@@ -8,6 +8,12 @@ import joust.core.general.move.Move;
 
 public class ChessBoard {
 	
+	private Location[][] chessBoard;
+	
+	public ChessBoard(Location[][] chessBoard) {
+		this.chessBoard = chessBoard;
+	}
+	
 	public void addChessPiece(ChessPiece chessPiece, Location location) {
 		// TODO
 	}

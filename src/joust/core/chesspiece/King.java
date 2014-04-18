@@ -2,16 +2,17 @@ package joust.core.chesspiece;
 
 import java.util.ArrayList;
 
+import joust.core.board.ChessBoard;
 import joust.core.general.Game;
 import joust.core.general.Location;
 
 public class King extends ChessPiece{
 	
 	
-	public King(Location l, Allegiance allegiance, int id) {
-		this.location = l;
+	public King(Allegiance allegiance, int id, ChessBoard chessBoard) {
 		this.allegiance = allegiance;
 		this.alive = true;
+		this.chessBoard = chessBoard;
 		this.chessID = id;
 	}
 	
@@ -29,14 +30,14 @@ public class King extends ChessPiece{
 	
 	public ArrayList<Location> getPossibleMoves(Game g){
 		ArrayList<Location> possibles = new ArrayList<Location>();
-		possibles.add(location.move(1, 0, 0, 0)); // up
-		possibles.add(location.move(0, 1, 0, 0)); // left
-		possibles.add(location.move(0, 0, 1, 0));  // down
-		possibles.add(location.move(0, 0, 0, 1));  // right
-		possibles.add(location.move(1, 1, 0, 0)); // up left  
-		possibles.add(location.move(1, 0, 0, 1));  // up right
-		possibles.add(location.move(0, 1, 1, 0));  // down left
-		possibles.add(location.move(0, 0, 1, 1));  // down right
+		possibles.add(getLocation().move(1, 0, 0, 0)); // up
+		possibles.add(getLocation().move(0, 1, 0, 0)); // left
+		possibles.add(getLocation().move(0, 0, 1, 0));  // down
+		possibles.add(getLocation().move(0, 0, 0, 1));  // right
+		possibles.add(getLocation().move(1, 1, 0, 0)); // up left  
+		possibles.add(getLocation().move(1, 0, 0, 1));  // up right
+		possibles.add(getLocation().move(0, 1, 1, 0));  // down left
+		possibles.add(getLocation().move(0, 0, 1, 1));  // down right
 		ArrayList<Location> possibles2 = new ArrayList<Location>();
 		for (int i = 0; i < possibles.size(); i++) {
 			Location l = possibles.get(i);
@@ -52,10 +53,10 @@ public class King extends ChessPiece{
 	
 	public ArrayList<Location> getDefenseMoves(Game g){
 		ArrayList<Location> possibles = new ArrayList<Location>();
-		possibles.add(location.move(1, 0, 0, 0));
-		possibles.add(location.move(0, 1, 0, 0));
-		possibles.add(location.move(0, 0, 1, 0));
-		possibles.add(location.move(0, 0, 0, 1));
+		possibles.add(getLocation().move(1, 0, 0, 0));
+		possibles.add(getLocation().move(0, 1, 0, 0));
+		possibles.add(getLocation().move(0, 0, 1, 0));
+		possibles.add(getLocation().move(0, 0, 0, 1));
 		ArrayList<Location> possibles2 = new ArrayList<Location>();
 		for (int i = 0; i < possibles.size(); i++) {
 			Location l = possibles.get(i);
@@ -83,8 +84,8 @@ public class King extends ChessPiece{
 		/*
 		int x = l.getXCoordinate();
 		int y = l.getYCoordinate();
-		int x2 = location.getXCoordinate();
-		int y2 = location.getYCoordinate();
+		int x2 = getLocation().getXCoordinate();
+		int y2 = getLocation().getYCoordinate();
 		boolean toReturn = false;
 		if ((x - x2 == 1 && y - y2 == 0) || (x - x2 == -1 && y - y2 == 0) || (x - x2 == 0 && y - y2 == 1) || (x - x2 == 0 && y - y2 == -1)) {
 			toReturn = true;

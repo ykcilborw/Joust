@@ -1,10 +1,12 @@
 package joust.core.chesspiece;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import joust.core.board.ChessBoard;
 import joust.core.general.Game;
 import joust.core.general.Location;
+import joust.core.general.move.Move;
 
 /**
  * Abstract class representing a chess piece
@@ -182,15 +184,16 @@ public abstract class ChessPiece {
 	
 	// implemented poorly. Chess piece should ask game object, which holds everything
 	// shouldn't need to update game object and each chess piece's location object
-	/*public void move(Location newLocation) {
-		HashMap<Location, ChessPiece> positions = this.game.getMyPositions();
+	public void move(Location newLocation) {
+		/*HashMap<Location, ChessPiece> positions = this.game.getMyPositions();
 		Location currentLocation = Location.getBoardLocation(this.game, this.location);
 		positions.remove(currentLocation);
 		this.location = newLocation;
 		Location onBoard2 = Location.getBoardLocation(this.game, newLocation);
 		positions.remove(onBoard2);
-		positions.put(onBoard2, this);
-	} */
+		positions.put(onBoard2, this); */
+		chessBoard.moveChessPiece(new Move(this, chessBoard.getLocationByChessPiece(this), newLocation));
+	} 
 	
 	public boolean equals(ChessPiece chessPiece) {
 		boolean toReturn = false;

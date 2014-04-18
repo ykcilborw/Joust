@@ -2,6 +2,7 @@ package joust.core.chesspiece;
 
 import java.util.ArrayList;
 
+import joust.core.board.ChessBoard;
 import joust.core.general.Game;
 import joust.core.general.Location;
 
@@ -13,10 +14,10 @@ import joust.core.general.Location;
  */
 public class Queen extends ChessPiece {
 	
-	public Queen(Location l, Allegiance allegiance, int id) {
-		this.location = l;
+	public Queen(Allegiance allegiance, int id, ChessBoard chessBoard) {
 		this.allegiance = allegiance;
 		this.alive = true;
+		this.chessBoard = chessBoard;
 		this.chessID = id;
 	}
 	
@@ -37,8 +38,8 @@ public class Queen extends ChessPiece {
 	@Override
 	public ArrayList<Location> getPossibleMoves(Game g){
 		ArrayList<Location> possibles = new ArrayList<Location>();
-		int x = location.getXCoordinate();
-		int y = location.getYCoordinate();
+		int x = getLocation().getXCoordinate();
+		int y = getLocation().getYCoordinate();
 		int nextX = x;
 		int nextY = y;
 		boolean stillValid = true;
@@ -174,8 +175,8 @@ public class Queen extends ChessPiece {
 	@Override
 	public ArrayList<Location> getDefenseMoves(Game g){
 		ArrayList<Location> possibles = new ArrayList<Location>();
-		int x = location.getXCoordinate();
-		int y = location.getYCoordinate();
+		int x = getLocation().getXCoordinate();
+		int y = getLocation().getYCoordinate();
 		//System.out.println("queen defense x: " + x);
 		//System.out.println("queen defense y: " + y);
 		int nextX = x;
@@ -327,7 +328,7 @@ public class Queen extends ChessPiece {
 		ArrayList<Location> possibles = this.getPossibleMoves(g);
 		boolean toReturn = false;
 		for (int i = 0; i < possibles.size(); i++) {
-			//System.out.println("location: " + possibles.get(i).getXCoordinate() + ", " + possibles.get(i).getYCoordinate());
+			//System.out.println("getLocation(): " + possibles.get(i).getXCoordinate() + ", " + possibles.get(i).getYCoordinate());
 			if (possibles.get(i).equals(l)) {
 				toReturn = true;
 			}

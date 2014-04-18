@@ -2,6 +2,7 @@ package joust.core.chesspiece;
 
 import java.util.ArrayList;
 
+import joust.core.board.ChessBoard;
 import joust.core.general.Game;
 import joust.core.general.Location;
 
@@ -9,9 +10,10 @@ import joust.core.general.Location;
 public class Castle extends ChessPiece {
 	
 	
-	public Castle(Location l, Allegiance allegiance, int id) {
+	public Castle(Allegiance allegiance, int id, ChessBoard chessBoard) {
 		this.allegiance = allegiance;
 		this.alive = true;
+		this.chessBoard = chessBoard;
 		this.chessID = id;
 	}
 	

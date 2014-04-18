@@ -1,6 +1,8 @@
 package joust.core.general;
 
 import joust.core.chesspiece.ChessPiece;
+import joust.core.general.game.GameSetup;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import fri.patterns.interpreter.parsergenerator.examples.Joust;
@@ -19,8 +21,9 @@ public class ChessBoardMatcher {
 	boolean myGreedFlag; // for greedy search when dealing with the very last board
 	boolean occursFlag;
 	
+	// need to rethink
 	public ChessBoardMatcher(String pgnGame) {
-		myGame = Game.setupDefaultGame();
+		myGame = GameSetup.setupDefaultGame();
 		myMoves = PGNParser.getGameMoves(pgnGame);
 		matchedBoards = new ArrayList<String[][]>();
 		matchedRounds = new ArrayList<Integer>();
@@ -30,7 +33,7 @@ public class ChessBoardMatcher {
 	}
 	
 	public ChessBoardMatcher(String pgnGame, String initialConfigFile) {
-		myGame = Game.setupSpecialLayout(initialConfigFile);
+		myGame = GameSetup.setupSpecialLayout(initialConfigFile);
 		myMoves = PGNParser.getGameMoves(pgnGame);
 		matchedBoards = new ArrayList<String[][]>();
 		matchedRounds = new ArrayList<Integer>();
@@ -40,7 +43,7 @@ public class ChessBoardMatcher {
 	}
 	
 	public ChessBoardMatcher(String pgnGame, String initialConfigFile, boolean special) {
-		myGame = Game.setupSpecialLayout(initialConfigFile);
+		myGame = GameSetup.setupSpecialLayout(initialConfigFile);
 		myMoves = PGNParser.getGameMoves(pgnGame);
 		matchedBoards = new ArrayList<String[][]>();
 		matchedRounds = new ArrayList<Integer>();
@@ -593,7 +596,7 @@ public class ChessBoardMatcher {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate loc: " + candidates.get(i).getLocation());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (candidates.get(i).getLocation().getmyAlgebraicLocation().equals(arg2)) {
+				if (candidates.get(i).getLocation().getAlgebraicLocation().equals(arg2)) {
 						toReturn = true;
 						break;
 				}
@@ -626,7 +629,7 @@ public class ChessBoardMatcher {
 		for (int i = 0; i < candidates.size(); i++) {
 			//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 			//System.out.println("candidate loc: " + candidates.get(i).getLocation());
-			if (candidates.get(i).getLocation().getmyAlgebraicLocation().equals(arg3)) {
+			if (candidates.get(i).getLocation().getAlgebraicLocation().equals(arg3)) {
 					toReturn = true;
 					//System.out.println("newCandidates: " + candidates.get(i).getLocation());
 					newCandidates.add(candidates.get(i));
@@ -655,9 +658,9 @@ public class ChessBoardMatcher {
 					// Get all of i's possible locations
 					// see if any match j's location
 					ArrayList<Location> possibles = candidates.get(i).getPossibleMoves(myGame);
-					String enemySpot = candidates2.get(j).getLocation().getmyAlgebraicLocation();
+					String enemySpot = candidates2.get(j).getLocation().getAlgebraicLocation();
 					for (int k = 0; k < possibles.size(); k++) {
-						if (enemySpot.equals(possibles.get(k).getmyAlgebraicLocation())) {
+						if (enemySpot.equals(possibles.get(k).getAlgebraicLocation())) {
 							toReturn = true;
 							break;
 						}
@@ -722,9 +725,9 @@ public class ChessBoardMatcher {
 				// Get all of i's possible locations
 				// see if any match j's location
 				ArrayList<Location> possibles = candidates.get(i).getPossibleMoves(myGame);
-				String enemySpot = candidates2.get(j).getLocation().getmyAlgebraicLocation();
+				String enemySpot = candidates2.get(j).getLocation().getAlgebraicLocation();
 				for (int k = 0; k < possibles.size(); k++) {
-					if (enemySpot.equals(possibles.get(k).getmyAlgebraicLocation())) {
+					if (enemySpot.equals(possibles.get(k).getAlgebraicLocation())) {
 						toReturn = true;
 						newCandidates.add(candidates.get(i));
 						newCandidates2.add(candidates.get(j));
@@ -828,9 +831,9 @@ public class ChessBoardMatcher {
 			ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
-					String file1 = candidates.get(i).getLocation().getmyFile();
+					String file1 = candidates.get(i).getLocation().getFile();
 					//System.out.println("file1: " + file1);
-					String file2 = candidates2.get(j).getLocation().getmyFile();
+					String file2 = candidates2.get(j).getLocation().getFile();
 					//System.out.println("file2: " + file2);
 					if (file1.equals(file2)) {
 						toReturn = true;
@@ -888,9 +891,9 @@ public class ChessBoardMatcher {
 		ArrayList<ChessPiece> newCandidates2 = new ArrayList<ChessPiece>();
 		for (int i = 0; i < candidates.size(); i++) {
 			for (int j = 0; j < candidates2.size(); j++) {
-				String file1 = candidates.get(i).getLocation().getmyFile();
+				String file1 = candidates.get(i).getLocation().getFile();
 				//System.out.println("file1: " + file1);
-				String file2 = candidates2.get(j).getLocation().getmyFile();
+				String file2 = candidates2.get(j).getLocation().getFile();
 				//System.out.println("file2: " + file1);
 				if (file1.equals(file2)) {
 					toReturn = true;
@@ -921,9 +924,9 @@ public class ChessBoardMatcher {
 			ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
-					String file1 = candidates.get(i).getLocation().getmyFile();
+					String file1 = candidates.get(i).getLocation().getFile();
 					//System.out.println("file1: " + file1);
-					String file2 = candidates2.get(j).getLocation().getmyFile();
+					String file2 = candidates2.get(j).getLocation().getFile();
 					//System.out.println("file2: " + file1);
 					if (Util.fileToNum(file1) > Util.fileToNum(file2)) {
 						toReturn = true;
@@ -978,9 +981,9 @@ public class ChessBoardMatcher {
 		ArrayList<ChessPiece> newCandidates2 = new ArrayList<ChessPiece>();
 		for (int i = 0; i < candidates.size(); i++) {
 			for (int j = 0; j < candidates2.size(); j++) {
-				String file1 = candidates.get(i).getLocation().getmyFile();
+				String file1 = candidates.get(i).getLocation().getFile();
 				//System.out.println("file1: " + file1);
-				String file2 = candidates2.get(j).getLocation().getmyFile();
+				String file2 = candidates2.get(j).getLocation().getFile();
 				//System.out.println("file2: " + file1);
 				if (Util.fileToNum(file1) > Util.fileToNum(file2)) {
 					toReturn = true;
@@ -1010,10 +1013,10 @@ public class ChessBoardMatcher {
 			ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
-					String file1 = candidates.get(i).getLocation().getmyFile();
+					String file1 = candidates.get(i).getLocation().getFile();
 					//System.out.println("file1: " + file1);
 					//System.out.println("file1: " + Util.fileToNum(file1));
-					String file2 = candidates2.get(j).getLocation().getmyFile();
+					String file2 = candidates2.get(j).getLocation().getFile();
 					//System.out.println("file2: " + file2);
 					//System.out.println("file2: " + Util.fileToNum(file2));
 					if (Util.fileToNum(file1) < Util.fileToNum(file2)) {
@@ -1069,9 +1072,9 @@ public class ChessBoardMatcher {
 		ArrayList<ChessPiece> newCandidates2 = new ArrayList<ChessPiece>();
 		for (int i = 0; i < candidates.size(); i++) {
 			for (int j = 0; j < candidates2.size(); j++) {
-				String file1 = candidates.get(i).getLocation().getmyFile();
+				String file1 = candidates.get(i).getLocation().getFile();
 				//System.out.println("file1: " + file1);
-				String file2 = candidates2.get(j).getLocation().getmyFile();
+				String file2 = candidates2.get(j).getLocation().getFile();
 				//System.out.println("file2: " + file1);
 				if (Util.fileToNum(file1) < Util.fileToNum(file2)) {
 					toReturn = true;
@@ -1101,7 +1104,7 @@ public class ChessBoardMatcher {
 			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				if (candidates.get(i).getLocation().getmyFile().equals(arg2)) {
+				if (candidates.get(i).getLocation().getFile().equals(arg2)) {
 					toReturn = true;
 					break;
 				}
@@ -1121,7 +1124,7 @@ public class ChessBoardMatcher {
 		boolean toReturn = false;
 		for (int i = 0; i < candidates.size(); i++) {
 			//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-			if (candidates.get(i).getLocation().getmyFile().equals(arg3)) {
+			if (candidates.get(i).getLocation().getFile().equals(arg3)) {
 				toReturn = true;
 				newCandidates.add(candidates.get(i));
 			}
@@ -1144,7 +1147,7 @@ public class ChessBoardMatcher {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (candidates.get(i).getLocation().getmyFile().equals(arg3)) {
+					if (candidates.get(i).getLocation().getFile().equals(arg3)) {
 						toReturn = true;
 						break;
 					}
@@ -1153,7 +1156,7 @@ public class ChessBoardMatcher {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Util.fileToNum(candidates.get(i).getLocation().getmyFile()) < Util.fileToNum(arg3)) {
+					if (Util.fileToNum(candidates.get(i).getLocation().getFile()) < Util.fileToNum(arg3)) {
 						toReturn = true;
 						break;
 					}
@@ -1162,7 +1165,7 @@ public class ChessBoardMatcher {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Util.fileToNum(candidates.get(i).getLocation().getmyFile()) > Util.fileToNum(arg3)) {
+					if (Util.fileToNum(candidates.get(i).getLocation().getFile()) > Util.fileToNum(arg3)) {
 						toReturn = true;
 						break;
 					}
@@ -1171,7 +1174,7 @@ public class ChessBoardMatcher {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Util.fileToNum(candidates.get(i).getLocation().getmyFile()) <= Util.fileToNum(arg3)) {
+					if (Util.fileToNum(candidates.get(i).getLocation().getFile()) <= Util.fileToNum(arg3)) {
 						toReturn = true;
 						break;
 					}
@@ -1181,7 +1184,7 @@ public class ChessBoardMatcher {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Util.fileToNum(candidates.get(i).getLocation().getmyFile()) >= Util.fileToNum(arg3)) {
+					if (Util.fileToNum(candidates.get(i).getLocation().getFile()) >= Util.fileToNum(arg3)) {
 						toReturn = true;
 						break;
 					}
@@ -1205,7 +1208,7 @@ public class ChessBoardMatcher {
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (candidates.get(i).getLocation().getmyRank().equals(arg2)) {
+				if (candidates.get(i).getLocation().getRank().equals(arg2)) {
 					toReturn = true;
 					newCandidates.add(candidates.get(i));
 				}
@@ -1214,7 +1217,7 @@ public class ChessBoardMatcher {
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Util.fileToNum(candidates.get(i).getLocation().getmyRank()) < Util.fileToNum(arg2)) {
+				if (Util.fileToNum(candidates.get(i).getLocation().getRank()) < Util.fileToNum(arg2)) {
 					toReturn = true;
 					newCandidates.add(candidates.get(i));
 				}
@@ -1223,7 +1226,7 @@ public class ChessBoardMatcher {
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Util.fileToNum(candidates.get(i).getLocation().getmyRank()) > Util.fileToNum(arg2)) {
+				if (Util.fileToNum(candidates.get(i).getLocation().getRank()) > Util.fileToNum(arg2)) {
 					toReturn = true;
 					newCandidates.add(candidates.get(i));
 				}
@@ -1232,7 +1235,7 @@ public class ChessBoardMatcher {
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Util.fileToNum(candidates.get(i).getLocation().getmyRank()) >= Util.fileToNum(arg2)) {
+				if (Util.fileToNum(candidates.get(i).getLocation().getRank()) >= Util.fileToNum(arg2)) {
 					toReturn = true;
 					newCandidates.add(candidates.get(i));
 				}
@@ -1241,7 +1244,7 @@ public class ChessBoardMatcher {
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Util.fileToNum(candidates.get(i).getLocation().getmyRank()) <= Util.fileToNum(arg2)) {
+				if (Util.fileToNum(candidates.get(i).getLocation().getRank()) <= Util.fileToNum(arg2)) {
 					toReturn = true;
 					newCandidates.add(candidates.get(i));
 				}
@@ -1263,9 +1266,9 @@ public class ChessBoardMatcher {
 			ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
-					String rank1 = candidates.get(i).getLocation().getmyRank();
+					String rank1 = candidates.get(i).getLocation().getRank();
 					//System.out.println("file1: " + rank1);
-					String rank2 = candidates2.get(j).getLocation().getmyRank();
+					String rank2 = candidates2.get(j).getLocation().getRank();
 					//System.out.println("file2: " + rank2);
 					if (Integer.parseInt(rank1) > Integer.parseInt(rank2)) {
 						toReturn = true;
@@ -1320,9 +1323,9 @@ public class ChessBoardMatcher {
 		ArrayList<ChessPiece> newCandidates2 = new ArrayList<ChessPiece>();
 		for (int i = 0; i < candidates.size(); i++) {
 			for (int j = 0; j < candidates2.size(); j++) {
-				String rank1 = candidates.get(i).getLocation().getmyRank();
+				String rank1 = candidates.get(i).getLocation().getRank();
 				//System.out.println("rank1: " + rank1);
-				String rank2 = candidates2.get(j).getLocation().getmyRank();
+				String rank2 = candidates2.get(j).getLocation().getRank();
 				//System.out.println("rank2: " + rank2);
 				if (Integer.parseInt(rank1) > Integer.parseInt(rank2)) {
 					toReturn = true;
@@ -1353,9 +1356,9 @@ public class ChessBoardMatcher {
 			ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
-					String rank1 = candidates.get(i).getLocation().getmyRank();
+					String rank1 = candidates.get(i).getLocation().getRank();
 					//System.out.println("file1: " + rank1);
-					String rank2 = candidates2.get(j).getLocation().getmyRank();
+					String rank2 = candidates2.get(j).getLocation().getRank();
 					//System.out.println("file2: " + rank2);
 					if (Integer.parseInt(rank1) < Integer.parseInt(rank2)) {
 						toReturn = true;
@@ -1410,9 +1413,9 @@ public class ChessBoardMatcher {
 		ArrayList<ChessPiece> newCandidates2 = new ArrayList<ChessPiece>();
 		for (int i = 0; i < candidates.size(); i++) {
 			for (int j = 0; j < candidates2.size(); j++) {
-				String rank1 = candidates.get(i).getLocation().getmyRank();
+				String rank1 = candidates.get(i).getLocation().getRank();
 				//System.out.println("rank1: " + rank1);
-				String rank2 = candidates2.get(j).getLocation().getmyRank();
+				String rank2 = candidates2.get(j).getLocation().getRank();
 				//System.out.println("rank2: " + rank2);
 				if (Integer.parseInt(rank1) < Integer.parseInt(rank2)) {
 					toReturn = true;
@@ -1444,9 +1447,9 @@ public class ChessBoardMatcher {
 			
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
-					String rank1 = candidates.get(i).getLocation().getmyRank();
+					String rank1 = candidates.get(i).getLocation().getRank();
 					//System.out.println("rank1: " + rank1);
-					String rank2 = candidates2.get(j).getLocation().getmyRank();
+					String rank2 = candidates2.get(j).getLocation().getRank();
 					//System.out.println("rank2: " + rank2);
 					if (rank1.equals(rank2)) {
 						toReturn = true;
@@ -1503,9 +1506,9 @@ public class ChessBoardMatcher {
 		ArrayList<ChessPiece> newCandidates2 = new ArrayList<ChessPiece>();		
 		for (int i = 0; i < candidates.size(); i++) {
 			for (int j = 0; j < candidates2.size(); j++) {
-				String rank1 = candidates.get(i).getLocation().getmyRank();
+				String rank1 = candidates.get(i).getLocation().getRank();
 				//System.out.println("file1: " + rank1);
-				String rank2 = candidates2.get(j).getLocation().getmyRank();
+				String rank2 = candidates2.get(j).getLocation().getRank();
 				//System.out.println("file2: " + rank2);
 				if (rank1.equals(rank2)) {
 					toReturn = true;
@@ -1537,7 +1540,7 @@ public class ChessBoardMatcher {
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (candidates.get(i).getLocation().getmyRank().equals(arg2)) {
+				if (candidates.get(i).getLocation().getRank().equals(arg2)) {
 					toReturn = true;
 					break;
 				}
@@ -1559,7 +1562,7 @@ public class ChessBoardMatcher {
 		for (int i = 0; i < candidates.size(); i++) {
 			//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 			//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-			if (candidates.get(i).getLocation().getmyRank().equals(arg2)) {
+			if (candidates.get(i).getLocation().getRank().equals(arg2)) {
 				toReturn = true;
 				newCandidates.add(candidates.get(i));
 			}
@@ -1582,7 +1585,7 @@ public class ChessBoardMatcher {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (candidates.get(i).getLocation().getmyRank().equals(arg3)) {
+					if (candidates.get(i).getLocation().getRank().equals(arg3)) {
 						toReturn = true;
 						break;
 					}
@@ -1591,7 +1594,7 @@ public class ChessBoardMatcher {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Integer.parseInt(candidates.get(i).getLocation().getmyRank()) < Integer.parseInt(arg3)) {
+					if (Integer.parseInt(candidates.get(i).getLocation().getRank()) < Integer.parseInt(arg3)) {
 						toReturn = true;
 						break;
 					}
@@ -1600,7 +1603,7 @@ public class ChessBoardMatcher {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Integer.parseInt(candidates.get(i).getLocation().getmyRank()) > Integer.parseInt(arg3)) {
+					if (Integer.parseInt(candidates.get(i).getLocation().getRank()) > Integer.parseInt(arg3)) {
 						toReturn = true;
 						break;
 					}
@@ -1609,7 +1612,7 @@ public class ChessBoardMatcher {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Integer.parseInt(candidates.get(i).getLocation().getmyRank()) >= Integer.parseInt(arg3)) {
+					if (Integer.parseInt(candidates.get(i).getLocation().getRank()) >= Integer.parseInt(arg3)) {
 						toReturn = true;
 						break;
 					}
@@ -1618,7 +1621,7 @@ public class ChessBoardMatcher {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Integer.parseInt(candidates.get(i).getLocation().getmyRank()) <= Integer.parseInt(arg3)) {
+					if (Integer.parseInt(candidates.get(i).getLocation().getRank()) <= Integer.parseInt(arg3)) {
 						toReturn = true;
 						break;
 					}
@@ -1642,7 +1645,7 @@ public class ChessBoardMatcher {
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (candidates.get(i).getLocation().getmyRank().equals(arg2)) {
+				if (candidates.get(i).getLocation().getRank().equals(arg2)) {
 					toReturn = true;
 					newCandidates.add(candidates.get(i));
 				}
@@ -1651,7 +1654,7 @@ public class ChessBoardMatcher {
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Integer.parseInt(candidates.get(i).getLocation().getmyRank()) < Integer.parseInt(arg2)) {
+				if (Integer.parseInt(candidates.get(i).getLocation().getRank()) < Integer.parseInt(arg2)) {
 					toReturn = true;
 					newCandidates.add(candidates.get(i));
 				}
@@ -1660,7 +1663,7 @@ public class ChessBoardMatcher {
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Integer.parseInt(candidates.get(i).getLocation().getmyRank()) > Integer.parseInt(arg2)) {
+				if (Integer.parseInt(candidates.get(i).getLocation().getRank()) > Integer.parseInt(arg2)) {
 					toReturn = true;
 					newCandidates.add(candidates.get(i));
 				}
@@ -1669,7 +1672,7 @@ public class ChessBoardMatcher {
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Integer.parseInt(candidates.get(i).getLocation().getmyRank()) >= Integer.parseInt(arg2)) {
+				if (Integer.parseInt(candidates.get(i).getLocation().getRank()) >= Integer.parseInt(arg2)) {
 					toReturn = true;
 					newCandidates.add(candidates.get(i));
 				}
@@ -1678,7 +1681,7 @@ public class ChessBoardMatcher {
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Integer.parseInt(candidates.get(i).getLocation().getmyRank()) <= Integer.parseInt(arg2)) {
+				if (Integer.parseInt(candidates.get(i).getLocation().getRank()) <= Integer.parseInt(arg2)) {
 					toReturn = true;
 					newCandidates.add(candidates.get(i));
 				}

@@ -1,11 +1,14 @@
 package joust.core.general;
 
+import joust.core.chesspiece.ChessPiece;
+
 public class Location {
 	private int myX;
 	private int myY;
 	private String myAlgebraicLocation;
 	private String myFile;
 	private String myRank;
+	private ChessPiece myChessPiece;
 	
 	//Doesn't work needs to be rewritten
 	public Location(int x, int y) {
@@ -67,6 +70,37 @@ public class Location {
 		
 	}
 	
+	public Location (String algebraicLocation, ChessPiece chessPiece) {
+		myAlgebraicLocation = algebraicLocation;
+		String x = algebraicLocation.substring(0, 1);
+		myFile = x;
+		String y = algebraicLocation.substring(1, 2);
+		myRank = y;
+		//System.out.println("y: " + y);
+		int y2 = Integer.parseInt(y);
+		if (x.equals("a")) {
+			myX = 1;
+		} else if (x.equals("b")) {
+			myX = 2;
+		} else if (x.equals("c")) {
+			myX = 3;
+		} else if (x.equals("d")) {
+			myX = 4;
+		} else if (x.equals("e")) {
+			myX = 5;
+		} else if (x.equals("f")) {
+			myX = 6;
+		} else if (x.equals("g")) {
+			myX = 7;
+		} else if (x.equals("h")) {
+			myX = 8;
+		}
+		//System.out.println("location constructor x: " + x);
+		//System.out.println("location constructor myX: " + myX);
+		myY = y2;
+		myChessPiece = chessPiece;
+	}
+	
 	public int getXCoordinate() {
 		return myX;
 	}
@@ -88,11 +122,11 @@ public class Location {
 	}
 	
 	//All setters need to be fixed. Not priority at moment though
-	public void setmyX(int x) {
+	public void setXCoordinate(int x) {
 		myX = x;
 	}
 	
-	public void setmyY(int y) {
+	public void setYCoordinate(int y) {
 		myY = y;
 	}
 	
@@ -142,6 +176,14 @@ public class Location {
 		return stringX + y;
 	}
 	
+	public ChessPiece getChessPiece() {
+		return myChessPiece;
+	}
+	
+	public void setChessPiece(ChessPiece chessPiece) {
+		this.myChessPiece = chessPiece;
+	}
+	
 	public static Location getBoardLocation(Game g, Location l) {
 		Location[][] board = g.getBoard();
 		int x = l.getXCoordinate();
@@ -152,5 +194,4 @@ public class Location {
 	public String toString() {
 		return myAlgebraicLocation;
 	}
-
 }
