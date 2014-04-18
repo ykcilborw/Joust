@@ -775,30 +775,30 @@ public class Game {
 	}
 
 	protected void printBoard2(int round) {
-			String[][] board = new String[8][8];
+		String[][] board = new String[8][8];
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				board[i][j] = "-"; //denotes unoccupied
+			}
+		}
+		for (int k = 0; k < myActivePieces.size(); k++) {
+			ChessPiece current = myActivePieces.get(k);
+			int currX = current.getLocation().getXCoordinate();
+			int currY = current.getLocation().getYCoordinate();
+			board[currX - 1][currY - 1] = current.getMySymbol(); 
+		}
+		visitedBoards.add(board);
+		
+		System.out.print("Current Round: " + round + "\n");
+		for (int j = 7; j > -1; j--) {
 			for (int i = 0; i < 8; i++) {
-				for (int j = 0; j < 8; j++) {
-					board[i][j] = "-"; //denotes unoccupied
-				}
+				System.out.print(board[i][j] + " ");
 			}
-			for (int k = 0; k < myActivePieces.size(); k++) {
-				ChessPiece current = myActivePieces.get(k);
-				int currX = current.getLocation().getXCoordinate();
-				int currY = current.getLocation().getYCoordinate();
-				board[currX - 1][currY - 1] = current.getMySymbol(); 
-			}
-			visitedBoards.add(board);
-			
-			System.out.print("Current Round: " + round + "\n");
-			for (int j = 7; j > -1; j--) {
-				for (int i = 0; i < 8; i++) {
-					System.out.print(board[i][j] + " ");
-				}
-				System.out.println("");
-			}
-			
+			System.out.println("");
+		}
 	}
 	
+	/*
 	protected void printMyPositions() {
 		Set<Location> s = myPositions.keySet();
 		Iterator<Location> iter = s.iterator();
@@ -823,5 +823,5 @@ public class Game {
 			}
 			System.out.println("");
 		}
-	}
+	} */
 }
