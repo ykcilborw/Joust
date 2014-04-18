@@ -1,8 +1,6 @@
 package joust.core.board;
 
-import joust.core.chesspiece.Bishop;
 import joust.core.chesspiece.ChessPiece;
-import joust.core.chesspiece.ChessPiece.Allegiance;
 import joust.core.general.Location;
 import joust.core.general.move.Move;
 
@@ -15,33 +13,43 @@ public class ChessBoard {
 	}
 	
 	public void addChessPiece(ChessPiece chessPiece, Location location) {
-		// TODO
+		int x = location.getXCoordinate();
+		int y = location.getYCoordinate();
+		chessBoard[x][y].setChessPiece(chessPiece);
 	}
 	
-	
 	public void moveChessPiece(Move move) {
-		// TODO
+		removeChessPiece(move.getChessPiece(), move.getStart());
+		addChessPiece(move.getChessPiece(), move.getDestination());
 	}
 	
 	public Location getLocationByChessPiece(ChessPiece chessPiece) {
 		return chessPiece.getLocation();
 	}
 	
-	public ChessPiece getChessPieceByLocation(Location l) {
-		return new Bishop(Allegiance.WHITE, 20, this);
-		// TODO
+	public ChessPiece getChessPieceByLocation(Location location) {
+		int x = location.getXCoordinate();
+		int y = location.getYCoordinate();
+		return chessBoard[x][y].getChessPiece();
 	}
 	
-	public void removeChessPiece(ChessPiece chessPiece) {
-		// TODO
+	public void removeChessPiece(ChessPiece chessPiece, Location location) {
+		int x = location.getXCoordinate();
+		int y = location.getYCoordinate();
+		chessBoard[x][y].setChessPiece(null);
 	}
 	
+	@Deprecated
 	public Location[][] getBoard() {
-		return new Location[8][8];
-		// TODO
+		return chessBoard;
 	}
 
 	public void printBoard() {
-		// TODO
+		for (int j = 7; j > -1; j--) {
+			for (int i = 0; i < 8; i++) {
+				System.out.print(chessBoard[i][j].getChessPiece().getMySymbol() + " ");
+			}
+			System.out.println("");
+		}
 	}
 }
