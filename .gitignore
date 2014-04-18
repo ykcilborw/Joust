@@ -25,3 +25,4 @@ out.txt
 \bin
 *.metadata
 *.classpath
+\target
