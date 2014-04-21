@@ -3,12 +3,24 @@ package com.wroblicky.andrew.joust.core.chesspiece;
 import java.util.ArrayList;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
+import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Allegiance;
 import com.wroblicky.andrew.joust.core.general.Game;
 import com.wroblicky.andrew.joust.core.general.Location;
 
-
+/**
+ * Represents the castle chess piece
+ * 
+ * @author Andrew Wroblicky
+ *
+ */
 public class Castle extends ChessPiece {
 	
+	public Castle() {
+		this.alive = true;
+		this.allegiance = Allegiance.BLACK;
+		this.chessID = 1;
+		this.chessBoard = new ChessBoard(new Location[8][8]);
+	}
 	
 	public Castle(Allegiance allegiance, int id, ChessBoard chessBoard) {
 		this.allegiance = allegiance;

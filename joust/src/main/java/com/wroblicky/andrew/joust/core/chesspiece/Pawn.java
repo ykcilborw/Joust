@@ -6,7 +6,12 @@ import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.general.Game;
 import com.wroblicky.andrew.joust.core.general.Location;
 
-
+/**
+ * Represents the pawn chess piece
+ * 
+ * @author Andrew Wroblicky
+ *
+ */
 public class Pawn extends ChessPiece {
 	
 	private boolean hasMovedAtAll;
@@ -14,6 +19,13 @@ public class Pawn extends ChessPiece {
 	private int round;
 	
 	public Pawn() {
+		this.allegiance = Allegiance.BLACK;
+		this.hasMovedAtAll = false;
+		this.movedTwice = false;
+		this.alive = true;
+		this.chessID = 1;
+		this.round = 0;
+		this.chessBoard = new ChessBoard();
 	}
 	
 	public Pawn(Allegiance allegiance, int id, ChessBoard chessBoard) {

@@ -1,4 +1,4 @@
-package joust.core.qa;
+package com.wroblicky.andrew.joust.core.qa;
 
 import java.io.*;
 

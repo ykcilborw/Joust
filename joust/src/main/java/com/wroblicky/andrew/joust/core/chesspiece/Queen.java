@@ -14,6 +14,13 @@ import com.wroblicky.andrew.joust.core.general.Location;
  */
 public class Queen extends ChessPiece {
 	
+	public Queen() {
+		this.allegiance = Allegiance.BLACK;
+		this.alive = true;
+		this.chessBoard = new ChessBoard();
+		this.chessID = 1;
+	}
+	
 	public Queen(Allegiance allegiance, int id, ChessBoard chessBoard) {
 		this.allegiance = allegiance;
 		this.alive = true;

@@ -17,7 +17,7 @@ public abstract class ChessPiece {
 	
 	boolean alive;
 	Allegiance allegiance;
-	int chessID;
+	int chessID; // represents original starting location
 	ChessBoard chessBoard;
 	
 	public enum Allegiance {
@@ -40,11 +40,21 @@ public abstract class ChessPiece {
 	}
 	
 	public String getFile() {
-		return chessBoard.getLocationByChessPiece(this).getFile();
+		Location location = chessBoard.getLocationByChessPiece(this);
+		if (location != null) {
+			return location.getFile();
+		} else {
+			return null;
+		}
 	}
 	
 	public String getRank() {
-		return chessBoard.getLocationByChessPiece(this).getRank();
+		Location location = chessBoard.getLocationByChessPiece(this);
+		if (location != null) {
+			return location.getRank();
+		} else {
+			return null;
+		}
 	}
 	
 	/**
@@ -53,7 +63,7 @@ public abstract class ChessPiece {
 	 * 
 	 */
 	public String getRelativeRank() {
-		String rank = chessBoard.getLocationByChessPiece(this).getRank();
+		String rank = getRank();
 		if (allegiance == Allegiance.BLACK) {
 			int x = Integer.parseInt(rank);
 			int toReturn = 0;
@@ -80,10 +90,6 @@ public abstract class ChessPiece {
 		}
 	}
 	
-	public Allegiance getAllegiance() {
-		return allegiance;
-	}
-	
 	public boolean isAlive() {
 		return alive;
 	}
@@ -92,8 +98,8 @@ public abstract class ChessPiece {
 		this.alive = alive;
 	}
 	
-	public int getID() {
-		return chessID;
+	public Allegiance getAllegiance() {
+		return allegiance;
 	}
 	
 	public boolean isBlack() {
@@ -102,6 +108,10 @@ public abstract class ChessPiece {
 	
 	public boolean isWhite() {
 		return (allegiance == Allegiance.WHITE);
+	}
+	
+	public int getID() {
+		return chessID;
 	}
 	
 	/**
@@ -176,30 +186,12 @@ public abstract class ChessPiece {
 	}
 	
 	/**
-	 * Given a game and a location, the method updates the game's board by
+	 * The method updates the board by
 	 * moving the chess piece to the new position.
-	 *  
 	 */
-	
-	// implemented poorly. Chess piece should ask game object, which holds everything
-	// shouldn't need to update game object and each chess piece's location object
 	public void move(Location newLocation) {
-		/*HashMap<Location, ChessPiece> positions = this.game.getMyPositions();
-		Location currentLocation = Location.getBoardLocation(this.game, this.location);
-		positions.remove(currentLocation);
-		this.location = newLocation;
-		Location onBoard2 = Location.getBoardLocation(this.game, newLocation);
-		positions.remove(onBoard2);
-		positions.put(onBoard2, this); */
-		chessBoard.moveChessPiece(new Move(this, chessBoard.getLocationByChessPiece(this), newLocation));
-	} 
-	
-	public boolean equals(ChessPiece chessPiece) {
-		boolean toReturn = false;
-		if (chessID == chessPiece.getID() && chessPiece.getClass().equals(this.getClass())) {
-			toReturn = true;
-		}
-		return toReturn;
+		chessBoard.moveChessPiece(new Move(this, chessBoard.getLocationByChessPiece(this),
+				newLocation));
 	}
 	
 	public String toString() {

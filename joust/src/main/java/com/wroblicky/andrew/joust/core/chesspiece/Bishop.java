@@ -7,13 +7,19 @@ import com.wroblicky.andrew.joust.core.general.Game;
 import com.wroblicky.andrew.joust.core.general.Location;
 
 /**
- * Represents the Bishop chess piece
+ * Represents the bishop chess piece
  * 
  * @author Andrew Wroblicky
  *
  */
 public class Bishop extends ChessPiece {
 	
+	public Bishop() {
+		this.alive = true;
+		this.allegiance = Allegiance.BLACK;
+		this.chessID = 1;
+		this.chessBoard = new ChessBoard(new Location[8][8]);
+	}
 	
 	public Bishop(Allegiance allegiance, int chessID, ChessBoard chessBoard) {
 		this.alive = true;

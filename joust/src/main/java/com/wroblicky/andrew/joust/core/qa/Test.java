@@ -1,8 +1,9 @@
-package joust.core.qa;
+package com.wroblicky.andrew.joust.core.qa;
 
-import joust.core.general.Main;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+
+import com.wroblicky.andrew.joust.core.general.Main;
 
 
 public class Test {

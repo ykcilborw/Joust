@@ -2290,7 +2290,5 @@ public class ChessBoardMatcher {
 			toReturn = true;
 		}
 		return toReturn;
-	}
-	
-	
+	}	
 }

@@ -6,8 +6,20 @@ import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.general.Game;
 import com.wroblicky.andrew.joust.core.general.Location;
 
+/**
+ * Represents the king chess piece
+ * 
+ * @author Andrew Wroblicky
+ *
+ */
 public class King extends ChessPiece{
 	
+	public King() {
+		this.allegiance = allegiance.BLACK;
+		this.alive = true;
+		this.chessBoard = new ChessBoard();
+		this.chessID = 1;
+	}
 	
 	public King(Allegiance allegiance, int id, ChessBoard chessBoard) {
 		this.allegiance = allegiance;

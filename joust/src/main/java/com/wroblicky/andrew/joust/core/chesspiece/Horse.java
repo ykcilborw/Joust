@@ -6,9 +6,20 @@ import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.general.Game;
 import com.wroblicky.andrew.joust.core.general.Location;
 
-
+/**
+ * Represents the horse chess piece
+ * 
+ * @author Andrew Wroblicky
+ *
+ */
 public class Horse extends ChessPiece {
 	
+	public Horse() {
+		this.allegiance = Allegiance.BLACK;
+		this.alive = true;
+		this.chessID = 1;
+		this.chessBoard = new ChessBoard();
+	}
 	
 	public Horse(Allegiance allegiance, int chessID, ChessBoard chessBoard) {
 		this.allegiance = allegiance;
