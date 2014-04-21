@@ -84,6 +84,28 @@ public class Util {
 		return toReturn;
 	}
 	
+	public static int rankToNum(String rank) {
+		int toReturn = 0;
+		if (rank.equals("1")) {
+			toReturn = 1;
+		} else if (rank.equals("2")) {
+			toReturn = 2;
+		} else if (rank.equals("3")) {
+			toReturn = 3;
+		} else if (rank.equals("4")) {
+			toReturn = 4;
+		} else if (rank.equals("5")) {
+			toReturn = 5;
+		} else if (rank.equals("6")) {
+			toReturn = 6;
+		} else if (rank.equals("7")) {
+			toReturn = 7;
+		} else if (rank.equals("8")) {
+			toReturn = 8;
+		}
+		return toReturn;
+	}
+	
 	// called by Game when loading special config file
 	public static Location getLocation(String id, Location[][] board) {
 		int file = Util.fileToNum(id.substring(0, 1)) - 1;
