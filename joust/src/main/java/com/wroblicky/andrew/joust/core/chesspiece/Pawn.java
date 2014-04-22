@@ -148,7 +148,7 @@ public class Pawn extends ChessPiece {
 					int newX = mlX - 1;
 					int newY = mlY - 1;
 					if (newX < 8 && newX > -1 && newY > -1 && newY < 8) {
-						Location nLoc = g.getBoard()[newX][newY];
+						Location nLoc = chessBoard.getLocation(newX, newY);
 						ChessPiece c = g.getMyPositions().get(nLoc);
 						Pawn p = c.getMyType().equals("Pawn") ? (Pawn)c : null;
 						if (p != null) {
@@ -177,7 +177,7 @@ public class Pawn extends ChessPiece {
 					int newX = mrX - 1;
 					int newY = mrY - 1;
 					if (newX < 8 && newX > -1 && newY > -1 && newY < 8) {
-						Location nLoc = g.getBoard()[newX][newY];
+						Location nLoc = chessBoard.getLocation(newX, newY);
 						ChessPiece c = g.getMyPositions().get(nLoc);
 						Pawn p = c.getMyType().equals("Pawn") ? (Pawn)c : null;
 						if (p != null) {

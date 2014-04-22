@@ -43,22 +43,19 @@ public class Bishop extends ChessPiece {
 	}
 	
 	@Override
+	// generate all northwest directions, then northeast, then southwest, then southeast
 	public ArrayList<Location> getPossibleMoves(Game g){
-		// generate all northwest directions, then northeast, then southwest, then southeast
 		ArrayList<Location> possibles = new ArrayList<Location>();
 		int x = getLocation().getXCoordinate();
 		int y = getLocation().getYCoordinate();
-		//System.out.println("bishop initial loc: " + Location.convert(x, y));
 		int nextX = x;
 		int nextY = y;
 		boolean stillValid = true;
 		while (stillValid) {
 			nextX = nextX + 1;
 			nextY = nextY + 1;
-			//System.out.println("bishop poss loc: " + Location.convert(nextX, nextY));
 			Location l = new Location(nextX, nextY);
 			String result = checkAvailability(l);
-			//System.out.println("result: " + result);
 			if ((result.equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
 			} else if ((result.equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
@@ -91,10 +88,8 @@ public class Bishop extends ChessPiece {
 		while (stillValid) {
 			nextX = nextX - 1;
 			nextY = nextY + 1;
-			//System.out.println("bishop poss loc: " + Location.convert(nextX, nextY));
 			Location l = new Location(nextX, nextY);
 			String result = checkAvailability(l);
-			//System.out.println("result: " + result);
 			if ((result.equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
 				possibles.add(l);
 			} else if ((result.equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {

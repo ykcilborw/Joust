@@ -130,7 +130,7 @@ public class Location {
 		myY = y;
 	}
 	
-	public void setmyAlgebraicLocation(String al) {
+	public void setMyAlgebraicLocation(String al) {
 		myAlgebraicLocation = al;
 	}
 	
@@ -142,12 +142,10 @@ public class Location {
 		return toReturn;
 	}
 	
+	// use chess board getLocation instead
+	@Deprecated
 	public Location move(int up, int left, int down, int right) {
 		Location l = null;
-		int x = myX - left + right;
-		int y = myY + up - down;
-		//System.out.println("x: " + x);
-		//System.out.println("y: " + y);
 		if((myX - left + right >= 1 || myX - left + right <= 8 ) && (myY + up - down >= 1 || myY + up - down <= 8)) {
 			l = new Location(myX - left + right, myY + up - down);
 		}

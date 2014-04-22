@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.general.Game;
 import com.wroblicky.andrew.joust.core.general.Location;
+import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.general.move.Move;
 
 /**
@@ -35,6 +36,21 @@ public abstract class ChessPiece {
 		}
 	}
 	
+	public enum Occupier {
+		
+		FRIEND("friend"), ENEMY("enemy"), UNOCCUPIED("unoccupied");
+		
+		private String occupier;
+		
+		Occupier(String occupier) {
+			this.occupier = occupier;
+		}
+		
+		public String getOccupier() {
+			return occupier;
+		}
+	}
+	
 	public Location getLocation() {
 		return chessBoard.getLocationByChessPiece(this);
 	}
@@ -60,12 +76,11 @@ public abstract class ChessPiece {
 	/**
 	 * Returns the rank relative to whether or not the chess piece is
 	 * black or white.
-	 * 
 	 */
 	public String getRelativeRank() {
 		String rank = getRank();
 		if (allegiance == Allegiance.BLACK) {
-			int x = Integer.parseInt(rank);
+			int x = Util.rankToNum(rank);
 			int toReturn = 0;
 			if (x == 1) {
 				toReturn = 8;
@@ -81,15 +96,16 @@ public abstract class ChessPiece {
 				toReturn = 3;
 			} else if (x == 7) {
 				toReturn = 2;
-			} else if (x == 8) {
+			} else {
 				toReturn = 1;
 			}
-			return new Integer(toReturn).toString();
+			return "" + toReturn;
 		} else {
 			return rank;
 		}
 	}
 	
+	// in game play related methods
 	public boolean isAlive() {
 		return alive;
 	}
@@ -98,6 +114,7 @@ public abstract class ChessPiece {
 		this.alive = alive;
 	}
 	
+	// allegiance related methods
 	public Allegiance getAllegiance() {
 		return allegiance;
 	}
@@ -110,6 +127,7 @@ public abstract class ChessPiece {
 		return (allegiance == Allegiance.WHITE);
 	}
 	
+	// id related method
 	public int getID() {
 		return chessID;
 	}
@@ -186,8 +204,7 @@ public abstract class ChessPiece {
 	}
 	
 	/**
-	 * The method updates the board by
-	 * moving the chess piece to the new position.
+	 * Updates the board by moving the chess piece to the new position.
 	 */
 	public void move(Location newLocation) {
 		chessBoard.moveChessPiece(new Move(this, chessBoard.getLocationByChessPiece(this),
