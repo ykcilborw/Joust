@@ -1,7 +1,5 @@
 package com.wroblicky.andrew.joust.core.chesspiece;
 
-import static org.junit.Assert.*;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,7 +12,7 @@ public class ChessPieceTest {
 	@Test
 	public void testGetLocation() {
 		ChessBoard board = new ChessBoard();
-		Pawn pawn = new Pawn();
+		Pawn pawn = new Pawn(Allegiance.BLACK, 1, board);
 		board.addChessPiece(pawn, new Location("a5"));
 		Assert.assertEquals(pawn.getLocation().getAlgebraicLocation(), "a5");
 	}
@@ -22,17 +20,17 @@ public class ChessPieceTest {
 	@Test
 	public void testGetFile() {
 		ChessBoard board = new ChessBoard();
-		Pawn pawn = new Pawn();
-		board.addChessPiece(pawn, new Location("a5"));
-		Assert.assertEquals(pawn.getLocation().getFile(), "a");
+		Pawn pawn = new Pawn(Allegiance.BLACK, 1, board);
+		board.addChessPiece(pawn, board.getLocation("a5"));
+		Assert.assertEquals(pawn.getFile(), "a");
 	}
 
 	@Test
 	public void testGetRank() {
 		ChessBoard board = new ChessBoard();
-		Pawn pawn = new Pawn();
+		Pawn pawn = new Pawn(Allegiance.BLACK, 1, board);
 		board.addChessPiece(pawn, new Location("a5"));
-		Assert.assertEquals(pawn.getLocation().getRank(), "5");
+		Assert.assertEquals(pawn.getRank(), "5");
 	}
 
 	@Test
@@ -40,7 +38,7 @@ public class ChessPieceTest {
 		ChessBoard board = new ChessBoard();
 		Pawn pawn = new Pawn(Allegiance.BLACK, 1, board);
 		board.addChessPiece(pawn, new Location("a5"));
-		Assert.assertEquals(pawn.getLocation().getRank(), "4");
+		Assert.assertEquals(pawn.getRelativeRank(), "4");
 	}
 
 	@Test
@@ -77,12 +75,12 @@ public class ChessPieceTest {
 	public void testCheckAvailability() {
 		ChessBoard board = new ChessBoard();
 		Pawn pawn1 = new Pawn(Allegiance.WHITE, 1, board);
-		Pawn pawn2 = new Pawn(Allegiance.WHITE, 2, board);
+		Pawn pawn2 = new Pawn(Allegiance.BLACK, 2, board);
 		board.addChessPiece(pawn1, new Location("a5"));
 		board.addChessPiece(pawn2, new Location("a6"));
-		Assert.assertEquals(pawn1.checkAvailability(board.getLocation("a5")), false);
-		Assert.assertEquals(pawn1.checkAvailability(board.getLocation("a7")), true);
-		Assert.assertEquals(pawn2.checkAvailability(board.getLocation("a5")), false);
+		Assert.assertEquals(pawn1.checkAvailability(board.getLocation("a5")).equals("friend"), true);
+		Assert.assertEquals(pawn1.checkAvailability(board.getLocation("a7")).equals("unoccupied"), true);
+		Assert.assertEquals(pawn2.checkAvailability(board.getLocation("a5")).equals("enemy"), true);
 	}
 
 	@Test

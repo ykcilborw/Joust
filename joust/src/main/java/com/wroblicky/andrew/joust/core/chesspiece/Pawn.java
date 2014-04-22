@@ -35,6 +35,7 @@ public class Pawn extends ChessPiece {
 		this.alive = true;
 		this.chessID = id;
 		this.round = 0;
+		this.chessBoard = chessBoard;
 	}
 	
 	public boolean isMovedAtAll() {

@@ -71,7 +71,7 @@ public class ChessBoard {
 		int x = Util.fileToNum(algebraicLocation.substring(0, 1));
 		int y = Util.rankToNum(algebraicLocation.substring(1, 2));
 		if (onBoard(x, y)) {
-			return chessBoard[x][y];
+			return chessBoard[y - 1][x - 1];
 		} else {
 			return null;
 		}
@@ -184,6 +184,8 @@ public class ChessBoard {
 	private void addChessPieceToBoard(ChessPiece chessPiece, Location location) {
 		int x = location.getXCoordinate();
 		int y = location.getYCoordinate();
+		System.out.println("y: " + y);
+		System.out.println("x: " + x);
 		chessBoard[x][y].setChessPiece(chessPiece);
 	}
 	

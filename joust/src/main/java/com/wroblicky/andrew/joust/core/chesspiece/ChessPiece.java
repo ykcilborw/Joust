@@ -63,7 +63,7 @@ public abstract class ChessPiece {
 		if (location != null) {
 			return location.getFile();
 		} else {
-			return null;
+			return "";
 		}
 	}
 	
@@ -72,7 +72,7 @@ public abstract class ChessPiece {
 		if (location != null) {
 			return location.getRank();
 		} else {
-			return null;
+			return "";
 		}
 	}
 	
