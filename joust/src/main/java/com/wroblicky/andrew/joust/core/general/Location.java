@@ -184,13 +184,6 @@ public class Location {
 		this.myChessPiece = chessPiece;
 	}
 	
-	public static Location getBoardLocation(Game g, Location l) {
-		Location[][] board = g.getBoard();
-		int x = l.getXCoordinate();
-		int y = l.getYCoordinate();
-		return board[y-1][x-1];
-	}
-	
 	public String toString() {
 		return myAlgebraicLocation;
 	}

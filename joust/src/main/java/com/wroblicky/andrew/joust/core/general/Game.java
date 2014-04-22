@@ -26,14 +26,15 @@ public class Game {
 	private boolean checkOn;
 	private boolean checkMateOn;
 	
+	
 	public Game(int round, HashMap<Location, ChessPiece> occupied, ArrayList<ChessPiece> activePieces,
-			ArrayList<ChessPiece> blacks, ArrayList<ChessPiece> whites, Location[][] board) {
+			ArrayList<ChessPiece> blacks, ArrayList<ChessPiece> whites) {
 		myRound = round;
 		myPositions = occupied;
 		myActivePieces = activePieces;
 		myBlackActives = blacks;
 		myWhiteActives = whites;
-		chessBoard = new ChessBoard(board);
+		chessBoard = new ChessBoard();
 		castling4Black = true;
 		castling4White = true;
 		isInProgress = true;	
@@ -44,14 +45,14 @@ public class Game {
 	}
 	
 	public Game(int round, HashMap<Location, ChessPiece> occupied, ArrayList<ChessPiece> activePieces,
-			ArrayList<ChessPiece> blacks, ArrayList<ChessPiece> whites, Location[][] board, 
+			ArrayList<ChessPiece> blacks, ArrayList<ChessPiece> whites, 
 			boolean blackCastle, boolean whiteCastle) {
 		myRound = round;
 		myPositions = occupied;
 		myActivePieces = activePieces;
 		myBlackActives = blacks;
 		myWhiteActives = whites;
-		chessBoard = new ChessBoard(board);
+		chessBoard = new ChessBoard();
 		castling4Black = blackCastle;
 		castling4White = whiteCastle;
 		isInProgress = true;
@@ -84,6 +85,11 @@ public class Game {
 	@Deprecated
 	public Location[][] getBoard() {
 		return chessBoard.getBoard();
+	}
+	
+	public void update(ArrayList<String> moves) {
+		PGNMoveInterpreter pgnMoveInterpreter = new PGNMoveInterpreter();
+		pgnMoveInterpreter.update(moves);
 	}
 	
 	public void removePiece(ChessPiece piece) {
@@ -280,78 +286,7 @@ public class Game {
 		myRound = round;
 	}
 	
-	public void update(ArrayList<String> moves) {
-		capturer = null;
-		captured = null;
-		checkOn = false;
-		checkMateOn = false;
-		String currentMove = null;
-		if (myRound < moves.size()) {
-			currentMove = moves.get(myRound);
-		} else {
-			System.out.println("Game Over!");
-			System.exit(-1);
-		}
-		//System.out.println("curentMove: " + currentMove);
-		if (currentMove.length() == 2) {
-			// figure out which chess piece must've made the move
-			ChessPiece c = determineChessPiece(currentMove);
-			//System.out.println("c: " + c);
-			Location l = new Location(currentMove);
-			c.move(l);
-			myRound += 1;
-		} else if(currentMove.equals("O-O")){
-			handleKingSideCastle();
-		} else if (currentMove.equals("O-O-O")) {
-			handleQueenSideCastle();
-		} else if (currentMove.equals("1/2-1/2") || currentMove.equals("1-0") || currentMove.equals("0-1")) {
-			this.isInProgress = false;
-		} else if(currentMove.length() == 3){
-			// could be a pawn check
-			if (currentMove.substring(2, 3).equals("+") || currentMove.substring(2, 3).equals("#")) {
-				handleShortCheck(currentMove);
-			} else {
-				String piece = currentMove.substring(0, 1);
-				String move = currentMove.substring(1, 3);
-				Location l = new Location(move);
-				ChessPiece c = determineChessPiece(move, piece);
-				c.move(l);
-				myRound += 1;
-			}
-		} else if(currentMove.length() == 4){
-			// Determine whether capture or more specific move
-			//System.out.println("current move length 4");
-			if (currentMove.substring(1, 2).equals("x")) {
-				//System.out.println("handling capture");
-				handleCapture(currentMove);
-			} else if (currentMove.contains("+") || currentMove.contains("#")){
-				handleCheck(currentMove);
-				//System.out.println("current move 4 check!");
-			} else {
-				//System.out.println("current move 4 normal");
-				String piece = currentMove.substring(0, 1);
-				String file = currentMove.substring(1, 2);
-				String move = currentMove.substring(2, 4);
-				Location l = new Location(move);
-				ChessPiece c = determineFileChessPiece(file, piece, move);
-				c.move(l);
-				myRound += 1;
-			}
-			// TODO Implement pawn promotion
-		} else if (currentMove.length() == 5) {
-			if (currentMove.contains("x")) {
-				// could be capture with check/checkmate
-				handleLongCapture(currentMove);
-			} else {
-				if (currentMove.substring(4, 5).equals("+") || currentMove.substring(4, 5).equals("#")) {
-					handleFileWithCheck(currentMove);
-				}
-				// TODO
-				// could be generic move specifying moving piece, its file, its rank, and where went
-				// also could be pawn promotion with check/checkmate
-			}
-		}
-	}
+	
 	
 	private ChessPiece determineChessPiece(String move) {
 		ChessPiece icanReach = null;
@@ -797,6 +732,83 @@ public class Game {
 			}
 			System.out.println("");
 		}
+	}
+	
+	public class PGNMoveInterpreter {
+		
+		public void update(ArrayList<String> moves) {
+			capturer = null;
+			captured = null;
+			checkOn = false;
+			checkMateOn = false;
+			String currentMove = null;
+			if (myRound < moves.size()) {
+				currentMove = moves.get(myRound);
+			} else {
+				System.out.println("Game Over!");
+				System.exit(-1);
+			}
+			//System.out.println("curentMove: " + currentMove);
+			if (currentMove.length() == 2) {
+				// figure out which chess piece must've made the move
+				ChessPiece c = determineChessPiece(currentMove);
+				//System.out.println("c: " + c);
+				Location l = new Location(currentMove);
+				c.move(l);
+				myRound += 1;
+			} else if(currentMove.equals("O-O")){
+				handleKingSideCastle();
+			} else if (currentMove.equals("O-O-O")) {
+				handleQueenSideCastle();
+			} else if (currentMove.equals("1/2-1/2") || currentMove.equals("1-0") || currentMove.equals("0-1")) {
+				isInProgress = false;
+			} else if(currentMove.length() == 3){
+				// could be a pawn check
+				if (currentMove.substring(2, 3).equals("+") || currentMove.substring(2, 3).equals("#")) {
+					handleShortCheck(currentMove);
+				} else {
+					String piece = currentMove.substring(0, 1);
+					String move = currentMove.substring(1, 3);
+					Location l = new Location(move);
+					ChessPiece c = determineChessPiece(move, piece);
+					c.move(l);
+					myRound += 1;
+				}
+			} else if(currentMove.length() == 4){
+				// Determine whether capture or more specific move
+				//System.out.println("current move length 4");
+				if (currentMove.substring(1, 2).equals("x")) {
+					//System.out.println("handling capture");
+					handleCapture(currentMove);
+				} else if (currentMove.contains("+") || currentMove.contains("#")){
+					handleCheck(currentMove);
+					//System.out.println("current move 4 check!");
+				} else {
+					//System.out.println("current move 4 normal");
+					String piece = currentMove.substring(0, 1);
+					String file = currentMove.substring(1, 2);
+					String move = currentMove.substring(2, 4);
+					Location l = new Location(move);
+					ChessPiece c = determineFileChessPiece(file, piece, move);
+					c.move(l);
+					myRound += 1;
+				}
+				// TODO Implement pawn promotion
+			} else if (currentMove.length() == 5) {
+				if (currentMove.contains("x")) {
+					// could be capture with check/checkmate
+					handleLongCapture(currentMove);
+				} else {
+					if (currentMove.substring(4, 5).equals("+") || currentMove.substring(4, 5).equals("#")) {
+						handleFileWithCheck(currentMove);
+					}
+					// TODO
+					// could be generic move specifying moving piece, its file, its rank, and where went
+					// also could be pawn promotion with check/checkmate
+				}
+			}
+		}
+		
 	}
 	
 	/*

@@ -7,7 +7,6 @@ import javax.swing.SwingUtilities;
  
 public class SwingExample implements Runnable {
     
-	@Override
     public void run() {
         // Create the window
         JFrame f = new JFrame ("Hello, World!!");
