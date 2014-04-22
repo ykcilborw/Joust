@@ -23,7 +23,8 @@ public abstract class ChessPiece {
 	
 	public enum Allegiance {
 		
-		BLACK("black"), WHITE("white");
+		BLACK("black"), 
+		WHITE("white");
 		
 		private String allegiance;
 		
@@ -38,7 +39,9 @@ public abstract class ChessPiece {
 	
 	public enum Occupier {
 		
-		FRIEND("friend"), ENEMY("enemy"), UNOCCUPIED("unoccupied");
+		FRIEND("friend"),
+		ENEMY("enemy"), 
+		UNOCCUPIED("unoccupied");
 		
 		private String occupier;
 		
