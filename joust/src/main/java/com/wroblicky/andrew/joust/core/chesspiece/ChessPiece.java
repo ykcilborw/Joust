@@ -180,19 +180,13 @@ public abstract class ChessPiece {
 	public abstract boolean canDefend(Game g, Location l);
 	
 	//need to reimplement getdefensemoves and getpossible moves so not needlessly rechecking bounds
-	public String checkAvailability(Location l) {
+	public String checkAvailability(Location location) {
 		String toReturn = "";
-		//System.out.println("lx: " + (l.getXCoordinate() - 1));
-		//System.out.println("ly: " + (l.getYCoordinate() - 1));
-		int nextX = l.getXCoordinate() - 1;
-		int nextY = l.getYCoordinate() - 1;
-		if (nextX < 8 && nextX > -1 && nextY > -1 && nextY < 8) {
-			//System.out.println("chess piece is in right range");
-			Location newL = chessBoard.getBoard()[nextY][nextX];
-			//System.out.println("newLx: " + newL.getXCoordinate());
-			//System.out.println("newLy: " + newL.getYCoordinate());
+		int x = location.getXCoordinate();
+		int y = location.getYCoordinate();
+		if (chessBoard.onBoard(x, y)) {
+			Location newL = chessBoard.getLocation(x, y);
 			ChessPiece c = chessBoard.getChessPieceByLocation(newL);
-			//System.out.println("c: " + c);
 			if (c == null) {
 				toReturn = "unoccupied";
 			} else if (c.getAllegiance() == this.getAllegiance()) {
@@ -201,7 +195,7 @@ public abstract class ChessPiece {
 				toReturn = "enemy";
 			}
 		} else {
-			toReturn = "unoccupied";
+			toReturn = "unoccupied"; 
 		}
 		return toReturn;
 	}

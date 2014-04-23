@@ -39,35 +39,27 @@ public class Location {
 	}
 	
 	public Location(String s) {
-		//System.out.println("s: " + s);
 		myAlgebraicLocation = s;
-		String x = s.substring(0, 1);
-		myFile = x;
-		String y = s.substring(1, 2);
-		myRank = y;
-		//System.out.println("y: " + y);
-		int y2 = Integer.parseInt(y);
-		if (x.equals("a")) {
+		myFile = s.substring(0, 1);
+		myRank = s.substring(1, 2);
+		myY = Integer.parseInt(myRank) - 1;
+		if (myFile.equals("a")) {
+			myX = 0;
+		} else if (myFile.equals("b")) {
 			myX = 1;
-		} else if (x.equals("b")) {
+		} else if (myFile.equals("c")) {
 			myX = 2;
-		} else if (x.equals("c")) {
+		} else if (myFile.equals("d")) {
 			myX = 3;
-		} else if (x.equals("d")) {
+		} else if (myFile.equals("e")) {
 			myX = 4;
-		} else if (x.equals("e")) {
+		} else if (myFile.equals("f")) {
 			myX = 5;
-		} else if (x.equals("f")) {
+		} else if (myFile.equals("g")) {
 			myX = 6;
-		} else if (x.equals("g")) {
+		} else if (myFile.equals("h")) {
 			myX = 7;
-		} else if (x.equals("h")) {
-			myX = 8;
 		}
-		//System.out.println("location constructor x: " + x);
-		//System.out.println("location constructor myX: " + myX);
-		myY = y2;
-		
 	}
 	
 	public Location (String algebraicLocation, ChessPiece chessPiece) {
