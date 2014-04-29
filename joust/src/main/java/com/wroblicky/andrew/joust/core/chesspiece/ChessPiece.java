@@ -156,28 +156,28 @@ public abstract class ChessPiece {
 	 * can move to
 	 * 
 	 */
-	public abstract ArrayList<Location> getPossibleMoves(Game g);
+	public abstract ArrayList<Location> getPossibleMoves();
 
 	/**
 	 * Returns a list of the possible positions, the current chess piece
 	 * can defend.
 	 * 
 	 */
-	public abstract ArrayList<Location> getDefenseMoves(Game g);
+	public abstract ArrayList<Location> getDefenseMoves();
 	
 	/**
 	 * Returns whether or not the chess piece can reach a particular location
 	 * given a particular game.
 	 * 
 	 */
-	public abstract boolean canReach(Game g, Location l);
+	public abstract boolean canReach(Location l);
 	
 	/**
 	 * Returns whether or not the chess piece can defend a unit on a particular location
 	 * given a particular game.
 	 * 
 	 */
-	public abstract boolean canDefend(Game g, Location l);
+	public abstract boolean canDefend(Location l);
 	
 	//need to reimplement getdefensemoves and getpossible moves so not needlessly rechecking bounds
 	public String checkAvailability(Location location) {

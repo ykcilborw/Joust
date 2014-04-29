@@ -3,8 +3,6 @@ package com.wroblicky.andrew.joust.core.chesspiece;
 import java.util.ArrayList;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
-import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Allegiance;
-import com.wroblicky.andrew.joust.core.general.Game;
 import com.wroblicky.andrew.joust.core.general.Location;
 
 /**
@@ -45,7 +43,7 @@ public class Castle extends ChessPiece {
 	
 	//TODO add support for castling
 	@Override
-	public ArrayList<Location> getPossibleMoves(Game g){
+	public ArrayList<Location> getPossibleMoves(){
 		ArrayList<Location> possibles = new ArrayList<Location>();
 		int x = getLocation().getXCoordinate();
 		int y = getLocation().getYCoordinate();
@@ -117,7 +115,7 @@ public class Castle extends ChessPiece {
 	}
 	
 	@Override
-	public ArrayList<Location> getDefenseMoves(Game g){
+	public ArrayList<Location> getDefenseMoves(){
 		ArrayList<Location> possibles = new ArrayList<Location>();
 		int x = getLocation().getXCoordinate();
 		int y = getLocation().getYCoordinate();
@@ -185,8 +183,8 @@ public class Castle extends ChessPiece {
 	}
 	
 	@Override
-	public boolean canReach(Game g, Location l) {
-		ArrayList<Location> possibles = this.getPossibleMoves(g);
+	public boolean canReach(Location l) {
+		ArrayList<Location> possibles = this.getPossibleMoves();
 		boolean toReturn = false;
 		for (int i = 0; i < possibles.size(); i++) {
 			if (possibles.get(i).equals(l)) {
@@ -197,8 +195,8 @@ public class Castle extends ChessPiece {
 	}
 	
 	@Override
-	public boolean canDefend(Game g, Location l) {
-		ArrayList<Location> possibles = this.getDefenseMoves(g);
+	public boolean canDefend(Location l) {
+		ArrayList<Location> possibles = this.getDefenseMoves();
 		boolean toReturn = false;
 		for (int i = 0; i < possibles.size(); i++) {
 			if (possibles.get(i).equals(l)) {

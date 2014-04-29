@@ -16,7 +16,6 @@ public class Pawn extends ChessPiece {
 	
 	private boolean hasMovedAtAll;
 	private boolean movedTwice;
-	private int round;
 	
 	public Pawn() {
 		this.allegiance = Allegiance.BLACK;
@@ -24,7 +23,6 @@ public class Pawn extends ChessPiece {
 		this.movedTwice = false;
 		this.alive = true;
 		this.chessID = 1;
-		this.round = 0;
 		this.chessBoard = new ChessBoard();
 	}
 	
@@ -34,7 +32,6 @@ public class Pawn extends ChessPiece {
 		this.movedTwice = false;
 		this.alive = true;
 		this.chessID = id;
-		this.round = 0;
 		this.chessBoard = chessBoard;
 	}
 	
@@ -44,10 +41,6 @@ public class Pawn extends ChessPiece {
 	
 	public boolean isMovedTwice() {
 		return movedTwice;
-	}
-	
-	public int getRound() {
-		return round;
 	}
 	
 	public String getMyType() {
@@ -70,10 +63,6 @@ public class Pawn extends ChessPiece {
 		this.movedTwice = movedTwice;
 	}
 	
-	public void setRound(int r) {
-		round = r;
-	}
-	
 	// TODO
 	// add checks to see if can take piece diagonally and if it can move 2 spaces up
 	/*
@@ -84,14 +73,13 @@ public class Pawn extends ChessPiece {
 	 * Player 2: moves p4 or p6 down by 2
 	 * Player 1: can legally take that piece by moving diagonally
 	 */
-
-	public ArrayList<Location> getPossibleMoves(Game g) {
+	@Override
+	public ArrayList<Location> getPossibleMoves() {
 		ArrayList<Location> possibles = new ArrayList<Location>();
 		//System.out.println("pawn possMoves myloc: " + getLocation());
 		Location l = null;
 		Location moveUpLeft = null;
 		Location moveUpRight = null;
-		int myRound = g.getmyRound();
 		
 		if(!isBlack()) {
 			l = getLocation().move(1, 0, 0, 0);
@@ -150,10 +138,10 @@ public class Pawn extends ChessPiece {
 					int newY = mlY - 1;
 					if (newX < 8 && newX > -1 && newY > -1 && newY < 8) {
 						Location nLoc = chessBoard.getLocation(newX, newY);
-						ChessPiece c = g.getMyPositions().get(nLoc);
+						ChessPiece c = chessBoard.getChessPieceByLocation(nLoc);
 						Pawn p = c.getMyType().equals("Pawn") ? (Pawn)c : null;
 						if (p != null) {
-							if(p.isMovedTwice() && (p.getRound() == (myRound - 1))) {
+							if(p.isMovedTwice()) {
 								possibles.add(moveUpLeft);
 							}
 						}
@@ -179,10 +167,10 @@ public class Pawn extends ChessPiece {
 					int newY = mrY - 1;
 					if (newX < 8 && newX > -1 && newY > -1 && newY < 8) {
 						Location nLoc = chessBoard.getLocation(newX, newY);
-						ChessPiece c = g.getMyPositions().get(nLoc);
+						ChessPiece c = chessBoard.getChessPieceByLocation(nLoc);
 						Pawn p = c.getMyType().equals("Pawn") ? (Pawn)c : null;
 						if (p != null) {
-							if(p.isMovedTwice() && (p.getRound() == (myRound - 1))) {
+							if(p.isMovedTwice()) {
 								possibles.add(moveUpRight);
 							}
 						}
@@ -194,7 +182,8 @@ public class Pawn extends ChessPiece {
 		return possibles;
 	}
 	
-	public ArrayList<Location> getDefenseMoves(Game g) {
+	@Override
+	public ArrayList<Location> getDefenseMoves() {
 		ArrayList<Location> possibles = new ArrayList<Location>();
 		Location l = getLocation().move(1, 0, 0, 0);
 		int x = l.getXCoordinate();
@@ -207,9 +196,9 @@ public class Pawn extends ChessPiece {
 	
 	//TODO
 	// add support for becoming a queen 
-	
-	public boolean canReach(Game g, Location l) {
-		ArrayList<Location> possibles = this.getPossibleMoves(g);
+	@Override
+	public boolean canReach(Location l) {
+		ArrayList<Location> possibles = this.getPossibleMoves();
 		boolean toReturn = false;
 		for (int i = 0; i < possibles.size(); i++) {
 			Location temp = possibles.get(i);
@@ -221,8 +210,9 @@ public class Pawn extends ChessPiece {
 		return toReturn;
 	}
 	
-	public boolean canDefend(Game g, Location l) {
-		ArrayList<Location> possibles = this.getDefenseMoves(g);
+	@Override
+	public boolean canDefend(Location l) {
+		ArrayList<Location> possibles = this.getDefenseMoves();
 		boolean toReturn = false;
 		for (int i = 0; i < possibles.size(); i++) {
 			if (possibles.get(i).equals(l)) {

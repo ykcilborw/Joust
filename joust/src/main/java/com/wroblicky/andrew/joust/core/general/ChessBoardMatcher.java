@@ -658,7 +658,7 @@ public class ChessBoardMatcher {
 					//System.out.println("canAttack candidate: " + candidates.get(i));
 					// Get all of i's possible locations
 					// see if any match j's location
-					ArrayList<Location> possibles = candidates.get(i).getPossibleMoves(myGame);
+					ArrayList<Location> possibles = candidates.get(i).getPossibleMoves();
 					String enemySpot = candidates2.get(j).getLocation().getAlgebraicLocation();
 					for (int k = 0; k < possibles.size(); k++) {
 						if (enemySpot.equals(possibles.get(k).getAlgebraicLocation())) {
@@ -725,7 +725,7 @@ public class ChessBoardMatcher {
 			for (int j = 0; j < candidates2.size(); j++) {
 				// Get all of i's possible locations
 				// see if any match j's location
-				ArrayList<Location> possibles = candidates.get(i).getPossibleMoves(myGame);
+				ArrayList<Location> possibles = candidates.get(i).getPossibleMoves();
 				String enemySpot = candidates2.get(j).getLocation().getAlgebraicLocation();
 				for (int k = 0; k < possibles.size(); k++) {
 					if (enemySpot.equals(possibles.get(k).getAlgebraicLocation())) {
@@ -762,7 +762,7 @@ public class ChessBoardMatcher {
 					for (int j = 0; j < myGame.getBlackPieces().size(); j++) {
 						Location mySpot = candidates.get(i).getLocation();
 						//System.out.println("first: " + myGame.getBlackPieces().get(j).getmySymbol());
-						if (myGame.getBlackPieces().get(j).canDefend(myGame, mySpot)) {
+						if (myGame.getBlackPieces().get(j).canDefend(mySpot)) {
 							toReturn = true;
 							break;
 						}
@@ -771,7 +771,7 @@ public class ChessBoardMatcher {
 					for (int j = 0; j < myGame.getWhitePieces().size(); j++) {
 						Location mySpot = candidates.get(i).getLocation();
 						//System.out.println("first: " + myGame.getWhitePieces().get(j).getmySymbol());
-						if (myGame.getWhitePieces().get(j).canDefend(myGame, mySpot)) {
+						if (myGame.getWhitePieces().get(j).canDefend(mySpot)) {
 							toReturn = true;
 							break;
 						}
@@ -800,7 +800,7 @@ public class ChessBoardMatcher {
 				for (int j = 0; j < myGame.getBlackPieces().size(); j++) {
 					Location mySpot = candidates.get(i).getLocation();
 					//System.out.println("first: " + myGame.getBlackPieces().get(j).getmySymbol());
-					if (myGame.getBlackPieces().get(j).canDefend(myGame, mySpot)) {
+					if (myGame.getBlackPieces().get(j).canDefend(mySpot)) {
 						toReturn = true;
 						newCandidates.add(candidates.get(i));
 					}
@@ -809,7 +809,7 @@ public class ChessBoardMatcher {
 				for (int j = 0; j < myGame.getWhitePieces().size(); j++) {
 					Location mySpot = candidates.get(i).getLocation();
 					//System.out.println("first: " + myGame.getWhitePieces().get(j).getmySymbol());
-					if (myGame.getWhitePieces().get(j).canDefend(myGame, mySpot)) {
+					if (myGame.getWhitePieces().get(j).canDefend(mySpot)) {
 						toReturn = true;
 						newCandidates.add(candidates.get(i));
 					}

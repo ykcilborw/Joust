@@ -444,7 +444,7 @@ public class Game {
 				ArrayList<ChessPiece> suspects = stringtoCP.get("P");
 				for (int i = 0; i < suspects.size(); i++) {
 					ChessPiece current = suspects.get(i);
-					if (current.canReach(Game.this, l)) {
+					if (current.canReach(l)) {
 						icanReach = current;
 						break;
 					}
@@ -461,7 +461,7 @@ public class Game {
 				for (int i = 0; i < suspects.size(); i++) {
 					ChessPiece current = suspects.get(i);
 					//System.out.println("dCP1 black cand loc: " + current.getLocation());
-					if (current.canReach(Game.this, l)) {
+					if (current.canReach(l)) {
 						icanReach = current;
 						break;
 					}
@@ -487,7 +487,7 @@ public class Game {
 				for (int i = 0; i < suspects.size(); i++) {
 					//System.out.println("suspects: " + suspects.get(i).getmySymbol());
 					ChessPiece current = suspects.get(i);
-					if (current.canReach(Game.this, l)) {
+					if (current.canReach(l)) {
 						icanReach = current;
 						//System.out.println("dcp white current: " + current.getLocation());
 						break;
@@ -505,7 +505,7 @@ public class Game {
 				ArrayList<ChessPiece> suspects = stringtoCP.get(lower);
 				for (int i = 0; i < suspects.size(); i++) {
 					ChessPiece current = suspects.get(i);
-					if (current.canReach(Game.this, l)) {
+					if (current.canReach(l)) {
 						icanReach = current;
 						break;
 					}
@@ -537,7 +537,7 @@ public class Game {
 					ArrayList<ChessPiece> suspects = stringtoCP.get(piece);
 					for (int i = 0; i < suspects.size(); i++) {
 						ChessPiece current = suspects.get(i);
-						if (current.getFile().equals(file) && current.canReach(Game.this, l)) {
+						if (current.getFile().equals(file) && current.canReach(l)) {
 							icanReach = current;
 							break;
 						}
@@ -554,7 +554,7 @@ public class Game {
 					ArrayList<ChessPiece> suspects = stringtoCP.get(lower);
 					for (int i = 0; i < suspects.size(); i++) {
 						ChessPiece current = suspects.get(i);
-						if (current.getFile().equals(file) && current.canReach(Game.this, l)) {
+						if (current.getFile().equals(file) && current.canReach(l)) {
 							icanReach = current;
 							break;
 						}
@@ -586,7 +586,7 @@ public class Game {
 					ChessPiece current = suspects.get(i);
 					//System.out.println("current rank: " + current.getRank());
 					//System.out.println("current canReach: " + current.canReach(this, l));
-					if (current.getRank().equals(rank) && current.canReach(Game.this, l)) {
+					if (current.getRank().equals(rank) && current.canReach(l)) {
 						icanReach = current;
 						break;
 					}
@@ -603,7 +603,7 @@ public class Game {
 				ArrayList<ChessPiece> suspects = stringtoCP.get(lower);
 				for (int i = 0; i < suspects.size(); i++) {
 					ChessPiece current = suspects.get(i);
-					if (current.getRank().equals(rank) && current.canReach(Game.this, l)) {
+					if (current.getRank().equals(rank) && current.canReach(l)) {
 						icanReach = current;
 						break;
 					}
