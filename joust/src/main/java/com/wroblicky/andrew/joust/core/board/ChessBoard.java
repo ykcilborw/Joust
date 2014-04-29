@@ -196,8 +196,6 @@ public class ChessBoard {
 	private void addChessPieceToBoard(ChessPiece chessPiece, Location location) {
 		int x = location.getXCoordinate();
 		int y = location.getYCoordinate();
-		System.out.println("y: " + y);
-		System.out.println("x: " + x);
 		chessBoard[x][y].setChessPiece(chessPiece);
 	}
 	

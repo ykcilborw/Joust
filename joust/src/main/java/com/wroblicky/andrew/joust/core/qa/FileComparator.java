@@ -1,15 +1,16 @@
 package com.wroblicky.andrew.joust.core.qa;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
-/*
+/**
  * Takes in two files and returns whether or not they are the same.
+ *
  * Author: Andrew Wroblicky
  */
-
 public class FileComparator {
 	
-	public boolean compareFiles(String file1, String file2) {
+	public static boolean compareFiles(String file1, String file2) {
 		boolean toReturn = true;
 		String next1 = "";
 		String next2 = "";

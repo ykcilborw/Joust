@@ -66,9 +66,4 @@ public class ChessBoardTest {
 		board.removeChessPiece(pawn, location);
 		Assert.assertEquals(board.getChessPieceByLocation(location), null);
 	}
-
-	@Test
-	public void testGetBoard() {
-		// to be removed as a method
-	}
 }
