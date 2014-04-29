@@ -191,29 +191,4 @@ public class Bishop extends ChessPiece {
 		}
 		return possibles;
 	}
-	
-	@Override
-	public boolean canReach(Location l) {
-		List<Location> possibles = getPossibleMoves();
-		boolean toReturn = false;
-		for (int i = 0; i < possibles.size(); i++) {
-			Location temp = possibles.get(i);
-			if (temp.equals(l)) {
-				toReturn = true;
-			}
-		}
-		return toReturn;
-	}
-	
-	@Override
-	public boolean canDefend(Location l) {
-		List<Location> possibles = getDefenseMoves();
-		boolean toReturn = false;
-		for (int i = 0; i < possibles.size(); i++) {
-			if (possibles.get(i).equals(l)) {
-				toReturn = true;
-			}
-		}
-		return toReturn;
-	}
 }

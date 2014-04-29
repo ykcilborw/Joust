@@ -1,10 +1,8 @@
 package com.wroblicky.andrew.joust.core.chesspiece;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
-import com.wroblicky.andrew.joust.core.general.Game;
 import com.wroblicky.andrew.joust.core.general.Location;
 import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.general.move.Move;
@@ -171,16 +169,34 @@ public abstract class ChessPiece {
 	 * given a particular game.
 	 * 
 	 */
-	public abstract boolean canReach(Location l);
+	public boolean canReach(Location location) {
+		List<Location> possibilities = getPossibleMoves();
+		for (Location possibility : possibilities) {
+			if (possibility.equals(location)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	/**
 	 * Returns whether or not the chess piece can defend a unit on a particular location
 	 * given a particular game.
 	 * 
 	 */
-	public abstract boolean canDefend(Location l);
+	public boolean canDefend(Location location) {
+		List<Location> possibilities = getDefenseMoves();
+		for (Location possibility : possibilities) {
+			if (possibility.equals(location)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
-	//need to reimplement getdefensemoves and getpossible moves so not needlessly rechecking bounds
+	/**
+	 * Determines the relationship of the chess piece to a particular location
+	 */
 	public String checkAvailability(Location location) {
 		String toReturn = "";
 		int x = location.getXCoordinate();

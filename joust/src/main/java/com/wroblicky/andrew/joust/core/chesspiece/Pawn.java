@@ -74,6 +74,8 @@ public class Pawn extends ChessPiece {
 	 * Player 2: moves p4 or p6 down by 2
 	 * Player 1: can legally take that piece by moving diagonally
 	 */
+	//TODO
+	// add support for becoming a queen 
 	@Override
 	public List<Location> getPossibleMoves() {
 		ArrayList<Location> possibles = new ArrayList<Location>();
@@ -193,32 +195,5 @@ public class Pawn extends ChessPiece {
 			possibles.add(l);
 		}
 		return possibles;
-	}
-	
-	//TODO
-	// add support for becoming a queen 
-	@Override
-	public boolean canReach(Location l) {
-		List<Location> possibles = this.getPossibleMoves();
-		boolean toReturn = false;
-		for (int i = 0; i < possibles.size(); i++) {
-			Location temp = possibles.get(i);
-			if (temp.equals(l)) {
-				toReturn = true;
-			}
-		}
-		return toReturn;
-	}
-	
-	@Override
-	public boolean canDefend(Location l) {
-		List<Location> possibles = this.getDefenseMoves();
-		boolean toReturn = false;
-		for (int i = 0; i < possibles.size(); i++) {
-			if (possibles.get(i).equals(l)) {
-				toReturn = true;
-			}
-		}
-		return toReturn;
 	}
 }
