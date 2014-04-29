@@ -1,6 +1,7 @@
 package com.wroblicky.andrew.joust.core.chesspiece;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.general.Game;
@@ -156,14 +157,14 @@ public abstract class ChessPiece {
 	 * can move to
 	 * 
 	 */
-	public abstract ArrayList<Location> getPossibleMoves();
+	public abstract List<Location> getPossibleMoves();
 
 	/**
 	 * Returns a list of the possible positions, the current chess piece
 	 * can defend.
 	 * 
 	 */
-	public abstract ArrayList<Location> getDefenseMoves();
+	public abstract List<Location> getDefenseMoves();
 	
 	/**
 	 * Returns whether or not the chess piece can reach a particular location

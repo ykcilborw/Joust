@@ -2,6 +2,7 @@ package com.wroblicky.andrew.joust.core.general;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.general.game.GameSetup;
@@ -658,7 +659,7 @@ public class ChessBoardMatcher {
 					//System.out.println("canAttack candidate: " + candidates.get(i));
 					// Get all of i's possible locations
 					// see if any match j's location
-					ArrayList<Location> possibles = candidates.get(i).getPossibleMoves();
+					List<Location> possibles = candidates.get(i).getPossibleMoves();
 					String enemySpot = candidates2.get(j).getLocation().getAlgebraicLocation();
 					for (int k = 0; k < possibles.size(); k++) {
 						if (enemySpot.equals(possibles.get(k).getAlgebraicLocation())) {
@@ -725,7 +726,7 @@ public class ChessBoardMatcher {
 			for (int j = 0; j < candidates2.size(); j++) {
 				// Get all of i's possible locations
 				// see if any match j's location
-				ArrayList<Location> possibles = candidates.get(i).getPossibleMoves();
+				List<Location> possibles = candidates.get(i).getPossibleMoves();
 				String enemySpot = candidates2.get(j).getLocation().getAlgebraicLocation();
 				for (int k = 0; k < possibles.size(); k++) {
 					if (enemySpot.equals(possibles.get(k).getAlgebraicLocation())) {

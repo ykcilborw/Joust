@@ -1,6 +1,7 @@
 package com.wroblicky.andrew.joust.core.chesspiece;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.general.Location;
@@ -43,7 +44,7 @@ public class Bishop extends ChessPiece {
 	
 	@Override
 	// generate all northwest directions, then northeast, then southwest, then southeast
-	public ArrayList<Location> getPossibleMoves(){
+	public List<Location> getPossibleMoves(){
 		ArrayList<Location> possibles = new ArrayList<Location>();
 		int x = getLocation().getXCoordinate();
 		int y = getLocation().getYCoordinate();
@@ -119,7 +120,7 @@ public class Bishop extends ChessPiece {
 	}
 	
 	@Override
-	public ArrayList<Location> getDefenseMoves(){
+	public List<Location> getDefenseMoves(){
 		// generate all northwest directions, then northeast, then southwest, then southeast
 		ArrayList<Location> possibles = new ArrayList<Location>();
 		int x = getLocation().getXCoordinate();
@@ -193,12 +194,10 @@ public class Bishop extends ChessPiece {
 	
 	@Override
 	public boolean canReach(Location l) {
-		ArrayList<Location> possibles = this.getPossibleMoves();
-		//System.out.println("bishop canReach size: " + possibles.size());
+		List<Location> possibles = getPossibleMoves();
 		boolean toReturn = false;
 		for (int i = 0; i < possibles.size(); i++) {
 			Location temp = possibles.get(i);
-			//System.out.println("bishop canReach move: " + temp);
 			if (temp.equals(l)) {
 				toReturn = true;
 			}
@@ -208,7 +207,7 @@ public class Bishop extends ChessPiece {
 	
 	@Override
 	public boolean canDefend(Location l) {
-		ArrayList<Location> possibles = this.getDefenseMoves();
+		List<Location> possibles = getDefenseMoves();
 		boolean toReturn = false;
 		for (int i = 0; i < possibles.size(); i++) {
 			if (possibles.get(i).equals(l)) {

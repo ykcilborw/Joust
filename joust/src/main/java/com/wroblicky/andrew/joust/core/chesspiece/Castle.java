@@ -1,6 +1,7 @@
 package com.wroblicky.andrew.joust.core.chesspiece;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.general.Location;
@@ -43,7 +44,7 @@ public class Castle extends ChessPiece {
 	
 	//TODO add support for castling
 	@Override
-	public ArrayList<Location> getPossibleMoves(){
+	public List<Location> getPossibleMoves(){
 		ArrayList<Location> possibles = new ArrayList<Location>();
 		int x = getLocation().getXCoordinate();
 		int y = getLocation().getYCoordinate();
@@ -115,7 +116,7 @@ public class Castle extends ChessPiece {
 	}
 	
 	@Override
-	public ArrayList<Location> getDefenseMoves(){
+	public List<Location> getDefenseMoves(){
 		ArrayList<Location> possibles = new ArrayList<Location>();
 		int x = getLocation().getXCoordinate();
 		int y = getLocation().getYCoordinate();
@@ -184,7 +185,7 @@ public class Castle extends ChessPiece {
 	
 	@Override
 	public boolean canReach(Location l) {
-		ArrayList<Location> possibles = this.getPossibleMoves();
+		List<Location> possibles = getPossibleMoves();
 		boolean toReturn = false;
 		for (int i = 0; i < possibles.size(); i++) {
 			if (possibles.get(i).equals(l)) {
@@ -196,7 +197,7 @@ public class Castle extends ChessPiece {
 	
 	@Override
 	public boolean canDefend(Location l) {
-		ArrayList<Location> possibles = this.getDefenseMoves();
+		List<Location> possibles = getDefenseMoves();
 		boolean toReturn = false;
 		for (int i = 0; i < possibles.size(); i++) {
 			if (possibles.get(i).equals(l)) {

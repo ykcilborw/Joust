@@ -1,6 +1,7 @@
 package com.wroblicky.andrew.joust.core.chesspiece;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.general.Location;
@@ -40,31 +41,34 @@ public class King extends ChessPiece{
 	}
 	
 	@Override
-	public ArrayList<Location> getPossibleMoves(){
-		ArrayList<Location> possibles = new ArrayList<Location>();
-		possibles.add(getLocation().move(1, 0, 0, 0)); // up
-		possibles.add(getLocation().move(0, 1, 0, 0)); // left
-		possibles.add(getLocation().move(0, 0, 1, 0));  // down
-		possibles.add(getLocation().move(0, 0, 0, 1));  // right
-		possibles.add(getLocation().move(1, 1, 0, 0)); // up left  
-		possibles.add(getLocation().move(1, 0, 0, 1));  // up right
-		possibles.add(getLocation().move(0, 1, 1, 0));  // down left
-		possibles.add(getLocation().move(0, 0, 1, 1));  // down right
-		ArrayList<Location> possibles2 = new ArrayList<Location>();
-		for (int i = 0; i < possibles.size(); i++) {
-			Location l = possibles.get(i);
-			int x = l.getXCoordinate();
-			int y = l.getYCoordinate();
-			if ((checkAvailability(l).equals("unoccupied") || checkAvailability(l).equals("enemy")) && x < 9 && x > 0 && y < 9 && y > 0) {
-				possibles2.add(l);
+	public List<Location> getPossibleMoves(){
+		List<Location> possibles = new ArrayList<Location>();
+		Location initialLocation = getLocation();
+		
+		// get set of possibilities
+		possibles.add(chessBoard.getNorthNeighbor(initialLocation)); // up
+		possibles.add(chessBoard.getWestNeighbor(initialLocation)); // left
+		possibles.add(chessBoard.getSouthNeighbor(initialLocation));  // down
+		possibles.add(chessBoard.getEastNeighbor(initialLocation));  // right
+		possibles.add(chessBoard.getNorthWestNeighbor(initialLocation)); // up left  
+		possibles.add(chessBoard.getNorthEastNeighbor(initialLocation));  // up right
+		possibles.add(chessBoard.getSouthWestNeighbor(initialLocation));  // down left
+		possibles.add(chessBoard.getSouthEastNeighbor(initialLocation));  // down right
+		
+		// remove locations that are not valid
+		for (Location location : possibles) {
+			int x = location.getXCoordinate();
+			int y = location.getYCoordinate();
+			if (!((checkAvailability(location).equals("unoccupied") ||
+					checkAvailability(location).equals("enemy")) && chessBoard.onBoard(x, y))) {
+				possibles.remove(location);
 			}
 		}
-		
-		return possibles2;
+		return possibles;
 	}
 	
 	@Override
-	public ArrayList<Location> getDefenseMoves(){
+	public List<Location> getDefenseMoves(){
 		ArrayList<Location> possibles = new ArrayList<Location>();
 		possibles.add(getLocation().move(1, 0, 0, 0));
 		possibles.add(getLocation().move(0, 1, 0, 0));
@@ -85,32 +89,20 @@ public class King extends ChessPiece{
 	
 	@Override
 	public boolean canReach(Location l) {
-		ArrayList<Location> possibles = this.getPossibleMoves();
+		List<Location> possibles = getPossibleMoves();
 		boolean toReturn = false;
 		for (int i = 0; i < possibles.size(); i++) {
 			Location temp = possibles.get(i);
-			System.out.println("king canReach move: " + temp);
 			if (temp.equals(l)) {
 				toReturn = true;
 			}
 		}
 		return toReturn;
-		/*
-		int x = l.getXCoordinate();
-		int y = l.getYCoordinate();
-		int x2 = getLocation().getXCoordinate();
-		int y2 = getLocation().getYCoordinate();
-		boolean toReturn = false;
-		if ((x - x2 == 1 && y - y2 == 0) || (x - x2 == -1 && y - y2 == 0) || (x - x2 == 0 && y - y2 == 1) || (x - x2 == 0 && y - y2 == -1)) {
-			toReturn = true;
-		}
-		return toReturn;
-		*/
 	}
 	
 	@Override
 	public boolean canDefend(Location l) {
-		ArrayList<Location> possibles = this.getDefenseMoves();
+		List<Location> possibles = getDefenseMoves();
 		boolean toReturn = false;
 		for (int i = 0; i < possibles.size(); i++) {
 			if (possibles.get(i).equals(l)) {

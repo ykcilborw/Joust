@@ -1,6 +1,7 @@
 package com.wroblicky.andrew.joust.core.chesspiece;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.general.Location;
@@ -40,7 +41,7 @@ public class Horse extends ChessPiece {
 	}
 	
 	@Override
-	public ArrayList<Location> getPossibleMoves(){
+	public List<Location> getPossibleMoves(){
 		ArrayList<Location> possibles = new ArrayList<Location>();	
 		possibles.add(getLocation().move(2, 1, 0, 0));		//Up: 2, Left: 1
 		possibles.add(getLocation().move(2, 0, 0, 1));		//Up: 2, Right: 1
@@ -65,7 +66,7 @@ public class Horse extends ChessPiece {
 	}
 	
 	@Override
-	public ArrayList<Location> getDefenseMoves(){
+	public List<Location> getDefenseMoves(){
 		ArrayList<Location> possibles = new ArrayList<Location>();
 		possibles.add(getLocation().move(2, 1, 0, 0));
 		possibles.add(getLocation().move(2, 0, 0, 1));
@@ -85,7 +86,7 @@ public class Horse extends ChessPiece {
 	
 	@Override
 	public boolean canReach(Location l) {
-		ArrayList<Location> possibles = this.getPossibleMoves();
+		List<Location> possibles = getPossibleMoves();
 		boolean toReturn = false;
 		for (int i = 0; i < possibles.size(); i++) {
 			if (possibles.get(i).equals(l)) {
@@ -97,7 +98,7 @@ public class Horse extends ChessPiece {
 	
 	@Override
 	public boolean canDefend(Location l) {
-		ArrayList<Location> possibles = this.getDefenseMoves();
+		List<Location> possibles = getDefenseMoves();
 		boolean toReturn = false;
 		for (int i = 0; i < possibles.size(); i++) {
 			if (possibles.get(i).equals(l)) {

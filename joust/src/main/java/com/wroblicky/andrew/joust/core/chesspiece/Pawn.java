@@ -1,6 +1,7 @@
 package com.wroblicky.andrew.joust.core.chesspiece;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.general.Game;
@@ -74,7 +75,7 @@ public class Pawn extends ChessPiece {
 	 * Player 1: can legally take that piece by moving diagonally
 	 */
 	@Override
-	public ArrayList<Location> getPossibleMoves() {
+	public List<Location> getPossibleMoves() {
 		ArrayList<Location> possibles = new ArrayList<Location>();
 		//System.out.println("pawn possMoves myloc: " + getLocation());
 		Location l = null;
@@ -183,7 +184,7 @@ public class Pawn extends ChessPiece {
 	}
 	
 	@Override
-	public ArrayList<Location> getDefenseMoves() {
+	public List<Location> getDefenseMoves() {
 		ArrayList<Location> possibles = new ArrayList<Location>();
 		Location l = getLocation().move(1, 0, 0, 0);
 		int x = l.getXCoordinate();
@@ -198,11 +199,10 @@ public class Pawn extends ChessPiece {
 	// add support for becoming a queen 
 	@Override
 	public boolean canReach(Location l) {
-		ArrayList<Location> possibles = this.getPossibleMoves();
+		List<Location> possibles = this.getPossibleMoves();
 		boolean toReturn = false;
 		for (int i = 0; i < possibles.size(); i++) {
 			Location temp = possibles.get(i);
-			//System.out.println("pawn canReach move: " + temp);
 			if (temp.equals(l)) {
 				toReturn = true;
 			}
@@ -212,7 +212,7 @@ public class Pawn extends ChessPiece {
 	
 	@Override
 	public boolean canDefend(Location l) {
-		ArrayList<Location> possibles = this.getDefenseMoves();
+		List<Location> possibles = this.getDefenseMoves();
 		boolean toReturn = false;
 		for (int i = 0; i < possibles.size(); i++) {
 			if (possibles.get(i).equals(l)) {
