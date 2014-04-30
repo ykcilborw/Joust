@@ -15,7 +15,7 @@ import com.wroblicky.andrew.joust.core.general.Location;
 public class King extends ChessPiece{
 	
 	public King() {
-		this.allegiance = allegiance.BLACK;
+		this.allegiance = Allegiance.BLACK;
 		this.alive = true;
 		this.chessBoard = new ChessBoard();
 		this.chessID = 1;
@@ -42,6 +42,32 @@ public class King extends ChessPiece{
 	
 	@Override
 	public List<Location> getPossibleMoves(){
+		List<Location> possibles = getMoveSearchSpace();
+		
+		// remove locations that are not valid
+		for (Location location : possibles) {
+			if (!(isCapableOfOccupation(location))) {
+				possibles.remove(location);
+			}
+		}
+		return possibles;
+	}
+	
+	@Override
+	public List<Location> getDefenseMoves(){
+		List<Location> possibles = getMoveSearchSpace();
+		
+		// remove locations that are not valid
+		for (Location location : possibles) {
+			if (!(isFriend(location))) {
+				possibles.remove(location);
+			}
+		}
+		
+		return possibles;
+	}
+	
+	List<Location> getMoveSearchSpace() {
 		List<Location> possibles = new ArrayList<Location>();
 		Location initialLocation = getLocation();
 		
@@ -55,35 +81,6 @@ public class King extends ChessPiece{
 		possibles.add(chessBoard.getSouthWestNeighbor(initialLocation));  // down left
 		possibles.add(chessBoard.getSouthEastNeighbor(initialLocation));  // down right
 		
-		// remove locations that are not valid
-		for (Location location : possibles) {
-			int x = location.getXCoordinate();
-			int y = location.getYCoordinate();
-			if (!((checkAvailability(location).equals("unoccupied") ||
-					checkAvailability(location).equals("enemy")) && chessBoard.onBoard(x, y))) {
-				possibles.remove(location);
-			}
-		}
 		return possibles;
-	}
-	
-	@Override
-	public List<Location> getDefenseMoves(){
-		ArrayList<Location> possibles = new ArrayList<Location>();
-		possibles.add(getLocation().move(1, 0, 0, 0));
-		possibles.add(getLocation().move(0, 1, 0, 0));
-		possibles.add(getLocation().move(0, 0, 1, 0));
-		possibles.add(getLocation().move(0, 0, 0, 1));
-		ArrayList<Location> possibles2 = new ArrayList<Location>();
-		for (int i = 0; i < possibles.size(); i++) {
-			Location l = possibles.get(i);
-			int x = l.getXCoordinate();
-			int y = l.getYCoordinate();
-			if (checkAvailability(l).equals("friend") && x < 9 && x > 0 && y < 9 && y > 0) {
-				possibles2.add(l);
-			}
-		}
-		
-		return possibles2;
 	}
 }

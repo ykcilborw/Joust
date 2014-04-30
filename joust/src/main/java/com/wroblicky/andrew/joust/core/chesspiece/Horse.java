@@ -42,45 +42,43 @@ public class Horse extends ChessPiece {
 	
 	@Override
 	public List<Location> getPossibleMoves(){
-		ArrayList<Location> possibles = new ArrayList<Location>();	
-		possibles.add(getLocation().move(2, 1, 0, 0));		//Up: 2, Left: 1
-		possibles.add(getLocation().move(2, 0, 0, 1));		//Up: 2, Right: 1
-		possibles.add(getLocation().move(1, 2, 0, 0));		//Up: 1, Left: 2
-		possibles.add(getLocation().move(1, 0, 0, 2));		//Up: 1, Right: 2
+		List<Location> possibles = getMoveSearchSpace();
 		
-		possibles.add(getLocation().move(0, 1, 2, 0));		//Down: 2, Left: 1
-		possibles.add(getLocation().move(0, 0, 2, 1));		//Down: 2, Right: 1
-		possibles.add(getLocation().move(0, 2, 1, 0));		//Down: 1, Left: 2
-		possibles.add(getLocation().move(0, 0, 1, 2));		//Down: 1, Right: 2
-		
-		ArrayList<Location> possibles2 = new ArrayList<Location>();
-		for (int i = 0; i < possibles.size(); i++) {
-			Location l = possibles.get(i);
-			int x = l.getXCoordinate();
-			int y = l.getYCoordinate();
-			if ((checkAvailability(l).equals("unoccupied") || checkAvailability(l).equals("enemy")) && x < 9 && x > 0 && y < 9 && y > 0) {
-				possibles2.add(l);
+		for (Location location : possibles) {
+			if (!isCapableOfOccupation(location)) {
+				possibles.remove(location);
 			}
 		}
-		return possibles2;
+		return possibles;
 	}
 	
 	@Override
 	public List<Location> getDefenseMoves(){
-		ArrayList<Location> possibles = new ArrayList<Location>();
-		possibles.add(getLocation().move(2, 1, 0, 0));
-		possibles.add(getLocation().move(2, 0, 0, 1));
-		possibles.add(getLocation().move(0, 1, 2, 0));
-		possibles.add(getLocation().move(0, 0, 2, 1));
-		ArrayList<Location> possibles2 = new ArrayList<Location>();
-		for (int i = 0; i < possibles.size(); i++) {
-			Location l = possibles.get(i);
-			int x = l.getXCoordinate();
-			int y = l.getYCoordinate();
-			if (checkAvailability(l).equals("friend") && x < 9 && x > 0 && y < 9 && y > 0) {
-				possibles2.add(l);
+		List<Location> possibles = getMoveSearchSpace();
+		
+		for (Location location : possibles) {
+			if (!isFriend(location)) {
+				possibles.remove(location);
 			}
 		}
-		return possibles2;
+		return possibles;
+	}
+	
+	List<Location> getMoveSearchSpace() {
+		List<Location> possibles = new ArrayList<Location>();
+		Location initialLocation = getLocation();
+		
+		// get set of possibilities
+		possibles.add(chessBoard.getLocation(initialLocation, 1, 2)); // Right 1, Up 2
+		possibles.add(chessBoard.getLocation(initialLocation, 1, -2)); // Right 1 Down 2
+		possibles.add(chessBoard.getLocation(initialLocation, -1, 2)); // Left 1 Up 2
+		possibles.add(chessBoard.getLocation(initialLocation, -1, -2)); // Left 1 Down 2
+		
+		possibles.add(chessBoard.getLocation(initialLocation, -2, -1)); // Left 2 Down 1
+		possibles.add(chessBoard.getLocation(initialLocation, -2, 1)); // Left 2 Up 1
+		possibles.add(chessBoard.getLocation(initialLocation, 2, -1)); // Right 2 Down 1
+		possibles.add(chessBoard.getLocation(initialLocation, 2, 1)); // Right 2 Up 1
+		
+		return possibles;
 	}
 }

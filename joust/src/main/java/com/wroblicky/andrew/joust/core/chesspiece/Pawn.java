@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
-import com.wroblicky.andrew.joust.core.general.Game;
 import com.wroblicky.andrew.joust.core.general.Location;
 
 /**
@@ -64,136 +63,108 @@ public class Pawn extends ChessPiece {
 		this.movedTwice = movedTwice;
 	}
 	
-	// TODO
-	// add checks to see if can take piece diagonally and if it can move 2 spaces up
-	/*
-	 * Super RARE CASE (Example Scenario):
-	 * Player 1: moves P5 (pawn 5) up by 2 
-	 * Player 2: moves p1 (or any other pawn not to the right or left lane of p5) down by 1 or 2
-	 * Player 1: moves P5 up by 1
-	 * Player 2: moves p4 or p6 down by 2
-	 * Player 1: can legally take that piece by moving diagonally
-	 */
+	
 	//TODO
 	// add support for becoming a queen 
 	@Override
 	public List<Location> getPossibleMoves() {
-		ArrayList<Location> possibles = new ArrayList<Location>();
-		//System.out.println("pawn possMoves myloc: " + getLocation());
-		Location l = null;
+		List<Location> possibles = new ArrayList<Location>();
+		Location currentLocation = getLocation();
 		Location moveUpLeft = null;
 		Location moveUpRight = null;
+		Location left = chessBoard.getWestNeighbor(currentLocation);
+		Location right = chessBoard.getEastNeighbor(currentLocation);
 		
-		if(!isBlack()) {
-			l = getLocation().move(1, 0, 0, 0);
-			moveUpLeft = getLocation().move(1, 1, 0, 0);
-			moveUpRight = getLocation().move(1, 0, 0, 1);
-			//System.out.println("pawn possMoves white: " + l + ", " + moveUpLeft + ", " + moveUpRight);
+		if(isWhite()) {
+			moveUpLeft = chessBoard.getNorthWestNeighbor(currentLocation);
+			moveUpRight = chessBoard.getNorthEastNeighbor(currentLocation);
 		} else {
-			l = getLocation().move(0, 0, 1, 0);
-			moveUpLeft = getLocation().move(0, 1, 1, 0);
-			moveUpRight = getLocation().move(0, 0, 1, 1);
-			//System.out.println("pawn possMoves black: " + l + ", " + moveUpLeft + ", " + moveUpRight);
+			moveUpLeft = chessBoard.getSouthWestNeighbor(currentLocation);
+			moveUpRight = chessBoard.getSouthEastNeighbor(currentLocation);
 		}
 		
-		if (l != null) {
-			
-			int x = l.getXCoordinate();
-			int y = l.getYCoordinate();
-			
-			if (checkAvailability(l).equals("unoccupied") && x < 9 && x > 0 && y < 9 && y > 0){
-				possibles.add(l);
-				// Can only move two forward if the immediate space in front is also free
-				if (hasMovedAtAll == false) {
-					if (!isBlack()) {
-						Location l2 = getLocation().move(2, 0, 0, 0);
-						int x2 = l2.getXCoordinate();
-						int y2 = l2.getYCoordinate();
-						if (checkAvailability(l2).equals("unoccupied") && x2 < 9 && x2 > 0 && y2 < 9 && y2 > 0){
-							possibles.add(l2);
-						}
-					} else {
-						Location l2 = getLocation().move(0, 0, 2, 0);
-						int x2 = l2.getXCoordinate();
-						int y2 = l2.getYCoordinate();
-						if (checkAvailability(l2).equals("unoccupied") && x2 < 9 && x2 > 0 && y2 < 9 && y2 > 0){
-							possibles.add(l2);
-						}
-					}
+		// forward moves
+		possibles = getForwardMoves(possibles);
+		
+		// attack moves
+		if (moveUpLeft != null && checkAvailability(moveUpLeft).equals("enemy")) {
+			possibles.add(moveUpLeft);
+		}
+		if (moveUpRight != null && checkAvailability(moveUpRight).equals("enemy")) {
+			possibles.add(moveUpRight);
+		}
+		
+		// en passant
+		if (left != null && checkAvailability(left).equals("enemy") && checkAvailability(moveUpLeft).equals("unoccupied")) {
+			ChessPiece enemy = chessBoard.getChessPieceByLocation(left);
+			if (enemy instanceof Pawn) {
+				Pawn enemyPawn = (Pawn) enemy;
+				if (enemyPawn.isMovedTwice() && enemyPawn.getRelativeRank().equals("4")) {
+					possibles.add(moveUpLeft);
 				}
 			}
 		}
-		if (moveUpLeft != null) { 
-			int ulX = moveUpLeft.getXCoordinate();
-			int ulY = moveUpLeft.getYCoordinate();
-			
-			if (checkAvailability(moveUpLeft).equals("enemy") && ulX < 9 && ulX > 0 && ulY < 9 && ulY > 0) {
-				possibles.add(moveUpLeft);
-			}
-			
-			if (checkAvailability(moveUpLeft).equals("unoccupied") && hasMovedAtAll && ulX < 9 && ulX > 0 && ulY < 9 && ulY > 0) {
-				Location moveLeft = getLocation().move(0, 1, 0, 0);
-				int mlX = moveLeft.getXCoordinate();
-				int mlY = moveLeft.getYCoordinate();
-				
-				if (checkAvailability(moveLeft).equals("enemy") && mlX < 9 && mlX > 0 && mlY < 9 && mlY > 0) {
-					int newX = mlX - 1;
-					int newY = mlY - 1;
-					if (newX < 8 && newX > -1 && newY > -1 && newY < 8) {
-						Location nLoc = chessBoard.getLocation(newX, newY);
-						ChessPiece c = chessBoard.getChessPieceByLocation(nLoc);
-						Pawn p = c.getMyType().equals("Pawn") ? (Pawn)c : null;
-						if (p != null) {
-							if(p.isMovedTwice()) {
-								possibles.add(moveUpLeft);
-							}
-						}
-					}
+		
+		if (right != null && checkAvailability(right).equals("enemy")  && checkAvailability(moveUpRight).equals("unoccupied")) {
+			ChessPiece enemy = chessBoard.getChessPieceByLocation(right);
+			if (enemy instanceof Pawn) {
+				Pawn enemyPawn = (Pawn) enemy;
+				if (enemyPawn.isMovedTwice() && enemyPawn.getRelativeRank().equals("4")) {
+					possibles.add(moveUpRight);
 				}
 			}
 		}
-		if (moveUpRight != null) {
-			int urX = moveUpRight.getXCoordinate();
-			int urY = moveUpRight.getYCoordinate();
-			
-			if (checkAvailability(moveUpRight).equals("enemy") && urX < 9 && urX > 0 && urY < 9 && urY > 0) {
-				possibles.add(moveUpRight);
-			}
-			if (checkAvailability(moveUpRight).equals("unoccupied") && hasMovedAtAll && urX < 9 && urX > 0 && urY < 9 && urY > 0) {
-				//boolean enemyToRight = false;
-				Location moveRight = getLocation().move(0, 0, 0, 1);
-				int mrX = moveRight.getXCoordinate();
-				int mrY = moveRight.getYCoordinate();
-				
-				if (checkAvailability(moveRight).equals("enemy") && mrX < 9 && mrX > 0 && mrY < 9 && mrY > 0) {
-					int newX = mrX - 1;
-					int newY = mrY - 1;
-					if (newX < 8 && newX > -1 && newY > -1 && newY < 8) {
-						Location nLoc = chessBoard.getLocation(newX, newY);
-						ChessPiece c = chessBoard.getChessPieceByLocation(nLoc);
-						Pawn p = c.getMyType().equals("Pawn") ? (Pawn)c : null;
-						if (p != null) {
-							if(p.isMovedTwice()) {
-								possibles.add(moveUpRight);
-							}
-						}
-					}
-				}
-			}
-		}
-			
+		
 		return possibles;
+	}
+	
+	/**
+	 * Retrieves upward possible pawn moves
+	 */
+	private List<Location> getForwardMoves(List<Location> locations) {
+		Location moveUpOnce = null;
+		Location moveUpTwice = null;
+		if(isWhite()) {
+			moveUpOnce = chessBoard.getNorthNeighbor(getLocation());
+			moveUpTwice = chessBoard.getLocation(getLocation(), 0, 2);
+		} else {
+			moveUpOnce = chessBoard.getSouthNeighbor(getLocation());
+			moveUpTwice = chessBoard.getLocation(getLocation(), 0, -2);
+		}
+		
+		if (moveUpOnce != null && checkAvailability(moveUpOnce).equals("unoccupied") ) {
+			locations.add(moveUpOnce);
+			if (!hasMovedAtAll && moveUpTwice != null && checkAvailability(moveUpTwice).equals("unoccupied") ) {
+				locations.add(moveUpTwice);
+			}
+		}
+		
+		return locations;
 	}
 	
 	@Override
 	public List<Location> getDefenseMoves() {
-		ArrayList<Location> possibles = new ArrayList<Location>();
-		Location l = getLocation().move(1, 0, 0, 0);
-		int x = l.getXCoordinate();
-		int y = l.getYCoordinate();
-		if (checkAvailability(l).equals("friend") && x < 9 && x > 0 && y < 9 && y > 0){
-			possibles.add(l);
+		List<Location> possibles = new ArrayList<Location>();
+		Location currentLocation = getLocation();
+		Location moveUpLeft = null;
+		Location moveUpRight = null;
+		
+		if(isWhite()) {
+			moveUpLeft = chessBoard.getNorthWestNeighbor(currentLocation);
+			moveUpRight = chessBoard.getNorthEastNeighbor(currentLocation);
+		} else {
+			moveUpLeft = chessBoard.getSouthWestNeighbor(currentLocation);
+			moveUpRight = chessBoard.getSouthEastNeighbor(currentLocation);
 		}
+		
+		if (isFriend(moveUpLeft)) {
+			possibles.add(moveUpLeft);
+		}
+		
+		if (isFriend(moveUpRight)) {
+			possibles.add(moveUpRight);
+		}
+		
 		return possibles;
 	}
 }

@@ -1,5 +1,9 @@
 package com.wroblicky.andrew.joust.core.chesspiece;
 
+import static com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Occupier.ENEMY;
+import static com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Occupier.FRIEND;
+import static com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Occupier.UNOCCUPIED;
+
 import java.util.List;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
@@ -195,9 +199,37 @@ public abstract class ChessPiece {
 	}
 	
 	/**
+	 * Returns the set of move possibilities without regard to
+	 * whether or not the destination space is occupied by an ally.
+	 */
+	//abstract List<Location> getMoveSearchSpace();
+	
+	boolean isCapableOfOccupation(Location location) {
+		if (location != null) {
+			int x = location.getXCoordinate();
+			int y = location.getYCoordinate();
+			return (checkAvailability(location).equals("unoccupied") 
+					|| checkAvailability(location).equals("enemy")) 
+						&& chessBoard.onBoard(x, y);
+		} else {
+			return false;
+		}
+	}
+	
+	boolean isFriend(Location location) {
+		if (location != null) {
+			int x = location.getXCoordinate();
+			int y = location.getYCoordinate();
+			return checkAvailability(location).equals("friend") && chessBoard.onBoard(x, y);
+		} else {
+			return false;
+		}
+	}
+	
+	/**
 	 * Determines the relationship of the chess piece to a particular location
 	 */
-	public String checkAvailability(Location location) {
+	/*public String checkAvailability(Location location) {
 		String toReturn = "";
 		int x = location.getXCoordinate();
 		int y = location.getYCoordinate();
@@ -213,6 +245,24 @@ public abstract class ChessPiece {
 			}
 		} else {
 			toReturn = "unoccupied"; 
+		}
+		return toReturn;
+	}*/
+	
+	public Occupier checkAvailability(Location location) {
+		Occupier toReturn = UNOCCUPIED;;
+		int x = location.getXCoordinate();
+		int y = location.getYCoordinate();
+		if (chessBoard.onBoard(x, y)) {
+			Location newL = chessBoard.getLocation(x, y);
+			ChessPiece c = chessBoard.getChessPieceByLocation(newL);
+			if (c == null) {
+				toReturn = UNOCCUPIED;
+			} else if (c.getAllegiance() == this.getAllegiance()) {
+				toReturn = FRIEND;
+			} else {
+				toReturn = ENEMY;
+			}
 		}
 		return toReturn;
 	}

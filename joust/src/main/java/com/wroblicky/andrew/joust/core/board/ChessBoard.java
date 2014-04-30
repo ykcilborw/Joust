@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
-import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Allegiance;
 import com.wroblicky.andrew.joust.core.general.Location;
 import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.general.move.Move;
@@ -169,13 +168,18 @@ public class ChessBoard {
 		return getLocation(x, y);
 	}
 	
-	public Location getLocation(Location initial, int numSpaces, Direction direction,
-			Allegiance allegiance) {
-		int spacesLeft = numSpaces;
-		while (spacesLeft > 0) {
-			
-		}
-		return initial;
+	/**
+	 * Returns the location that is deltaX and deltaY spaces away.
+	 * 
+	 * @param location
+	 * @param deltaX (positive indicates movement to the right)
+	 * @param deltaY (positive indicates movement forward)
+	 */
+	public Location getLocation(Location location, int deltaX, int deltaY) {
+		int x = location.getXCoordinate() + deltaX;
+		int y = location.getYCoordinate() + deltaY;
+		
+		return getLocation(x, y);
 	}
 	
 	public Location getLocationByChessPiece(ChessPiece chessPiece) {

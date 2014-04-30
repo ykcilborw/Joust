@@ -45,150 +45,62 @@ public class Bishop extends ChessPiece {
 	@Override
 	// generate all northwest directions, then northeast, then southwest, then southeast
 	public List<Location> getPossibleMoves(){
-		ArrayList<Location> possibles = new ArrayList<Location>();
-		int x = getLocation().getXCoordinate();
-		int y = getLocation().getYCoordinate();
-		int nextX = x;
-		int nextY = y;
+		List<Location> possibles = new ArrayList<Location>();
+		possibles = getPossibleMovesHelper(possibles, 1, 1);
+		possibles = getPossibleMovesHelper(possibles, 1, -1);
+		possibles = getPossibleMovesHelper(possibles, -1, 1);
+		possibles = getPossibleMovesHelper(possibles, -1, -1);
+		return possibles;
+	}
+	
+	private List<Location> getPossibleMovesHelper(List<Location> locations, int deltaX, int deltaY) {
+		Location currentLocation = getLocation();
+		int nextX = currentLocation.getXCoordinate();
+		int nextY = currentLocation.getYCoordinate();
 		boolean stillValid = true;
 		while (stillValid) {
-			nextX = nextX + 1;
-			nextY = nextY + 1;
-			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(l);
-			if ((result.equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
-				possibles.add(l);
-			} else if ((result.equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
-				possibles.add(l);
+			nextX = nextX + deltaX;
+			nextY = nextY + deltaY;
+			Location possible = chessBoard.getLocation(nextX, nextY);
+			if (possible != null && checkAvailability(possible) == Occupier.UNOCCUPIED) {
+				locations.add(possible);
+			} else if (possible != null && checkAvailability(possible) == Occupier.ENEMY) {
+				locations.add(possible);
 				stillValid = false;
 			}  else {
 				stillValid = false;
 			}
 		}
-		nextX = x;
-		nextY = y;
-		stillValid = true;
-		while (stillValid) {
-			nextX = nextX + 1;
-			nextY = nextY - 1;
-			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(l);
-			if ((result.equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
-				possibles.add(l);
-			} else if ((result.equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
-				possibles.add(l);
-				stillValid = false;
-			} else {
-				stillValid = false;
-			}
-		}
-		nextX = x;
-		nextY = y;
-		stillValid = true;
-		while (stillValid) {
-			nextX = nextX - 1;
-			nextY = nextY + 1;
-			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(l);
-			if ((result.equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
-				possibles.add(l);
-			} else if ((result.equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
-				possibles.add(l);
-				stillValid = false;
-			}  else {
-				stillValid = false;
-			}
-		}
-		nextX = x;
-		nextY = y;
-		stillValid = true;
-		while (stillValid) {
-			nextX = nextX - 1;
-			nextY = nextY - 1;
-			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(l);
-			if ((result.equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
-				possibles.add(l);
-			} else if ((result.equals("enemy")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
-				possibles.add(l);
-				stillValid = false;
-			}  else {
-				stillValid = false;
-			}
-		}
-		return possibles;
+		return locations;
 	}
 	
 	@Override
 	public List<Location> getDefenseMoves(){
-		// generate all northwest directions, then northeast, then southwest, then southeast
-		ArrayList<Location> possibles = new ArrayList<Location>();
-		int x = getLocation().getXCoordinate();
-		int y = getLocation().getYCoordinate();
-		int nextX = x;
-		int nextY = y;
+		List<Location> possibles = new ArrayList<Location>();
+		possibles = getDefenseMovesHelper(possibles, 1, 1);
+		possibles = getDefenseMovesHelper(possibles, 1, -1);
+		possibles = getDefenseMovesHelper(possibles, -1, 1);
+		possibles = getDefenseMovesHelper(possibles, -1, -1);
+		return possibles;
+	}
+	
+	private List<Location> getDefenseMovesHelper(List<Location> locations, int deltaX, int deltaY) {
+		Location currentLocation = getLocation();
+		int nextX = currentLocation.getXCoordinate();
+		int nextY = currentLocation.getYCoordinate();
 		boolean stillValid = true;
 		while (stillValid) {
-			nextX = nextX + 1;
-			nextY = nextY + 1;
-			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(l);
-			if ((result.equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
-			} else if ((result.equals("friend")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
-				possibles.add(l);
+			nextX = nextX + deltaX;
+			nextY = nextY + deltaY;
+			Location possible = chessBoard.getLocation(nextX, nextY);
+			if (possible != null && checkAvailability(possible) == Occupier.UNOCCUPIED) {
+			} else if (possible != null && checkAvailability(possible) == Occupier.FRIEND) {
+				locations.add(possible);
 				stillValid = false;
 			}  else {
 				stillValid = false;
 			}
 		}
-		nextX = x;
-		nextY = y;
-		stillValid = true;
-		while (stillValid) {
-			nextX = nextX + 1;
-			nextY = nextY - 1;
-			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(l);
-			if ((result.equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
-			} else if ((result.equals("friend")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
-				possibles.add(l);
-				stillValid = false;
-			} else {
-				stillValid = false;
-			}
-		}
-		nextX = x;
-		nextY = y;
-		stillValid = true;
-		while (stillValid) {
-			nextX = nextX - 1;
-			nextY = nextY + 1;
-			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(l);
-			if ((result.equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
-			} else if ((result.equals("friend")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
-				possibles.add(l);
-				stillValid = false;
-			}  else {
-				stillValid = false;
-			}
-		}
-		nextX = x;
-		nextY = y;
-		stillValid = true;
-		while (stillValid) {
-			nextX = nextX - 1;
-			nextY = nextY - 1;
-			Location l = new Location(nextX, nextY);
-			String result = checkAvailability(l);
-			if ((result.equals("unoccupied")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
-			} else if ((result.equals("friend")) && nextX < 9 && nextX > 0 && nextY > 0 && nextY < 9) {
-				possibles.add(l);
-				stillValid = false;
-			}  else {
-				stillValid = false;
-			}
-		}
-		return possibles;
+		return locations;
 	}
 }
