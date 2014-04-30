@@ -1,5 +1,8 @@
 package com.wroblicky.andrew.joust.core.chesspiece;
 
+import static com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Occupier.ENEMY;
+import static com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Occupier.UNOCCUPIED;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,15 +90,15 @@ public class Pawn extends ChessPiece {
 		possibles = getForwardMoves(possibles);
 		
 		// attack moves
-		if (moveUpLeft != null && checkAvailability(moveUpLeft).equals("enemy")) {
+		if (moveUpLeft != null && checkAvailability(moveUpLeft) == ENEMY) {
 			possibles.add(moveUpLeft);
 		}
-		if (moveUpRight != null && checkAvailability(moveUpRight).equals("enemy")) {
+		if (moveUpRight != null && checkAvailability(moveUpRight) == ENEMY) {
 			possibles.add(moveUpRight);
 		}
 		
 		// en passant
-		if (left != null && checkAvailability(left).equals("enemy") && checkAvailability(moveUpLeft).equals("unoccupied")) {
+		if (left != null && checkAvailability(left) == ENEMY && checkAvailability(moveUpLeft) == UNOCCUPIED) {
 			ChessPiece enemy = chessBoard.getChessPieceByLocation(left);
 			if (enemy instanceof Pawn) {
 				Pawn enemyPawn = (Pawn) enemy;
@@ -105,7 +108,7 @@ public class Pawn extends ChessPiece {
 			}
 		}
 		
-		if (right != null && checkAvailability(right).equals("enemy")  && checkAvailability(moveUpRight).equals("unoccupied")) {
+		if (right != null && checkAvailability(right) == ENEMY && checkAvailability(moveUpRight) == UNOCCUPIED) {
 			ChessPiece enemy = chessBoard.getChessPieceByLocation(right);
 			if (enemy instanceof Pawn) {
 				Pawn enemyPawn = (Pawn) enemy;
@@ -132,9 +135,9 @@ public class Pawn extends ChessPiece {
 			moveUpTwice = chessBoard.getLocation(getLocation(), 0, -2);
 		}
 		
-		if (moveUpOnce != null && checkAvailability(moveUpOnce).equals("unoccupied") ) {
+		if (moveUpOnce != null && checkAvailability(moveUpOnce) == UNOCCUPIED) {
 			locations.add(moveUpOnce);
-			if (!hasMovedAtAll && moveUpTwice != null && checkAvailability(moveUpTwice).equals("unoccupied") ) {
+			if (!hasMovedAtAll && moveUpTwice != null && checkAvailability(moveUpTwice).equals("UNOCCUPIED") ) {
 				locations.add(moveUpTwice);
 			}
 		}

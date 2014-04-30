@@ -1,5 +1,9 @@
 package com.wroblicky.andrew.joust.core.chesspiece;
 
+import static com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Occupier.ENEMY;
+import static com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Occupier.FRIEND;
+import static com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Occupier.UNOCCUPIED;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,9 +66,9 @@ public class Castle extends ChessPiece {
 			nextX = nextX + deltaX;
 			nextY = nextY + deltaY;
 			Location possible = chessBoard.getLocation(nextX, nextY);
-			if (possible != null && checkAvailability(possible) == Occupier.UNOCCUPIED) {
+			if (possible != null && checkAvailability(possible) == UNOCCUPIED) {
 				locations.add(possible);
-			} else if (possible != null && checkAvailability(possible) == Occupier.ENEMY) {
+			} else if (possible != null && checkAvailability(possible) == ENEMY) {
 				locations.add(possible);
 				stillValid = false;
 			}  else {
@@ -93,8 +97,8 @@ public class Castle extends ChessPiece {
 			nextX = nextX + deltaX;
 			nextY = nextY + deltaY;
 			Location possible = chessBoard.getLocation(nextX, nextY);
-			if (possible != null && checkAvailability(possible) == Occupier.UNOCCUPIED) {
-			} else if (possible != null && checkAvailability(possible) == Occupier.FRIEND) {
+			if (possible != null && checkAvailability(possible) == UNOCCUPIED) {
+			} else if (possible != null && checkAvailability(possible) == FRIEND) {
 				locations.add(possible);
 				stillValid = false;
 			}  else {
