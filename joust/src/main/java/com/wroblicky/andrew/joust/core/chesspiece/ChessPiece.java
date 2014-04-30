@@ -9,7 +9,6 @@ import java.util.List;
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.general.Location;
 import com.wroblicky.andrew.joust.core.general.Util;
-import com.wroblicky.andrew.joust.core.general.move.Move;
 
 /**
  * Abstract class representing a chess piece
@@ -229,26 +228,6 @@ public abstract class ChessPiece {
 	/**
 	 * Determines the relationship of the chess piece to a particular location
 	 */
-	/*public String checkAvailability(Location location) {
-		String toReturn = "";
-		int x = location.getXCoordinate();
-		int y = location.getYCoordinate();
-		if (chessBoard.onBoard(x, y)) {
-			Location newL = chessBoard.getLocation(x, y);
-			ChessPiece c = chessBoard.getChessPieceByLocation(newL);
-			if (c == null) {
-				toReturn = "unoccupied";
-			} else if (c.getAllegiance() == this.getAllegiance()) {
-				toReturn = "friend";
-			} else {
-				toReturn = "enemy";
-			}
-		} else {
-			toReturn = "unoccupied"; 
-		}
-		return toReturn;
-	}*/
-	
 	public Occupier checkAvailability(Location location) {
 		Occupier toReturn = UNOCCUPIED;;
 		int x = location.getXCoordinate();
@@ -271,8 +250,8 @@ public abstract class ChessPiece {
 	 * Updates the board by moving the chess piece to the new position.
 	 */
 	public void move(Location newLocation) {
-		chessBoard.moveChessPiece(new Move(this, chessBoard.getLocationByChessPiece(this),
-				newLocation));
+		chessBoard.moveChessPiece(this, chessBoard.getLocationByChessPiece(this),
+				newLocation);
 	}
 	
 	public String toString() {

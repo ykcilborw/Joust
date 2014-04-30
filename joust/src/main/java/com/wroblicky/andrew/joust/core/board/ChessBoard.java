@@ -208,6 +208,11 @@ public class ChessBoard {
 		addChessPiece(move.getChessPiece(), move.getDestination());
 	}
 	
+	public void moveChessPiece(ChessPiece chessPiece, Location start, Location destination) {
+		removeChessPiece(chessPiece, start);
+		addChessPiece(chessPiece, destination);
+	}
+	
 	public void removeChessPiece(ChessPiece chessPiece, Location location) {
 		removeChessPieceFromBoard(chessPiece, location);
 		chessPieceToLocation.remove(chessPiece);
