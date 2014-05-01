@@ -7,6 +7,8 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.wroblicky.andrew.joust.pgn.PGNGame;
+
 
 /**
  * Converts the moves described in a pgn text file into a
@@ -17,7 +19,7 @@ import java.util.regex.Pattern;
  */
 public class PGNParser {
 	
-	
+	@Deprecated // in favor of the more informative #getPGNGame
 	public static ArrayList<String> getGameMoves(String pgnTextFile) {
 		ArrayList<String> moves = new ArrayList<String>();
 		String next = null;
@@ -50,5 +52,9 @@ public class PGNParser {
 			System.exit(-1);
 		}
 		return moves;
+	}
+	
+	public static PGNGame getPGNGame(String pgnFile) {
+		return new PGNGame(); // TODO
 	}
 }
