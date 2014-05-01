@@ -197,18 +197,12 @@ public abstract class ChessPiece {
 		return false;
 	}
 	
-	/**
-	 * Returns the set of move possibilities without regard to
-	 * whether or not the destination space is occupied by an ally.
-	 */
-	//abstract List<Location> getMoveSearchSpace();
-	
 	boolean isCapableOfOccupation(Location location) {
 		if (location != null) {
 			int x = location.getXCoordinate();
 			int y = location.getYCoordinate();
-			return (checkAvailability(location).equals("unoccupied") 
-					|| checkAvailability(location).equals("enemy")) 
+			return (checkAvailability(location) == UNOCCUPIED 
+					|| checkAvailability(location) == ENEMY) 
 						&& chessBoard.onBoard(x, y);
 		} else {
 			return false;
@@ -219,7 +213,7 @@ public abstract class ChessPiece {
 		if (location != null) {
 			int x = location.getXCoordinate();
 			int y = location.getYCoordinate();
-			return checkAvailability(location).equals("friend") && chessBoard.onBoard(x, y);
+			return checkAvailability(location) == FRIEND && chessBoard.onBoard(x, y);
 		} else {
 			return false;
 		}

@@ -109,7 +109,7 @@ public class ChessBoardMatcher {
 		boolean foundMatch = false;
 		int counter = 0;
 		while (foundMatch == false && myGame.getisInProgress() == true) {
-			myGame.printBoard2(myGame.getmyRound());
+			myGame.printBoard2(myGame.getRound());
 			//System.out.println("The Positions:");
 			//myGame.printMyPositions();
 			foundMatch = evalStatement(token);
@@ -118,15 +118,15 @@ public class ChessBoardMatcher {
 				// add board to matched boards as well as round
 				String[][] board = Util.getStringBoard(myGame.getActivePieces());
 				matchedBoards.add(board);
-				int round = myGame.getmyRound();
+				int round = myGame.getRound();
 				matchedRounds.add(round);
 			}
 			// no point updating board if we found a match, just return it
-			if (isSpecial == false && myMoves.size() != myGame.getmyRound()) { //&& token.get(0).equals("occurs") == false) {
+			if (isSpecial == false && myMoves.size() != myGame.getRound()) { //&& token.get(0).equals("occurs") == false) {
 				myGame.update(myMoves);
 			} else {
 				// if they are equal need to update myRound still so that end doesn't keep returning true forever
-				myGame.setRound(myGame.getmyRound() + 1);
+				myGame.setRound(myGame.getRound() + 1);
 			}
 			counter += 1;
 		}
@@ -139,18 +139,18 @@ public class ChessBoardMatcher {
 		boolean foundMatch = false;
 		int counter = 0;
 		while (foundMatch == false && myGame.getisInProgress() == true) {
-			myGame.printBoard2(myGame.getmyRound());
+			myGame.printBoard2(myGame.getRound());
 			//System.out.println("token: " + token);
 			foundMatch = evalStatement(token);
 			//System.out.println("findThroughToken foundMatch: " + foundMatch);
 			// Since it's find through token include matched board regardless if foundMatch is true
 			String[][] board = Util.getStringBoard(myGame.getActivePieces());
 			matchedBoards.add(board);
-			int round = myGame.getmyRound();
+			int round = myGame.getRound();
 			matchedRounds.add(round);
 			// need to update board so next token has proper configuration
 			// However if it's end of game don't worry about it
-			if (myMoves.size() != myGame.getmyRound() ){//&& token.get(0).equals("occurs") == false) {
+			if (myMoves.size() != myGame.getRound() ){//&& token.get(0).equals("occurs") == false) {
 				myGame.update(myMoves);
 			} 
 			counter += 1;
@@ -164,7 +164,7 @@ public class ChessBoardMatcher {
 		int counter = 0;
 		boolean gameStillGoing = true;
 		while (foundMatch == false && gameStillGoing == true) {
-			myGame.printBoard2(myGame.getmyRound());
+			myGame.printBoard2(myGame.getRound());
 			foundMatch = evalStatement(token);
 			//System.out.println("findUntilToken token: " + token);
 			//System.out.println("findUntilToken foundMatch: " + foundMatch);
@@ -172,10 +172,10 @@ public class ChessBoardMatcher {
 			if (foundMatch == false) {
 				String[][] board = Util.getStringBoard(myGame.getActivePieces());
 				matchedBoards.add(board);
-				int round = myGame.getmyRound();
+				int round = myGame.getRound();
 				matchedRounds.add(round);
 				// Similarly only update board if not a match && not end of game
-				if (myMoves.size() - 1 != myGame.getmyRound()) {
+				if (myMoves.size() - 1 != myGame.getRound()) {
 					myGame.update(myMoves);
 				} 
 				else {
@@ -2276,7 +2276,7 @@ public class ChessBoardMatcher {
 		//System.out.println("execEnd myRound: " + myGame.getmyRound());
 		//System.out.println("execEnd myMoves: " + numMoves);
 		boolean toReturn = false;
-		if (myGame.getmyRound() == numMoves) {
+		if (myGame.getRound() == numMoves) {
 			// last move
 			toReturn = true;
 		}
@@ -2287,7 +2287,7 @@ public class ChessBoardMatcher {
 	private boolean execStart() {
 		//System.out.println("myRound: " + myGame.getmyRound());
 		boolean toReturn = false;
-		if (myGame.getmyRound() == 0) {
+		if (myGame.getRound() == 0) {
 			toReturn = true;
 		}
 		return toReturn;

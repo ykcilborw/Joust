@@ -1,12 +1,14 @@
 package com.wroblicky.andrew.joust.core.chesspiece;
 
-import static org.junit.Assert.*;
+import java.util.List;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Allegiance;
+import com.wroblicky.andrew.joust.core.general.Location;
 
 public class HorseTest {
 
@@ -25,25 +27,133 @@ public class HorseTest {
 		Assert.assertEquals(whiteHorse.getMySymbol(), "N");
 	}
 
-	/*@Test
+	@Test
 	public void testGetPossibleMoves() {
-		fail("Not yet implemented");
+		ChessBoard board = new ChessBoard();
+		Castle castle = new Castle(Allegiance.WHITE, 1, board);
+		Horse horse = new Horse(Allegiance.WHITE, 1, board);
+		Pawn pawn = new Pawn(Allegiance.WHITE, 2, board);
+		Pawn pawn2 = new Pawn(Allegiance.WHITE, 3, board);
+		
+		// no moves
+		board.addChessPiece(castle, board.getLocation("a3"));
+		board.addChessPiece(pawn, board.getLocation("c3"));
+		board.addChessPiece(pawn2, board.getLocation("d2"));
+		board.addChessPiece(horse, board.getLocation("b1"));
+		List<Location> locations = horse.getPossibleMoves();
+		Assert.assertEquals(locations.size(), 0);
+		
+		// all moves
+		board.removeChessPiece(castle, board.getLocation("a3"));
+		board.removeChessPiece(pawn, board.getLocation("c3"));
+		board.removeChessPiece(pawn2, board.getLocation("d2"));
+		List<Location> locations2 = horse.getPossibleMoves();
+		Assert.assertEquals(locations2.size(), 3);
+		
+		// restricted number of moves
+		board.addChessPiece(pawn, board.getLocation("a3"));
+		List<Location> locations3 = horse.getPossibleMoves();
+		Assert.assertEquals(locations3.size(), 2); // d2 and c3
 	}
 
 	@Test
 	public void testGetDefenseMoves() {
-		fail("Not yet implemented");
+		ChessBoard board = new ChessBoard();
+		Castle castle = new Castle(Allegiance.WHITE, 1, board);
+		Horse horse = new Horse(Allegiance.WHITE, 1, board);
+		Pawn pawn = new Pawn(Allegiance.WHITE, 2, board);
+		Pawn pawn2 = new Pawn(Allegiance.WHITE, 3, board);
+		
+		// no moves
+		board.addChessPiece(castle, board.getLocation("a3"));
+		board.addChessPiece(pawn, board.getLocation("c3"));
+		board.addChessPiece(pawn2, board.getLocation("d2"));
+		board.addChessPiece(horse, board.getLocation("b1"));
+		List<Location> locations = horse.getDefenseMoves();
+		Assert.assertEquals(locations.size(), 3);
+		
+		// all moves
+		board.removeChessPiece(castle, board.getLocation("a3"));
+		board.removeChessPiece(pawn, board.getLocation("c3"));
+		board.removeChessPiece(pawn2, board.getLocation("d2"));
+		List<Location> locations2 = horse.getDefenseMoves();
+		Assert.assertEquals(locations2.size(), 0);
+		
+		// restricted number of moves
+		board.addChessPiece(pawn, board.getLocation("a3"));
+		List<Location> locations3 = horse.getDefenseMoves();
+		Assert.assertEquals(locations3.size(), 1); // d2 and c3
 	}
 
 	@Test
 	public void testCanReach() {
-		fail("Not yet implemented");
+		ChessBoard board = new ChessBoard();
+		Castle castle = new Castle(Allegiance.WHITE, 1, board);
+		Horse horse = new Horse(Allegiance.WHITE, 1, board);
+		Pawn pawn = new Pawn(Allegiance.WHITE, 2, board);
+		Pawn pawn2 = new Pawn(Allegiance.WHITE, 3, board);
+		
+		// neighbors
+		board.addChessPiece(castle, board.getLocation("a3"));
+		board.addChessPiece(pawn, board.getLocation("c3"));
+		board.addChessPiece(pawn2, board.getLocation("d2"));
+		board.addChessPiece(horse, board.getLocation("b1"));
+		Assert.assertEquals(horse.canReach(board.getLocation("a3")), false);
+		Assert.assertEquals(horse.canReach(board.getLocation("c3")), false);
+		Assert.assertEquals(horse.canReach(board.getLocation("d2")), false);
+		
+		// no allies in path
+		board.removeChessPiece(castle, board.getLocation("a3"));
+		board.removeChessPiece(pawn, board.getLocation("c3"));
+		board.removeChessPiece(pawn2, board.getLocation("d2"));
+		Assert.assertEquals(horse.canReach(board.getLocation("a3")), true);
+		Assert.assertEquals(horse.canReach(board.getLocation("c3")), true);
+		Assert.assertEquals(horse.canReach(board.getLocation("d2")), true);
+		Assert.assertEquals(horse.canReach(board.getLocation("e7")), false);
+		
+		// some allies
+		board.addChessPiece(castle, board.getLocation("a3"));
+		board.addChessPiece(pawn, board.getLocation("c3"));
+		Assert.assertEquals(horse.canReach(board.getLocation("a3")), false);
+		Assert.assertEquals(horse.canReach(board.getLocation("c3")), false);
+		Assert.assertEquals(horse.canReach(board.getLocation("d2")), true);
+		Assert.assertEquals(horse.canReach(board.getLocation("e7")), false);
 	}
 
 	@Test
 	public void testCanDefend() {
-		fail("Not yet implemented");
-	} */
+		ChessBoard board = new ChessBoard();
+		Castle castle = new Castle(Allegiance.WHITE, 1, board);
+		Horse horse = new Horse(Allegiance.WHITE, 1, board);
+		Pawn pawn = new Pawn(Allegiance.WHITE, 2, board);
+		Pawn pawn2 = new Pawn(Allegiance.WHITE, 3, board);
+		
+		// neighbors
+		board.addChessPiece(castle, board.getLocation("a3"));
+		board.addChessPiece(pawn, board.getLocation("c3"));
+		board.addChessPiece(pawn2, board.getLocation("d2"));
+		board.addChessPiece(horse, board.getLocation("b1"));
+		Assert.assertEquals(horse.canDefend(board.getLocation("a3")), true);
+		Assert.assertEquals(horse.canDefend(board.getLocation("c3")), true);
+		Assert.assertEquals(horse.canDefend(board.getLocation("d2")), true);
+		
+		// no allies in path
+		board.removeChessPiece(castle, board.getLocation("a3"));
+		board.removeChessPiece(pawn, board.getLocation("c3"));
+		board.removeChessPiece(pawn2, board.getLocation("d2"));
+		Assert.assertEquals(horse.canDefend(board.getLocation("a3")), false);
+		Assert.assertEquals(horse.canDefend(board.getLocation("c3")), false);
+		Assert.assertEquals(horse.canDefend(board.getLocation("d2")), false);
+		Assert.assertEquals(horse.canDefend(board.getLocation("e7")), false);
+		
+		// some allies
+		board.addChessPiece(castle, board.getLocation("a3"));
+		board.addChessPiece(pawn, board.getLocation("c3"));
+		Assert.assertEquals(horse.canDefend(board.getLocation("a3")), true);
+		Assert.assertEquals(horse.canDefend(board.getLocation("c3")), true);
+		Assert.assertEquals(horse.canDefend(board.getLocation("d2")), false);
+		Assert.assertEquals(horse.canDefend(board.getLocation("e7")), false);
+	}
 
 	@Test
 	public void testMove() {

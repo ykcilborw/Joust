@@ -4,9 +4,11 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
+import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Allegiance;
 
 public class Game {
 	private int myRound;
@@ -62,7 +64,7 @@ public class Game {
 		checkMateOn = false;
 	}
 	
-	public int getmyRound() {
+	public int getRound() {
 		return myRound;
 	}
 	
@@ -87,8 +89,8 @@ public class Game {
 		captured = null;
 		checkOn = false;
 		checkMateOn = false;
-		PGNMoveInterpreter pgnMoveInterpreter = new PGNMoveInterpreter();
-		pgnMoveInterpreter.update(moves);
+		PGNMoveInterpreter pgnMoveInterpreter = new PGNMoveInterpreter(moves, chessBoard);
+		pgnMoveInterpreter.update();
 	}
 	
 	public boolean getBlackCastle() {
@@ -194,6 +196,144 @@ public class Game {
 		}
 	}
 	
+	public void removePiece(ChessPiece piece) {
+		myActivePieces.remove(piece);
+		String color = piece.getAllegiance().getAllegiance();
+		if (piece.getMySymbol().equals("1") || piece.getMySymbol().equals("2") || piece.getMySymbol().equals("3") ||
+			piece.getMySymbol().equals("4") || piece.getMySymbol().equals("5") || piece.getMySymbol().equals("6")) {
+			// update individual piece list
+			// determine color
+			if (piece.getMySymbol().equals("1")) {
+				if (color.equals("b")) {
+					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("p");
+					deadMemberFamily.remove(piece);
+					stringtoCP.remove("p");
+					stringtoCP.put("p", deadMemberFamily);
+				} else {
+					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("P");
+					deadMemberFamily.remove(piece);
+					stringtoCP.remove("P");
+					stringtoCP.put("P", deadMemberFamily);
+				}
+			} else if (piece.getMySymbol().equals("2")) {
+				if (color.equals("b")) {
+					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("r");
+					deadMemberFamily.remove(piece);
+					stringtoCP.remove("r");
+					stringtoCP.put("r", deadMemberFamily);
+				} else {
+					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("R");
+					deadMemberFamily.remove(piece);
+					stringtoCP.remove("R");
+					stringtoCP.put("R", deadMemberFamily);
+				}
+			} else if (piece.getMySymbol().equals("3")) {
+				if (color.equals("b")) {
+					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("n");
+					deadMemberFamily.remove(piece);
+					stringtoCP.remove("n");
+					stringtoCP.put("n", deadMemberFamily);
+				} else {
+					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("N");
+					deadMemberFamily.remove(piece);
+					stringtoCP.remove("N");
+					stringtoCP.put("N", deadMemberFamily);
+				}
+			} else if (piece.getMySymbol().equals("4")) {
+				if (color.equals("b")) {
+					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("b");
+					deadMemberFamily.remove(piece);
+					stringtoCP.remove("b");
+					stringtoCP.put("b", deadMemberFamily);
+				} else {
+					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("B");
+					deadMemberFamily.remove(piece);
+					stringtoCP.remove("B");
+					stringtoCP.put("B", deadMemberFamily);
+				}
+			} else if (piece.getMySymbol().equals("5")) {
+				if (color.equals("b")) {
+					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("q");
+					deadMemberFamily.remove(piece);
+					stringtoCP.remove("q");
+					stringtoCP.put("q", deadMemberFamily);
+				} else {
+					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("Q");
+					deadMemberFamily.remove(piece);
+					stringtoCP.remove("Q");
+					stringtoCP.put("Q", deadMemberFamily);
+				}
+			} else if (piece.getMySymbol().equals("6")) {
+					if (color.equals("b")) {
+						ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("k");
+						deadMemberFamily.remove(piece);
+						stringtoCP.remove("k");
+						stringtoCP.put("k", deadMemberFamily);
+					} else {
+						ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("K");
+						deadMemberFamily.remove(piece);
+						stringtoCP.remove("K");
+						stringtoCP.put("K", deadMemberFamily);
+					}
+			}
+		} else {
+			// update generic piece list
+			if (piece.getMySymbol().equals("p") || piece.getMySymbol().equals("P")) {
+					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("1");
+					deadMemberFamily.remove(piece);
+					stringtoCP.remove("1");
+					stringtoCP.put("1", deadMemberFamily);
+			} else if (piece.getMySymbol().equals("r") || piece.getMySymbol().equals("R")) {
+					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("2");
+					deadMemberFamily.remove(piece);
+					stringtoCP.remove("2");
+					stringtoCP.put("2", deadMemberFamily);
+			} else if (piece.getMySymbol().equals("n") || piece.getMySymbol().equals("N")) {
+				ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("3");
+				deadMemberFamily.remove(piece);
+				stringtoCP.remove("3");
+				stringtoCP.put("3", deadMemberFamily);
+			} else if (piece.getMySymbol().equals("b") || piece.getMySymbol().equals("B")) {
+				ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("4");
+				deadMemberFamily.remove(piece);
+				stringtoCP.remove("4");
+				stringtoCP.put("4", deadMemberFamily);
+			} else if (piece.getMySymbol().equals("q") || piece.getMySymbol().equals("Q")) {
+				ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("5");
+				deadMemberFamily.remove(piece);
+				stringtoCP.remove("5");
+				stringtoCP.put("5", deadMemberFamily);
+			} else if (piece.getMySymbol().equals("k") || piece.getMySymbol().equals("K")) {
+				ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("6");
+				deadMemberFamily.remove(piece);
+				stringtoCP.remove("6");
+				stringtoCP.put("6", deadMemberFamily);
+			} 
+		}
+				
+		if (color.equals("b")) {
+			myBlackActives.remove(piece);
+			ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("d");
+			deadMemberFamily.remove(piece);
+			stringtoCP.remove("d");
+			stringtoCP.put("d", deadMemberFamily);
+		} else {
+			myWhiteActives.remove(piece);
+			ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("l");
+			deadMemberFamily.remove(piece);
+			stringtoCP.remove("l");
+			stringtoCP.put("l", deadMemberFamily);
+		}
+		ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get(piece.getMySymbol());
+		deadMemberFamily.remove(piece);
+		stringtoCP.remove(piece.getMySymbol());
+		stringtoCP.put(piece.getMySymbol(), deadMemberFamily);
+		ArrayList<ChessPiece> deadMemberFamily2 = stringtoCP.get("g");
+		deadMemberFamily2.remove(piece);
+		stringtoCP.remove("g");
+		stringtoCP.put("g", deadMemberFamily);
+	}
+	
 	/*
 	protected void printMyPositions() {
 		Set<Location> s = myPositions.keySet();
@@ -223,11 +363,15 @@ public class Game {
 	
 	public class PGNMoveInterpreter {
 		
-		public PGNMoveInterpreter() {
-			
+		private List<String> moves;
+		private ChessBoard chessBoard;
+		
+		public PGNMoveInterpreter(ArrayList<String> moves, ChessBoard chessBoard) {
+			this.moves = moves;
+			this.chessBoard = chessBoard;
 		}
 		
-		public void update(ArrayList<String> moves) {
+		public void update() {
 			
 			String currentMove = null;
 			if (myRound < moves.size()) {
@@ -295,144 +439,6 @@ public class Game {
 					// also could be pawn promotion with check/checkmate
 				}
 			}
-		}
-		
-		public void removePiece(ChessPiece piece) {
-			myActivePieces.remove(piece);
-			String color = piece.getAllegiance().getAllegiance();
-			if (piece.getMySymbol().equals("1") || piece.getMySymbol().equals("2") || piece.getMySymbol().equals("3") ||
-				piece.getMySymbol().equals("4") || piece.getMySymbol().equals("5") || piece.getMySymbol().equals("6")) {
-				// update individual piece list
-				// determine color
-				if (piece.getMySymbol().equals("1")) {
-					if (color.equals("b")) {
-						ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("p");
-						deadMemberFamily.remove(piece);
-						stringtoCP.remove("p");
-						stringtoCP.put("p", deadMemberFamily);
-					} else {
-						ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("P");
-						deadMemberFamily.remove(piece);
-						stringtoCP.remove("P");
-						stringtoCP.put("P", deadMemberFamily);
-					}
-				} else if (piece.getMySymbol().equals("2")) {
-					if (color.equals("b")) {
-						ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("r");
-						deadMemberFamily.remove(piece);
-						stringtoCP.remove("r");
-						stringtoCP.put("r", deadMemberFamily);
-					} else {
-						ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("R");
-						deadMemberFamily.remove(piece);
-						stringtoCP.remove("R");
-						stringtoCP.put("R", deadMemberFamily);
-					}
-				} else if (piece.getMySymbol().equals("3")) {
-					if (color.equals("b")) {
-						ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("n");
-						deadMemberFamily.remove(piece);
-						stringtoCP.remove("n");
-						stringtoCP.put("n", deadMemberFamily);
-					} else {
-						ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("N");
-						deadMemberFamily.remove(piece);
-						stringtoCP.remove("N");
-						stringtoCP.put("N", deadMemberFamily);
-					}
-				} else if (piece.getMySymbol().equals("4")) {
-					if (color.equals("b")) {
-						ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("b");
-						deadMemberFamily.remove(piece);
-						stringtoCP.remove("b");
-						stringtoCP.put("b", deadMemberFamily);
-					} else {
-						ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("B");
-						deadMemberFamily.remove(piece);
-						stringtoCP.remove("B");
-						stringtoCP.put("B", deadMemberFamily);
-					}
-				} else if (piece.getMySymbol().equals("5")) {
-					if (color.equals("b")) {
-						ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("q");
-						deadMemberFamily.remove(piece);
-						stringtoCP.remove("q");
-						stringtoCP.put("q", deadMemberFamily);
-					} else {
-						ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("Q");
-						deadMemberFamily.remove(piece);
-						stringtoCP.remove("Q");
-						stringtoCP.put("Q", deadMemberFamily);
-					}
-				} else if (piece.getMySymbol().equals("6")) {
-						if (color.equals("b")) {
-							ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("k");
-							deadMemberFamily.remove(piece);
-							stringtoCP.remove("k");
-							stringtoCP.put("k", deadMemberFamily);
-						} else {
-							ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("K");
-							deadMemberFamily.remove(piece);
-							stringtoCP.remove("K");
-							stringtoCP.put("K", deadMemberFamily);
-						}
-				}
-			} else {
-				// update generic piece list
-				if (piece.getMySymbol().equals("p") || piece.getMySymbol().equals("P")) {
-						ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("1");
-						deadMemberFamily.remove(piece);
-						stringtoCP.remove("1");
-						stringtoCP.put("1", deadMemberFamily);
-				} else if (piece.getMySymbol().equals("r") || piece.getMySymbol().equals("R")) {
-						ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("2");
-						deadMemberFamily.remove(piece);
-						stringtoCP.remove("2");
-						stringtoCP.put("2", deadMemberFamily);
-				} else if (piece.getMySymbol().equals("n") || piece.getMySymbol().equals("N")) {
-					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("3");
-					deadMemberFamily.remove(piece);
-					stringtoCP.remove("3");
-					stringtoCP.put("3", deadMemberFamily);
-				} else if (piece.getMySymbol().equals("b") || piece.getMySymbol().equals("B")) {
-					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("4");
-					deadMemberFamily.remove(piece);
-					stringtoCP.remove("4");
-					stringtoCP.put("4", deadMemberFamily);
-				} else if (piece.getMySymbol().equals("q") || piece.getMySymbol().equals("Q")) {
-					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("5");
-					deadMemberFamily.remove(piece);
-					stringtoCP.remove("5");
-					stringtoCP.put("5", deadMemberFamily);
-				} else if (piece.getMySymbol().equals("k") || piece.getMySymbol().equals("K")) {
-					ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("6");
-					deadMemberFamily.remove(piece);
-					stringtoCP.remove("6");
-					stringtoCP.put("6", deadMemberFamily);
-				} 
-			}
-					
-			if (color.equals("b")) {
-				myBlackActives.remove(piece);
-				ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("d");
-				deadMemberFamily.remove(piece);
-				stringtoCP.remove("d");
-				stringtoCP.put("d", deadMemberFamily);
-			} else {
-				myWhiteActives.remove(piece);
-				ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get("l");
-				deadMemberFamily.remove(piece);
-				stringtoCP.remove("l");
-				stringtoCP.put("l", deadMemberFamily);
-			}
-			ArrayList<ChessPiece> deadMemberFamily = stringtoCP.get(piece.getMySymbol());
-			deadMemberFamily.remove(piece);
-			stringtoCP.remove(piece.getMySymbol());
-			stringtoCP.put(piece.getMySymbol(), deadMemberFamily);
-			ArrayList<ChessPiece> deadMemberFamily2 = stringtoCP.get("g");
-			deadMemberFamily2.remove(piece);
-			stringtoCP.remove("g");
-			stringtoCP.put("g", deadMemberFamily);
 		}
 		
 		private ChessPiece determineChessPiece(String move) {

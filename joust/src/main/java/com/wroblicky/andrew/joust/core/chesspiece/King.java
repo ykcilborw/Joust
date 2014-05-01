@@ -2,6 +2,7 @@ package com.wroblicky.andrew.joust.core.chesspiece;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.general.Location;
@@ -43,11 +44,12 @@ public class King extends ChessPiece{
 	@Override
 	public List<Location> getPossibleMoves(){
 		List<Location> possibles = getMoveSearchSpace();
+		ListIterator<Location> possibilityIterator = possibles.listIterator();
 		
-		// remove locations that are not valid
-		for (Location location : possibles) {
-			if (!(isCapableOfOccupation(location))) {
-				possibles.remove(location);
+		while (possibilityIterator.hasNext()) {
+			Location location = possibilityIterator.next();
+			if (!isCapableOfOccupation(location)) {
+				possibilityIterator.remove();
 			}
 		}
 		return possibles;
@@ -56,14 +58,14 @@ public class King extends ChessPiece{
 	@Override
 	public List<Location> getDefenseMoves(){
 		List<Location> possibles = getMoveSearchSpace();
+		ListIterator<Location> possibilityIterator = possibles.listIterator();
 		
-		// remove locations that are not valid
-		for (Location location : possibles) {
-			if (!(isFriend(location))) {
-				possibles.remove(location);
+		while (possibilityIterator.hasNext()) {
+			Location location = possibilityIterator.next();
+			if (!isFriend(location)) {
+				possibilityIterator.remove();
 			}
 		}
-		
 		return possibles;
 	}
 	

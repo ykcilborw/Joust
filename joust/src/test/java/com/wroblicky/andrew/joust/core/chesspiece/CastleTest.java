@@ -142,4 +142,18 @@ public class CastleTest {
 		Assert.assertEquals(castle.canDefend(board.getLocation("b1")), false);
 		Assert.assertEquals(castle.canDefend(board.getLocation("e7")), false);
 	}
+	
+	@Test
+	public void testMove() {
+		ChessBoard board = new ChessBoard();
+		Castle castle = new Castle(Allegiance.WHITE, 1, board);
+		board.addChessPiece(castle, board.getLocation("d4"));
+		Assert.assertEquals(castle.getLocation() == board.getLocation("d4"), true);
+		
+		castle.move(board.getLocation("d8"));
+		Assert.assertEquals(castle.getLocation().getAlgebraicLocation().equals("d8"), true);
+		
+		Assert.assertEquals(board.getChessPieceByLocation(board.getLocation("d8")) == castle, true);
+		Assert.assertEquals(board.getChessPieceByLocation(board.getLocation("d4")) == castle, false);
+	}
 }
