@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.general.game.GameSetup;
+import com.wroblicky.andrew.joust.pgn.PGNParser;
 
 import fri.patterns.interpreter.parsergenerator.examples.Joust;
 

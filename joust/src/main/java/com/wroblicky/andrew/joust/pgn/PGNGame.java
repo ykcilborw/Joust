@@ -5,7 +5,7 @@ import java.util.List;
 import com.wroblicky.andrew.joust.core.general.Turn;
 
 /**
- * Represents the information contained in a PGNGame
+ * Represents the information contained in a pgn file
  * 
  * @author Andrew Wroblicky
  *
