@@ -101,7 +101,8 @@ public class BishopTest {
 		board.removeChessPiece(pawn2, board.getLocation("d2"));
 		Assert.assertEquals(bishop.canReach(board.getLocation("b2")), true);
 		Assert.assertEquals(bishop.canReach(board.getLocation("d2")), true);
-		Assert.assertEquals(bishop.canReach(board.getLocation("f4")), false);
+		Assert.assertEquals(bishop.canReach(board.getLocation("f4")), true);
+		Assert.assertEquals(bishop.canReach(board.getLocation("f5")), false);
 		
 		// non bordering allies in path
 		board.addChessPiece(pawn, board.getLocation("a3"));

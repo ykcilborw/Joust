@@ -9,7 +9,32 @@ import com.wroblicky.andrew.joust.core.general.move.Move;
 
 public class ChessBoardTest {
 
-
+	@Test
+	public void testGetLocation() {
+		// algebraic
+		ChessBoard board = new ChessBoard();
+		Location location = board.getLocation("a5");
+		Assert.assertEquals(location.getAlgebraicLocation().equals("a5"), true);
+		Assert.assertEquals(location.getXCoordinate() == 0, true);
+		Assert.assertEquals(location.getYCoordinate() == 4, true);
+		
+		// x, y version
+		Location location2 = board.getLocation(0, 4);
+		Assert.assertEquals(location2.getAlgebraicLocation().equals("a5"), true);
+		Assert.assertEquals(location2.getXCoordinate() == 0, true);
+		Assert.assertEquals(location2.getYCoordinate() == 4, true);
+	}
+	
+	@Test
+	public void testOnBoard() {
+		ChessBoard board = new ChessBoard();
+		Assert.assertEquals(board.onBoard(2, 2), true);
+		Assert.assertEquals(board.onBoard(8, 8), false);
+		Assert.assertEquals(board.onBoard(0, 7), true);
+		Assert.assertEquals(board.onBoard(-1, 4), false);
+		Assert.assertEquals(board.onBoard(16, 9), false);
+	}
+	
 	@Test
 	public void testGetLocationByChessPiece() {
 		ChessBoard board = new ChessBoard();
@@ -59,7 +84,7 @@ public class ChessBoardTest {
 	@Test
 	public void testRemoveChessPiece() {
 		ChessBoard board = new ChessBoard();
-		Location location = board.getLocation("a0");
+		Location location = board.getLocation("a1");
 		Pawn pawn = new Pawn();
 		board.addChessPiece(pawn, location);
 		Assert.assertEquals(board.getChessPieceByLocation(location).getMySymbol(), ("p"));

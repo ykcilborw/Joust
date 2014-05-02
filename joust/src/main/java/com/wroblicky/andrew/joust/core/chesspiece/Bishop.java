@@ -64,8 +64,8 @@ public class Bishop extends ChessPiece {
 		int nextY = currentLocation.getYCoordinate();
 		boolean stillValid = true;
 		while (stillValid) {
-			nextX = nextX + deltaX;
-			nextY = nextY + deltaY;
+			nextX += deltaX;
+			nextY += deltaY;
 			Location possible = chessBoard.getLocation(nextX, nextY);
 			if (possible != null && checkAvailability(possible) == UNOCCUPIED) {
 				locations.add(possible);

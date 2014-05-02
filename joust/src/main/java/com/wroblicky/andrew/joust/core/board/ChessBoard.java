@@ -68,6 +68,9 @@ public class ChessBoard {
 		this.chessPieceToLocation = new HashMap<ChessPiece, Location>();
 	}
 	
+	/**
+	 * Returns the Location object associated with a provided algebraic position
+	 */
 	public Location getLocation(String algebraicLocation) {
 		int x = Util.fileToNum(algebraicLocation.substring(0, 1)) - 1;
 		int y = Util.rankToNum(algebraicLocation.substring(1, 2)) - 1;
@@ -78,6 +81,12 @@ public class ChessBoard {
 		}
 	}
 	
+	/**
+	 * Returns the location at a given x, y 
+	 * 
+	 * @param x (0 to 7 inclusive are allowed values)
+	 * @param y (0 to 7 inclusive are allowed values)
+	 */
 	public Location getLocation(int x, int y) {
 		if (onBoard(x, y)) {
 			return chessBoard[x][y];
@@ -86,22 +95,18 @@ public class ChessBoard {
 		}
 	}
 	
-	public void addLocation(Location location) {
-		int x = location.getXCoordinate();
-		int y = location.getYCoordinate();
-		if (onBoard(x, y)) {
-			chessBoard[x][y] = location;
-		} else {
-			System.out.println("can't add location:" + location.getAlgebraicLocation());
-		}
-	}
-	
-	public boolean onBoard(int x, int y) {
-		if (x >= 0 && x < 8 && y >= 0 && y < 8) {
-			return true;
-		} else {
-			return false;
-		}
+	/**
+	 * Returns the location that is deltaX and deltaY spaces away.
+	 * 
+	 * @param location
+	 * @param deltaX (positive indicates movement to the right)
+	 * @param deltaY (positive indicates movement forward)
+	 */
+	public Location getLocation(Location location, int deltaX, int deltaY) {
+		int x = location.getXCoordinate() + deltaX;
+		int y = location.getYCoordinate() + deltaY;
+		
+		return getLocation(x, y);
 	}
 	
 	public Location getNorthNeighbor(Location location) {
@@ -169,61 +174,101 @@ public class ChessBoard {
 	}
 	
 	/**
-	 * Returns the location that is deltaX and deltaY spaces away.
-	 * 
-	 * @param location
-	 * @param deltaX (positive indicates movement to the right)
-	 * @param deltaY (positive indicates movement forward)
+	 * Adds a Location object to the chess board
 	 */
-	public Location getLocation(Location location, int deltaX, int deltaY) {
-		int x = location.getXCoordinate() + deltaX;
-		int y = location.getYCoordinate() + deltaY;
-		
-		return getLocation(x, y);
+	public void addLocation(Location location) {
+		int x = location.getXCoordinate();
+		int y = location.getYCoordinate();
+		if (onBoard(x, y)) {
+			chessBoard[x][y] = location;
+		} else {
+			throw new RuntimeException("Can't add location:" + location.getAlgebraicLocation());
+		}
 	}
 	
+	/**
+	 * Returns whether or not a given x, y are within the domain of the board
+	 * 
+	 * @param x (0 to 7 inclusive)
+	 * @param y (0 to 7 inclusive)
+	 */
+	public boolean onBoard(int x, int y) {
+		if (x >= 0 && x < 8 && y >= 0 && y < 8) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Given a chess piece, returns the Location associated with it
+	 */
 	public Location getLocationByChessPiece(ChessPiece chessPiece) {
 		return chessPieceToLocation.get(chessPiece);
 	}
 	
+	/**
+	 * Given a Location object, returns the chess piece associated with it
+	 */
 	public ChessPiece getChessPieceByLocation(Location location) {
 		int x = location.getXCoordinate();
 		int y = location.getYCoordinate();
 		return chessBoard[x][y].getChessPiece();
 	}
 	
+	/**
+	 * Adds a chess piece to the chess board
+	 */
 	public void addChessPiece(ChessPiece chessPiece, Location location) {
 		addChessPieceToBoard(chessPiece, location);
 		chessPieceToLocation.put(chessPiece, location);
 	}
 	
+	/**
+	 * Helper method that adds the chess piece to the chessBoard array
+	 */
 	private void addChessPieceToBoard(ChessPiece chessPiece, Location location) {
 		int x = location.getXCoordinate();
 		int y = location.getYCoordinate();
 		chessBoard[x][y].setChessPiece(chessPiece);
 	}
 	
+	/**
+	 * Moves the chess piece on the board
+	 */
 	public void moveChessPiece(Move move) {
 		removeChessPiece(move.getChessPiece(), move.getStart());
 		addChessPiece(move.getChessPiece(), move.getDestination());
 	}
-	
+
+	/**
+	 * Moves the chess piece on the board
+	 */
 	public void moveChessPiece(ChessPiece chessPiece, Location start, Location destination) {
 		removeChessPiece(chessPiece, start);
 		addChessPiece(chessPiece, destination);
 	}
 	
+	/**
+	 * Removes the chess piece from the board
+	 */
 	public void removeChessPiece(ChessPiece chessPiece, Location location) {
 		removeChessPieceFromBoard(chessPiece, location);
 		chessPieceToLocation.remove(chessPiece);
 	}
 	
+	/**
+	 * Helper method that removes the chess piece from the chessBoard array
+	 */
 	private void removeChessPieceFromBoard(ChessPiece chessPiece, Location location) {
 		int x = location.getXCoordinate();
 		int y = location.getYCoordinate();
 		chessBoard[x][y].setChessPiece(null);
 	}
 	
+	/**
+	 * Initializes the Location objects for every space of the board
+	 */
 	private void createBackingBoard() {
 		ArrayList<String> fileValues = new ArrayList<String>();
 		fileValues.add("a");
@@ -241,7 +286,10 @@ public class ChessBoard {
 			}
 		}
 	}
-
+	
+	/**
+	 * Convenience method to visualize the board in standard out
+	 */
 	public void printBoard() {
 		for (int j = 7; j > -1; j--) {
 			for (int i = 0; i < 8; i++) {
