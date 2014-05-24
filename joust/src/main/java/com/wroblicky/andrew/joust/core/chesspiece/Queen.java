@@ -89,10 +89,10 @@ public class Queen extends ChessPiece {
 		possibles = getDefenseMovesHelper(possibles, 1, -1);
 		possibles = getDefenseMovesHelper(possibles, -1, 1);
 		possibles = getDefenseMovesHelper(possibles, -1, -1);
-		possibles = getPossibleMovesHelper(possibles, 1, 0);
-		possibles = getPossibleMovesHelper(possibles, -1, 0);
-		possibles = getPossibleMovesHelper(possibles, 0, 1);
-		possibles = getPossibleMovesHelper(possibles, 0, -1);
+		possibles = getDefenseMovesHelper(possibles, 1, 0);
+		possibles = getDefenseMovesHelper(possibles, -1, 0);
+		possibles = getDefenseMovesHelper(possibles, 0, 1);
+		possibles = getDefenseMovesHelper(possibles, 0, -1);
 		return possibles;
 	}
 	
