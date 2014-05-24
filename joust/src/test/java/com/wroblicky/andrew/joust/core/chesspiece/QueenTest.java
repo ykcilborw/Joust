@@ -1,7 +1,5 @@
 package com.wroblicky.andrew.joust.core.chesspiece;
 
-import static org.junit.Assert.*;
-
 import java.util.List;
 
 import junit.framework.Assert;
