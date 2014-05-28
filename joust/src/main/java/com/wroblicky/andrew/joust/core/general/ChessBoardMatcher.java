@@ -15,7 +15,7 @@ import fri.patterns.interpreter.parsergenerator.examples.Joust;
  * Matcher class for regexes in Java
  */
 public class ChessBoardMatcher {
-	Game myGame;
+	GameManagerImpl myGame;
 	ArrayList<String> myMoves;
 	HashMap<String, ArrayList<ChessPiece>> mySuspects;
 	ArrayList<String[][]> matchedBoards;
@@ -55,7 +55,7 @@ public class ChessBoardMatcher {
 		occursFlag = false;
 	}
 	
-	protected Game getGame() {
+	protected GameManagerImpl getGame() {
 		return myGame;
 	}
 	
@@ -109,7 +109,7 @@ public class ChessBoardMatcher {
 		//System.out.println("findToken");
 		boolean foundMatch = false;
 		int counter = 0;
-		while (foundMatch == false && myGame.getisInProgress() == true) {
+		while (foundMatch == false && myGame.isInProgress() == true) {
 			myGame.printBoard2(myGame.getRound());
 			//System.out.println("The Positions:");
 			//myGame.printMyPositions();
@@ -139,7 +139,7 @@ public class ChessBoardMatcher {
 		//System.out.println("findThroughToken");
 		boolean foundMatch = false;
 		int counter = 0;
-		while (foundMatch == false && myGame.getisInProgress() == true) {
+		while (foundMatch == false && myGame.isInProgress() == true) {
 			myGame.printBoard2(myGame.getRound());
 			//System.out.println("token: " + token);
 			foundMatch = evalStatement(token);
@@ -187,7 +187,7 @@ public class ChessBoardMatcher {
 					}
 				}
 			}
-			if (myGame.getisInProgress() == false) {
+			if (myGame.isInProgress() == false) {
 				gameStillGoing = false;
 			}
 			//System.out.println("findUntilToken2 foundMatch: " + foundMatch);

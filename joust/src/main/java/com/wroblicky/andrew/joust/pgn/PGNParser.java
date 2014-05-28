@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 
 import com.wroblicky.andrew.joust.pgn.PGNGame;
 
-
 /**
  * Converts the moves described in a pgn text file into a
  * list of string tokens

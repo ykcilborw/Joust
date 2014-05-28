@@ -17,7 +17,7 @@ import com.wroblicky.andrew.joust.core.chesspiece.Horse;
 import com.wroblicky.andrew.joust.core.chesspiece.King;
 import com.wroblicky.andrew.joust.core.chesspiece.Pawn;
 import com.wroblicky.andrew.joust.core.chesspiece.Queen;
-import com.wroblicky.andrew.joust.core.general.Game;
+import com.wroblicky.andrew.joust.core.general.GameManagerImpl;
 import com.wroblicky.andrew.joust.core.general.Location;
 import com.wroblicky.andrew.joust.core.general.Util;
 
@@ -29,7 +29,7 @@ import com.wroblicky.andrew.joust.core.general.Util;
  */
 public class GameSetup {
 	
-	public static Game setupDefaultGame() {
+	public static GameManagerImpl setupDefaultGame() {
 		// Load initial default initial configuration into game
 		HashMap<Location, ChessPiece> map = new HashMap<Location, ChessPiece>();
 		ArrayList<ChessPiece> actives = new ArrayList<ChessPiece>();
@@ -181,7 +181,7 @@ public class GameSetup {
 		ArrayList<ChessPiece> allQueens = new ArrayList<ChessPiece>();
 		ArrayList<ChessPiece> allKings = new ArrayList<ChessPiece>();
 		
-		Game game = new Game(0, map, actives, blackActives, whiteActives, false, false);
+		GameManagerImpl game = new GameManagerImpl(0, map, actives, blackActives, whiteActives, false, false);
 		HashMap<String, ArrayList<ChessPiece>> lookup = new HashMap<String, ArrayList<ChessPiece>>();
 		ArrayList<ChessPiece> pawns = new ArrayList<ChessPiece>();
 		pawns.add(wp1);
@@ -270,8 +270,8 @@ public class GameSetup {
 		return game;
 	}
 
-	public static Game setupSpecialLayout(String initialConfig) {
-		Game game = null;
+	public static GameManagerImpl setupSpecialLayout(String initialConfig) {
+		GameManagerImpl game = null;
 		HashMap<Location, ChessPiece> map = new HashMap<Location, ChessPiece>();
 		ArrayList<ChessPiece> actives = new ArrayList<ChessPiece>();
 		ArrayList<ChessPiece> blackActives = new ArrayList<ChessPiece>();
@@ -586,7 +586,7 @@ public class GameSetup {
 			lookup.put("4", allBishops);
 			lookup.put("5", allQueens);
 			lookup.put("6", allKings);
-			game = new Game(0, map, actives, blackActives, whiteActives, false, false);
+			game = new GameManagerImpl(0, map, actives, blackActives, whiteActives, false, false);
 			game.setStringToCP(lookup);
 			//Close the input stream
 			in.close();
