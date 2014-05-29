@@ -1,10 +1,8 @@
 package com.wroblicky.andrew.joust.core.general;
 
 import java.util.List;
-import java.util.Map;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
-import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 
 /**
  * A simple class that stores all the internal properties of a chess game
@@ -17,7 +15,6 @@ public class Game {
 	private ChessBoard board;
 	private List<Turn> turns;
 	private ChessPieceSubsetManager chessPieceSubsetManager;
-	private Map<Location, ChessPiece> positions;
 	
 	// game properties
 	private boolean isInProgress = true; // by default
@@ -27,11 +24,10 @@ public class Game {
 	private boolean check = false;
 	private boolean checkmate = false;
 	
-	public Game(ChessBoard board, List<Turn> turns, Map<Location, ChessPiece> positions,
+	public Game(ChessBoard board, List<Turn> turns, 
 			ChessPieceSubsetManager chessPieceSubsetManager) {
 		this.board = board;
 		this.turns = turns;
-		this.positions = positions;
 		this.chessPieceSubsetManager = chessPieceSubsetManager;
 	}
 	
@@ -49,14 +45,6 @@ public class Game {
 	
 	public void setTurns(List<Turn> turns) {
 		this.turns = turns;
-	}
-	
-	public Map<Location, ChessPiece> getPositions() {
-		return positions;
-	}
-
-	public void setPositions(Map<Location, ChessPiece> positions) {
-		this.positions = positions;
 	}
 	
 	public ChessPieceSubsetManager getChessPieceSubsetManager() {

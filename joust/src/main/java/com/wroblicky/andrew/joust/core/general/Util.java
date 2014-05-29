@@ -1,13 +1,14 @@
 package com.wroblicky.andrew.joust.core.general;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.ui.ChessGameDemo;
 
 public class Util {
 	
-	public static String[][] getStringBoard(ArrayList<ChessPiece> actives) {
+	public static String[][] getStringBoard(List<ChessPiece> actives) {
 		String[][] newBoard = new String[8][8];
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
@@ -23,7 +24,7 @@ public class Util {
 		return newBoard;
 	}
 	
-	public static void handleResults(ArrayList<String[][]> boards, ArrayList<Integer> rounds, ChessBoardMatcher jo, String joustProgram) {
+	public static void handleResults(List<String[][]> boards, List<Integer> rounds, ChessBoardMatcher jo, String joustProgram) {
 		System.out.println("Printing RESULTS: ");
 		for (int i = 0; i < boards.size(); i++) {
 			int round = rounds.get(i);

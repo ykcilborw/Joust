@@ -24,8 +24,10 @@ public class Main {
 			System.exit(1);
 		}
 		if (args.length == 1) {
-			// TODO
-			throw new RuntimeException("Not yet implemented!");
+			String chessGame = args[0];
+			ChessBoardMatcher j = new ChessBoardMatcher(chessGame);
+			boolean foundMatch = j.find("*"); // match everything
+			System.out.println("foundMatch: " + foundMatch);
 		} else if (args.length == 2) {
 			String chessGame = args[0];  //a pgn file
 			String joustProgram = args[1];
@@ -44,8 +46,8 @@ public class Main {
 	
 	// for debugging purposes
 	public static boolean run(String pgnFile, String joustProgram) {
-			ChessBoardMatcher j = new ChessBoardMatcher(pgnFile);
-			return j.find(joustProgram);
+		ChessBoardMatcher j = new ChessBoardMatcher(pgnFile);
+		return j.find(joustProgram);
 	}
 	
 	// for debugging purposes

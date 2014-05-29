@@ -34,14 +34,12 @@ public class GameSetup {
 	
 	public static GameManagerImpl setupDefaultGame() {
 		// Load initial default initial configuration into gameManager
-		HashMap<Location, ChessPiece> map = new HashMap<Location, ChessPiece>();
 		ArrayList<ChessPiece> actives = new ArrayList<ChessPiece>();
 		ArrayList<ChessPiece> blackActives = new ArrayList<ChessPiece>();
 		ArrayList<ChessPiece> whiteActives = new ArrayList<ChessPiece>();
-		
 		ChessBoard chessBoard = new ChessBoard();
-		
-		
+
+		// create relevant chess pieces
 		Pawn wp1 = new Pawn(Allegiance.WHITE, 1, chessBoard);
 		Pawn wp2 = new Pawn(Allegiance.WHITE, 2, chessBoard);
 		Pawn wp3 = new Pawn(Allegiance.WHITE, 3, chessBoard);
@@ -142,41 +140,6 @@ public class GameSetup {
 		blackActives.add(bk1);
 		whiteActives.add(wk1);
 		
-		// add pieces to hash map
-		/*map.put(a2, wp1);
-		map.put(b2, wp2);
-		map.put(c2, wp3);
-		map.put(d2, wp4);
-		map.put(e2, wp5);
-		map.put(f2, wp6);
-		map.put(g2, wp7);
-		map.put(h2, wp8);
-		map.put(a7, bp1);
-		map.put(b7, bp2);
-		map.put(c7, bp3);
-		map.put(d7, bp4);
-		map.put(e7, bp5);
-		map.put(f7, bp6);
-		map.put(g7, bp7);
-		map.put(h7, bp8);
-		map.put(a1, wc1);
-		map.put(b1, wh1);
-		map.put(c1, wb1);
-		map.put(d1, wq1);
-		map.put(e1, wk1);
-		map.put(f1, wb2);
-		map.put(g1, wh2);
-		map.put(h1, wc2);
-		map.put(a8, bc1);
-		map.put(b8, bh1);
-		map.put(c8, bb1);
-		map.put(d8, bq1);
-		map.put(e8, bk1);
-		map.put(f8, bb2);
-		map.put(g8, bh2);
-		map.put(h8, bc2); */
-		
-		
 		ArrayList<ChessPiece> allPawns = new ArrayList<ChessPiece>();
 		ArrayList<ChessPiece> allRooks = new ArrayList<ChessPiece>();
 		ArrayList<ChessPiece> allKnights = new ArrayList<ChessPiece>();
@@ -184,7 +147,7 @@ public class GameSetup {
 		ArrayList<ChessPiece> allQueens = new ArrayList<ChessPiece>();
 		ArrayList<ChessPiece> allKings = new ArrayList<ChessPiece>();
 		
-		Game game = new Game(chessBoard, new ArrayList<Turn>(), new HashMap<Location, ChessPiece>(),
+		Game game = new Game(chessBoard, new ArrayList<Turn>(),
 				new ChessPieceSubsetManagerImpl());
 		GameManagerImpl gameManager = new GameManagerImpl(game, actives, blackActives, whiteActives);
 		HashMap<String, ArrayList<ChessPiece>> lookup = new HashMap<String, ArrayList<ChessPiece>>();
@@ -591,7 +554,7 @@ public class GameSetup {
 			lookup.put("4", allBishops);
 			lookup.put("5", allQueens);
 			lookup.put("6", allKings);
-			Game game = new Game(chessBoard, new ArrayList<Turn>(), new HashMap<Location, ChessPiece>(),
+			Game game = new Game(chessBoard, new ArrayList<Turn>(),
 					new ChessPieceSubsetManagerImpl());
 			gameManager = new GameManagerImpl(game, actives, blackActives, whiteActives);
 			gameManager.setStringToCP(lookup);

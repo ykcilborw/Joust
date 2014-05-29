@@ -11,19 +11,19 @@ import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 
 public class GameManagerImpl {
-	private ArrayList<ChessPiece> myActivePieces;
-	private ArrayList<ChessPiece> myBlackActives;
-	private ArrayList<ChessPiece> myWhiteActives;
+	private List<ChessPiece> myActivePieces;
+	private List<ChessPiece> myBlackActives;
+	private List<ChessPiece> myWhiteActives;
 	private Game game;
-	private HashMap<String, ArrayList<ChessPiece>> stringtoCP;
-	private ArrayList<String[][]> visitedBoards; // debugging ONLY!!!
-	private ArrayList<CastleMove> castleMoves; // for ChessDemoVisualizations ONLY!!
+	private Map<String, ArrayList<ChessPiece>> stringtoCP;
+	private List<String[][]> visitedBoards; // debugging ONLY!!!
+	private List<CastleMove> castleMoves; // for ChessDemoVisualizations ONLY!!
 	private ChessPiece capturer;
 	private ChessPiece captured;
 	
 	
-	public GameManagerImpl(Game game, ArrayList<ChessPiece> activePieces,
-			ArrayList<ChessPiece> blacks, ArrayList<ChessPiece> whites) {
+	public GameManagerImpl(Game game, List<ChessPiece> activePieces,
+			List<ChessPiece> blacks, List<ChessPiece> whites) {
 		this.game = game;
 		myActivePieces = activePieces;
 		myBlackActives = blacks;
@@ -36,19 +36,15 @@ public class GameManagerImpl {
 		return game.getRound();
 	}
 	
-	public Map<Location, ChessPiece> getMyPositions() {
-		return game.getPositions();
-	}
-	
-	public ArrayList<ChessPiece> getActivePieces() {
+	public List<ChessPiece> getActivePieces() {
 		return myActivePieces;
 	}
 	
-	public ArrayList<ChessPiece> getBlackPieces() {
+	public List<ChessPiece> getBlackPieces() {
 		return myBlackActives;
 	}
 	
-	public ArrayList<ChessPiece> getWhitePieces() {
+	public List<ChessPiece> getWhitePieces() {
 		return myWhiteActives;
 	}
 	
@@ -78,7 +74,7 @@ public class GameManagerImpl {
 		return game.isInProgress();
 	}
 	
-	public HashMap<String, ArrayList<ChessPiece>> getStringToCP() {
+	public Map<String, ArrayList<ChessPiece>> getStringToCP() {
 		return stringtoCP;
 	}
 	
@@ -90,7 +86,7 @@ public class GameManagerImpl {
 		return captured;
 	}
 	
-	public ArrayList<CastleMove> getCastleMoves() {
+	public List<CastleMove> getCastleMoves() {
 		return castleMoves;
 	}
 	
@@ -290,33 +286,6 @@ public class GameManagerImpl {
 		stringtoCP.remove("g");
 		stringtoCP.put("g", deadMemberFamily);
 	}
-	
-	/*
-	protected void printMyPositions() {
-		Set<Location> s = myPositions.keySet();
-		Iterator<Location> iter = s.iterator();
-		String[][] board = new String[8][8];
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				board[i][j] = "-"; //denotes unoccupied
-			}
-		}
-		while (iter.hasNext()) {
-			Location l = iter.next();
-			int x = l.getXCoordinate();
-			int y = l.getYCoordinate();
-			ChessPiece current = myPositions.get(l);
-			if (current != null) {
-				board[x - 1][y - 1] = current.getMySymbol();
-			}
-		}
-		for (int j = 7; j > -1; j--) {
-			for (int i = 0; i < 8; i++) {
-				System.out.print(board[i][j] + " ");
-			}
-			System.out.println("");
-		}
-	} */
 	
 	public class PGNMoveInterpreter {
 		
@@ -684,8 +653,7 @@ public class GameManagerImpl {
 			int y = l.getYCoordinate();
 			Location l2 = chessBoard.getLocation(y - 1, x - 1);
 		
-			ChessPiece dead = game.getPositions().get(l2);
-			//System.out.println("myPositions: \n" + myPositions);
+			ChessPiece dead = game.getBoard().getChessPieceByLocation(l2);
 			//System.out.println("l2: " + l2);
 			//System.out.println("dead id: " + dead.getID());
 			//System.out.println("dead id: " + dead.getLocation());
@@ -731,8 +699,7 @@ public class GameManagerImpl {
 				int y = l.getYCoordinate();
 				Location l2 = chessBoard.getLocation(y - 1, x - 1);
 			
-				ChessPiece dead = game.getPositions().get(l2);
-				//System.out.println("myPositions: \n" + myPositions);
+				ChessPiece dead = game.getBoard().getChessPieceByLocation(l2);
 				//System.out.println("l2: " + l2);
 				//System.out.println("dead id: " + dead.getID());
 				//System.out.println("dead id: " + dead.getLocation());

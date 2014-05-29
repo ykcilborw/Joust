@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
@@ -38,13 +39,13 @@ public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionL
 	int xAdjustment;
 	int yAdjustment;
 	int index;
-	ArrayList<JLabel> capturedPieces;
-	ArrayList<String[][]> myBoards;
-	ArrayList<CastleMove> myCastles;
+	List<JLabel> capturedPieces;
+	List<String[][]> myBoards;
+	List<CastleMove> myCastles;
 	ChessBoardMatcher myJouster;
 	String myProgram;
 	
-	public ChessGameDemo(ArrayList<String[][]> boards, ChessBoardMatcher j, String joustProgram, ArrayList<CastleMove> castles) {
+	public ChessGameDemo(List<String[][]> boards, ChessBoardMatcher j, String joustProgram, List<CastleMove> castles) {
 		Dimension boardSize = new Dimension(600, 600);
 		index = 0;
 		myBoards = boards;
@@ -975,7 +976,7 @@ public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionL
 	}
 	*/
 	
-	public static void start(ArrayList<String[][]> boards, ChessBoardMatcher j, String joustProgram, ArrayList<CastleMove> castles) {
+	public static void start(List<String[][]> boards, ChessBoardMatcher j, String joustProgram, List<CastleMove> castles) {
 		JFrame frame = new ChessGameDemo(boards, j, joustProgram, castles);
 		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE );
 		frame.pack();
