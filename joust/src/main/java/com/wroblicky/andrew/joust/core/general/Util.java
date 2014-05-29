@@ -113,5 +113,9 @@ public class Util {
 		int rank = Integer.parseInt(id.substring(1, 2)) - 1;
 		return board[rank][file];
 	}
-
+	
+	// convenience method for more succinct code
+	public static void print(String s) {
+		System.out.println(s);
+	}
 }

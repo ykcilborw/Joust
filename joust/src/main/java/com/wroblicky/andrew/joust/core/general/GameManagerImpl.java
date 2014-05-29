@@ -302,75 +302,90 @@ public class GameManagerImpl {
 		}
 		
 		public void update() {
-			
-			String currentMove = null;
 			if (game.getRound() < moves.size()) {
-				currentMove = moves.get(game.getRound());
+				analyzeMove(moves.get(game.getRound()));
 			} else {
-				System.out.println("Game Over!");
+				Util.print("Game Over!");
 				System.exit(-1);
 			}
+		}
+			
+		private void analyzeMove(String currentMove) {
 			//System.out.println("curentMove: " + currentMove);
 			if (currentMove.length() == 2) {
-				// figure out which chess piece must've made the move
-				ChessPiece c = determineChessPiece(currentMove);
-				//System.out.println("c: " + c);
-				Location l = new Location(currentMove);
-				c.move(l);
-				game.setRound(game.getRound() + 1);
+				handleLengthTwoMove(currentMove);
 			} else if(currentMove.equals("O-O")){
 				handleKingSideCastle();
 			} else if (currentMove.equals("O-O-O")) {
 				handleQueenSideCastle();
 			} else if (currentMove.equals("1/2-1/2") || currentMove.equals("1-0") || currentMove.equals("0-1")) {
-				game.setInProgress(false);
+				handleGameOver();
 			} else if(currentMove.length() == 3){
-				// could be a pawn check
-				if (currentMove.substring(2, 3).equals("+") || currentMove.substring(2, 3).equals("#")) {
-					handleShortCheck(currentMove);
-				} else {
-					String piece = currentMove.substring(0, 1);
-					String move = currentMove.substring(1, 3);
-					Location l = new Location(move);
-					ChessPiece c = determineChessPiece(move, piece);
-					c.move(l);
-					game.setRound(game.getRound() + 1);
-				}
+				handleLengthThreeMove(currentMove);
 			} else if(currentMove.length() == 4){
-				// Determine whether capture or more specific move
-				//System.out.println("current move length 4");
-				if (currentMove.substring(1, 2).equals("x")) {
-					//System.out.println("handling capture");
-					handleCapture(currentMove);
-				} else if (currentMove.contains("+") || currentMove.contains("#")){
-					handleCheck(currentMove);
-					//System.out.println("current move 4 check!");
-				} else {
-					//System.out.println("current move 4 normal");
-					String piece = currentMove.substring(0, 1);
-					String file = currentMove.substring(1, 2);
-					String move = currentMove.substring(2, 4);
-					Location l = new Location(move);
-					ChessPiece c = determineFileChessPiece(file, piece, move);
-					c.move(l);
-					game.setRound(game.getRound() + 1);
-				}
-				// TODO Implement pawn promotion
+				handleLengthFourMove(currentMove);
 			} else if (currentMove.length() == 5) {
-				if (currentMove.contains("x")) {
-					// could be capture with check/checkmate
-					handleLongCapture(currentMove);
-				} else {
-					if (currentMove.substring(4, 5).equals("+") || currentMove.substring(4, 5).equals("#")) {
-						handleFileWithCheck(currentMove);
-					}
-					// TODO
-					// could be generic move specifying moving piece, its file, its rank, and where went
-					// also could be pawn promotion with check/checkmate
-				}
+				handleLengthFiveMove(currentMove);
 			} else { // not sure what this is
 				throw new RuntimeException("Unknown PGN move: " + currentMove);
 			}
+		}
+		
+		private void handleLengthTwoMove(String move) {
+			ChessPiece chessPiece = determineChessPiece(move);
+			updateBoard(move, chessPiece);
+		}
+		
+		private void handleLengthThreeMove(String currentMove) {
+			// could be a pawn check
+			if (currentMove.substring(2, 3).equals("+") || currentMove.substring(2, 3).equals("#")) {
+				handleShortCheck(currentMove);
+			} else {
+				String piece = currentMove.substring(0, 1);
+				String move = currentMove.substring(1, 3);
+				ChessPiece c = determineChessPiece(move, piece);
+				updateBoard(move, c);
+			}
+		}
+		
+		private void handleLengthFourMove(String currentMove) {
+			// Determine whether capture or more specific move
+			//System.out.println("current move length 4");
+			if (currentMove.substring(1, 2).equals("x")) {
+				//System.out.println("handling capture");
+				handleCapture(currentMove);
+			} else if (currentMove.contains("+") || currentMove.contains("#")){
+				handleCheck(currentMove);
+				//System.out.println("current move 4 check!");
+			} else {
+				//System.out.println("current move 4 normal");
+				String piece = currentMove.substring(0, 1);
+				String file = currentMove.substring(1, 2);
+				String move = currentMove.substring(2, 4);
+				ChessPiece c = determineFileChessPiece(file, piece, move);
+				updateBoard(move, c);
+			}
+			// TODO Implement pawn promotion
+		}
+		
+		private void handleLengthFiveMove(String currentMove) {
+			if (currentMove.contains("x")) {
+				// could be capture with check/checkmate
+				handleLongCapture(currentMove);
+			} else {
+				if (currentMove.substring(4, 5).equals("+") || currentMove.substring(4, 5).equals("#")) {
+					handleFileWithCheck(currentMove);
+				}
+				// TODO
+				// could be generic move specifying moving piece, its file, its rank, and where went
+				// also could be pawn promotion with check/checkmate
+			}
+		}
+		
+		private void updateBoard(String move, ChessPiece chessPiece) {
+			Location destination = chessBoard.getLocation(move);
+			chessPiece.move(destination);
+			game.incrementRound();
 		}
 		
 		private ChessPiece determineChessPiece(String move) {
@@ -594,7 +609,7 @@ public class GameManagerImpl {
 		}
 		
 		private void handleQueenSideCastle() {
-			if (game.getRound() % 2 == 0) {
+			if (isWhiteTurn()) {
 				// white's turn
 				castleMoves.add(new CastleMove(game.getRound(), "w", "queen"));
 				ArrayList<ChessPiece> kings = getStringToCP().get("K");
@@ -602,15 +617,13 @@ public class GameManagerImpl {
 				Location l = new Location("c1");
 				k.move(l);
 				ArrayList<ChessPiece> rooks = getStringToCP().get("R");
-				ChessPiece r = null;
+				ChessPiece rook = null;
 				for (int i = 0; i < rooks.size(); i++) {
 					if (rooks.get(i).getLocation().equals(new Location("a1"))) {
-						r = rooks.get(i);
+						rook = rooks.get(i);
 					}
 				}
-				Location l2 = new Location("d1");
-				r.move(l2);
-				game.setRound(game.getRound() + 1);
+				updateBoard("d1", rook);
 			} else {
 				castleMoves.add(new CastleMove(game.getRound(), "b", "queen"));
 				ArrayList<ChessPiece> kings = getStringToCP().get("k");
@@ -628,6 +641,10 @@ public class GameManagerImpl {
 				r.move(l2);
 				game.setRound(game.getRound() + 1);
 			}
+		}
+		
+		private void handleGameOver() {
+			game.setInProgress(false);
 		}
 		
 		// for captures with 4 characters
