@@ -3,6 +3,7 @@ package com.wroblicky.andrew.joust.core.general;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.general.game.GameSetup;
@@ -190,7 +191,7 @@ public class ChessBoardMatcher {
 		return foundMatch;
 	}
 	
-	private boolean findSequence(ArrayList<Object> sequence) {
+	private boolean findSequence(List<Object> sequence) {
 		boolean foundMatch = false;
 		int size = sequence.size();
 		int tokensLeft = size;
@@ -515,7 +516,9 @@ public class ChessBoardMatcher {
 				}
 			} else if (next.equals("||")) {
 				ArrayList<Object> leftArg = (ArrayList<Object>) ast.get(1);
-				HashMap<String, ArrayList<ChessPiece>> origMySuspects = (HashMap<String, ArrayList<ChessPiece>>)mySuspects.clone();
+				// TODO need to rethink if cloning is really necessary
+				HashMap<String, ArrayList<ChessPiece>> suspects = (HashMap<String, ArrayList<ChessPiece>>) mySuspects;
+				Map<String, ArrayList<ChessPiece>> origMySuspects = (Map<String, ArrayList<ChessPiece>>)suspects.clone();
 				boolean left = evalStatement(leftArg);
 				if (!left) {
 					// Need to restore original mySuspects

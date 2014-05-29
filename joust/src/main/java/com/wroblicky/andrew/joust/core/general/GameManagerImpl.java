@@ -53,12 +53,12 @@ public class GameManagerImpl {
 		this.game.setRound(round);
 	}
 	
-	public void update(ArrayList<String> moves) {
+	public void update(List<String> myMoves) {
 		capturer = null;
 		captured = null;
 		game.setCheck(false);
 		game.setCheckmate(false);
-		PGNMoveInterpreter pgnMoveInterpreter = new PGNMoveInterpreter(moves, game.getBoard());
+		PGNMoveInterpreter pgnMoveInterpreter = new PGNMoveInterpreter(myMoves, game.getBoard());
 		pgnMoveInterpreter.update();
 	}
 	
@@ -296,7 +296,7 @@ public class GameManagerImpl {
 		private List<String> moves;
 		private ChessBoard chessBoard;
 		
-		public PGNMoveInterpreter(ArrayList<String> moves, ChessBoard chessBoard) {
+		public PGNMoveInterpreter(List<String> moves, ChessBoard chessBoard) {
 			this.moves = moves;
 			this.chessBoard = chessBoard;
 		}
