@@ -206,6 +206,7 @@ public class GameSetup {
 		lookup.put("K", kings);
 		ArrayList<ChessPiece> kings2 = new ArrayList<ChessPiece>();
 		kings2.add(bk1);
+		lookup.put("k", kings2);
 		
 		allPawns.addAll(pawns);
 		allPawns.addAll(pawns2);
@@ -221,7 +222,6 @@ public class GameSetup {
 		allKings.addAll(kings2);
 		
 		
-		lookup.put("k", kings2);
 		lookup.put("g", actives);
 		lookup.put("G", actives);
 		lookup.put("d", blackActives);
