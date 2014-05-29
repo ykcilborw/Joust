@@ -17,12 +17,15 @@ import com.wroblicky.andrew.joust.core.chesspiece.Horse;
 import com.wroblicky.andrew.joust.core.chesspiece.King;
 import com.wroblicky.andrew.joust.core.chesspiece.Pawn;
 import com.wroblicky.andrew.joust.core.chesspiece.Queen;
+import com.wroblicky.andrew.joust.core.general.ChessPieceSubsetManagerImpl;
+import com.wroblicky.andrew.joust.core.general.Game;
 import com.wroblicky.andrew.joust.core.general.GameManagerImpl;
 import com.wroblicky.andrew.joust.core.general.Location;
+import com.wroblicky.andrew.joust.core.general.Turn;
 import com.wroblicky.andrew.joust.core.general.Util;
 
 /**
- * Manages the state of a chess game
+ * Manages the state of a chess gameManager
  * 
  * @author Andrew Wroblicky
  *
@@ -30,7 +33,7 @@ import com.wroblicky.andrew.joust.core.general.Util;
 public class GameSetup {
 	
 	public static GameManagerImpl setupDefaultGame() {
-		// Load initial default initial configuration into game
+		// Load initial default initial configuration into gameManager
 		HashMap<Location, ChessPiece> map = new HashMap<Location, ChessPiece>();
 		ArrayList<ChessPiece> actives = new ArrayList<ChessPiece>();
 		ArrayList<ChessPiece> blackActives = new ArrayList<ChessPiece>();
@@ -181,7 +184,9 @@ public class GameSetup {
 		ArrayList<ChessPiece> allQueens = new ArrayList<ChessPiece>();
 		ArrayList<ChessPiece> allKings = new ArrayList<ChessPiece>();
 		
-		GameManagerImpl game = new GameManagerImpl(0, map, actives, blackActives, whiteActives, false, false);
+		Game game = new Game(chessBoard, new ArrayList<Turn>(), new HashMap<Location, ChessPiece>(),
+				new ChessPieceSubsetManagerImpl());
+		GameManagerImpl gameManager = new GameManagerImpl(game, actives, blackActives, whiteActives);
 		HashMap<String, ArrayList<ChessPiece>> lookup = new HashMap<String, ArrayList<ChessPiece>>();
 		ArrayList<ChessPiece> pawns = new ArrayList<ChessPiece>();
 		pawns.add(wp1);
@@ -266,12 +271,12 @@ public class GameSetup {
 		lookup.put("4", allBishops);
 		lookup.put("5", allQueens);
 		lookup.put("6", allKings);
-		game.setStringToCP(lookup);
-		return game;
+		gameManager.setStringToCP(lookup);
+		return gameManager;
 	}
 
 	public static GameManagerImpl setupSpecialLayout(String initialConfig) {
-		GameManagerImpl game = null;
+		GameManagerImpl gameManager = null;
 		HashMap<Location, ChessPiece> map = new HashMap<Location, ChessPiece>();
 		ArrayList<ChessPiece> actives = new ArrayList<ChessPiece>();
 		ArrayList<ChessPiece> blackActives = new ArrayList<ChessPiece>();
@@ -586,14 +591,16 @@ public class GameSetup {
 			lookup.put("4", allBishops);
 			lookup.put("5", allQueens);
 			lookup.put("6", allKings);
-			game = new GameManagerImpl(0, map, actives, blackActives, whiteActives, false, false);
-			game.setStringToCP(lookup);
+			Game game = new Game(chessBoard, new ArrayList<Turn>(), new HashMap<Location, ChessPiece>(),
+					new ChessPieceSubsetManagerImpl());
+			gameManager = new GameManagerImpl(game, actives, blackActives, whiteActives);
+			gameManager.setStringToCP(lookup);
 			//Close the input stream
 			in.close();
 		} catch (IOException e){//Catch exception if any
 			System.err.println("An error occurred trying to open the initialConfig file" + e);
 			System.exit(-1);
 		}
-		return game;
+		return gameManager;
 	}
 }

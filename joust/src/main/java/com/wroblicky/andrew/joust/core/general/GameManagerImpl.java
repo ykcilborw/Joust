@@ -5,72 +5,39 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
-import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Allegiance;
 
 public class GameManagerImpl {
-	private int myRound;
-	private HashMap<Location, ChessPiece> myPositions;
-	private ChessPieceSubsetManager chessPieceSubsetProvider; // TODO
 	private ArrayList<ChessPiece> myActivePieces;
 	private ArrayList<ChessPiece> myBlackActives;
 	private ArrayList<ChessPiece> myWhiteActives;
-	private ChessBoard chessBoard;
-	private boolean castling4Black;
-	private boolean castling4White;
-	private boolean isInProgress;
+	private Game game;
 	private HashMap<String, ArrayList<ChessPiece>> stringtoCP;
 	private ArrayList<String[][]> visitedBoards; // debugging ONLY!!!
 	private ArrayList<CastleMove> castleMoves; // for ChessDemoVisualizations ONLY!!
-	private boolean checkOn;
-	private boolean checkMateOn;
 	private ChessPiece capturer;
 	private ChessPiece captured;
 	
 	
-	public GameManagerImpl(int round, HashMap<Location, ChessPiece> occupied, ArrayList<ChessPiece> activePieces,
+	public GameManagerImpl(Game game, ArrayList<ChessPiece> activePieces,
 			ArrayList<ChessPiece> blacks, ArrayList<ChessPiece> whites) {
-		myRound = round;
-		myPositions = occupied;
+		this.game = game;
 		myActivePieces = activePieces;
 		myBlackActives = blacks;
 		myWhiteActives = whites;
-		chessBoard = new ChessBoard();
-		castling4Black = true;
-		castling4White = true;
-		isInProgress = true;	
 		visitedBoards = new ArrayList<String[][]>();
 		castleMoves = new ArrayList<CastleMove>();
-		checkOn = false;
-		checkMateOn = false;
-	}
-	
-	public GameManagerImpl(int round, HashMap<Location, ChessPiece> occupied, ArrayList<ChessPiece> activePieces,
-			ArrayList<ChessPiece> blacks, ArrayList<ChessPiece> whites, 
-			boolean blackCastle, boolean whiteCastle) {
-		myRound = round;
-		myPositions = occupied;
-		myActivePieces = activePieces;
-		myBlackActives = blacks;
-		myWhiteActives = whites;
-		chessBoard = new ChessBoard();
-		castling4Black = blackCastle;
-		castling4White = whiteCastle;
-		isInProgress = true;
-		visitedBoards = new ArrayList<String[][]>();
-		castleMoves = new ArrayList<CastleMove>();
-		checkOn = false;
-		checkMateOn = false;
 	}
 	
 	public int getRound() {
-		return myRound;
+		return game.getRound();
 	}
 	
-	public HashMap<Location, ChessPiece> getMyPositions() {
-		return myPositions;
+	public Map<Location, ChessPiece> getMyPositions() {
+		return game.getPositions();
 	}
 	
 	public ArrayList<ChessPiece> getActivePieces() {
@@ -85,25 +52,29 @@ public class GameManagerImpl {
 		return myWhiteActives;
 	}
 	
+	public void setRound(int round) {
+		this.game.setRound(round);
+	}
+	
 	public void update(ArrayList<String> moves) {
 		capturer = null;
 		captured = null;
-		checkOn = false;
-		checkMateOn = false;
-		PGNMoveInterpreter pgnMoveInterpreter = new PGNMoveInterpreter(moves, chessBoard);
+		game.setCheck(false);
+		game.setCheckmate(false);
+		PGNMoveInterpreter pgnMoveInterpreter = new PGNMoveInterpreter(moves, game.getBoard());
 		pgnMoveInterpreter.update();
 	}
 	
 	public boolean getBlackCastle() {
-		return castling4Black;
+		return game.isBlackCastleMoveAllowed();
 	}
 	
 	public boolean getWhiteCastle() {
-		return castling4White;
+		return game.isWhiteCastleMoveAllowed();
 	}
 	
 	public boolean isInProgress() {
-		return isInProgress;
+		return game.isInProgress();
 	}
 	
 	public HashMap<String, ArrayList<ChessPiece>> getStringToCP() {
@@ -123,31 +94,15 @@ public class GameManagerImpl {
 	}
 	
 	public boolean getCheckOn() {
-		return checkOn;
+		return game.isCheck();
 	}
 	
 	public boolean getCheckMateOn() {
-		return checkMateOn;
-	}
-	
-	public void setBlackCastle(boolean b) {
-		castling4Black = b;
-	}
-	
-	public void setWhiteCastle(boolean b) {
-		castling4White = b;
-	}
-	
-	public void setisInProgress(boolean b) {
-		isInProgress = b;
+		return game.isCheckmate();
 	}
 	
 	public void setStringToCP(HashMap<String, ArrayList<ChessPiece>> map) {
 		stringtoCP = map;
-	}
-	
-	public void setRound(int round) {
-		myRound = round;
 	}
 	
 	protected void printVisitedBoards() {
@@ -375,8 +330,8 @@ public class GameManagerImpl {
 		public void update() {
 			
 			String currentMove = null;
-			if (myRound < moves.size()) {
-				currentMove = moves.get(myRound);
+			if (game.getRound() < moves.size()) {
+				currentMove = moves.get(game.getRound());
 			} else {
 				System.out.println("Game Over!");
 				System.exit(-1);
@@ -388,13 +343,13 @@ public class GameManagerImpl {
 				//System.out.println("c: " + c);
 				Location l = new Location(currentMove);
 				c.move(l);
-				myRound += 1;
+				game.setRound(game.getRound() + 1);
 			} else if(currentMove.equals("O-O")){
 				handleKingSideCastle();
 			} else if (currentMove.equals("O-O-O")) {
 				handleQueenSideCastle();
 			} else if (currentMove.equals("1/2-1/2") || currentMove.equals("1-0") || currentMove.equals("0-1")) {
-				isInProgress = false;
+				game.setInProgress(false);
 			} else if(currentMove.length() == 3){
 				// could be a pawn check
 				if (currentMove.substring(2, 3).equals("+") || currentMove.substring(2, 3).equals("#")) {
@@ -405,7 +360,7 @@ public class GameManagerImpl {
 					Location l = new Location(move);
 					ChessPiece c = determineChessPiece(move, piece);
 					c.move(l);
-					myRound += 1;
+					game.setRound(game.getRound() + 1);
 				}
 			} else if(currentMove.length() == 4){
 				// Determine whether capture or more specific move
@@ -424,7 +379,7 @@ public class GameManagerImpl {
 					Location l = new Location(move);
 					ChessPiece c = determineFileChessPiece(file, piece, move);
 					c.move(l);
-					myRound += 1;
+					game.setRound(game.getRound() + 1);
 				}
 				// TODO Implement pawn promotion
 			} else if (currentMove.length() == 5) {
@@ -445,7 +400,7 @@ public class GameManagerImpl {
 		private ChessPiece determineChessPiece(String move) {
 			ChessPiece icanReach = null;
 			Location l = new Location(move);
-			if (myRound % 2 == 0) {
+			if (game.getRound() % 2 == 0) {
 				// white's turn
 				//System.out.println("white");
 				ArrayList<ChessPiece> suspects = stringtoCP.get("P");
@@ -487,7 +442,7 @@ public class GameManagerImpl {
 			//System.out.println("move: " + move);
 			//System.out.println("piece: " + piece);
 			Location l = new Location(move);
-			if (myRound % 2 == 0) {
+			if (game.getRound() % 2 == 0) {
 				// white's turn
 				//System.out.println("white");
 				ArrayList<ChessPiece> suspects = stringtoCP.get(piece);
@@ -537,8 +492,8 @@ public class GameManagerImpl {
 			} else {
 				//System.out.println("lx: " + l.getXCoordinate());
 				//System.out.println("ly: " + l.getYCoordinate());
-				//System.out.println("myRound: " + myRound);
-				if (myRound % 2 == 0) {
+				//System.out.println("game.getRound(): " + game.getRound());
+				if (game.getRound() % 2 == 0) {
 					// white's turn
 					//System.out.println("white");
 					ArrayList<ChessPiece> suspects = stringtoCP.get(piece);
@@ -584,8 +539,8 @@ public class GameManagerImpl {
 			Location l = new Location(move);
 			//System.out.println("lx: " + l.getXCoordinate());
 			//System.out.println("ly: " + l.getYCoordinate());
-			//System.out.println("myRound: " + myRound);
-			if (myRound % 2 == 0) {
+			//System.out.println("game.getRound(): " + game.getRound());
+			if (game.getRound() % 2 == 0) {
 				// white's turn
 				//System.out.println("det rank white");
 				ArrayList<ChessPiece> suspects = stringtoCP.get(piece);
@@ -626,9 +581,9 @@ public class GameManagerImpl {
 
 		
 		private void handleKingSideCastle() {
-			if (myRound % 2 == 0) {
+			if (game.getRound() % 2 == 0) {
 				// white's turn
-				castleMoves.add(new CastleMove(myRound, "w", "king"));
+				castleMoves.add(new CastleMove(game.getRound(), "w", "king"));
 				ArrayList<ChessPiece> kings = getStringToCP().get("K");
 				ChessPiece k = kings.get(0);
 				Location l = new Location("g1");
@@ -642,9 +597,9 @@ public class GameManagerImpl {
 				}
 				Location l2 = new Location("f1");
 				r.move(l2);
-				myRound += 1;
+				game.setRound(game.getRound() + 1);
 			} else {
-				castleMoves.add(new CastleMove(myRound, "b", "king"));
+				castleMoves.add(new CastleMove(game.getRound(), "b", "king"));
 				ArrayList<ChessPiece> kings = getStringToCP().get("k");
 				ChessPiece k = kings.get(0);
 				Location l = new Location("g8");
@@ -658,14 +613,14 @@ public class GameManagerImpl {
 				}
 				Location l2 = new Location("f8");
 				r.move(l2);
-				myRound += 1;
+				game.setRound(game.getRound() + 1);
 			}
 		}
 		
 		private void handleQueenSideCastle() {
-			if (myRound % 2 == 0) {
+			if (game.getRound() % 2 == 0) {
 				// white's turn
-				castleMoves.add(new CastleMove(myRound, "w", "queen"));
+				castleMoves.add(new CastleMove(game.getRound(), "w", "queen"));
 				ArrayList<ChessPiece> kings = getStringToCP().get("K");
 				ChessPiece k = kings.get(0);
 				Location l = new Location("c1");
@@ -679,9 +634,9 @@ public class GameManagerImpl {
 				}
 				Location l2 = new Location("d1");
 				r.move(l2);
-				myRound += 1;
+				game.setRound(game.getRound() + 1);
 			} else {
-				castleMoves.add(new CastleMove(myRound, "b", "queen"));
+				castleMoves.add(new CastleMove(game.getRound(), "b", "queen"));
 				ArrayList<ChessPiece> kings = getStringToCP().get("k");
 				ChessPiece k = kings.get(0);
 				Location l = new Location("c8");
@@ -695,7 +650,7 @@ public class GameManagerImpl {
 				}
 				Location l2 = new Location("d8");
 				r.move(l2);
-				myRound += 1;
+				game.setRound(game.getRound() + 1);
 			}
 		}
 		
@@ -710,7 +665,7 @@ public class GameManagerImpl {
 				// a pawn moved
 				String file = type;
 				String piece = "";
-				if (myRound % 2 == 0) {
+				if (game.getRound() % 2 == 0) {
 					piece = "P";
 				} else {
 					piece = "p";
@@ -728,7 +683,7 @@ public class GameManagerImpl {
 			int y = l.getYCoordinate();
 			Location l2 = chessBoard.getLocation(y - 1, x - 1);
 		
-			ChessPiece dead = myPositions.get(l2);
+			ChessPiece dead = game.getPositions().get(l2);
 			//System.out.println("myPositions: \n" + myPositions);
 			//System.out.println("l2: " + l2);
 			//System.out.println("dead id: " + dead.getID());
@@ -737,7 +692,7 @@ public class GameManagerImpl {
 			
 			//move the new one
 			c.move(l);
-			myRound += 1;
+			game.setRound(game.getRound() + 1);
 			capturer = c;
 			//System.out.println("game capturer: " + capturer);
 			captured = dead;
@@ -751,9 +706,9 @@ public class GameManagerImpl {
 				String capture = currentMove.substring(0,4);
 				handleCapture(capture);
 				if (checkorMate.equals("+")) {
-					checkOn = true;
+					game.setCheck(true);
 				} else {
-					checkMateOn = true;
+					game.setCheckmate(true);
 				}
 			} else {
 				//String capture = currentMove.substring(0,4);
@@ -775,7 +730,7 @@ public class GameManagerImpl {
 				int y = l.getYCoordinate();
 				Location l2 = chessBoard.getLocation(y - 1, x - 1);
 			
-				ChessPiece dead = myPositions.get(l2);
+				ChessPiece dead = game.getPositions().get(l2);
 				//System.out.println("myPositions: \n" + myPositions);
 				//System.out.println("l2: " + l2);
 				//System.out.println("dead id: " + dead.getID());
@@ -784,7 +739,7 @@ public class GameManagerImpl {
 				
 				//move the new one
 				c.move(l);
-				myRound += 1;
+				game.setRound(game.getRound() + 1);
 				capturer = c;
 				//System.out.println("game capturer: " + capturer);
 				captured = dead;
@@ -797,14 +752,14 @@ public class GameManagerImpl {
 			String destination = currentMove.substring(0, 2);
 			String checkorMate = currentMove.substring(2, 3);
 			if (checkorMate.equals("+")) {
-				checkOn = true;
+				game.setCheck(true);
 			} else {
-				checkMateOn = true;
+				game.setCheckmate(true);
 			}
 			Location l = new Location(destination);
 			ChessPiece c = determineChessPiece(destination);
 			c.move(l);
-			myRound += 1;
+			game.setRound(game.getRound() + 1);
 		}
 		
 		// for 4 character moves
@@ -814,14 +769,14 @@ public class GameManagerImpl {
 			String destination = currentMove.substring(1, 3);
 			String checkorMate = currentMove.substring(3, 4);
 			if (checkorMate.equals("+")) {
-				checkOn = true;
+				game.setCheck(true);
 			} else {
-				checkMateOn = true;
+				game.setCheckmate(true);
 			}
 			Location l = new Location(destination);
 			ChessPiece c = determineChessPiece(destination, type);
 			c.move(l);
-			myRound += 1;
+			game.setRound(game.getRound() + 1);
 		}
 		
 		// Has 5 characters!!
@@ -831,14 +786,14 @@ public class GameManagerImpl {
 			String dest = currentMove.substring(2, 4);
 			String checkorMate = currentMove.substring(4, 5);
 			if (checkorMate.equals("+")) {
-				checkOn = true;
+				game.setCheck(true);
 			} else {
-				checkMateOn = true;
+				game.setCheckmate(true);
 			}
 			Location l = new Location(dest);
 			ChessPiece c = determineFileChessPiece(file, type, dest);
 			c.move(l);
-			myRound += 1;
+			game.setRound(game.getRound() + 1);
 		}
 	}
 }

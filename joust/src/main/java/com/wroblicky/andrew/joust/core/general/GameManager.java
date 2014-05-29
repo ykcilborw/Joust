@@ -10,5 +10,10 @@ public interface GameManager {
 	/**
 	 * Brings back the game state to what it was before the last turn was played
 	 */
-	public void undoCurrentTurn();	
+	public void undoCurrentTurn();
+	
+	/**
+	 * Returns the game object it's managing
+	 */
+	public Game getGame();
 }
