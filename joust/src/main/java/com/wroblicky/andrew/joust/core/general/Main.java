@@ -1,24 +1,42 @@
 package com.wroblicky.andrew.joust.core.general;
 
-
+/**
+ * A simple wrapper that provides different options for interacting with the
+ * Joust library.
+ * 
+ * Different available options:
+ * 
+ * [pgn file] -- iterates over the entire game
+ * 
+ * [pgn file] [joust search string] -- searches for matching boards given the Joust search params
+ * 
+ * [pgn file] [initial chessboard config] [joust search string] -- uses a custom default initial setting
+ * 
+ * 
+ * @author Andrew Wroblicky
+ *
+ */
 public class Main {
 	
 	public static void main(String[] args) {
-		if (args.length > 3 || args.length <= 1) {
+		if (args.length > 3 || args.length <= 0) {
 			System.out.println("Invalid number of args");
 			System.exit(1);
 		}
-		if (args.length == 3) {
+		if (args.length == 1) {
+			// TODO
+			throw new RuntimeException("Not yet implemented!");
+		} else if (args.length == 2) {
+			String chessGame = args[0];  //a pgn file
+			String joustProgram = args[1];
+			ChessBoardMatcher j = new ChessBoardMatcher(chessGame);
+			boolean foundMatch = j.find(joustProgram);
+			System.out.println("foundMatch: " + foundMatch);
+		} else { // == 3
 			String chessGame = args[0];  //a pgn file
 			String initialConfig = args[1];
 			String joustProgram = args[2];
 			ChessBoardMatcher j = new ChessBoardMatcher(chessGame, initialConfig, false);
-			boolean foundMatch = j.find(joustProgram);
-			System.out.println("foundMatch: " + foundMatch);
-		} else {
-			String chessGame = args[0];  //a pgn file
-			String joustProgram = args[1];
-			ChessBoardMatcher j = new ChessBoardMatcher(chessGame);
 			boolean foundMatch = j.find(joustProgram);
 			System.out.println("foundMatch: " + foundMatch);
 		}
@@ -35,5 +53,4 @@ public class Main {
 		ChessBoardMatcher j = new ChessBoardMatcher(pgnFile, initialConfig);
 		return j.find(joustProgram);
 	}
-
 }

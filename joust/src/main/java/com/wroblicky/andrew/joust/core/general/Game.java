@@ -6,8 +6,13 @@ import java.util.Map;
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 
+/**
+ * A simple class that stores all the internal properties of a chess game
+ * 
+ * @author Andrew Wroblicky
+ *
+ */
 public class Game {
-	
 	
 	private ChessBoard board;
 	private List<Turn> turns;

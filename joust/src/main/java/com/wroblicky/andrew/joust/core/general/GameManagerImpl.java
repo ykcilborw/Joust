@@ -52,6 +52,7 @@ public class GameManagerImpl {
 		return myWhiteActives;
 	}
 	
+	@Deprecated
 	public void setRound(int round) {
 		this.game.setRound(round);
 	}

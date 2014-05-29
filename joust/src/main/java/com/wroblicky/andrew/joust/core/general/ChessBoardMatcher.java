@@ -11,7 +11,7 @@ import com.wroblicky.andrew.joust.pgn.PGNParser;
 import fri.patterns.interpreter.parsergenerator.examples.Joust;
 
 /**
- * Effectively the Interpreter for the Joust language, it is designed to mirror the
+ * The interpreter for the Joust language, it is designed to mirror the
  * Matcher class for regexes in Java
  */
 public class ChessBoardMatcher {
@@ -108,7 +108,6 @@ public class ChessBoardMatcher {
 	private boolean findToken(ArrayList<Object> token) {
 		//System.out.println("findToken");
 		boolean foundMatch = false;
-		int counter = 0;
 		while (foundMatch == false && myGame.isInProgress() == true) {
 			myGame.printBoard2(myGame.getRound());
 			//System.out.println("The Positions:");
@@ -129,7 +128,6 @@ public class ChessBoardMatcher {
 				// if they are equal need to update myRound still so that end doesn't keep returning true forever
 				myGame.setRound(myGame.getRound() + 1);
 			}
-			counter += 1;
 		}
 		//System.out.println("findToken2 foundMatch: " + foundMatch);
 		return foundMatch;
@@ -138,7 +136,6 @@ public class ChessBoardMatcher {
 	private boolean findThroughToken(ArrayList<Object> token) {
 		//System.out.println("findThroughToken");
 		boolean foundMatch = false;
-		int counter = 0;
 		while (foundMatch == false && myGame.isInProgress() == true) {
 			myGame.printBoard2(myGame.getRound());
 			//System.out.println("token: " + token);
@@ -154,7 +151,6 @@ public class ChessBoardMatcher {
 			if (myMoves.size() != myGame.getRound() ){//&& token.get(0).equals("occurs") == false) {
 				myGame.update(myMoves);
 			} 
-			counter += 1;
 		}
 		return foundMatch;
 	}
@@ -162,7 +158,6 @@ public class ChessBoardMatcher {
 	private boolean findUntilToken(ArrayList<Object> token) {
 		//System.out.println("findUntilToken");
 		boolean foundMatch = false;
-		int counter = 0;
 		boolean gameStillGoing = true;
 		while (foundMatch == false && gameStillGoing == true) {
 			myGame.printBoard2(myGame.getRound());
@@ -191,7 +186,6 @@ public class ChessBoardMatcher {
 				gameStillGoing = false;
 			}
 			//System.out.println("findUntilToken2 foundMatch: " + foundMatch);
-			counter += 1;
 		}
 		return foundMatch;
 	}
