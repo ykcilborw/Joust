@@ -25,4 +25,5 @@ out.txt
 \bin
 *.metadata
 *.classpath
+*.project
 \target
