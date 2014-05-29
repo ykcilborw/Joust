@@ -16,10 +16,10 @@ import fri.patterns.interpreter.parsergenerator.examples.Joust;
  */
 public class ChessBoardMatcher {
 	GameManagerImpl myGame;
-	ArrayList<String> myMoves;
-	HashMap<String, ArrayList<ChessPiece>> mySuspects;
-	ArrayList<String[][]> matchedBoards;
-	ArrayList<Integer> matchedRounds;
+	List<String> myMoves;
+	Map<String, ArrayList<ChessPiece>> mySuspects;
+	List<String[][]> matchedBoards;
+	List<Integer> matchedRounds;
 	boolean isSpecial;
 	boolean myGreedFlag; // for greedy search when dealing with the very last board
 	boolean occursFlag;
@@ -59,16 +59,16 @@ public class ChessBoardMatcher {
 		return myGame;
 	}
 	
-	protected ArrayList<String[][]> getMatchedBoards() {
+	protected List<String[][]> getMatchedBoards() {
 		return matchedBoards;
 	}
 	
-	protected ArrayList<Integer> getMatchedRounds () {
+	protected List<Integer> getMatchedRounds () {
 		return matchedRounds;
 	}
 	
-	private ArrayList<Object> getAST(String joustProgram) {
-		ArrayList<Object> ast = null;
+	private List<Object> getAST(String joustProgram) {
+		List<Object> ast = null;
 		try {
 			ast = Joust.getAST(joustProgram);
 		} catch (Exception e) {
@@ -80,7 +80,7 @@ public class ChessBoardMatcher {
 	
 	public boolean find(String joustProgram){
 		matchedBoards = new ArrayList<String[][]>(); // need to reset matchedBoards if it's called n times
-		ArrayList<Object> ast = getAST(joustProgram);
+		List<Object> ast = getAST(joustProgram);
 		System.out.println("ast: " + ast);
 		boolean foundMatch = findSequence(ast);
 		System.out.println("find foundMatch: " + foundMatch);
