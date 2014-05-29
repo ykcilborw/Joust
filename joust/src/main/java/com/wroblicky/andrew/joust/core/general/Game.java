@@ -72,6 +72,10 @@ public class Game {
 	public void setRound(int round) {
 		this.round = round;
 	}
+	
+	public void incrementRound() {
+		this.round += 1;
+	}
 
 	public boolean isWhiteCastleMoveAllowed() {
 		return isWhiteCastleMoveAllowed;
