@@ -102,6 +102,10 @@ public class GameManagerImpl {
 		stringtoCP = map;
 	}
 	
+	public boolean isWhiteTurn() {
+		return game.getRound() % 2 == 0;
+	}
+	
 	protected void printVisitedBoards() {
 		FileWriter fstream = null;
 		try {
@@ -370,10 +374,10 @@ public class GameManagerImpl {
 		private ChessPiece determineChessPiece(String move) {
 			ChessPiece icanReach = null;
 			Location l = new Location(move);
-			if (game.getRound() % 2 == 0) {
+			if (isWhiteTurn()) {
 				// white's turn
 				//System.out.println("white");
-				ArrayList<ChessPiece> suspects = stringtoCP.get("P");
+				List<ChessPiece> suspects = stringtoCP.get("P");
 				for (int i = 0; i < suspects.size(); i++) {
 					ChessPiece current = suspects.get(i);
 					if (current.canReach(l)) {
@@ -412,10 +416,10 @@ public class GameManagerImpl {
 			//System.out.println("move: " + move);
 			//System.out.println("piece: " + piece);
 			Location l = new Location(move);
-			if (game.getRound() % 2 == 0) {
+			if (isWhiteTurn()) {
 				// white's turn
 				//System.out.println("white");
-				ArrayList<ChessPiece> suspects = stringtoCP.get(piece);
+				List<ChessPiece> suspects = stringtoCP.get(piece);
 				for (int i = 0; i < suspects.size(); i++) {
 					//System.out.println("suspects: " + suspects.get(i).getmySymbol());
 					ChessPiece current = suspects.get(i);
@@ -434,7 +438,7 @@ public class GameManagerImpl {
 				// black's turn
 				//System.out.println("black");
 				String lower = piece.toLowerCase();
-				ArrayList<ChessPiece> suspects = stringtoCP.get(lower);
+				List<ChessPiece> suspects = stringtoCP.get(lower);
 				for (int i = 0; i < suspects.size(); i++) {
 					ChessPiece current = suspects.get(i);
 					if (current.canReach(l)) {
@@ -463,7 +467,7 @@ public class GameManagerImpl {
 				//System.out.println("lx: " + l.getXCoordinate());
 				//System.out.println("ly: " + l.getYCoordinate());
 				//System.out.println("game.getRound(): " + game.getRound());
-				if (game.getRound() % 2 == 0) {
+				if (isWhiteTurn()) {
 					// white's turn
 					//System.out.println("white");
 					ArrayList<ChessPiece> suspects = stringtoCP.get(piece);
@@ -510,10 +514,10 @@ public class GameManagerImpl {
 			//System.out.println("lx: " + l.getXCoordinate());
 			//System.out.println("ly: " + l.getYCoordinate());
 			//System.out.println("game.getRound(): " + game.getRound());
-			if (game.getRound() % 2 == 0) {
+			if (isWhiteTurn()) {
 				// white's turn
 				//System.out.println("det rank white");
-				ArrayList<ChessPiece> suspects = stringtoCP.get(piece);
+				List<ChessPiece> suspects = stringtoCP.get(piece);
 				for (int i = 0; i < suspects.size(); i++) {
 					ChessPiece current = suspects.get(i);
 					//System.out.println("current rank: " + current.getRank());
