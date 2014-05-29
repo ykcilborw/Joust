@@ -314,18 +314,18 @@ public class GameManagerImpl {
 			//System.out.println("curentMove: " + currentMove);
 			if (currentMove.length() == 2) {
 				handleLengthTwoMove(currentMove);
-			} else if(currentMove.equals("O-O")){
-				handleKingSideCastle();
-			} else if (currentMove.equals("O-O-O")) {
-				handleQueenSideCastle();
-			} else if (currentMove.equals("1/2-1/2") || currentMove.equals("1-0") || currentMove.equals("0-1")) {
-				handleGameOver();
 			} else if(currentMove.length() == 3){
 				handleLengthThreeMove(currentMove);
 			} else if(currentMove.length() == 4){
 				handleLengthFourMove(currentMove);
 			} else if (currentMove.length() == 5) {
 				handleLengthFiveMove(currentMove);
+			} else if(currentMove.equals("O-O")){
+				handleKingSideCastle();
+			} else if (currentMove.equals("O-O-O")) {
+				handleQueenSideCastle();
+			} else if (currentMove.equals("1/2-1/2") || currentMove.equals("1-0") || currentMove.equals("0-1")) {
+				handleGameOver();
 			} else { // not sure what this is
 				throw new RuntimeException("Unknown PGN move: " + currentMove);
 			}
@@ -355,8 +355,8 @@ public class GameManagerImpl {
 				//System.out.println("handling capture");
 				handleCapture(currentMove);
 			} else if (currentMove.contains("+") || currentMove.contains("#")){
-				handleCheck(currentMove);
 				//System.out.println("current move 4 check!");
+				handleCheck(currentMove);
 			} else {
 				//System.out.println("current move 4 normal");
 				String piece = currentMove.substring(0, 1);
@@ -389,94 +389,50 @@ public class GameManagerImpl {
 		}
 		
 		private ChessPiece determineChessPiece(String move) {
-			ChessPiece icanReach = null;
-			Location l = new Location(move);
+			ChessPiece chessPiece = null;
+			Location destination = chessBoard.getLocation(move);
 			if (isWhiteTurn()) {
 				// white's turn
 				//System.out.println("white");
-				List<ChessPiece> suspects = stringtoCP.get("P");
-				for (int i = 0; i < suspects.size(); i++) {
-					ChessPiece current = suspects.get(i);
-					if (current.canReach(l)) {
-						icanReach = current;
-						break;
-					}
-				}
-				if (icanReach == null) {
-					System.err.println("Improperly formatted PGN file. " +
-							"Could not find a piece that could've legally moved to " + move);
-					System.exit(-1);
-				}
+				chessPiece = evaluateSuspects(stringtoCP.get("P"), destination);
 			} else {
 				// black's turn
 				//System.out.println("black");
-				ArrayList<ChessPiece> suspects = stringtoCP.get("p");
-				for (int i = 0; i < suspects.size(); i++) {
-					ChessPiece current = suspects.get(i);
-					//System.out.println("dCP1 black cand loc: " + current.getLocation());
-					if (current.canReach(l)) {
-						icanReach = current;
-						break;
-					}
-				}
-				if (icanReach == null) {
-					System.err.println("Improperly formatted PGN file. " +
-							"Could not find a piece that could've legally moved to " + move);
-					System.exit(-1);
-				}
+				chessPiece = evaluateSuspects(stringtoCP.get("p"), destination);
 			}
-			return icanReach;
+			return chessPiece;
 		}
 		
 		private ChessPiece determineChessPiece(String move, String piece) {
-			ChessPiece icanReach = null;
-			//System.out.println("move: " + move);
-			//System.out.println("piece: " + piece);
-			Location l = new Location(move);
+			ChessPiece chessPiece = null;
+			Location destination = chessBoard.getLocation(move);
 			if (isWhiteTurn()) {
 				// white's turn
 				//System.out.println("white");
-				List<ChessPiece> suspects = stringtoCP.get(piece);
-				for (int i = 0; i < suspects.size(); i++) {
-					//System.out.println("suspects: " + suspects.get(i).getmySymbol());
-					ChessPiece current = suspects.get(i);
-					if (current.canReach(l)) {
-						icanReach = current;
-						//System.out.println("dcp white current: " + current.getLocation());
-						break;
-					}
-				}
-				if (icanReach == null) {
-					System.err.println("Improperly formatted PGN file. " +
-							"Could not find a piece that could've legally moved to " + move);
-					System.exit(-1);
-				}
+				chessPiece = evaluateSuspects(stringtoCP.get(piece), destination);
 			} else {
 				// black's turn
 				//System.out.println("black");
-				String lower = piece.toLowerCase();
-				List<ChessPiece> suspects = stringtoCP.get(lower);
-				for (int i = 0; i < suspects.size(); i++) {
-					ChessPiece current = suspects.get(i);
-					if (current.canReach(l)) {
-						icanReach = current;
-						break;
-					}
-				}
-				if (icanReach == null) {
-					System.err.println("Improperly formatted PGN file. " +
-							"Could not find a piece that could've legally moved to " + move);
-					System.exit(-1);
+				chessPiece = evaluateSuspects(stringtoCP.get(piece.toLowerCase()), destination);
+			}
+			return chessPiece;
+		}
+		
+		private ChessPiece evaluateSuspects(List<ChessPiece> suspects, Location destination) {
+			for (ChessPiece suspect : suspects) {
+				if (suspect.canReach(destination)) {
+					return suspect;
 				}
 			}
-			return icanReach;
+			System.err.println("Improperly formatted PGN file. " +
+					"Could not find a piece that could've legally moved to " + destination);
+			System.exit(-1);
+			return null;
 		}
 		
 		private ChessPiece determineFileChessPiece(String file, String piece, String move) {
-			//System.out.println("determine file ChessPiece: " + piece);
 			ChessPiece icanReach = null;
-			//System.out.println("move: " + move);
-			Location l = new Location(move);
+			Location l = chessBoard.getLocation(move);
 			Character c = file.charAt(0);
 			if (Character.isDigit(c)) {
 				icanReach = determineRankChessPiece(file, piece, move);
