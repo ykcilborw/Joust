@@ -368,6 +368,8 @@ public class GameManagerImpl {
 					// could be generic move specifying moving piece, its file, its rank, and where went
 					// also could be pawn promotion with check/checkmate
 				}
+			} else { // not sure what this is
+				throw new RuntimeException("Unknown PGN move: " + currentMove);
 			}
 		}
 		
