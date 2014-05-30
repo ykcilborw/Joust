@@ -28,7 +28,7 @@ public class ChessBoardMatcher {
 	// need to rethink
 	public ChessBoardMatcher(String pgnGame) {
 		myGame = GameSetup.setupDefaultGame();
-		myMoves = PGNParser.getGameMoves(pgnGame);
+		myMoves = PGNParser.getPGNGame(pgnGame).getMoves();
 		matchedBoards = new ArrayList<String[][]>();
 		matchedRounds = new ArrayList<Integer>();
 		mySuspects = new HashMap<String, ArrayList<ChessPiece>> ();
@@ -38,7 +38,7 @@ public class ChessBoardMatcher {
 	
 	public ChessBoardMatcher(String pgnGame, String initialConfigFile) {
 		myGame = GameSetup.setupSpecialLayout(initialConfigFile);
-		myMoves = PGNParser.getGameMoves(pgnGame);
+		myMoves = PGNParser.getPGNGame(pgnGame).getMoves();
 		matchedBoards = new ArrayList<String[][]>();
 		matchedRounds = new ArrayList<Integer>();
 		mySuspects = new HashMap<String, ArrayList<ChessPiece>> ();
@@ -48,7 +48,7 @@ public class ChessBoardMatcher {
 	
 	public ChessBoardMatcher(String pgnGame, String initialConfigFile, boolean special) {
 		myGame = GameSetup.setupSpecialLayout(initialConfigFile);
-		myMoves = PGNParser.getGameMoves(pgnGame);
+		myMoves = PGNParser.getPGNGame(pgnGame).getMoves();
 		matchedBoards = new ArrayList<String[][]>();
 		matchedRounds = new ArrayList<Integer>();
 		mySuspects = new HashMap<String, ArrayList<ChessPiece>> ();

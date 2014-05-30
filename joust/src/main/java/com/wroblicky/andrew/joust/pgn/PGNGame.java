@@ -21,7 +21,7 @@ public class PGNGame {
 	private String black = UNKNOWN;
 	private String white = UNKNOWN;
 	private String result = UNKNOWN;
-	private List<Turn> turns;
+	private List<String> moves;
 	
 	
 	public String getEvent() {
@@ -80,11 +80,11 @@ public class PGNGame {
 		this.result = result;
 	}
 	
-	public List<Turn> getTurns() {
-		return turns;
+	public List<String> getMoves() {
+		return moves;
 	}
 
-	public void setTurns(List<Turn> turns) {
-		this.turns = turns;
+	public void setMoves(List<String> moves) {
+		this.moves = moves;
 	}
 }

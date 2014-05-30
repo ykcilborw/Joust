@@ -3,14 +3,13 @@ package com.wroblicky.andrew.joust.pgn;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.wroblicky.andrew.joust.pgn.PGNGame;
-
 /**
- * Converts the moves described in a pgn text file into a
+ * Converts the moves described in a PGN text file into a
  * list of string tokens
  * 
  * @author Andrew Wroblicky
@@ -18,9 +17,10 @@ import com.wroblicky.andrew.joust.pgn.PGNGame;
  */
 public class PGNParser {
 	
-	@Deprecated // in favor of the more informative #getPGNGame
-	public static ArrayList<String> getGameMoves(String pgnTextFile) {
-		ArrayList<String> moves = new ArrayList<String>();
+
+	public static PGNGame getPGNGame(String pgnTextFile) {
+		PGNGame pgnGame = new PGNGame();
+		List<String> moves = new ArrayList<String>();
 		String next = null;
 		
 		try {
@@ -43,17 +43,47 @@ public class PGNParser {
 							}
 						}
 					}
+				} else if (next.length() > 0 && next.substring(0, 1).equals("[")) {
+					String next2 = next.replaceAll("\\{[^\\}]*\\}", ""); // remove brackets
+					String[] tokens = next2.split(" ");
+					String key = tokens[0].substring(1);
+					String value = "";
+					for (int i = 1; i < tokens.length - 1; i++) {
+						value += tokens[i] + " ";
+					}
+					String last = tokens[tokens.length - 1];
+					value += last.substring(0, last.length() - 1);
+					value = stripQuotes(value);
+					if (key.equalsIgnoreCase("Event")) {
+						pgnGame.setEvent(value);
+					} else if (key.equalsIgnoreCase("Site")) {
+						pgnGame.setSite(value);
+					} else if (key.equalsIgnoreCase("Date")) {
+						pgnGame.setDate(value);
+					} else if (key.equalsIgnoreCase("Round")) {
+						pgnGame.setRound(value);
+					} else if (key.equalsIgnoreCase("White")) {
+						pgnGame.setWhite(value);
+					} else if (key.equalsIgnoreCase("Black")) {
+						pgnGame.setBlack(value);
+					} else if (key.equalsIgnoreCase("Result")) {
+						// not sure why this is necessary to remove dangling " character
+						// at end
+						value = value.substring(0, value.length() - 2);
+						pgnGame.setResult(value);
+					}
 				}
 			}
 		} catch (Exception e) {
 			System.err.println("An error occurred trying to read the pgnTextFile");
-			System.err.println("Error: " + e.getMessage());
+			e.printStackTrace();
 			System.exit(-1);
 		}
-		return moves;
+		pgnGame.setMoves(moves);
+		return pgnGame;
 	}
 	
-	public static PGNGame getPGNGame(String pgnFile) {
-		return new PGNGame(); // TODO
+	private static String stripQuotes(String s) {
+		return s.replaceAll("^\"|\"$", "").replaceAll("^'|'$", "");
 	}
 }
