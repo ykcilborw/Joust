@@ -350,7 +350,7 @@ public class GameManagerImpl {
 		private void handleLengthFourMove(String currentMove) {
 			//System.out.println("current move length 4");
 			if (currentMove.substring(1, 2).equals("x")) {
-				handleCapture(currentMove);
+				handleLengthFourCapture(currentMove);
 			} else if (currentMove.contains("+") || currentMove.contains("#")){
 				handleLengthFourCheck(currentMove);
 			} else {
@@ -526,39 +526,35 @@ public class GameManagerImpl {
 
 		
 		private void handleKingSideCastle() {
-			if (game.getRound() % 2 == 0) {
+			if (isWhiteTurn()) {
 				// white's turn
 				castleMoves.add(new CastleMove(game.getRound(), "w", "king"));
-				ArrayList<ChessPiece> kings = getStringToCP().get("K");
-				ChessPiece k = kings.get(0);
-				Location l = new Location("g1");
-				k.move(l);
-				ArrayList<ChessPiece> rooks = getStringToCP().get("R");
+				List<ChessPiece> kings = getStringToCP().get("K");
+				ChessPiece king = kings.get(0);
+				Location l = chessBoard.getLocation("g1");
+				king.move(l);
+				List<ChessPiece> rooks = getStringToCP().get("R");
 				ChessPiece r = null;
 				for (int i = 0; i < rooks.size(); i++) {
-					if (rooks.get(i).getLocation().equals(new Location("h1"))) {
+					if (rooks.get(i).getLocation().getAlgebraicLocation().equals("h1")) {
 						r = rooks.get(i);
 					}
 				}
-				Location l2 = new Location("f1");
-				r.move(l2);
-				game.setRound(game.getRound() + 1);
+				updateBoard("f1", r);
 			} else {
 				castleMoves.add(new CastleMove(game.getRound(), "b", "king"));
-				ArrayList<ChessPiece> kings = getStringToCP().get("k");
+				List<ChessPiece> kings = getStringToCP().get("k");
 				ChessPiece k = kings.get(0);
 				Location l = new Location("g8");
 				k.move(l);
-				ArrayList<ChessPiece> rooks = getStringToCP().get("r");
+				List<ChessPiece> rooks = getStringToCP().get("r");
 				ChessPiece r = null;
 				for (int i = 0; i < rooks.size(); i++) {
-					if (rooks.get(i).getLocation().equals(new Location("h8"))) {
+					if (rooks.get(i).getLocation().getAlgebraicLocation().equals("h8")) {
 						r = rooks.get(i);
 					}
 				}
-				Location l2 = new Location("f8");
-				r.move(l2);
-				game.setRound(game.getRound() + 1);
+				updateBoard("f8", r);
 			}
 		}
 		
@@ -566,7 +562,7 @@ public class GameManagerImpl {
 			if (isWhiteTurn()) {
 				// white's turn
 				castleMoves.add(new CastleMove(game.getRound(), "w", "queen"));
-				ArrayList<ChessPiece> kings = getStringToCP().get("K");
+				List<ChessPiece> kings = getStringToCP().get("K");
 				ChessPiece k = kings.get(0);
 				Location l = new Location("c1");
 				k.move(l);
@@ -580,7 +576,7 @@ public class GameManagerImpl {
 				updateBoard("d1", rook);
 			} else {
 				castleMoves.add(new CastleMove(game.getRound(), "b", "queen"));
-				ArrayList<ChessPiece> kings = getStringToCP().get("k");
+				List<ChessPiece> kings = getStringToCP().get("k");
 				ChessPiece k = kings.get(0);
 				Location l = new Location("c8");
 				k.move(l);
@@ -601,48 +597,23 @@ public class GameManagerImpl {
 			game.setInProgress(false);
 		}
 		
-		// for captures with 4 characters
-		private void handleCapture(String currentMove) {
+		private void handleLengthFourCapture(String currentMove) {
 			String type = currentMove.substring(0, 1);
-			String move = currentMove.substring(2, 4);
-			//System.out.println("handleCapture type: " + type);
-			//System.out.println("handleCapture move: " + move);
-			ChessPiece c = null;
+			String algebraicDestination = currentMove.substring(2, 4);
+			ChessPiece chessPiece = null;
 			if (Character.isLowerCase(type.charAt(0))) {
 				// a pawn moved
 				String file = type;
-				String piece = "";
-				if (game.getRound() % 2 == 0) {
-					piece = "P";
+				if (isWhiteTurn()) {
+					chessPiece = determineFileChessPiece(file, "P", algebraicDestination);
 				} else {
-					piece = "p";
+					chessPiece = determineFileChessPiece(file, "p", algebraicDestination);
 				}
-				c = determineFileChessPiece(file, piece, move);
 			} else {
 				// a normal piece moved
-				c = determineChessPiece(move, type);
-				//System.out.println("handleCapture c: " + c);
+				chessPiece = determineChessPiece(algebraicDestination, type);
 			}
-			Location l = new Location(move);
-			
-			// kill the old piece
-			int x = l.getXCoordinate();
-			int y = l.getYCoordinate();
-			Location l2 = chessBoard.getLocation(y - 1, x - 1);
-		
-			ChessPiece dead = game.getBoard().getChessPieceByLocation(l2);
-			//System.out.println("l2: " + l2);
-			//System.out.println("dead id: " + dead.getID());
-			//System.out.println("dead id: " + dead.getLocation());
-			removePiece(dead);
-			
-			//move the new one
-			c.move(l);
-			game.setRound(game.getRound() + 1);
-			capturer = c;
-			//System.out.println("game capturer: " + capturer);
-			captured = dead;
-			//System.out.println("game captured: " + captured);
+			handleCapture(algebraicDestination, chessPiece);
 		}
 		
 		// Captures with 5 chars!
@@ -650,50 +621,38 @@ public class GameManagerImpl {
 			if (currentMove.substring(4, 5).equals("+") || currentMove.substring(4, 5).equals("#")) {
 				String checkorMate = currentMove.substring(4, 5);
 				String capture = currentMove.substring(0,4);
-				handleCapture(capture);
+				handleLengthFourCapture(capture);
 				if (checkorMate.equals("+")) {
 					game.setCheck(true);
 				} else {
 					game.setCheckmate(true);
 				}
 			} else {
-				//String capture = currentMove.substring(0,4);
-				//handleCapture(capture);
+				// parse relevant pieces
 				String type = currentMove.substring(0, 1);
 				String file = currentMove.substring(1, 2);
-				String move = currentMove.substring(3, 5);
-				//System.out.println("handleCapture file: " + file);
-				//System.out.println("handleCapture type: " + type);
-				//System.out.println("handleCapture move: " + move);
-				ChessPiece c = null;
+				String algebraicDestination = currentMove.substring(3, 5);
+				
 				// a normal piece moved (pawns not possible!)
-				c = determineFileChessPiece(file, type, move);
-				//System.out.println("handleCapture c: " + c);
-				Location l = new Location(move);
-				
-				// kill the old piece
-				int x = l.getXCoordinate();
-				int y = l.getYCoordinate();
-				Location l2 = chessBoard.getLocation(y - 1, x - 1);
+				ChessPiece chessPiece = determineFileChessPiece(file, type, algebraicDestination);
+				handleCapture(algebraicDestination, chessPiece);
+			}
+		}
+		
+		private void handleCapture(String algebraicDestination, ChessPiece chessPiece) {
+			// remove old piece
+			Location destination = chessBoard.getLocation(algebraicDestination);
+			ChessPiece dead = game.getBoard().getChessPieceByLocation(destination);
+			removePiece(dead);
 			
-				ChessPiece dead = game.getBoard().getChessPieceByLocation(l2);
-				//System.out.println("l2: " + l2);
-				//System.out.println("dead id: " + dead.getID());
-				//System.out.println("dead id: " + dead.getLocation());
-				removePiece(dead);
-				
-				//move the new one
-				c.move(l);
-				game.setRound(game.getRound() + 1);
-				capturer = c;
-				//System.out.println("game capturer: " + capturer);
-				captured = dead;
-				//System.out.println("game captured: " + captured);
-				}
+			// update metadata
+			capturer = chessPiece;
+			captured = dead;
+			updateBoard(algebraicDestination, chessPiece);
 		}
 		
 		private void handleLengthThreeCheck(String currentMove) {
-			// parse revelant pieces
+			// parse relevant pieces
 			String algebraicDestination = currentMove.substring(0, 2);
 			String checkType = currentMove.substring(2, 3);
 			
