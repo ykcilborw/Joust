@@ -1,6 +1,5 @@
 package com.wroblicky.andrew.joust.core.general;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
@@ -24,6 +23,7 @@ public class Util {
 		return newBoard;
 	}
 	
+	// eventually want separate UI thread that runs concurrently to the main process
 	public static void handleResults(List<String[][]> boards, List<Integer> rounds, ChessBoardMatcher jo, String joustProgram) {
 		System.out.println("Printing RESULTS: ");
 		for (int i = 0; i < boards.size(); i++) {

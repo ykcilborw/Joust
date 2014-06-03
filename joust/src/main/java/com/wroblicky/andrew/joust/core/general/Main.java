@@ -45,6 +45,12 @@ public class Main {
 	}
 	
 	// for debugging purposes
+	public static boolean run(String pgnFile) {
+		ChessBoardMatcher j = new ChessBoardMatcher(pgnFile);
+		return j.find("*");
+	}
+	
+	// for debugging purposes
 	public static boolean run(String pgnFile, String joustProgram) {
 		ChessBoardMatcher j = new ChessBoardMatcher(pgnFile);
 		return j.find(joustProgram);

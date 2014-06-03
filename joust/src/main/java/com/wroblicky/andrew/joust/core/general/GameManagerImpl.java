@@ -312,7 +312,10 @@ public class GameManagerImpl {
 			
 		private void analyzeMove(String currentMove) {
 			//System.out.println("curentMove: " + currentMove);
-			if (currentMove.length() == 2) {
+			if (currentMove.equals("1/2-1/2") || currentMove.equals("1-0") ||
+					currentMove.equals("0-1")) {
+				handleGameOver();
+			} else if (currentMove.length() == 2) {
 				handleLengthTwoMove(currentMove);
 			} else if(currentMove.length() == 3){
 				handleLengthThreeMove(currentMove);
@@ -320,13 +323,7 @@ public class GameManagerImpl {
 				handleLengthFourMove(currentMove);
 			} else if (currentMove.length() == 5) {
 				handleLengthFiveMove(currentMove);
-			} else if(currentMove.equals("O-O")){
-				handleKingSideCastle();
-			} else if (currentMove.equals("O-O-O")) {
-				handleQueenSideCastle();
-			} else if (currentMove.equals("1/2-1/2") || currentMove.equals("1-0") || currentMove.equals("0-1")) {
-				handleGameOver();
-			} else { // not sure what this is
+			} else {// not sure what this is
 				throw new RuntimeException("Unknown PGN move: " + currentMove);
 			}
 		}
@@ -340,6 +337,8 @@ public class GameManagerImpl {
 			// could be a pawn check
 			if (currentMove.substring(2, 3).equals("+") || currentMove.substring(2, 3).equals("#")) {
 				handleShortCheck(currentMove);
+			} else if (currentMove.equals("O-O")) {
+				handleKingSideCastle();
 			} else {
 				String piece = currentMove.substring(0, 1);
 				String move = currentMove.substring(1, 3);
@@ -372,6 +371,8 @@ public class GameManagerImpl {
 			if (currentMove.contains("x")) {
 				// could be capture with check/checkmate
 				handleLongCapture(currentMove);
+			} else if (currentMove.equals("O-O-O")) { 
+				handleQueenSideCastle();
 			} else {
 				if (currentMove.substring(4, 5).equals("+") || currentMove.substring(4, 5).equals("#")) {
 					handleFileWithCheck(currentMove);

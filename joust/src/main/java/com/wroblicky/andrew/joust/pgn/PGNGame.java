@@ -2,8 +2,6 @@ package com.wroblicky.andrew.joust.pgn;
 
 import java.util.List;
 
-import com.wroblicky.andrew.joust.core.general.Turn;
-
 /**
  * Represents the information contained in a pgn file
  * 
