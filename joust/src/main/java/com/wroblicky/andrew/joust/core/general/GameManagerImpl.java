@@ -336,7 +336,7 @@ public class GameManagerImpl {
 		private void handleLengthThreeMove(String currentMove) {
 			// could be a pawn check
 			if (currentMove.substring(2, 3).equals("+") || currentMove.substring(2, 3).equals("#")) {
-				handleShortCheck(currentMove);
+				handleLengthThreeCheck(currentMove);
 			} else if (currentMove.equals("O-O")) {
 				handleKingSideCastle();
 			} else {
@@ -348,16 +348,12 @@ public class GameManagerImpl {
 		}
 		
 		private void handleLengthFourMove(String currentMove) {
-			// Determine whether capture or more specific move
 			//System.out.println("current move length 4");
 			if (currentMove.substring(1, 2).equals("x")) {
-				//System.out.println("handling capture");
 				handleCapture(currentMove);
 			} else if (currentMove.contains("+") || currentMove.contains("#")){
-				//System.out.println("current move 4 check!");
-				handleCheck(currentMove);
+				handleLengthFourCheck(currentMove);
 			} else {
-				//System.out.println("current move 4 normal");
 				String piece = currentMove.substring(0, 1);
 				String file = currentMove.substring(1, 2);
 				String move = currentMove.substring(2, 4);
@@ -369,22 +365,23 @@ public class GameManagerImpl {
 		
 		private void handleLengthFiveMove(String currentMove) {
 			if (currentMove.contains("x")) {
-				// could be capture with check/checkmate
 				handleLongCapture(currentMove);
 			} else if (currentMove.equals("O-O-O")) { 
 				handleQueenSideCastle();
 			} else {
 				if (currentMove.substring(4, 5).equals("+") || currentMove.substring(4, 5).equals("#")) {
-					handleFileWithCheck(currentMove);
+					handleLengthFiveCheck(currentMove);
+				} else {
+					// TODO
+					// could be generic move specifying moving piece, its file, its rank, and where went
+					// also could be pawn promotion with check/checkmate
+					throw new RuntimeException("Unknown length five move: " + currentMove);
 				}
-				// TODO
-				// could be generic move specifying moving piece, its file, its rank, and where went
-				// also could be pawn promotion with check/checkmate
 			}
 		}
 		
-		private void updateBoard(String move, ChessPiece chessPiece) {
-			Location destination = chessBoard.getLocation(move);
+		private void updateBoard(String algebraicDestination, ChessPiece chessPiece) {
+			Location destination = chessBoard.getLocation(algebraicDestination);
 			chessPiece.move(destination);
 			game.incrementRound();
 		}
@@ -695,53 +692,47 @@ public class GameManagerImpl {
 				}
 		}
 		
-		// 3 characters
-		private void handleShortCheck(String currentMove) {
-			String destination = currentMove.substring(0, 2);
-			String checkorMate = currentMove.substring(2, 3);
-			if (checkorMate.equals("+")) {
-				game.setCheck(true);
-			} else {
-				game.setCheckmate(true);
-			}
-			Location l = new Location(destination);
-			ChessPiece c = determineChessPiece(destination);
-			c.move(l);
-			game.setRound(game.getRound() + 1);
+		private void handleLengthThreeCheck(String currentMove) {
+			// parse revelant pieces
+			String algebraicDestination = currentMove.substring(0, 2);
+			String checkType = currentMove.substring(2, 3);
+			
+			// handle
+			ChessPiece chessPiece = determineChessPiece(algebraicDestination);
+			handleCheck(algebraicDestination, checkType, chessPiece);
 		}
 		
-		// for 4 character moves
-		private void handleCheck(String currentMove) {
-			//System.out.println("handling check: " + currentMove);
+		private void handleLengthFourCheck(String currentMove) {
+			// parse relevant pieces
 			String type = currentMove.substring(0, 1);
-			String destination = currentMove.substring(1, 3);
-			String checkorMate = currentMove.substring(3, 4);
-			if (checkorMate.equals("+")) {
-				game.setCheck(true);
-			} else {
-				game.setCheckmate(true);
-			}
-			Location l = new Location(destination);
-			ChessPiece c = determineChessPiece(destination, type);
-			c.move(l);
-			game.setRound(game.getRound() + 1);
+			String algebraicDestination = currentMove.substring(1, 3);
+			String checkType = currentMove.substring(3, 4);
+			
+			// handle
+			ChessPiece chessPiece = determineChessPiece(algebraicDestination, type);
+			handleCheck(algebraicDestination, checkType, chessPiece);
 		}
 		
-		// Has 5 characters!!
-		private void handleFileWithCheck(String currentMove) {
+		private void handleLengthFiveCheck(String currentMove) {
+			// parse relevant pieces
 			String type = currentMove.substring(0, 1);
 			String file = currentMove.substring(1, 2);
-			String dest = currentMove.substring(2, 4);
-			String checkorMate = currentMove.substring(4, 5);
-			if (checkorMate.equals("+")) {
+			String algebraicDestination = currentMove.substring(2, 4);
+			String checkType = currentMove.substring(4, 5);
+			
+			// handle
+			ChessPiece chessPiece = determineFileChessPiece(file, type, algebraicDestination);
+			handleCheck(algebraicDestination, checkType, chessPiece);
+		}
+		
+		private void handleCheck(String algebraicDestination, String checkType,
+				ChessPiece chessPiece) {
+			if (checkType.equals("+")) {
 				game.setCheck(true);
 			} else {
 				game.setCheckmate(true);
 			}
-			Location l = new Location(dest);
-			ChessPiece c = determineFileChessPiece(file, type, dest);
-			c.move(l);
-			game.setRound(game.getRound() + 1);
+			updateBoard(algebraicDestination, chessPiece);
 		}
 	}
 }
