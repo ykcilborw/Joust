@@ -5,7 +5,9 @@ public enum Scope implements Qualifiable {
 	ALL("all"),
 	NOTHING("nothing"),
 	ACTIVE("active"),
-	DECEASED("deceased");
+	DECEASED("deceased"),
+	BLACK_ACTIVE("black_active"),
+	WHITE_ACTIVE("white_active");
 	
 	private String scope;
 	

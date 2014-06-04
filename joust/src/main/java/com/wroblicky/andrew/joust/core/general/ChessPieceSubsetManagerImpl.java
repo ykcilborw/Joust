@@ -8,8 +8,10 @@ import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 
 public class ChessPieceSubsetManagerImpl implements ChessPieceSubsetManager {
 	
-	private Set<ChessPiece> activePieces;
 	private Set<ChessPiece> allPieces;
+	private Set<ChessPiece> actives;
+	private Set<ChessPiece> blackActives;
+	private Set<ChessPiece> whiteActives;
 	private Map<ChessPieceType, Set<ChessPiece>> chessPieceTypeMap;
 	private Map<ChessPieceAllegianceType, Set<ChessPiece>> chessPieceAllegianceTypeMap;
 	private Set<ChessPiece> deceasedPieces;
@@ -26,7 +28,11 @@ public class ChessPieceSubsetManagerImpl implements ChessPieceSubsetManager {
 		} else if (qualification == Scope.NOTHING) {
 			return new HashSet<ChessPiece>();
 		} else if (qualification == Scope.ACTIVE) {
-			return activePieces;
+			return actives;
+		} else if (qualification == Scope.BLACK_ACTIVE) {
+			return blackActives;
+		} else if (qualification == Scope.WHITE_ACTIVE) {
+			return whiteActives;
 		} else if (qualification == Scope.DECEASED) {
 			return deceasedPieces;
 		} else if (qualification.getClass().getName().equals("ChessPieceType")) {
@@ -40,7 +46,12 @@ public class ChessPieceSubsetManagerImpl implements ChessPieceSubsetManager {
 
 	public void removeChessPiece(ChessPiece chessPiece) {
 		deceasedPieces.add(chessPiece);
-		activePieces.remove(chessPiece);
+		actives.remove(chessPiece);
+		if (chessPiece.isBlack()) {
+			blackActives.remove(chessPiece);
+		} else {
+			whiteActives.remove(chessPiece);
+		}
 		Set<ChessPiece> typeSet = chessPieceTypeMap.get(chessPiece.getMyType());
 		typeSet.remove(chessPiece);
 		// not sure needed
@@ -53,12 +64,19 @@ public class ChessPieceSubsetManagerImpl implements ChessPieceSubsetManager {
 	}
 	
 	private void initialize() {
-		activePieces = new HashSet<ChessPiece>();
+		actives = new HashSet<ChessPiece>();
+		blackActives = new HashSet<ChessPiece>();
+		whiteActives = new HashSet<ChessPiece>();
 		initializeChessPieceTypeMap();
 		initializeChessPieceAllegianceTypeMap();
 		for (ChessPiece chessPiece : allPieces) {
 			if (chessPiece.isAlive()) {
-				activePieces.add(chessPiece);
+				actives.add(chessPiece);
+				if (chessPiece.isBlack()) {
+					blackActives.add(chessPiece);
+				} else {
+					whiteActives.add(chessPiece);
+				}
 				Set<ChessPiece> typeSet =  chessPieceTypeMap.get(chessPiece.getMyType());
 				typeSet.add(chessPiece);
 				chessPieceTypeMap.put(chessPiece.getMyType(), typeSet);
