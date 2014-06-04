@@ -591,7 +591,7 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execOccupiesVar(arg1.substring(0, 1), arg1.substring(1), arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
+			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate loc: " + candidates.get(i).getLocation());
@@ -623,7 +623,7 @@ public class ChessBoardMatcher {
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
 		if (candidates == null){
 			//System.out.println("candidates occupies first");
-			candidates = myGame.getStringToCP().get(arg1);
+			candidates = myGame.getChessPieceLookup().get(arg1);
 		}
 		boolean toReturn = false;
 		for (int i = 0; i < candidates.size(); i++) {
@@ -650,8 +650,8 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execCanAttackVar(arg1, arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
-			ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
+			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
 					//System.out.println("canAttack candidate: " + candidates.get(i));
@@ -683,7 +683,7 @@ public class ChessBoardMatcher {
 		boolean toReturn = false;
 		
 		// determine if arg1 is a var and if so what the suspects should be
-		ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
+		ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 		ArrayList<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
@@ -698,13 +698,13 @@ public class ChessBoardMatcher {
 			} else {
 				// a var statement but first time
 				//System.out.println("candidates2: " + candidates);
-				candidates = myGame.getStringToCP().get(arg1.substring(0, 1));
+				candidates = myGame.getChessPieceLookup().get(arg1.substring(0, 1));
 			}
 		}
 		//System.out.println("candidates: " + candidates);
 		
 		// same for arg2
-		ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
+		ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 		ArrayList<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
@@ -713,7 +713,7 @@ public class ChessBoardMatcher {
 			if (maybeCandidates2 != null){
 				candidates2 = maybeCandidates2;
 			} else {
-				candidates2 = myGame.getStringToCP().get(arg2.substring(0, 1));
+				candidates2 = myGame.getChessPieceLookup().get(arg2.substring(0, 1));
 			}
 		}
 		
@@ -753,7 +753,7 @@ public class ChessBoardMatcher {
 			// call variable version
 			toReturn = execisDefendedVar(arg1.substring(0, 1), arg1.substring(1));
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
+			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				String side = candidates.get(i).getAllegiance().getAllegiance();
@@ -790,7 +790,7 @@ public class ChessBoardMatcher {
 		ArrayList<ChessPiece> candidates = mySuspects.get(arg1);
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
 		if (candidates == null){
-			candidates = myGame.getStringToCP().get(arg1);
+			candidates = myGame.getChessPieceLookup().get(arg1);
 		}
 		for (int i = 0; i < candidates.size(); i++) {
 			//System.out.println("candidate: " + candidates.get(i).getmySymbol());
@@ -827,8 +827,8 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execSameFileVar(arg1, arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
-			ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
+			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
 					String file1 = candidates.get(i).getLocation().getFile();
@@ -854,7 +854,7 @@ public class ChessBoardMatcher {
 		//System.out.println("arg2: " + arg2);
 		boolean toReturn = false;
 		// determine if arg1 is a var and if so what the suspects should be
-		ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
+		ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 		ArrayList<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
@@ -869,13 +869,13 @@ public class ChessBoardMatcher {
 			} else {
 				// a var statement but first time
 				//System.out.println("candidates2: " + candidates);
-				candidates = myGame.getStringToCP().get(arg1.substring(0, 1));
+				candidates = myGame.getChessPieceLookup().get(arg1.substring(0, 1));
 			}
 		}
 		//System.out.println("candidates: " + candidates);
 		
 		// same for arg2
-		ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
+		ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 		ArrayList<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
@@ -884,7 +884,7 @@ public class ChessBoardMatcher {
 			if (maybeCandidates2 != null){
 				candidates2 = maybeCandidates2;
 			} else {
-				candidates2 = myGame.getStringToCP().get(arg2.substring(0, 1));
+				candidates2 = myGame.getChessPieceLookup().get(arg2.substring(0, 1));
 			}
 		}
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
@@ -920,8 +920,8 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execHigherFileVar(arg1, arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
-			ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
+			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
 					String file1 = candidates.get(i).getLocation().getFile();
@@ -945,7 +945,7 @@ public class ChessBoardMatcher {
 	private boolean execHigherFileVar(String arg1, String arg2) {
 		boolean toReturn = false;
 		// determine if arg1 is a var and if so what the suspects should be
-		ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
+		ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 		ArrayList<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
@@ -960,12 +960,12 @@ public class ChessBoardMatcher {
 			} else {
 				// a var statement but first time
 				//System.out.println("candidates2: " + candidates);
-				candidates = myGame.getStringToCP().get(arg1.substring(0, 1));
+				candidates = myGame.getChessPieceLookup().get(arg1.substring(0, 1));
 			}
 		}
 		//System.out.println("candidates: " + candidates);
 		// same for arg2
-		ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
+		ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 		ArrayList<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
@@ -974,7 +974,7 @@ public class ChessBoardMatcher {
 			if (maybeCandidates2 != null){
 				candidates2 = maybeCandidates2;
 			} else {
-				candidates2 = myGame.getStringToCP().get(arg2.substring(0, 1));
+				candidates2 = myGame.getChessPieceLookup().get(arg2.substring(0, 1));
 			}
 		}
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
@@ -1009,8 +1009,8 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execLowerFileVar(arg1, arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
-			ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
+			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
 					String file1 = candidates.get(i).getLocation().getFile();
@@ -1036,7 +1036,7 @@ public class ChessBoardMatcher {
 	private boolean execLowerFileVar(String arg1, String arg2) {
 		boolean toReturn = false;
 		// determine if arg1 is a var and if so what the suspects should be
-		ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
+		ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 		ArrayList<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
@@ -1051,12 +1051,12 @@ public class ChessBoardMatcher {
 			} else {
 				// a var statement but first time
 				//System.out.println("candidates2: " + candidates);
-				candidates = myGame.getStringToCP().get(arg1.substring(0, 1));
+				candidates = myGame.getChessPieceLookup().get(arg1.substring(0, 1));
 			}
 		}
 		//System.out.println("candidates: " + candidates);
 		// same for arg2
-		ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
+		ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 		ArrayList<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
@@ -1065,7 +1065,7 @@ public class ChessBoardMatcher {
 			if (maybeCandidates2 != null){
 				candidates2 = maybeCandidates2;
 			} else {
-				candidates2 = myGame.getStringToCP().get(arg2.substring(0, 1));
+				candidates2 = myGame.getChessPieceLookup().get(arg2.substring(0, 1));
 			}
 		}
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
@@ -1101,7 +1101,7 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execFileVar(arg1.substring(0, 1), arg1.substring(1), arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
+			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				if (candidates.get(i).getLocation().getFile().equals(arg2)) {
@@ -1119,7 +1119,7 @@ public class ChessBoardMatcher {
 		ArrayList<ChessPiece> candidates = mySuspects.get(arg2);
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
 		if (candidates == null){
-			candidates = myGame.getStringToCP().get(arg1);
+			candidates = myGame.getChessPieceLookup().get(arg1);
 		}
 		boolean toReturn = false;
 		for (int i = 0; i < candidates.size(); i++) {
@@ -1142,7 +1142,7 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execCompareFileVar(arg1.substring(0, 1), arg3, arg1.substring(1), arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
+			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			if (arg2.equals("=")) {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
@@ -1202,7 +1202,7 @@ public class ChessBoardMatcher {
 		ArrayList<ChessPiece> candidates = mySuspects.get(arg3);
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
 		if (candidates == null){
-			candidates = myGame.getStringToCP().get(arg1);
+			candidates = myGame.getChessPieceLookup().get(arg1);
 		}
 		if (comp.equals("=")) {
 			for (int i = 0; i < candidates.size(); i++) {
@@ -1262,8 +1262,8 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execHigherRankVar(arg1, arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
-			ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
+			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
 					String rank1 = candidates.get(i).getLocation().getRank();
@@ -1287,7 +1287,7 @@ public class ChessBoardMatcher {
 	private boolean execHigherRankVar(String arg1, String arg2) {
 		boolean toReturn = false;
 		// determine if arg1 is a var and if so what the suspects should be
-		ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
+		ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 		ArrayList<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
@@ -1302,12 +1302,12 @@ public class ChessBoardMatcher {
 			} else {
 				// a var statement but first time
 				//System.out.println("candidates2: " + candidates);
-				candidates = myGame.getStringToCP().get(arg1.substring(0, 1));
+				candidates = myGame.getChessPieceLookup().get(arg1.substring(0, 1));
 			}
 		}
 		//System.out.println("candidates: " + candidates);
 		// same for arg2
-		ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
+		ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 		ArrayList<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
@@ -1316,7 +1316,7 @@ public class ChessBoardMatcher {
 			if (maybeCandidates2 != null){
 				candidates2 = maybeCandidates2;
 			} else {
-				candidates2 = myGame.getStringToCP().get(arg2.substring(0, 1));
+				candidates2 = myGame.getChessPieceLookup().get(arg2.substring(0, 1));
 			}
 		}
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
@@ -1352,8 +1352,8 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execLowerRankVar(arg1, arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
-			ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
+			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
 					String rank1 = candidates.get(i).getLocation().getRank();
@@ -1377,7 +1377,7 @@ public class ChessBoardMatcher {
 	private boolean execLowerRankVar(String arg1, String arg2) {
 		boolean toReturn = false;
 		// determine if arg1 is a var and if so what the suspects should be
-		ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
+		ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 		ArrayList<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
@@ -1392,12 +1392,12 @@ public class ChessBoardMatcher {
 			} else {
 				// a var statement but first time
 				//System.out.println("candidates2: " + candidates);
-				candidates = myGame.getStringToCP().get(arg1.substring(0, 1));
+				candidates = myGame.getChessPieceLookup().get(arg1.substring(0, 1));
 			}
 		}
 		//System.out.println("candidates: " + candidates);
 		// same for arg2
-		ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
+		ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 		ArrayList<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
@@ -1406,7 +1406,7 @@ public class ChessBoardMatcher {
 			if (maybeCandidates2 != null){
 				candidates2 = maybeCandidates2;
 			} else {
-				candidates2 = myGame.getStringToCP().get(arg2.substring(0, 1));
+				candidates2 = myGame.getChessPieceLookup().get(arg2.substring(0, 1));
 			}
 		}
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
@@ -1442,8 +1442,8 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execSameRankVar(arg1, arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
-			ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
+			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
@@ -1469,7 +1469,7 @@ public class ChessBoardMatcher {
 		//System.out.println("arg1: " + arg1);
 		//System.out.println("arg2: " + arg2);
 		boolean toReturn = false;
-		ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
+		ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 		ArrayList<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
@@ -1484,13 +1484,13 @@ public class ChessBoardMatcher {
 			} else {
 				// a var statement but first time
 				//System.out.println("candidates2: " + candidates);
-				candidates = myGame.getStringToCP().get(arg1.substring(0, 1));
+				candidates = myGame.getChessPieceLookup().get(arg1.substring(0, 1));
 			}
 		}
 		//System.out.println("candidates: " + candidates);
 		
 		// same for arg2
-		ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
+		ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 		ArrayList<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
@@ -1499,7 +1499,7 @@ public class ChessBoardMatcher {
 			if (maybeCandidates2 != null){
 				candidates2 = maybeCandidates2;
 			} else {
-				candidates2 = myGame.getStringToCP().get(arg2.substring(0, 1));
+				candidates2 = myGame.getChessPieceLookup().get(arg2.substring(0, 1));
 			}
 		}
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
@@ -1536,7 +1536,7 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execRankVar(arg1.substring(0, 1), arg2, arg1.substring(1));
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
+			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
@@ -1557,7 +1557,7 @@ public class ChessBoardMatcher {
 		ArrayList<ChessPiece> candidates = mySuspects.get(arg3);
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
 		if (candidates == null){
-			candidates = myGame.getStringToCP().get(arg1);
+			candidates = myGame.getChessPieceLookup().get(arg1);
 		}		
 		for (int i = 0; i < candidates.size(); i++) {
 			//System.out.println("candidate: " + candidates.get(i).getmySymbol());
@@ -1580,7 +1580,7 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execCompareRankVar(arg1.substring(0, 1), arg3, arg1.substring(1), arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
+			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			if (arg2.equals("=")) {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
@@ -1639,7 +1639,7 @@ public class ChessBoardMatcher {
 		ArrayList<ChessPiece> candidates = mySuspects.get(arg3);
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
 		if (candidates == null){
-			candidates = myGame.getStringToCP().get(arg1);
+			candidates = myGame.getChessPieceLookup().get(arg1);
 		}
 		if (comp.equals("=")) {
 			for (int i = 0; i < candidates.size(); i++) {
@@ -1699,7 +1699,7 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execRelRankVar(arg1.substring(0, 1), arg2, arg1.substring(1));
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
+			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
@@ -1720,7 +1720,7 @@ public class ChessBoardMatcher {
 		ArrayList<ChessPiece> candidates = mySuspects.get(arg3);
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
 		if (candidates == null){
-			candidates = myGame.getStringToCP().get(arg1);
+			candidates = myGame.getChessPieceLookup().get(arg1);
 		}		
 		for (int i = 0; i < candidates.size(); i++) {
 			//System.out.println("candidate: " + candidates.get(i).getmySymbol());
@@ -1743,7 +1743,7 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execCompareRankVar(arg1.substring(0, 1), arg3, arg1.substring(1), arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
+			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			if (arg2.equals("=")) {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
@@ -1802,7 +1802,7 @@ public class ChessBoardMatcher {
 		ArrayList<ChessPiece> candidates = mySuspects.get(arg3);
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
 		if (candidates == null){
-			candidates = myGame.getStringToCP().get(arg1);
+			candidates = myGame.getChessPieceLookup().get(arg1);
 		}
 		if (comp.equals("=")) {
 			for (int i = 0; i < candidates.size(); i++) {
@@ -1971,7 +1971,7 @@ public class ChessBoardMatcher {
 		boolean whitePossible = true;
 		boolean toReturn = false;
 		for (int i = 0; i < args.size(); i++) {
-			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(args.get(i));
+			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(args.get(i));
 			ArrayList<ChessPiece> maybeCandidates = null;
 			String var = null;
 			if (args.get(i).length() > 1) {
@@ -1986,7 +1986,7 @@ public class ChessBoardMatcher {
 				} else {
 					// a var statement but first time
 					//System.out.println("candidates2: " + candidates);
-					candidates = myGame.getStringToCP().get(args.get(i).substring(0, 1));
+					candidates = myGame.getChessPieceLookup().get(args.get(i).substring(0, 1));
 				}
 			}
 			
@@ -2025,7 +2025,7 @@ public class ChessBoardMatcher {
 	private boolean execExists(ArrayList<String> args) {
 		boolean goodSoFar = false;
 		for (int i = 0; i < args.size(); i++) {
-			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(args.get(i));
+			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(args.get(i));
 			if (candidates.size() > 0) {
 				goodSoFar = true;
 			}
@@ -2052,8 +2052,8 @@ public class ChessBoardMatcher {
 		} else {
 			capturerColor = capturer.getAllegiance().getAllegiance();
 			capturedColor = captured.getAllegiance().getAllegiance();
-			ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
-			ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
+			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			if ((arg1.equals("g") || arg1.equals("G"))) {
 				didCapture = true;
 			}
@@ -2123,7 +2123,7 @@ public class ChessBoardMatcher {
 		boolean toReturn = false;
 		String sub = arg1.substring(0, 1);
 		String sub2 = arg2.substring(0, 1);
-		ArrayList<ChessPiece> candidates = myGame.getStringToCP().get(arg1);
+		ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 		ArrayList<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
@@ -2138,13 +2138,13 @@ public class ChessBoardMatcher {
 			} else {
 				// a var statement but first time
 				//System.out.println("candidates2: " + candidates);
-				candidates = myGame.getStringToCP().get(arg1.substring(0, 1));
+				candidates = myGame.getChessPieceLookup().get(arg1.substring(0, 1));
 			}
 		}
 		//System.out.println("candidates: " + candidates);
 		
 		// same for arg2
-		ArrayList<ChessPiece> candidates2 = myGame.getStringToCP().get(arg2);
+		ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 		ArrayList<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
@@ -2153,7 +2153,7 @@ public class ChessBoardMatcher {
 			if (maybeCandidates2 != null){
 				candidates2 = maybeCandidates2;
 			} else {
-				candidates2 = myGame.getStringToCP().get(arg2.substring(0, 1));
+				candidates2 = myGame.getChessPieceLookup().get(arg2.substring(0, 1));
 			}
 		}
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
@@ -2238,7 +2238,7 @@ public class ChessBoardMatcher {
 			ArrayList<ChessPiece> suspects = mySuspects.get(current);
 			if (suspects == null) {
 				// then no current restrictions on that type
-				suspects = myGame.getStringToCP().get(current.substring(0, 1));
+				suspects = myGame.getChessPieceLookup().get(current.substring(0, 1));
 			}
 			// find an x and see if there is a valid sequencing for rest of variables if it's true
 			for (int i = 1; i < args.size(); i++) {
@@ -2247,7 +2247,7 @@ public class ChessBoardMatcher {
 				ArrayList<ChessPiece> suspects2 = mySuspects.get(contrast);
 				if (suspects2 == null) {
 					// then no current restrictions on that type
-					suspects2 = myGame.getStringToCP().get(contrast.substring(0, 1));
+					suspects2 = myGame.getChessPieceLookup().get(contrast.substring(0, 1));
 				}
 				for (int j = 0; j < suspects2.size(); j++) {
 					ChessPiece c2 = suspects2.get(j);
