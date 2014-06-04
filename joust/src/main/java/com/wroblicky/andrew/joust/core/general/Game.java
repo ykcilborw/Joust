@@ -3,6 +3,7 @@ package com.wroblicky.andrew.joust.core.general;
 import java.util.List;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
+import com.wroblicky.andrew.joust.core.move.Turn;
 
 /**
  * A simple class that stores all the internal properties of a chess game

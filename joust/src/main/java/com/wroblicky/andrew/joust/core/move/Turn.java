@@ -1,8 +1,7 @@
-package com.wroblicky.andrew.joust.core.general;
+package com.wroblicky.andrew.joust.core.move;
 
 import java.util.List;
 
-import com.wroblicky.andrew.joust.core.move.Move;
 
 public class Turn {
 	

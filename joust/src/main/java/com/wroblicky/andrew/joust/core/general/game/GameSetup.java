@@ -24,8 +24,8 @@ import com.wroblicky.andrew.joust.core.chesspiece.Queen;
 import com.wroblicky.andrew.joust.core.general.ChessPieceSubsetManagerImpl;
 import com.wroblicky.andrew.joust.core.general.Game;
 import com.wroblicky.andrew.joust.core.general.GameManagerImpl;
-import com.wroblicky.andrew.joust.core.general.Turn;
 import com.wroblicky.andrew.joust.core.general.Util;
+import com.wroblicky.andrew.joust.core.move.Turn;
 
 /**
  * Manages the state of a chess gameManager
