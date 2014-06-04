@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
+import com.wroblicky.andrew.joust.core.general.ChessPieceAllegianceType;
+import com.wroblicky.andrew.joust.core.general.ChessPieceType;
 import com.wroblicky.andrew.joust.core.general.Location;
 
 /**
@@ -46,15 +48,17 @@ public class Pawn extends ChessPiece {
 		return movedTwice;
 	}
 	
-	public String getMyType() {
-		return "Pawn";
+	@Override
+	public ChessPieceType getMyType() {
+		return ChessPieceType.PAWN;
 	}
 	
-	public String getMySymbol() {
+	@Override
+	public ChessPieceAllegianceType getMySymbol() {
 		if (isBlack()) {
-			return "p";
+			return ChessPieceAllegianceType.BLACK_PAWN;
 		} else {
-			return "P";
+			return ChessPieceAllegianceType.WHITE_PAWN;
 		}
 	}
 	

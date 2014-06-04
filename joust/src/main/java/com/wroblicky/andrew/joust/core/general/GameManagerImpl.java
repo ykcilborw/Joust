@@ -140,7 +140,7 @@ public class GameManagerImpl {
 			ChessPiece current = myActivePieces.get(k);
 			int currX = current.getLocation().getXCoordinate();
 			int currY = current.getLocation().getYCoordinate();
-			board[currX - 1][currY - 1] = current.getMySymbol(); 
+			board[currX - 1][currY - 1] = current.getMySymbol().toString(); 
 		}
 		visitedBoards.add(board);
 		
@@ -285,7 +285,7 @@ public class GameManagerImpl {
 		List<ChessPiece> deadMemberFamily = chessPieceLookup.get(piece.getMySymbol());
 		deadMemberFamily.remove(piece);
 		chessPieceLookup.remove(piece.getMySymbol());
-		chessPieceLookup.put(piece.getMySymbol(), deadMemberFamily);
+		chessPieceLookup.put(piece.getMySymbol().toString(), deadMemberFamily);
 		List<ChessPiece> deadMemberFamily2 = chessPieceLookup.get("g");
 		deadMemberFamily2.remove(piece);
 		chessPieceLookup.remove("g");

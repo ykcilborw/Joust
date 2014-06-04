@@ -1945,7 +1945,7 @@ public class ChessBoardMatcher {
 		ArrayList<ChessPiece> pieces = (ArrayList<ChessPiece>) myGame.getActivePieces();
 		if (pieces.size() == args.size()) {
 			for (int i = 0; i < pieces.size(); i++) {
-				String temp = pieces.get(i).getMySymbol();
+				String temp = pieces.get(i).getMySymbol().toString();
 				for (int j = 0; j < args.size(); j++) {
 					String temp2 = args.get(i);
 					if (temp.equals(temp2)) {

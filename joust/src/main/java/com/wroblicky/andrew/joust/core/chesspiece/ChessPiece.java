@@ -7,6 +7,8 @@ import static com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Occupier.UNO
 import java.util.List;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
+import com.wroblicky.andrew.joust.core.general.ChessPieceAllegianceType;
+import com.wroblicky.andrew.joust.core.general.ChessPieceType;
 import com.wroblicky.andrew.joust.core.general.Location;
 import com.wroblicky.andrew.joust.core.general.Util;
 
@@ -143,7 +145,7 @@ public abstract class ChessPiece {
 	 * e.g. Pawn, Queen, etc.
 	 * 
 	 */
-	public abstract String getMyType();
+	public abstract ChessPieceType getMyType();
 	
 	/**
 	 * Returns a character representing the particular chess piece.
@@ -151,7 +153,7 @@ public abstract class ChessPiece {
 	 * e.g. q for queen
 	 * 
 	 */
-	public abstract String getMySymbol();
+	public abstract ChessPieceAllegianceType getMySymbol();
 	
 	/**
 	 * Returns a list of the possible positions, the current chess piece

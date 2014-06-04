@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.ListIterator;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
+import com.wroblicky.andrew.joust.core.general.ChessPieceAllegianceType;
+import com.wroblicky.andrew.joust.core.general.ChessPieceType;
 import com.wroblicky.andrew.joust.core.general.Location;
 
 /**
@@ -29,15 +31,17 @@ public class King extends ChessPiece{
 		this.chessID = id;
 	}
 	
-	public String getMyType() {
-		return "King";
+	@Override
+	public ChessPieceType getMyType() {
+		return ChessPieceType.KING;
 	}
 	
-	public String getMySymbol() {
+	@Override
+	public ChessPieceAllegianceType getMySymbol() {
 		if (isBlack()) {
-			return "k";
+			return ChessPieceAllegianceType.BLACK_KING;
 		} else {
-			return "K";
+			return ChessPieceAllegianceType.WHITE_KING;
 		}
 	}
 	

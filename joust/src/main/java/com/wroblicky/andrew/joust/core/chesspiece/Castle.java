@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
+import com.wroblicky.andrew.joust.core.general.ChessPieceAllegianceType;
+import com.wroblicky.andrew.joust.core.general.ChessPieceType;
 import com.wroblicky.andrew.joust.core.general.Location;
 
 /**
@@ -33,16 +35,16 @@ public class Castle extends ChessPiece {
 	}
 	
 	@Override
-	public String getMyType() {
-		return "Rook";
+	public ChessPieceType getMyType() {
+		return ChessPieceType.ROOK;
 	}
 	
 	@Override
-	public String getMySymbol() {
+	public ChessPieceAllegianceType getMySymbol() {
 		if (isBlack()) {
-			return "r";
+			return ChessPieceAllegianceType.BLACK_ROOK;
 		} else {
-			return "R";
+			return ChessPieceAllegianceType.WHITE_ROOK;
 		}
 	}
 	

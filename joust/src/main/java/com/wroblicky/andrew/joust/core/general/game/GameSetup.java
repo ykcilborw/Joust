@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.chesspiece.Bishop;
@@ -107,6 +109,10 @@ public class GameSetup {
 		actives.add(wq1);
 		actives.add(bk1);
 		actives.add(wk1);
+		Set<ChessPiece> activesSet = new HashSet<ChessPiece>();
+		for (ChessPiece chessPiece : actives) {
+			activesSet.add(chessPiece);
+		}
 		
 		whiteActives.add(wp1);
 		whiteActives.add(wp2);
@@ -149,7 +155,7 @@ public class GameSetup {
 		List<ChessPiece> allKings = new ArrayList<ChessPiece>();
 		
 		Game game = new Game(chessBoard, new ArrayList<Turn>(),
-				new ChessPieceSubsetManagerImpl());
+				new ChessPieceSubsetManagerImpl(activesSet));
 		GameManagerImpl gameManager = new GameManagerImpl(game, actives, blackActives, whiteActives);
 		HashMap<String, List<ChessPiece>> lookup = new HashMap<String, List<ChessPiece>>();
 		List<ChessPiece> pawns = new ArrayList<ChessPiece>();
@@ -517,6 +523,11 @@ public class GameSetup {
 				}
 			}
 			
+			Set<ChessPiece> activesSet = new HashSet<ChessPiece>();
+			for (ChessPiece chessPiece : actives) {
+				activesSet.add(chessPiece);
+			}
+			
 			allPawns.addAll(pawns);
 			allPawns.addAll(pawns2);
 			allRooks.addAll(rooks);
@@ -556,7 +567,7 @@ public class GameSetup {
 			lookup.put("5", allQueens);
 			lookup.put("6", allKings);
 			Game game = new Game(chessBoard, new ArrayList<Turn>(),
-					new ChessPieceSubsetManagerImpl());
+					new ChessPieceSubsetManagerImpl(activesSet));
 			gameManager = new GameManagerImpl(game, actives, blackActives, whiteActives);
 			gameManager.setChessPieceLookup(lookup);
 			//Close the input stream

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
+import com.wroblicky.andrew.joust.core.general.ChessPieceAllegianceType;
+import com.wroblicky.andrew.joust.core.general.ChessPieceType;
 import com.wroblicky.andrew.joust.core.general.Location;
 
 
@@ -34,16 +36,16 @@ public class Queen extends ChessPiece {
 	}
 	
 	@Override
-	public String getMyType() {
-		return "Queen";
+	public ChessPieceType getMyType() {
+		return ChessPieceType.QUEEN;
 	}
 	
 	@Override
-	public String getMySymbol() {
+	public ChessPieceAllegianceType getMySymbol() {
 		if (isBlack()) {
-			return "q";
+			return ChessPieceAllegianceType.BLACK_QUEEN;
 		} else {
-			return "Q";
+			return ChessPieceAllegianceType.WHITE_QUEEN;
 		}
 	}
 	

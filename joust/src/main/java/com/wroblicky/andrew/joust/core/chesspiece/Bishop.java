@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
+import com.wroblicky.andrew.joust.core.general.ChessPieceAllegianceType;
+import com.wroblicky.andrew.joust.core.general.ChessPieceType;
 import com.wroblicky.andrew.joust.core.general.Location;
 
 
@@ -34,16 +36,16 @@ public class Bishop extends ChessPiece {
 	}
 	
 	@Override
-	public String getMyType() {
-		return "Bishop";
+	public ChessPieceType getMyType() {
+		return ChessPieceType.BISHOP;
 	}
 	
 	@Override
-	public String getMySymbol() {
+	public ChessPieceAllegianceType getMySymbol() {
 		if (isBlack()) {
-			return "b";
+			return ChessPieceAllegianceType.BLACK_BISHOP;
 		} else {
-			return "B";
+			return ChessPieceAllegianceType.WHITE_BISHOP;
 		}
 	}
 	
