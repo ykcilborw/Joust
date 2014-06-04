@@ -21,7 +21,7 @@ import com.wroblicky.andrew.joust.core.chesspiece.Horse;
 import com.wroblicky.andrew.joust.core.chesspiece.King;
 import com.wroblicky.andrew.joust.core.chesspiece.Pawn;
 import com.wroblicky.andrew.joust.core.chesspiece.Queen;
-import com.wroblicky.andrew.joust.core.general.ChessPieceSubsetManagerImpl;
+import com.wroblicky.andrew.joust.core.general.ChessPieceSubsetManager;
 import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.move.Turn;
 
@@ -153,7 +153,7 @@ public class GameSetup {
 		List<ChessPiece> allKings = new ArrayList<ChessPiece>();
 		
 		Game game = new Game(chessBoard, new ArrayList<Turn>(),
-				new ChessPieceSubsetManagerImpl(activesSet));
+				new ChessPieceSubsetManager(activesSet));
 		GameManagerImpl gameManager = new GameManagerImpl(game, actives, blackActives, whiteActives);
 		HashMap<String, List<ChessPiece>> lookup = new HashMap<String, List<ChessPiece>>();
 		List<ChessPiece> pawns = new ArrayList<ChessPiece>();
@@ -565,7 +565,7 @@ public class GameSetup {
 			lookup.put("5", allQueens);
 			lookup.put("6", allKings);
 			Game game = new Game(chessBoard, new ArrayList<Turn>(),
-					new ChessPieceSubsetManagerImpl(activesSet));
+					new ChessPieceSubsetManager(activesSet));
 			gameManager = new GameManagerImpl(game, actives, blackActives, whiteActives);
 			gameManager.setChessPieceLookup(lookup);
 			//Close the input stream
