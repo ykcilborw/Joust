@@ -12,26 +12,44 @@ public class ChessPieceSubsetManagerImpl implements ChessPieceSubsetManager {
 	private Set<ChessPiece> allPieces;
 	private Map<ChessPieceType, Set<ChessPiece>> chessPieceTypeMap;
 	private Map<ChessPieceAllegianceType, Set<ChessPiece>> chessPieceAllegianceTypeMap;
+	private Set<ChessPiece> deceasedPieces;
 	
 	public ChessPieceSubsetManagerImpl(Set<ChessPiece> allPieces) {
-		this.allPieces = allPieces;  
+		this.allPieces = allPieces;
+		this.deceasedPieces = new HashSet<ChessPiece>();
 		initialize();
 	}
 
 	public Set<ChessPiece> getChessPieces(Qualifiable qualification) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Set<ChessPiece> getChessPieces(
-			Qualifiable... qualifications) {
-		// TODO Auto-generated method stub
-		return null;
+		if (qualification == Scope.ALL) {
+			return allPieces;
+		} else if (qualification == Scope.NOTHING) {
+			return new HashSet<ChessPiece>();
+		} else if (qualification == Scope.ACTIVE) {
+			return activePieces;
+		} else if (qualification == Scope.DECEASED) {
+			return deceasedPieces;
+		} else if (qualification.getClass().getName().equals("ChessPieceType")) {
+			return chessPieceTypeMap.get(qualification.getQualification().toString());
+		} else if (qualification.getClass().getName().equals("ChessPieceAllegianceType")) {
+			return chessPieceAllegianceTypeMap.get(qualification.getQualification().toString());
+		} else {  // try to just return all of them
+			return allPieces;
+		}
 	}
 
 	public void removeChessPiece(ChessPiece chessPiece) {
-		// TODO Auto-generated method stub
+		deceasedPieces.add(chessPiece);
+		activePieces.remove(chessPiece);
+		Set<ChessPiece> typeSet = chessPieceTypeMap.get(chessPiece.getMyType());
+		typeSet.remove(chessPiece);
+		// not sure needed
+		chessPieceTypeMap.put(chessPiece.getMyType(), typeSet);
 		
+		Set<ChessPiece> allegianceSet = chessPieceAllegianceTypeMap.get(chessPiece.getMySymbol());
+		allegianceSet.remove(chessPiece);
+		// not sure needed
+		chessPieceAllegianceTypeMap.put(chessPiece.getMySymbol(), allegianceSet);
 	}
 	
 	private void initialize() {

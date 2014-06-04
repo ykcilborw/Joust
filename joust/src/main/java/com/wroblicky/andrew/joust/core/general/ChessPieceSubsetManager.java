@@ -20,13 +20,6 @@ public interface ChessPieceSubsetManager {
 	public Set<ChessPiece> getChessPieces(Qualifiable qualification);
 	
 	/**
-	 * Returns the chess pieces matching the entire list of qualifications
-	 * 
-	 * @param qualification
-	 */
-	public Set<ChessPiece> getChessPieces(Qualifiable... qualifications);
-	
-	/**
 	 * Removes the chess piece from the backing store
 	 * 
 	 * @param chessPiece
