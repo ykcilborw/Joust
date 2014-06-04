@@ -1,4 +1,4 @@
-package com.wroblicky.andrew.joust.core.general;
+package com.wroblicky.andrew.joust.core.game;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -10,6 +10,8 @@ import java.util.Map;
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
+import com.wroblicky.andrew.joust.core.general.CastleMove;
+import com.wroblicky.andrew.joust.core.general.Util;
 
 public class GameManagerImpl {
 	private List<ChessPiece> myActivePieces;
@@ -107,7 +109,7 @@ public class GameManagerImpl {
 		return game.getRound() % 2 == 0;
 	}
 	
-	protected void printVisitedBoards() {
+	public void printVisitedBoards() {
 		FileWriter fstream = null;
 		try {
 			fstream = new FileWriter("out.txt");
@@ -130,7 +132,7 @@ public class GameManagerImpl {
 		}
 	}
 
-	protected void printBoard2(int round) {
+	public void printBoard2(int round) {
 		String[][] board = new String[8][8];
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {

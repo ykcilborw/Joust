@@ -1,4 +1,5 @@
-package com.wroblicky.andrew.joust.core.general;
+package com.wroblicky.andrew.joust.core.game;
+
 
 public interface GameManager {
 	

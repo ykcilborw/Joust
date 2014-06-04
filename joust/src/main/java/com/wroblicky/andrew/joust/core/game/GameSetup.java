@@ -1,4 +1,4 @@
-package com.wroblicky.andrew.joust.core.general.game;
+package com.wroblicky.andrew.joust.core.game;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -22,8 +22,6 @@ import com.wroblicky.andrew.joust.core.chesspiece.King;
 import com.wroblicky.andrew.joust.core.chesspiece.Pawn;
 import com.wroblicky.andrew.joust.core.chesspiece.Queen;
 import com.wroblicky.andrew.joust.core.general.ChessPieceSubsetManagerImpl;
-import com.wroblicky.andrew.joust.core.general.Game;
-import com.wroblicky.andrew.joust.core.general.GameManagerImpl;
 import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.move.Turn;
 

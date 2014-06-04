@@ -1,8 +1,9 @@
-package com.wroblicky.andrew.joust.core.general;
+package com.wroblicky.andrew.joust.core.game;
 
 import java.util.List;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
+import com.wroblicky.andrew.joust.core.general.ChessPieceSubsetManager;
 import com.wroblicky.andrew.joust.core.move.Turn;
 
 /**

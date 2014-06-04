@@ -7,7 +7,8 @@ import java.util.Map;
 
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
-import com.wroblicky.andrew.joust.core.general.game.GameSetup;
+import com.wroblicky.andrew.joust.core.game.GameManagerImpl;
+import com.wroblicky.andrew.joust.core.game.GameSetup;
 import com.wroblicky.andrew.joust.pgn.PGNParser;
 
 import fri.patterns.interpreter.parsergenerator.examples.Joust;

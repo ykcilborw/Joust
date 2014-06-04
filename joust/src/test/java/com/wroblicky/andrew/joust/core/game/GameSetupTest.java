@@ -4,8 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.wroblicky.andrew.joust.core.general.GameManagerImpl;
-import com.wroblicky.andrew.joust.core.general.game.GameSetup;
+import com.wroblicky.andrew.joust.core.game.GameSetup;
 
 public class GameSetupTest {
 
