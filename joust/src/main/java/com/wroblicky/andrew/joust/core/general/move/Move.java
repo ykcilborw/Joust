@@ -1,7 +1,7 @@
 package com.wroblicky.andrew.joust.core.general.move;
 
+import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
-import com.wroblicky.andrew.joust.core.general.Location;
 
 public class Move {
 	

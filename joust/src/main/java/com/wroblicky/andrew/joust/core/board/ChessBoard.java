@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
-import com.wroblicky.andrew.joust.core.general.Location;
 import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.general.move.Move;
 

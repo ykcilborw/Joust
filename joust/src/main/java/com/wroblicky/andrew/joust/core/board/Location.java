@@ -1,4 +1,4 @@
-package com.wroblicky.andrew.joust.core.general;
+package com.wroblicky.andrew.joust.core.board;
 
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 

@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.wroblicky.andrew.joust.core.chesspiece.Pawn;
-import com.wroblicky.andrew.joust.core.general.Location;
 import com.wroblicky.andrew.joust.core.general.move.Move;
 
 public class ChessBoardTest {

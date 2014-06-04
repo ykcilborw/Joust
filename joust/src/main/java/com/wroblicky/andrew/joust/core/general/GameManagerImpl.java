@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
+import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 
 public class GameManagerImpl {

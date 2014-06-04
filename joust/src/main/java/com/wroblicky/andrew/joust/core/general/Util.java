@@ -2,6 +2,7 @@ package com.wroblicky.andrew.joust.core.general;
 
 import java.util.List;
 
+import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.ui.ChessGameDemo;
 

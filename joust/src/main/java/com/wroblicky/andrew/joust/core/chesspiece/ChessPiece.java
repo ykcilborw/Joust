@@ -7,9 +7,9 @@ import static com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Occupier.UNO
 import java.util.List;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
+import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.general.ChessPieceAllegianceType;
 import com.wroblicky.andrew.joust.core.general.ChessPieceType;
-import com.wroblicky.andrew.joust.core.general.Location;
 import com.wroblicky.andrew.joust.core.general.Util;
 
 /**

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
+import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.Bishop;
 import com.wroblicky.andrew.joust.core.chesspiece.Castle;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
@@ -23,7 +24,6 @@ import com.wroblicky.andrew.joust.core.chesspiece.Queen;
 import com.wroblicky.andrew.joust.core.general.ChessPieceSubsetManagerImpl;
 import com.wroblicky.andrew.joust.core.general.Game;
 import com.wroblicky.andrew.joust.core.general.GameManagerImpl;
-import com.wroblicky.andrew.joust.core.general.Location;
 import com.wroblicky.andrew.joust.core.general.Turn;
 import com.wroblicky.andrew.joust.core.general.Util;
 

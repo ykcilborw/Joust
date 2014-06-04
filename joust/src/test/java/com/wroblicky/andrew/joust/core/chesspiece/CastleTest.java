@@ -7,8 +7,8 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
+import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Allegiance;
-import com.wroblicky.andrew.joust.core.general.Location;
 
 public class CastleTest {
 
