@@ -1,4 +1,5 @@
-package com.wroblicky.andrew.joust.core.general;
+package com.wroblicky.andrew.joust.core.qualifiable;
+
 
 public enum Scope implements Qualifiable {
 	

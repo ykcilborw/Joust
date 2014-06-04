@@ -5,6 +5,10 @@ import java.util.Map;
 import java.util.Set;
 
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
+import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
+import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceType;
+import com.wroblicky.andrew.joust.core.qualifiable.Qualifiable;
+import com.wroblicky.andrew.joust.core.qualifiable.Scope;
 
 public class ChessPieceSubsetManagerImpl implements ChessPieceSubsetManager {
 	

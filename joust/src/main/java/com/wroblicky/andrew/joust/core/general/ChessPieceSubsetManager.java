@@ -3,6 +3,7 @@ package com.wroblicky.andrew.joust.core.general;
 import java.util.Set;
 
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
+import com.wroblicky.andrew.joust.core.qualifiable.Qualifiable;
 
 /**
  * Provides a subset of the game's chess pieces given some qualification

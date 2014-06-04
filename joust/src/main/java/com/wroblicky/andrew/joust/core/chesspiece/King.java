@@ -6,8 +6,8 @@ import java.util.ListIterator;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.board.Location;
-import com.wroblicky.andrew.joust.core.general.ChessPieceAllegianceType;
-import com.wroblicky.andrew.joust.core.general.ChessPieceType;
+import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
+import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceType;
 
 /**
  * Represents the king chess piece
