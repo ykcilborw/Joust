@@ -1,4 +1,4 @@
-package com.wroblicky.andrew.joust.core.qa;
+package com.wroblicky.andrew.joust.core.unused;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
