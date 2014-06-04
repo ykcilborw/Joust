@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.general.Util;
-import com.wroblicky.andrew.joust.core.general.move.Move;
+import com.wroblicky.andrew.joust.core.move.Move;
 
 public class ChessBoard {
 	
