@@ -4,11 +4,13 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.wroblicky.andrew.joust.core.general.game.GameSetup;
+
 public class GameSetupTest {
 
 	@Test
 	public void testSetupDefaultGame() {
-		fail("Not yet implemented");
+		GameSetup.setupDefaultGame();
 	}
 
 	@Test

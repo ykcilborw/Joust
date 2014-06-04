@@ -591,7 +591,7 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execOccupiesVar(arg1.substring(0, 1), arg1.substring(1), arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate loc: " + candidates.get(i).getLocation());
@@ -619,7 +619,7 @@ public class ChessBoardMatcher {
 	private boolean execOccupiesVar(String arg1, String arg2, String arg3) {
 		//System.out.println("arg1: " + arg1);
 		//System.out.println("arg2: " + arg2);
-		ArrayList<ChessPiece> candidates = mySuspects.get(arg2);
+		List<ChessPiece> candidates = mySuspects.get(arg2);
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
 		if (candidates == null){
 			//System.out.println("candidates occupies first");
@@ -650,8 +650,8 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execCanAttackVar(arg1, arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
 					//System.out.println("canAttack candidate: " + candidates.get(i));
@@ -683,7 +683,7 @@ public class ChessBoardMatcher {
 		boolean toReturn = false;
 		
 		// determine if arg1 is a var and if so what the suspects should be
-		ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+		List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 		ArrayList<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
@@ -704,7 +704,7 @@ public class ChessBoardMatcher {
 		//System.out.println("candidates: " + candidates);
 		
 		// same for arg2
-		ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+		List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 		ArrayList<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
@@ -753,7 +753,7 @@ public class ChessBoardMatcher {
 			// call variable version
 			toReturn = execisDefendedVar(arg1.substring(0, 1), arg1.substring(1));
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				String side = candidates.get(i).getAllegiance().getAllegiance();
@@ -787,7 +787,7 @@ public class ChessBoardMatcher {
 	private boolean execisDefendedVar(String arg1, String arg2) {
 		//System.out.println("arg1: " + arg1);
 		boolean toReturn = false;
-		ArrayList<ChessPiece> candidates = mySuspects.get(arg1);
+		List<ChessPiece> candidates = mySuspects.get(arg1);
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
 		if (candidates == null){
 			candidates = myGame.getChessPieceLookup().get(arg1);
@@ -827,8 +827,8 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execSameFileVar(arg1, arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
 					String file1 = candidates.get(i).getLocation().getFile();
@@ -854,7 +854,7 @@ public class ChessBoardMatcher {
 		//System.out.println("arg2: " + arg2);
 		boolean toReturn = false;
 		// determine if arg1 is a var and if so what the suspects should be
-		ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+		List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 		ArrayList<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
@@ -875,7 +875,7 @@ public class ChessBoardMatcher {
 		//System.out.println("candidates: " + candidates);
 		
 		// same for arg2
-		ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+		List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 		ArrayList<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
@@ -920,8 +920,8 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execHigherFileVar(arg1, arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
 					String file1 = candidates.get(i).getLocation().getFile();
@@ -945,7 +945,7 @@ public class ChessBoardMatcher {
 	private boolean execHigherFileVar(String arg1, String arg2) {
 		boolean toReturn = false;
 		// determine if arg1 is a var and if so what the suspects should be
-		ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+		List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 		ArrayList<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
@@ -965,7 +965,7 @@ public class ChessBoardMatcher {
 		}
 		//System.out.println("candidates: " + candidates);
 		// same for arg2
-		ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+		List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 		ArrayList<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
@@ -1009,8 +1009,8 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execLowerFileVar(arg1, arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
 					String file1 = candidates.get(i).getLocation().getFile();
@@ -1036,7 +1036,7 @@ public class ChessBoardMatcher {
 	private boolean execLowerFileVar(String arg1, String arg2) {
 		boolean toReturn = false;
 		// determine if arg1 is a var and if so what the suspects should be
-		ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+		List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 		ArrayList<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
@@ -1056,7 +1056,7 @@ public class ChessBoardMatcher {
 		}
 		//System.out.println("candidates: " + candidates);
 		// same for arg2
-		ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+		List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 		ArrayList<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
@@ -1101,7 +1101,7 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execFileVar(arg1.substring(0, 1), arg1.substring(1), arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				if (candidates.get(i).getLocation().getFile().equals(arg2)) {
@@ -1116,7 +1116,7 @@ public class ChessBoardMatcher {
 	private boolean execFileVar(String arg1, String arg2, String arg3) {
 		//System.out.println("arg1: " + arg1);
 		//System.out.println("arg2: " + arg2);
-		ArrayList<ChessPiece> candidates = mySuspects.get(arg2);
+		List<ChessPiece> candidates = mySuspects.get(arg2);
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
 		if (candidates == null){
 			candidates = myGame.getChessPieceLookup().get(arg1);
@@ -1142,7 +1142,7 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execCompareFileVar(arg1.substring(0, 1), arg3, arg1.substring(1), arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			if (arg2.equals("=")) {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
@@ -1199,7 +1199,7 @@ public class ChessBoardMatcher {
 		//System.out.println("execRankVar arg2: " + arg2);
 		//System.out.println("execRankVar arg3: " + arg3);
 		boolean toReturn = false;
-		ArrayList<ChessPiece> candidates = mySuspects.get(arg3);
+		List<ChessPiece> candidates = mySuspects.get(arg3);
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
 		if (candidates == null){
 			candidates = myGame.getChessPieceLookup().get(arg1);
@@ -1262,8 +1262,8 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execHigherRankVar(arg1, arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
 					String rank1 = candidates.get(i).getLocation().getRank();
@@ -1287,7 +1287,7 @@ public class ChessBoardMatcher {
 	private boolean execHigherRankVar(String arg1, String arg2) {
 		boolean toReturn = false;
 		// determine if arg1 is a var and if so what the suspects should be
-		ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+		List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 		ArrayList<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
@@ -1307,7 +1307,7 @@ public class ChessBoardMatcher {
 		}
 		//System.out.println("candidates: " + candidates);
 		// same for arg2
-		ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+		List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 		ArrayList<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
@@ -1352,8 +1352,8 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execLowerRankVar(arg1, arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
 					String rank1 = candidates.get(i).getLocation().getRank();
@@ -1377,7 +1377,7 @@ public class ChessBoardMatcher {
 	private boolean execLowerRankVar(String arg1, String arg2) {
 		boolean toReturn = false;
 		// determine if arg1 is a var and if so what the suspects should be
-		ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+		List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 		ArrayList<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
@@ -1397,7 +1397,7 @@ public class ChessBoardMatcher {
 		}
 		//System.out.println("candidates: " + candidates);
 		// same for arg2
-		ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+		List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 		ArrayList<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
@@ -1442,8 +1442,8 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execSameRankVar(arg1, arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			
 			for (int i = 0; i < candidates.size(); i++) {
 				for (int j = 0; j < candidates2.size(); j++) {
@@ -1469,7 +1469,7 @@ public class ChessBoardMatcher {
 		//System.out.println("arg1: " + arg1);
 		//System.out.println("arg2: " + arg2);
 		boolean toReturn = false;
-		ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+		List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 		ArrayList<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
@@ -1490,7 +1490,7 @@ public class ChessBoardMatcher {
 		//System.out.println("candidates: " + candidates);
 		
 		// same for arg2
-		ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+		List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 		ArrayList<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
@@ -1536,7 +1536,7 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execRankVar(arg1.substring(0, 1), arg2, arg1.substring(1));
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
@@ -1554,7 +1554,7 @@ public class ChessBoardMatcher {
 		//System.out.println("execRankVar arg2: " + arg2);
 		//System.out.println("execRankVar arg3: " + arg3);
 		boolean toReturn = false;
-		ArrayList<ChessPiece> candidates = mySuspects.get(arg3);
+		List<ChessPiece> candidates = mySuspects.get(arg3);
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
 		if (candidates == null){
 			candidates = myGame.getChessPieceLookup().get(arg1);
@@ -1580,7 +1580,7 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execCompareRankVar(arg1.substring(0, 1), arg3, arg1.substring(1), arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			if (arg2.equals("=")) {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
@@ -1636,7 +1636,7 @@ public class ChessBoardMatcher {
 		//System.out.println("execRankVar arg2: " + arg2);
 		//System.out.println("execRankVar arg3: " + arg3);
 		boolean toReturn = false;
-		ArrayList<ChessPiece> candidates = mySuspects.get(arg3);
+		List<ChessPiece> candidates = mySuspects.get(arg3);
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
 		if (candidates == null){
 			candidates = myGame.getChessPieceLookup().get(arg1);
@@ -1699,7 +1699,7 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execRelRankVar(arg1.substring(0, 1), arg2, arg1.substring(1));
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			for (int i = 0; i < candidates.size(); i++) {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
@@ -1717,7 +1717,7 @@ public class ChessBoardMatcher {
 		//System.out.println("execRankVar arg2: " + arg2);
 		//System.out.println("execRankVar arg3: " + arg3);
 		boolean toReturn = false;
-		ArrayList<ChessPiece> candidates = mySuspects.get(arg3);
+		List<ChessPiece> candidates = mySuspects.get(arg3);
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
 		if (candidates == null){
 			candidates = myGame.getChessPieceLookup().get(arg1);
@@ -1743,7 +1743,7 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execCompareRankVar(arg1.substring(0, 1), arg3, arg1.substring(1), arg2);
 		} else {
-			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			if (arg2.equals("=")) {
 				for (int i = 0; i < candidates.size(); i++) {
 					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
@@ -1799,7 +1799,7 @@ public class ChessBoardMatcher {
 		//System.out.println("execRankVar arg2: " + arg2);
 		//System.out.println("execRankVar arg3: " + arg3);
 		boolean toReturn = false;
-		ArrayList<ChessPiece> candidates = mySuspects.get(arg3);
+		List<ChessPiece> candidates = mySuspects.get(arg3);
 		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
 		if (candidates == null){
 			candidates = myGame.getChessPieceLookup().get(arg1);
@@ -1971,7 +1971,7 @@ public class ChessBoardMatcher {
 		boolean whitePossible = true;
 		boolean toReturn = false;
 		for (int i = 0; i < args.size(); i++) {
-			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(args.get(i));
+			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(args.get(i));
 			ArrayList<ChessPiece> maybeCandidates = null;
 			String var = null;
 			if (args.get(i).length() > 1) {
@@ -2025,7 +2025,7 @@ public class ChessBoardMatcher {
 	private boolean execExists(ArrayList<String> args) {
 		boolean goodSoFar = false;
 		for (int i = 0; i < args.size(); i++) {
-			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(args.get(i));
+			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(args.get(i));
 			if (candidates.size() > 0) {
 				goodSoFar = true;
 			}
@@ -2052,8 +2052,8 @@ public class ChessBoardMatcher {
 		} else {
 			capturerColor = capturer.getAllegiance().getAllegiance();
 			capturedColor = captured.getAllegiance().getAllegiance();
-			ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			if ((arg1.equals("g") || arg1.equals("G"))) {
 				didCapture = true;
 			}
@@ -2123,8 +2123,8 @@ public class ChessBoardMatcher {
 		boolean toReturn = false;
 		String sub = arg1.substring(0, 1);
 		String sub2 = arg2.substring(0, 1);
-		ArrayList<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-		ArrayList<ChessPiece> maybeCandidates = null;
+		List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+		List<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
 			var = arg1;
@@ -2144,7 +2144,7 @@ public class ChessBoardMatcher {
 		//System.out.println("candidates: " + candidates);
 		
 		// same for arg2
-		ArrayList<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+		List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 		ArrayList<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
@@ -2235,7 +2235,7 @@ public class ChessBoardMatcher {
 			toReturn = true;
 		} else {
 			String current = args.get(0);
-			ArrayList<ChessPiece> suspects = mySuspects.get(current);
+			List<ChessPiece> suspects = mySuspects.get(current);
 			if (suspects == null) {
 				// then no current restrictions on that type
 				suspects = myGame.getChessPieceLookup().get(current.substring(0, 1));
@@ -2244,7 +2244,7 @@ public class ChessBoardMatcher {
 			for (int i = 1; i < args.size(); i++) {
 				String contrast = args.get(i);
 				ChessPiece c = suspects.get(i);
-				ArrayList<ChessPiece> suspects2 = mySuspects.get(contrast);
+				List<ChessPiece> suspects2 = mySuspects.get(contrast);
 				if (suspects2 == null) {
 					// then no current restrictions on that type
 					suspects2 = myGame.getChessPieceLookup().get(contrast.substring(0, 1));
