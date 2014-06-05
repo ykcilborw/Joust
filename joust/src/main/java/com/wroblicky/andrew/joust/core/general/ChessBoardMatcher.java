@@ -2,8 +2,10 @@ package com.wroblicky.andrew.joust.core.general;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
@@ -20,7 +22,7 @@ import fri.patterns.interpreter.parsergenerator.examples.Joust;
 public class ChessBoardMatcher {
 	GameManagerImpl myGame;
 	List<String> myMoves;
-	Map<String, ArrayList<ChessPiece>> mySuspects;
+	Map<String, Set<ChessPiece>> mySuspects;
 	List<String[][]> matchedBoards;
 	List<Integer> matchedRounds;
 	boolean isSpecial;
@@ -33,7 +35,7 @@ public class ChessBoardMatcher {
 		myMoves = PGNParser.getPGNGame(pgnGame).getMoves();
 		matchedBoards = new ArrayList<String[][]>();
 		matchedRounds = new ArrayList<Integer>();
-		mySuspects = new HashMap<String, ArrayList<ChessPiece>> ();
+		mySuspects = new HashMap<String, Set<ChessPiece>> ();
 		isSpecial = false;
 		occursFlag = false;
 	}
@@ -43,7 +45,7 @@ public class ChessBoardMatcher {
 		myMoves = PGNParser.getPGNGame(pgnGame).getMoves();
 		matchedBoards = new ArrayList<String[][]>();
 		matchedRounds = new ArrayList<Integer>();
-		mySuspects = new HashMap<String, ArrayList<ChessPiece>> ();
+		mySuspects = new HashMap<String, Set<ChessPiece>> ();
 		isSpecial = true;
 		occursFlag = false;
 	}
@@ -53,7 +55,7 @@ public class ChessBoardMatcher {
 		myMoves = PGNParser.getPGNGame(pgnGame).getMoves();
 		matchedBoards = new ArrayList<String[][]>();
 		matchedRounds = new ArrayList<Integer>();
-		mySuspects = new HashMap<String, ArrayList<ChessPiece>> ();
+		mySuspects = new HashMap<String, Set<ChessPiece>> ();
 		isSpecial = special;
 		occursFlag = false;
 	}
@@ -519,8 +521,8 @@ public class ChessBoardMatcher {
 			} else if (next.equals("||")) {
 				ArrayList<Object> leftArg = (ArrayList<Object>) ast.get(1);
 				// TODO need to rethink if cloning is really necessary
-				HashMap<String, ArrayList<ChessPiece>> suspects = (HashMap<String, ArrayList<ChessPiece>>) mySuspects;
-				Map<String, ArrayList<ChessPiece>> origMySuspects = (Map<String, ArrayList<ChessPiece>>)suspects.clone();
+				HashMap<String, Set<ChessPiece>> suspects = (HashMap<String, Set<ChessPiece>>) mySuspects;
+				Map<String, Set<ChessPiece>> origMySuspects = (Map<String, Set<ChessPiece>>) suspects.clone();
 				boolean left = evalStatement(leftArg);
 				if (!left) {
 					// Need to restore original mySuspects
@@ -593,21 +595,21 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execOccupiesVar(arg1.substring(0, 1), arg1.substring(1), arg2);
 		} else {
-			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				//System.out.println("candidate loc: " + candidates.get(i).getLocation());
-				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (candidates.get(i).getLocation().getAlgebraicLocation().equals(arg2)) {
+			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				//System.out.println("candidate loc: " + candidate.getLocation());
+				//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+				if (candidate.getLocation().getAlgebraicLocation().equals(arg2)) {
 						toReturn = true;
 						break;
 				}
 				/*  deprecated version that supported p2 and such, can add back later
-				if (candidates.get(i).getLocation().getmyAlgebraicLocation().equals(arg2)) {
+				if (candidate.getLocation().getmyAlgebraicLocation().equals(arg2)) {
 					if (arg1Var.equals("")) {
 						toReturn = true;
 						break;
-					} else if (!(arg1Var.equals("")) && Integer.parseInt(arg1Var) == candidates.get(i).getID()) { 
+					} else if (!(arg1Var.equals("")) && Integer.parseInt(arg1Var) == candidate.getID()) { 
 						toReturn = true;
 						break;
 					}
@@ -621,20 +623,20 @@ public class ChessBoardMatcher {
 	private boolean execOccupiesVar(String arg1, String arg2, String arg3) {
 		//System.out.println("arg1: " + arg1);
 		//System.out.println("arg2: " + arg2);
-		List<ChessPiece> candidates = mySuspects.get(arg2);
-		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
+		Set<ChessPiece> candidates = mySuspects.get(arg2);
+		Set<ChessPiece> newCandidates = new HashSet<ChessPiece>();
 		if (candidates == null){
 			//System.out.println("candidates occupies first");
 			candidates = myGame.getChessPieceLookup().get(arg1);
 		}
 		boolean toReturn = false;
-		for (int i = 0; i < candidates.size(); i++) {
-			//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-			//System.out.println("candidate loc: " + candidates.get(i).getLocation());
-			if (candidates.get(i).getLocation().getAlgebraicLocation().equals(arg3)) {
+		for (ChessPiece candidate : candidates) {
+			//System.out.println("candidate: " + candidate.getmySymbol());
+			//System.out.println("candidate loc: " + candidate.getLocation());
+			if (candidate.getLocation().getAlgebraicLocation().equals(arg3)) {
 					toReturn = true;
-					//System.out.println("newCandidates: " + candidates.get(i).getLocation());
-					newCandidates.add(candidates.get(i));
+					//System.out.println("newCandidates: " + candidate.getLocation());
+					newCandidates.add(candidate);
 			}
 		}
 		mySuspects.remove(arg1 + arg2);
@@ -652,15 +654,15 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execCanAttackVar(arg1, arg2);
 		} else {
-			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
-			for (int i = 0; i < candidates.size(); i++) {
-				for (int j = 0; j < candidates2.size(); j++) {
-					//System.out.println("canAttack candidate: " + candidates.get(i));
+			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+			for (ChessPiece candidate : candidates) {
+				for (ChessPiece candidate2 : candidates2) {
+					//System.out.println("canAttack candidate: " + candidate);
 					// Get all of i's possible locations
 					// see if any match j's location
-					List<Location> possibles = candidates.get(i).getPossibleMoves();
-					String enemySpot = candidates2.get(j).getLocation().getAlgebraicLocation();
+					List<Location> possibles = candidate.getPossibleMoves();
+					String enemySpot = candidate2.getLocation().getAlgebraicLocation();
 					for (int k = 0; k < possibles.size(); k++) {
 						if (enemySpot.equals(possibles.get(k).getAlgebraicLocation())) {
 							toReturn = true;
@@ -685,8 +687,8 @@ public class ChessBoardMatcher {
 		boolean toReturn = false;
 		
 		// determine if arg1 is a var and if so what the suspects should be
-		List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-		ArrayList<ChessPiece> maybeCandidates = null;
+		Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+		Set<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
 			var = arg1;
@@ -706,8 +708,8 @@ public class ChessBoardMatcher {
 		//System.out.println("candidates: " + candidates);
 		
 		// same for arg2
-		List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
-		ArrayList<ChessPiece> maybeCandidates2 = null;
+		Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+		Set<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
 			var2 = arg2.substring(1);
@@ -720,19 +722,19 @@ public class ChessBoardMatcher {
 		}
 		
 		
-		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> newCandidates2 = new ArrayList<ChessPiece>();
-		for (int i = 0; i < candidates.size(); i++) {
-			for (int j = 0; j < candidates2.size(); j++) {
+		HashSet<ChessPiece> newCandidates = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> newCandidates2 = new HashSet<ChessPiece>();
+		for (ChessPiece candidate : candidates) {
+			for (ChessPiece candidate2 : candidates2) {
 				// Get all of i's possible locations
 				// see if any match j's location
-				List<Location> possibles = candidates.get(i).getPossibleMoves();
-				String enemySpot = candidates2.get(j).getLocation().getAlgebraicLocation();
+				List<Location> possibles = candidate.getPossibleMoves();
+				String enemySpot = candidate2.getLocation().getAlgebraicLocation();
 				for (int k = 0; k < possibles.size(); k++) {
 					if (enemySpot.equals(possibles.get(k).getAlgebraicLocation())) {
 						toReturn = true;
-						newCandidates.add(candidates.get(i));
-						newCandidates2.add(candidates.get(j));
+						newCandidates.add(candidate);
+						newCandidates2.add(candidate2);
 					}
 				}
 			}
@@ -755,13 +757,13 @@ public class ChessBoardMatcher {
 			// call variable version
 			toReturn = execisDefendedVar(arg1.substring(0, 1), arg1.substring(1));
 		} else {
-			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				String side = candidates.get(i).getAllegiance().getAllegiance();
+			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				String side = candidate.getAllegiance().getAllegiance();
 				if (side.equals("b")) {
 					for (ChessPiece blackPiece : myGame.getBlackPieces()) {
-						Location mySpot = candidates.get(i).getLocation();
+						Location mySpot = candidate.getLocation();
 						//System.out.println("first: " + myGame.getBlackPieces().get(j).getmySymbol());
 						if (blackPiece.canDefend(mySpot)) {
 							toReturn = true;
@@ -770,7 +772,7 @@ public class ChessBoardMatcher {
 					} 
 				} else {
 					for (ChessPiece whitePiece : myGame.getWhitePieces()) {
-						Location mySpot = candidates.get(i).getLocation();
+						Location mySpot = candidate.getLocation();
 						//System.out.println("first: " + myGame.getWhitePieces().get(j).getmySymbol());
 						if (whitePiece.canDefend(mySpot)) {
 							toReturn = true;
@@ -789,30 +791,30 @@ public class ChessBoardMatcher {
 	private boolean execisDefendedVar(String arg1, String arg2) {
 		//System.out.println("arg1: " + arg1);
 		boolean toReturn = false;
-		List<ChessPiece> candidates = mySuspects.get(arg1);
-		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
+		Set<ChessPiece> candidates = mySuspects.get(arg1);
+		Set<ChessPiece> newCandidates = new HashSet<ChessPiece>();
 		if (candidates == null){
 			candidates = myGame.getChessPieceLookup().get(arg1);
 		}
-		for (int i = 0; i < candidates.size(); i++) {
-			//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-			String side = candidates.get(i).getAllegiance().getAllegiance();
+		for (ChessPiece candidate : candidates) {
+			//System.out.println("candidate: " + candidate.getmySymbol());
+			String side = candidate.getAllegiance().getAllegiance();
 			if (side.equals("b")) {
 				for (ChessPiece blackPiece : myGame.getBlackPieces()) {
-					Location mySpot = candidates.get(i).getLocation();
+					Location mySpot = candidate.getLocation();
 					//System.out.println("first: " + myGame.getBlackPieces().get(j).getmySymbol());
 					if (blackPiece.canDefend(mySpot)) {
 						toReturn = true;
-						newCandidates.add(candidates.get(i));
+						newCandidates.add(candidate);
 					}
 				} 
 			} else {
 				for (ChessPiece whitePiece : myGame.getWhitePieces()) {
-					Location mySpot = candidates.get(i).getLocation();
+					Location mySpot = candidate.getLocation();
 					//System.out.println("first: " + myGame.getWhitePieces().get(j).getmySymbol());
 					if (whitePiece.canDefend(mySpot)) {
 						toReturn = true;
-						newCandidates.add(candidates.get(i));
+						newCandidates.add(candidate);
 					}
 				}	
 			}
@@ -829,13 +831,13 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execSameFileVar(arg1, arg2);
 		} else {
-			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
-			for (int i = 0; i < candidates.size(); i++) {
-				for (int j = 0; j < candidates2.size(); j++) {
-					String file1 = candidates.get(i).getLocation().getFile();
+			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+			for (ChessPiece candidate : candidates) {
+				for (ChessPiece candidate2 : candidates2) {
+					String file1 = candidate.getLocation().getFile();
 					//System.out.println("file1: " + file1);
-					String file2 = candidates2.get(j).getLocation().getFile();
+					String file2 = candidate2.getLocation().getFile();
 					//System.out.println("file2: " + file2);
 					if (file1.equals(file2)) {
 						toReturn = true;
@@ -856,8 +858,8 @@ public class ChessBoardMatcher {
 		//System.out.println("arg2: " + arg2);
 		boolean toReturn = false;
 		// determine if arg1 is a var and if so what the suspects should be
-		List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-		ArrayList<ChessPiece> maybeCandidates = null;
+		Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+		Set<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
 			var = arg1;
@@ -877,8 +879,8 @@ public class ChessBoardMatcher {
 		//System.out.println("candidates: " + candidates);
 		
 		// same for arg2
-		List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
-		ArrayList<ChessPiece> maybeCandidates2 = null;
+		Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+		Set<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
 			var2 = arg2.substring(1);
@@ -889,18 +891,18 @@ public class ChessBoardMatcher {
 				candidates2 = myGame.getChessPieceLookup().get(arg2.substring(0, 1));
 			}
 		}
-		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> newCandidates2 = new ArrayList<ChessPiece>();
-		for (int i = 0; i < candidates.size(); i++) {
-			for (int j = 0; j < candidates2.size(); j++) {
-				String file1 = candidates.get(i).getLocation().getFile();
+		HashSet<ChessPiece> newCandidates = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> newCandidates2 = new HashSet<ChessPiece>();
+		for (ChessPiece candidate : candidates) {
+			for (ChessPiece candidate2 : candidates2) {
+				String file1 = candidate.getLocation().getFile();
 				//System.out.println("file1: " + file1);
-				String file2 = candidates2.get(j).getLocation().getFile();
+				String file2 = candidate2.getLocation().getFile();
 				//System.out.println("file2: " + file1);
 				if (file1.equals(file2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
-					newCandidates2.add(candidates2.get(j));
+					newCandidates.add(candidate);
+					newCandidates2.add(candidate2);
 				}
 			}
 		}
@@ -922,13 +924,13 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execHigherFileVar(arg1, arg2);
 		} else {
-			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
-			for (int i = 0; i < candidates.size(); i++) {
-				for (int j = 0; j < candidates2.size(); j++) {
-					String file1 = candidates.get(i).getLocation().getFile();
+			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+			for (ChessPiece candidate : candidates) {
+				for (ChessPiece candidate2 : candidates2) {
+					String file1 = candidate.getLocation().getFile();
 					//System.out.println("file1: " + file1);
-					String file2 = candidates2.get(j).getLocation().getFile();
+					String file2 = candidate2.getLocation().getFile();
 					//System.out.println("file2: " + file1);
 					if (Util.fileToNum(file1) > Util.fileToNum(file2)) {
 						toReturn = true;
@@ -947,8 +949,8 @@ public class ChessBoardMatcher {
 	private boolean execHigherFileVar(String arg1, String arg2) {
 		boolean toReturn = false;
 		// determine if arg1 is a var and if so what the suspects should be
-		List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-		ArrayList<ChessPiece> maybeCandidates = null;
+		Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+		Set<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
 			var = arg1;
@@ -967,8 +969,8 @@ public class ChessBoardMatcher {
 		}
 		//System.out.println("candidates: " + candidates);
 		// same for arg2
-		List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
-		ArrayList<ChessPiece> maybeCandidates2 = null;
+		Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+		Set<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
 			var2 = arg2.substring(1);
@@ -979,18 +981,18 @@ public class ChessBoardMatcher {
 				candidates2 = myGame.getChessPieceLookup().get(arg2.substring(0, 1));
 			}
 		}
-		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> newCandidates2 = new ArrayList<ChessPiece>();
-		for (int i = 0; i < candidates.size(); i++) {
-			for (int j = 0; j < candidates2.size(); j++) {
-				String file1 = candidates.get(i).getLocation().getFile();
+		HashSet<ChessPiece> newCandidates = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> newCandidates2 = new HashSet<ChessPiece>();
+		for (ChessPiece candidate : candidates) {
+			for (ChessPiece candidate2 : candidates2) {
+				String file1 = candidate.getLocation().getFile();
 				//System.out.println("file1: " + file1);
-				String file2 = candidates2.get(j).getLocation().getFile();
+				String file2 = candidate2.getLocation().getFile();
 				//System.out.println("file2: " + file1);
 				if (Util.fileToNum(file1) > Util.fileToNum(file2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
-					newCandidates2.add(candidates2.get(j));
+					newCandidates.add(candidate);
+					newCandidates2.add(candidate2);
 				}
 			}
 		}
@@ -1011,14 +1013,14 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execLowerFileVar(arg1, arg2);
 		} else {
-			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
-			for (int i = 0; i < candidates.size(); i++) {
-				for (int j = 0; j < candidates2.size(); j++) {
-					String file1 = candidates.get(i).getLocation().getFile();
+			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+			for (ChessPiece candidate : candidates) {
+				for (ChessPiece candidate2 : candidates2) {
+					String file1 = candidate.getLocation().getFile();
 					//System.out.println("file1: " + file1);
 					//System.out.println("file1: " + Util.fileToNum(file1));
-					String file2 = candidates2.get(j).getLocation().getFile();
+					String file2 = candidate2.getLocation().getFile();
 					//System.out.println("file2: " + file2);
 					//System.out.println("file2: " + Util.fileToNum(file2));
 					if (Util.fileToNum(file1) < Util.fileToNum(file2)) {
@@ -1038,8 +1040,8 @@ public class ChessBoardMatcher {
 	private boolean execLowerFileVar(String arg1, String arg2) {
 		boolean toReturn = false;
 		// determine if arg1 is a var and if so what the suspects should be
-		List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-		ArrayList<ChessPiece> maybeCandidates = null;
+		Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+		Set<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
 			var = arg1;
@@ -1058,8 +1060,8 @@ public class ChessBoardMatcher {
 		}
 		//System.out.println("candidates: " + candidates);
 		// same for arg2
-		List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
-		ArrayList<ChessPiece> maybeCandidates2 = null;
+		Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+		Set<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
 			var2 = arg2.substring(1);
@@ -1070,18 +1072,18 @@ public class ChessBoardMatcher {
 				candidates2 = myGame.getChessPieceLookup().get(arg2.substring(0, 1));
 			}
 		}
-		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> newCandidates2 = new ArrayList<ChessPiece>();
-		for (int i = 0; i < candidates.size(); i++) {
-			for (int j = 0; j < candidates2.size(); j++) {
-				String file1 = candidates.get(i).getLocation().getFile();
+		HashSet<ChessPiece> newCandidates = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> newCandidates2 = new HashSet<ChessPiece>();
+		for (ChessPiece candidate : candidates) {
+			for (ChessPiece candidate2 : candidates2) {
+				String file1 = candidate.getLocation().getFile();
 				//System.out.println("file1: " + file1);
-				String file2 = candidates2.get(j).getLocation().getFile();
+				String file2 = candidate2.getLocation().getFile();
 				//System.out.println("file2: " + file1);
 				if (Util.fileToNum(file1) < Util.fileToNum(file2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
-					newCandidates2.add(candidates2.get(j));
+					newCandidates.add(candidate);
+					newCandidates2.add(candidate2);
 				}
 			}
 		}
@@ -1103,10 +1105,10 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execFileVar(arg1.substring(0, 1), arg1.substring(1), arg2);
 		} else {
-			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				if (candidates.get(i).getLocation().getFile().equals(arg2)) {
+			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				if (candidate.getLocation().getFile().equals(arg2)) {
 					toReturn = true;
 					break;
 				}
@@ -1118,17 +1120,17 @@ public class ChessBoardMatcher {
 	private boolean execFileVar(String arg1, String arg2, String arg3) {
 		//System.out.println("arg1: " + arg1);
 		//System.out.println("arg2: " + arg2);
-		List<ChessPiece> candidates = mySuspects.get(arg2);
-		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
+		Set<ChessPiece> candidates = mySuspects.get(arg2);
+		HashSet<ChessPiece> newCandidates = new HashSet<ChessPiece>();
 		if (candidates == null){
 			candidates = myGame.getChessPieceLookup().get(arg1);
 		}
 		boolean toReturn = false;
-		for (int i = 0; i < candidates.size(); i++) {
-			//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-			if (candidates.get(i).getLocation().getFile().equals(arg3)) {
+		for (ChessPiece candidate : candidates) {
+			//System.out.println("candidate: " + candidate.getmySymbol());
+			if (candidate.getLocation().getFile().equals(arg3)) {
 				toReturn = true;
-				newCandidates.add(candidates.get(i));
+				newCandidates.add(candidate);
 			}
 		}
 		mySuspects.remove(arg1 + arg2);
@@ -1144,49 +1146,49 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execCompareFileVar(arg1.substring(0, 1), arg3, arg1.substring(1), arg2);
 		} else {
-			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			if (arg2.equals("=")) {
-				for (int i = 0; i < candidates.size(); i++) {
-					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (candidates.get(i).getLocation().getFile().equals(arg3)) {
+				for (ChessPiece candidate : candidates) {
+					//System.out.println("candidate: " + candidate.getmySymbol());
+					//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+					if (candidate.getLocation().getFile().equals(arg3)) {
 						toReturn = true;
 						break;
 					}
 				}
 			} else if (arg2.equals("<")) {
-				for (int i = 0; i < candidates.size(); i++) {
-					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Util.fileToNum(candidates.get(i).getLocation().getFile()) < Util.fileToNum(arg3)) {
+				for (ChessPiece candidate : candidates) {
+					//System.out.println("candidate: " + candidate.getmySymbol());
+					//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+					if (Util.fileToNum(candidate.getLocation().getFile()) < Util.fileToNum(arg3)) {
 						toReturn = true;
 						break;
 					}
 				}
 			} else if (arg2.equals(">")) {
-				for (int i = 0; i < candidates.size(); i++) {
-					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Util.fileToNum(candidates.get(i).getLocation().getFile()) > Util.fileToNum(arg3)) {
+				for (ChessPiece candidate : candidates) {
+					//System.out.println("candidate: " + candidate.getmySymbol());
+					//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+					if (Util.fileToNum(candidate.getLocation().getFile()) > Util.fileToNum(arg3)) {
 						toReturn = true;
 						break;
 					}
 				}
 			}  else if (arg2.equals("<=")) {
-				for (int i = 0; i < candidates.size(); i++) {
-					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Util.fileToNum(candidates.get(i).getLocation().getFile()) <= Util.fileToNum(arg3)) {
+				for (ChessPiece candidate : candidates) {
+					//System.out.println("candidate: " + candidate.getmySymbol());
+					//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+					if (Util.fileToNum(candidate.getLocation().getFile()) <= Util.fileToNum(arg3)) {
 						toReturn = true;
 						break;
 					}
 				}
 			} 
 			else if (arg2.equals(">=")) {
-				for (int i = 0; i < candidates.size(); i++) {
-					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Util.fileToNum(candidates.get(i).getLocation().getFile()) >= Util.fileToNum(arg3)) {
+				for (ChessPiece candidate : candidates) {
+					//System.out.println("candidate: " + candidate.getmySymbol());
+					//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+					if (Util.fileToNum(candidate.getLocation().getFile()) >= Util.fileToNum(arg3)) {
 						toReturn = true;
 						break;
 					}
@@ -1201,54 +1203,54 @@ public class ChessBoardMatcher {
 		//System.out.println("execRankVar arg2: " + arg2);
 		//System.out.println("execRankVar arg3: " + arg3);
 		boolean toReturn = false;
-		List<ChessPiece> candidates = mySuspects.get(arg3);
-		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
+		Set<ChessPiece> candidates = mySuspects.get(arg3);
+		HashSet<ChessPiece> newCandidates = new HashSet<ChessPiece>();
 		if (candidates == null){
 			candidates = myGame.getChessPieceLookup().get(arg1);
 		}
 		if (comp.equals("=")) {
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (candidates.get(i).getLocation().getRank().equals(arg2)) {
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+				if (candidate.getLocation().getRank().equals(arg2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
+					newCandidates.add(candidate);
 				}
 			}
 		} else if (comp.equals("<")) {
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Util.fileToNum(candidates.get(i).getLocation().getRank()) < Util.fileToNum(arg2)) {
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+				if (Util.fileToNum(candidate.getLocation().getRank()) < Util.fileToNum(arg2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
+					newCandidates.add(candidate);
 				}
 			}
 		} else if (comp.equals(">")) {
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Util.fileToNum(candidates.get(i).getLocation().getRank()) > Util.fileToNum(arg2)) {
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+				if (Util.fileToNum(candidate.getLocation().getRank()) > Util.fileToNum(arg2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
+					newCandidates.add(candidate);
 				}
 			}
 		} else if (comp.equals(">=")) {
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Util.fileToNum(candidates.get(i).getLocation().getRank()) >= Util.fileToNum(arg2)) {
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+				if (Util.fileToNum(candidate.getLocation().getRank()) >= Util.fileToNum(arg2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
+					newCandidates.add(candidate);
 				}
 			}
 		} else if (comp.equals("<=")) {
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Util.fileToNum(candidates.get(i).getLocation().getRank()) <= Util.fileToNum(arg2)) {
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+				if (Util.fileToNum(candidate.getLocation().getRank()) <= Util.fileToNum(arg2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
+					newCandidates.add(candidate);
 				}
 			}
 		}
@@ -1264,13 +1266,13 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execHigherRankVar(arg1, arg2);
 		} else {
-			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
-			for (int i = 0; i < candidates.size(); i++) {
-				for (int j = 0; j < candidates2.size(); j++) {
-					String rank1 = candidates.get(i).getLocation().getRank();
+			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+			for (ChessPiece candidate : candidates) {
+				for (ChessPiece candidate2 : candidates2) {
+					String rank1 = candidate.getLocation().getRank();
 					//System.out.println("file1: " + rank1);
-					String rank2 = candidates2.get(j).getLocation().getRank();
+					String rank2 = candidate2.getLocation().getRank();
 					//System.out.println("file2: " + rank2);
 					if (Integer.parseInt(rank1) > Integer.parseInt(rank2)) {
 						toReturn = true;
@@ -1289,8 +1291,8 @@ public class ChessBoardMatcher {
 	private boolean execHigherRankVar(String arg1, String arg2) {
 		boolean toReturn = false;
 		// determine if arg1 is a var and if so what the suspects should be
-		List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-		ArrayList<ChessPiece> maybeCandidates = null;
+		Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+		Set<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
 			var = arg1;
@@ -1309,8 +1311,8 @@ public class ChessBoardMatcher {
 		}
 		//System.out.println("candidates: " + candidates);
 		// same for arg2
-		List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
-		ArrayList<ChessPiece> maybeCandidates2 = null;
+		Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+		Set<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
 			var2 = arg2.substring(1);
@@ -1321,18 +1323,18 @@ public class ChessBoardMatcher {
 				candidates2 = myGame.getChessPieceLookup().get(arg2.substring(0, 1));
 			}
 		}
-		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> newCandidates2 = new ArrayList<ChessPiece>();
-		for (int i = 0; i < candidates.size(); i++) {
-			for (int j = 0; j < candidates2.size(); j++) {
-				String rank1 = candidates.get(i).getLocation().getRank();
+		HashSet<ChessPiece> newCandidates = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> newCandidates2 = new HashSet<ChessPiece>();
+		for (ChessPiece candidate : candidates) {
+			for (ChessPiece candidate2 : candidates2) {
+				String rank1 = candidate.getLocation().getRank();
 				//System.out.println("rank1: " + rank1);
-				String rank2 = candidates2.get(j).getLocation().getRank();
+				String rank2 = candidate2.getLocation().getRank();
 				//System.out.println("rank2: " + rank2);
 				if (Integer.parseInt(rank1) > Integer.parseInt(rank2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
-					newCandidates2.add(candidates2.get(j));
+					newCandidates.add(candidate);
+					newCandidates2.add(candidate2);
 				}
 			}
 		}
@@ -1354,13 +1356,13 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execLowerRankVar(arg1, arg2);
 		} else {
-			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
-			for (int i = 0; i < candidates.size(); i++) {
-				for (int j = 0; j < candidates2.size(); j++) {
-					String rank1 = candidates.get(i).getLocation().getRank();
+			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+			for (ChessPiece candidate : candidates) {
+				for (ChessPiece candidate2 : candidates2) {
+					String rank1 = candidate.getLocation().getRank();
 					//System.out.println("file1: " + rank1);
-					String rank2 = candidates2.get(j).getLocation().getRank();
+					String rank2 = candidate2.getLocation().getRank();
 					//System.out.println("file2: " + rank2);
 					if (Integer.parseInt(rank1) < Integer.parseInt(rank2)) {
 						toReturn = true;
@@ -1379,8 +1381,8 @@ public class ChessBoardMatcher {
 	private boolean execLowerRankVar(String arg1, String arg2) {
 		boolean toReturn = false;
 		// determine if arg1 is a var and if so what the suspects should be
-		List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-		ArrayList<ChessPiece> maybeCandidates = null;
+		Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+		Set<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
 			var = arg1;
@@ -1399,8 +1401,8 @@ public class ChessBoardMatcher {
 		}
 		//System.out.println("candidates: " + candidates);
 		// same for arg2
-		List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
-		ArrayList<ChessPiece> maybeCandidates2 = null;
+		Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+		Set<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
 			var2 = arg2.substring(1);
@@ -1411,18 +1413,18 @@ public class ChessBoardMatcher {
 				candidates2 = myGame.getChessPieceLookup().get(arg2.substring(0, 1));
 			}
 		}
-		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> newCandidates2 = new ArrayList<ChessPiece>();
-		for (int i = 0; i < candidates.size(); i++) {
-			for (int j = 0; j < candidates2.size(); j++) {
-				String rank1 = candidates.get(i).getLocation().getRank();
+		HashSet<ChessPiece> newCandidates = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> newCandidates2 = new HashSet<ChessPiece>();
+		for (ChessPiece candidate : candidates) {
+			for (ChessPiece candidate2 : candidates2) {
+				String rank1 = candidate.getLocation().getRank();
 				//System.out.println("rank1: " + rank1);
-				String rank2 = candidates2.get(j).getLocation().getRank();
+				String rank2 = candidate2.getLocation().getRank();
 				//System.out.println("rank2: " + rank2);
 				if (Integer.parseInt(rank1) < Integer.parseInt(rank2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
-					newCandidates2.add(candidates2.get(j));
+					newCandidates.add(candidate);
+					newCandidates2.add(candidate2);
 				}
 			}
 		}
@@ -1444,14 +1446,14 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execSameRankVar(arg1, arg2);
 		} else {
-			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			
-			for (int i = 0; i < candidates.size(); i++) {
-				for (int j = 0; j < candidates2.size(); j++) {
-					String rank1 = candidates.get(i).getLocation().getRank();
+			for (ChessPiece candidate : candidates) {
+				for (ChessPiece candidate2 : candidates2) {
+					String rank1 = candidate.getLocation().getRank();
 					//System.out.println("rank1: " + rank1);
-					String rank2 = candidates2.get(j).getLocation().getRank();
+					String rank2 = candidate2.getLocation().getRank();
 					//System.out.println("rank2: " + rank2);
 					if (rank1.equals(rank2)) {
 						toReturn = true;
@@ -1471,8 +1473,8 @@ public class ChessBoardMatcher {
 		//System.out.println("arg1: " + arg1);
 		//System.out.println("arg2: " + arg2);
 		boolean toReturn = false;
-		List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-		ArrayList<ChessPiece> maybeCandidates = null;
+		Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+		Set<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
 			var = arg1;
@@ -1492,8 +1494,8 @@ public class ChessBoardMatcher {
 		//System.out.println("candidates: " + candidates);
 		
 		// same for arg2
-		List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
-		ArrayList<ChessPiece> maybeCandidates2 = null;
+		Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+		Set<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
 			var2 = arg2.substring(1);
@@ -1504,18 +1506,18 @@ public class ChessBoardMatcher {
 				candidates2 = myGame.getChessPieceLookup().get(arg2.substring(0, 1));
 			}
 		}
-		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> newCandidates2 = new ArrayList<ChessPiece>();		
-		for (int i = 0; i < candidates.size(); i++) {
-			for (int j = 0; j < candidates2.size(); j++) {
-				String rank1 = candidates.get(i).getLocation().getRank();
+		HashSet<ChessPiece> newCandidates = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> newCandidates2 = new HashSet<ChessPiece>();		
+		for (ChessPiece candidate : candidates) {
+			for (ChessPiece candidate2 : candidates2) {
+				String rank1 = candidate.getLocation().getRank();
 				//System.out.println("file1: " + rank1);
-				String rank2 = candidates2.get(j).getLocation().getRank();
+				String rank2 = candidate2.getLocation().getRank();
 				//System.out.println("file2: " + rank2);
 				if (rank1.equals(rank2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
-					newCandidates2.add(candidates2.get(j));
+					newCandidates.add(candidate);
+					newCandidates2.add(candidate2);
 				}
 			}
 			
@@ -1538,11 +1540,11 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execRankVar(arg1.substring(0, 1), arg2, arg1.substring(1));
 		} else {
-			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (candidates.get(i).getLocation().getRank().equals(arg2)) {
+			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+				if (candidate.getLocation().getRank().equals(arg2)) {
 					toReturn = true;
 					break;
 				}
@@ -1556,17 +1558,17 @@ public class ChessBoardMatcher {
 		//System.out.println("execRankVar arg2: " + arg2);
 		//System.out.println("execRankVar arg3: " + arg3);
 		boolean toReturn = false;
-		List<ChessPiece> candidates = mySuspects.get(arg3);
-		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
+		Set<ChessPiece> candidates = mySuspects.get(arg3);
+		HashSet<ChessPiece> newCandidates = new HashSet<ChessPiece>();
 		if (candidates == null){
 			candidates = myGame.getChessPieceLookup().get(arg1);
 		}		
-		for (int i = 0; i < candidates.size(); i++) {
-			//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-			//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-			if (candidates.get(i).getLocation().getRank().equals(arg2)) {
+		for (ChessPiece candidate : candidates) {
+			//System.out.println("candidate: " + candidate.getmySymbol());
+			//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+			if (candidate.getLocation().getRank().equals(arg2)) {
 				toReturn = true;
-				newCandidates.add(candidates.get(i));
+				newCandidates.add(candidate);
 			}
 		}
 		mySuspects.remove(arg1 + arg3);
@@ -1582,48 +1584,48 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execCompareRankVar(arg1.substring(0, 1), arg3, arg1.substring(1), arg2);
 		} else {
-			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			if (arg2.equals("=")) {
-				for (int i = 0; i < candidates.size(); i++) {
-					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (candidates.get(i).getLocation().getRank().equals(arg3)) {
+				for (ChessPiece candidate : candidates) {
+					//System.out.println("candidate: " + candidate.getmySymbol());
+					//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+					if (candidate.getLocation().getRank().equals(arg3)) {
 						toReturn = true;
 						break;
 					}
 				}
 			} else if (arg2.equals("<")) {
-				for (int i = 0; i < candidates.size(); i++) {
-					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Integer.parseInt(candidates.get(i).getLocation().getRank()) < Integer.parseInt(arg3)) {
+				for (ChessPiece candidate : candidates) {
+					//System.out.println("candidate: " + candidate.getmySymbol());
+					//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+					if (Integer.parseInt(candidate.getLocation().getRank()) < Integer.parseInt(arg3)) {
 						toReturn = true;
 						break;
 					}
 				}
 			} else if (arg2.equals(">")) {
-				for (int i = 0; i < candidates.size(); i++) {
-					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Integer.parseInt(candidates.get(i).getLocation().getRank()) > Integer.parseInt(arg3)) {
+				for (ChessPiece candidate : candidates) {
+					//System.out.println("candidate: " + candidate.getmySymbol());
+					//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+					if (Integer.parseInt(candidate.getLocation().getRank()) > Integer.parseInt(arg3)) {
 						toReturn = true;
 						break;
 					}
 				}
 			} else if (arg2.equals(">=")) {
-				for (int i = 0; i < candidates.size(); i++) {
-					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Integer.parseInt(candidates.get(i).getLocation().getRank()) >= Integer.parseInt(arg3)) {
+				for (ChessPiece candidate : candidates) {
+					//System.out.println("candidate: " + candidate.getmySymbol());
+					//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+					if (Integer.parseInt(candidate.getLocation().getRank()) >= Integer.parseInt(arg3)) {
 						toReturn = true;
 						break;
 					}
 				}
 			} else if (arg2.equals("<=")) {
-				for (int i = 0; i < candidates.size(); i++) {
-					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Integer.parseInt(candidates.get(i).getLocation().getRank()) <= Integer.parseInt(arg3)) {
+				for (ChessPiece candidate : candidates) {
+					//System.out.println("candidate: " + candidate.getmySymbol());
+					//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+					if (Integer.parseInt(candidate.getLocation().getRank()) <= Integer.parseInt(arg3)) {
 						toReturn = true;
 						break;
 					}
@@ -1638,54 +1640,54 @@ public class ChessBoardMatcher {
 		//System.out.println("execRankVar arg2: " + arg2);
 		//System.out.println("execRankVar arg3: " + arg3);
 		boolean toReturn = false;
-		List<ChessPiece> candidates = mySuspects.get(arg3);
-		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
+		Set<ChessPiece> candidates = mySuspects.get(arg3);
+		Set<ChessPiece> newCandidates = new HashSet<ChessPiece>();
 		if (candidates == null){
 			candidates = myGame.getChessPieceLookup().get(arg1);
 		}
 		if (comp.equals("=")) {
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (candidates.get(i).getLocation().getRank().equals(arg2)) {
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+				if (candidate.getLocation().getRank().equals(arg2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
+					newCandidates.add(candidate);
 				}
 			}
 		} else if (comp.equals("<")) {
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Integer.parseInt(candidates.get(i).getLocation().getRank()) < Integer.parseInt(arg2)) {
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+				if (Integer.parseInt(candidate.getLocation().getRank()) < Integer.parseInt(arg2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
+					newCandidates.add(candidate);
 				}
 			}
 		} else if (comp.equals(">")) {
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Integer.parseInt(candidates.get(i).getLocation().getRank()) > Integer.parseInt(arg2)) {
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+				if (Integer.parseInt(candidate.getLocation().getRank()) > Integer.parseInt(arg2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
+					newCandidates.add(candidate);
 				}
 			}
 		} else if (comp.equals(">=")) {
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Integer.parseInt(candidates.get(i).getLocation().getRank()) >= Integer.parseInt(arg2)) {
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+				if (Integer.parseInt(candidate.getLocation().getRank()) >= Integer.parseInt(arg2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
+					newCandidates.add(candidate);
 				}
 			}
 		} else if (comp.equals("<=")) {
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Integer.parseInt(candidates.get(i).getLocation().getRank()) <= Integer.parseInt(arg2)) {
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+				if (Integer.parseInt(candidate.getLocation().getRank()) <= Integer.parseInt(arg2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
+					newCandidates.add(candidate);
 				}
 			}
 		}
@@ -1701,11 +1703,11 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execRelRankVar(arg1.substring(0, 1), arg2, arg1.substring(1));
 		} else {
-			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (candidates.get(i).getRelativeRank().equals(arg2)) {
+			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+				if (candidate.getRelativeRank().equals(arg2)) {
 					toReturn = true;
 					break;
 				}
@@ -1719,17 +1721,17 @@ public class ChessBoardMatcher {
 		//System.out.println("execRankVar arg2: " + arg2);
 		//System.out.println("execRankVar arg3: " + arg3);
 		boolean toReturn = false;
-		List<ChessPiece> candidates = mySuspects.get(arg3);
-		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
+		Set<ChessPiece> candidates = mySuspects.get(arg3);
+		Set<ChessPiece> newCandidates = new HashSet<ChessPiece>();
 		if (candidates == null){
 			candidates = myGame.getChessPieceLookup().get(arg1);
 		}		
-		for (int i = 0; i < candidates.size(); i++) {
-			//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-			//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-			if (candidates.get(i).getRelativeRank().equals(arg2)) {
+		for (ChessPiece candidate : candidates) {
+			//System.out.println("candidate: " + candidate.getmySymbol());
+			//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+			if (candidate.getRelativeRank().equals(arg2)) {
 				toReturn = true;
-				newCandidates.add(candidates.get(i));
+				newCandidates.add(candidate);
 			}
 		}
 		mySuspects.remove(arg1 + arg3);
@@ -1745,48 +1747,48 @@ public class ChessBoardMatcher {
 		if (arg1.length() > 1) {
 			toReturn = execCompareRankVar(arg1.substring(0, 1), arg3, arg1.substring(1), arg2);
 		} else {
-			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			if (arg2.equals("=")) {
-				for (int i = 0; i < candidates.size(); i++) {
-					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (candidates.get(i).getRelativeRank().equals(arg3)) {
+				for (ChessPiece candidate : candidates) {
+					//System.out.println("candidate: " + candidate.getmySymbol());
+					//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+					if (candidate.getRelativeRank().equals(arg3)) {
 						toReturn = true;
 						break;
 					}
 				}
 			} else if (arg2.equals("<")) {
-				for (int i = 0; i < candidates.size(); i++) {
-					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Integer.parseInt(candidates.get(i).getRelativeRank()) < Integer.parseInt(arg3)) {
+				for (ChessPiece candidate : candidates) {
+					//System.out.println("candidate: " + candidate.getmySymbol());
+					//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+					if (Integer.parseInt(candidate.getRelativeRank()) < Integer.parseInt(arg3)) {
 						toReturn = true;
 						break;
 					}
 				}
 			} else if (arg2.equals(">")) {
-				for (int i = 0; i < candidates.size(); i++) {
-					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Integer.parseInt(candidates.get(i).getRelativeRank()) > Integer.parseInt(arg3)) {
+				for (ChessPiece candidate : candidates) {
+					//System.out.println("candidate: " + candidate.getmySymbol());
+					//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+					if (Integer.parseInt(candidate.getRelativeRank()) > Integer.parseInt(arg3)) {
 						toReturn = true;
 						break;
 					}
 				}
 			} else if (arg2.equals(">=")) {
-				for (int i = 0; i < candidates.size(); i++) {
-					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Integer.parseInt(candidates.get(i).getRelativeRank()) >= Integer.parseInt(arg3)) {
+				for (ChessPiece candidate : candidates) {
+					//System.out.println("candidate: " + candidate.getmySymbol());
+					//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+					if (Integer.parseInt(candidate.getRelativeRank()) >= Integer.parseInt(arg3)) {
 						toReturn = true;
 						break;
 					}
 				}
 			} else if (arg2.equals("<=")) {
-				for (int i = 0; i < candidates.size(); i++) {
-					//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-					//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-					if (Integer.parseInt(candidates.get(i).getRelativeRank()) <= Integer.parseInt(arg3)) {
+				for (ChessPiece candidate : candidates) {
+					//System.out.println("candidate: " + candidate.getmySymbol());
+					//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+					if (Integer.parseInt(candidate.getRelativeRank()) <= Integer.parseInt(arg3)) {
 						toReturn = true;
 						break;
 					}
@@ -1801,54 +1803,54 @@ public class ChessBoardMatcher {
 		//System.out.println("execRankVar arg2: " + arg2);
 		//System.out.println("execRankVar arg3: " + arg3);
 		boolean toReturn = false;
-		List<ChessPiece> candidates = mySuspects.get(arg3);
-		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
+		Set<ChessPiece> candidates = mySuspects.get(arg3);
+		Set<ChessPiece> newCandidates = new HashSet<ChessPiece>();
 		if (candidates == null){
 			candidates = myGame.getChessPieceLookup().get(arg1);
 		}
 		if (comp.equals("=")) {
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (candidates.get(i).getRelativeRank().equals(arg2)) {
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+				if (candidate.getRelativeRank().equals(arg2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
+					newCandidates.add(candidate);
 				}
 			}
 		} else if (comp.equals("<")) {
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Integer.parseInt(candidates.get(i).getRelativeRank()) < Integer.parseInt(arg2)) {
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+				if (Integer.parseInt(candidate.getRelativeRank()) < Integer.parseInt(arg2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
+					newCandidates.add(candidate);
 				}
 			}
 		} else if (comp.equals(">")) {
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Integer.parseInt(candidates.get(i).getRelativeRank()) > Integer.parseInt(arg2)) {
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+				if (Integer.parseInt(candidate.getRelativeRank()) > Integer.parseInt(arg2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
+					newCandidates.add(candidate);
 				}
 			}
 		} else if (comp.equals(">=")) {
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Integer.parseInt(candidates.get(i).getRelativeRank()) >= Integer.parseInt(arg2)) {
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+				if (Integer.parseInt(candidate.getRelativeRank()) >= Integer.parseInt(arg2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
+					newCandidates.add(candidate);
 				}
 			}
 		} else if (comp.equals("<=")) {
-			for (int i = 0; i < candidates.size(); i++) {
-				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
-				//System.out.println("candidate pos: " + candidates.get(i).getLocation().getmyAlgebraicLocation());
-				if (Integer.parseInt(candidates.get(i).getRelativeRank()) <= Integer.parseInt(arg2)) {
+			for (ChessPiece candidate : candidates) {
+				//System.out.println("candidate: " + candidate.getmySymbol());
+				//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
+				if (Integer.parseInt(candidate.getRelativeRank()) <= Integer.parseInt(arg2)) {
 					toReturn = true;
-					newCandidates.add(candidates.get(i));
+					newCandidates.add(candidate);
 				}
 			}
 		}
@@ -1872,7 +1874,7 @@ public class ChessBoardMatcher {
 			}
 		}
 		boolean toReturn = false;
-		ArrayList<ChessPiece> pieces = (ArrayList<ChessPiece>) myGame.getActivePieces();
+		HashSet<ChessPiece> pieces = (HashSet<ChessPiece>) myGame.getActivePieces();
 		//System.out.println("pieces: " + pieces);
 		//System.out.println("args: " + args);
 		if (pieces.size() == args.size()) {
@@ -1882,7 +1884,7 @@ public class ChessBoardMatcher {
 		return toReturn;	
 	}
 	
-	private boolean execOnlyHelper(ArrayList<ChessPiece> gamePieces, ArrayList<String> queryPieces) {
+	private boolean execOnlyHelper(HashSet<ChessPiece> gamePieces, ArrayList<String> queryPieces) {
 		//System.out.println("pieces: " + gamePieces);
 		//System.out.println("args: " + queryPieces);
 		boolean toReturn = false;
@@ -1893,15 +1895,15 @@ public class ChessBoardMatcher {
 				String query = queryPieces.get(i);
 				if (query.length() > 1) {
 					// have to make sure it's in my suspects and my pieces.
-					for (int j = 0; j < gamePieces.size(); j++) {
-						ChessPiece game = gamePieces.get(j);
+					for (ChessPiece gamePiece : gamePieces) {
+						ChessPiece game = gamePiece;
 						if (query.substring(0, 1).equals(game.toString())) {
-							ArrayList<ChessPiece> candidates = mySuspects.get(query);
+							Set<ChessPiece> candidates = mySuspects.get(query);
 							if (candidates != null) {
-								for (int z = 0; z < candidates.size(); z++) {
+								for (ChessPiece candidate : candidates) {
 									// have to also make sure a candidate matches
-									if (candidates.get(z).getID() == game.getID()) {
-										ArrayList<ChessPiece> gameClone = (ArrayList<ChessPiece>) gamePieces.clone();
+									if (candidate.getID() == game.getID()) {
+										HashSet<ChessPiece> gameClone = (HashSet<ChessPiece>) gamePieces.clone();
 										ArrayList<String> queryClone = (ArrayList<String>) queryPieces.clone();
 										gameClone.remove(game);
 										queryClone.remove(query);
@@ -1911,7 +1913,7 @@ public class ChessBoardMatcher {
 								}
 							} else {
 								// var exp but first time
-								ArrayList<ChessPiece> gameClone = (ArrayList<ChessPiece>) gamePieces.clone();
+								HashSet<ChessPiece> gameClone = (HashSet<ChessPiece>) gamePieces.clone();
 								ArrayList<String> queryClone = (ArrayList<String>) queryPieces.clone();
 								gameClone.remove(game);
 								queryClone.remove(query);
@@ -1922,10 +1924,10 @@ public class ChessBoardMatcher {
 					}
 					
 				}
-				for (int j = 0; j < gamePieces.size(); j++) {
-					ChessPiece game = gamePieces.get(j);
+				for (ChessPiece gamePiece : gamePieces) {
+					ChessPiece game = gamePiece;
 					if (query.equals(game.toString())) {
-						ArrayList<ChessPiece> gameClone = (ArrayList<ChessPiece>) gamePieces.clone();
+						HashSet<ChessPiece> gameClone = (HashSet<ChessPiece>) gamePieces.clone();
 						ArrayList<String> queryClone = (ArrayList<String>) queryPieces.clone();
 						gameClone.remove(game);
 						queryClone.remove(query);
@@ -1944,10 +1946,11 @@ public class ChessBoardMatcher {
 	
 	private boolean execOnlyVar(ArrayList<String> args) {
 		boolean toReturn = false;
-		ArrayList<ChessPiece> pieces = (ArrayList<ChessPiece>) myGame.getActivePieces();
+		HashSet<ChessPiece> pieces = (HashSet<ChessPiece>) myGame.getActivePieces();
 		if (pieces.size() == args.size()) {
-			for (int i = 0; i < pieces.size(); i++) {
-				String temp = pieces.get(i).getMySymbol().toString();
+			int i = 0;
+			for (ChessPiece piece : pieces) {
+				String temp = piece.getMySymbol().toString();
 				for (int j = 0; j < args.size(); j++) {
 					String temp2 = args.get(i);
 					if (temp.equals(temp2)) {
@@ -1955,6 +1958,7 @@ public class ChessBoardMatcher {
 						break;
 					}
 				}
+				i += 1;
 			}
 		}
 		if (args.size() == 0) {
@@ -1973,8 +1977,8 @@ public class ChessBoardMatcher {
 		boolean whitePossible = true;
 		boolean toReturn = false;
 		for (int i = 0; i < args.size(); i++) {
-			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(args.get(i));
-			ArrayList<ChessPiece> maybeCandidates = null;
+			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(args.get(i));
+			Set<ChessPiece> maybeCandidates = null;
 			String var = null;
 			if (args.get(i).length() > 1) {
 				var = args.get(i);
@@ -1994,10 +1998,10 @@ public class ChessBoardMatcher {
 			
 			boolean currBlackPossible = false;
 			boolean currWhitePossible = false;
-			for (int j = 0; j < candidates.size(); j++) {
+			for (ChessPiece candidate : candidates) {
 				//System.out.println("samecolor col: " + candidates.get(j).getColor());
 				//System.out.println("samecolor loc: " + candidates.get(j).getLocation());
-				if (candidates.get(j).isBlack()) {
+				if (candidate.isBlack()) {
 					currBlackPossible = true;
 				} else {
 					currWhitePossible = true;
@@ -2027,7 +2031,7 @@ public class ChessBoardMatcher {
 	private boolean execExists(ArrayList<String> args) {
 		boolean goodSoFar = false;
 		for (int i = 0; i < args.size(); i++) {
-			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(args.get(i));
+			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(args.get(i));
 			if (candidates.size() > 0) {
 				goodSoFar = true;
 			}
@@ -2054,8 +2058,8 @@ public class ChessBoardMatcher {
 		} else {
 			capturerColor = capturer.getAllegiance().getAllegiance();
 			capturedColor = captured.getAllegiance().getAllegiance();
-			List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+			Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			if ((arg1.equals("g") || arg1.equals("G"))) {
 				didCapture = true;
 			}
@@ -2125,8 +2129,8 @@ public class ChessBoardMatcher {
 		boolean toReturn = false;
 		String sub = arg1.substring(0, 1);
 		String sub2 = arg2.substring(0, 1);
-		List<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-		List<ChessPiece> maybeCandidates = null;
+		Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
+		Set<ChessPiece> maybeCandidates = null;
 		String var = null;
 		if (arg1.length() > 1) {
 			var = arg1;
@@ -2146,8 +2150,8 @@ public class ChessBoardMatcher {
 		//System.out.println("candidates: " + candidates);
 		
 		// same for arg2
-		List<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
-		ArrayList<ChessPiece> maybeCandidates2 = null;
+		Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
+		Set<ChessPiece> maybeCandidates2 = null;
 		String var2 = null;
 		if (arg2.length() > 1) {
 			var2 = arg2.substring(1);
@@ -2158,8 +2162,8 @@ public class ChessBoardMatcher {
 				candidates2 = myGame.getChessPieceLookup().get(arg2.substring(0, 1));
 			}
 		}
-		ArrayList<ChessPiece> newCandidates = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> newCandidates2 = new ArrayList<ChessPiece>();	
+		HashSet<ChessPiece> newCandidates = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> newCandidates2 = new HashSet<ChessPiece>();	
 		boolean didCapture = false;
 		boolean gotCaptured = false;
 		ChessPiece capturer = myGame.getCapturer();
@@ -2217,12 +2221,12 @@ public class ChessBoardMatcher {
 				}
 		}
 		
-		for (int i = 0; i < candidates.size(); i++) {
+		for (ChessPiece candidate : candidates) {
 			if (myGame.getCapturer().getMySymbol().equals(sub)) {
 				didCapture = true;
 			}
 		}
-		for (int j = 0; j < candidates2.size(); j++) {
+		for (ChessPiece candidate2 : candidates2) {
 			if (myGame.getCapturer().getMySymbol().equals(sub2)) {
 				gotCaptured = true;
 			}
@@ -2237,22 +2241,24 @@ public class ChessBoardMatcher {
 			toReturn = true;
 		} else {
 			String current = args.get(0);
-			List<ChessPiece> suspects = mySuspects.get(current);
+			Set<ChessPiece> suspects = mySuspects.get(current);
 			if (suspects == null) {
 				// then no current restrictions on that type
 				suspects = myGame.getChessPieceLookup().get(current.substring(0, 1));
 			}
 			// find an x and see if there is a valid sequencing for rest of variables if it's true
-			for (int i = 1; i < args.size(); i++) {
+			int i = 0;
+			for (ChessPiece suspect : suspects) {
 				String contrast = args.get(i);
-				ChessPiece c = suspects.get(i);
-				List<ChessPiece> suspects2 = mySuspects.get(contrast);
+				ChessPiece c = suspect;
+				i += 1;
+				Set<ChessPiece> suspects2 = mySuspects.get(contrast);
 				if (suspects2 == null) {
 					// then no current restrictions on that type
 					suspects2 = myGame.getChessPieceLookup().get(contrast.substring(0, 1));
 				}
-				for (int j = 0; j < suspects2.size(); j++) {
-					ChessPiece c2 = suspects2.get(j);
+				for (ChessPiece suspect2 : suspects2) {
+					ChessPiece c2 = suspect2;
 					if (!(c.equals(c2))) {
 						ArrayList<String> copy = (ArrayList<String>) args.clone();
 						copy.remove(0);

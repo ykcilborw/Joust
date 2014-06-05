@@ -17,7 +17,7 @@ import com.wroblicky.andrew.joust.core.qualifiable.Scope;
 
 public class GameManagerImpl {
 	private Game game;
-	private Map<String, List<ChessPiece>> chessPieceLookup;
+	private Map<String, Set<ChessPiece>> chessPieceLookup;
 	private List<String[][]> visitedBoards; // debugging ONLY!!!
 	private List<CastleMove> castleMoves; // for ChessDemoVisualizations ONLY!!
 	private ChessPiece capturer;
@@ -72,7 +72,7 @@ public class GameManagerImpl {
 		return game.isInProgress();
 	}
 	
-	public Map<String, List<ChessPiece>> getChessPieceLookup() {
+	public Map<String, Set<ChessPiece>> getChessPieceLookup() {
 		return chessPieceLookup;
 	}
 	
@@ -96,7 +96,7 @@ public class GameManagerImpl {
 		return game.isCheckmate();
 	}
 	
-	public void setChessPieceLookup(HashMap<String, List<ChessPiece>> map) {
+	public void setChessPieceLookup(HashMap<String, Set<ChessPiece>> map) {
 		chessPieceLookup = map;
 	}
 	
@@ -162,72 +162,72 @@ public class GameManagerImpl {
 			// determine color
 			if (piece.getMySymbol().equals("1")) {
 				if (color.equals("b")) {
-					List<ChessPiece> deadMemberFamily = chessPieceLookup.get("p");
+					Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("p");
 					deadMemberFamily.remove(piece);
 					chessPieceLookup.remove("p");
 					chessPieceLookup.put("p", deadMemberFamily);
 				} else {
-					List<ChessPiece> deadMemberFamily = chessPieceLookup.get("P");
+					Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("P");
 					deadMemberFamily.remove(piece);
 					chessPieceLookup.remove("P");
 					chessPieceLookup.put("P", deadMemberFamily);
 				}
 			} else if (piece.getMySymbol().equals("2")) {
 				if (color.equals("b")) {
-					List<ChessPiece> deadMemberFamily = chessPieceLookup.get("r");
+					Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("r");
 					deadMemberFamily.remove(piece);
 					chessPieceLookup.remove("r");
 					chessPieceLookup.put("r", deadMemberFamily);
 				} else {
-					List<ChessPiece> deadMemberFamily = chessPieceLookup.get("R");
+					Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("R");
 					deadMemberFamily.remove(piece);
 					chessPieceLookup.remove("R");
 					chessPieceLookup.put("R", deadMemberFamily);
 				}
 			} else if (piece.getMySymbol().equals("3")) {
 				if (color.equals("b")) {
-					List<ChessPiece> deadMemberFamily = chessPieceLookup.get("n");
+					Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("n");
 					deadMemberFamily.remove(piece);
 					chessPieceLookup.remove("n");
 					chessPieceLookup.put("n", deadMemberFamily);
 				} else {
-					List<ChessPiece> deadMemberFamily = chessPieceLookup.get("N");
+					Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("N");
 					deadMemberFamily.remove(piece);
 					chessPieceLookup.remove("N");
 					chessPieceLookup.put("N", deadMemberFamily);
 				}
 			} else if (piece.getMySymbol().equals("4")) {
 				if (color.equals("b")) {
-					List<ChessPiece> deadMemberFamily = chessPieceLookup.get("b");
+					Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("b");
 					deadMemberFamily.remove(piece);
 					chessPieceLookup.remove("b");
 					chessPieceLookup.put("b", deadMemberFamily);
 				} else {
-					List<ChessPiece> deadMemberFamily = chessPieceLookup.get("B");
+					Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("B");
 					deadMemberFamily.remove(piece);
 					chessPieceLookup.remove("B");
 					chessPieceLookup.put("B", deadMemberFamily);
 				}
 			} else if (piece.getMySymbol().equals("5")) {
 				if (color.equals("b")) {
-					List<ChessPiece> deadMemberFamily = chessPieceLookup.get("q");
+					Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("q");
 					deadMemberFamily.remove(piece);
 					chessPieceLookup.remove("q");
 					chessPieceLookup.put("q", deadMemberFamily);
 				} else {
-					List<ChessPiece> deadMemberFamily = chessPieceLookup.get("Q");
+					Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("Q");
 					deadMemberFamily.remove(piece);
 					chessPieceLookup.remove("Q");
 					chessPieceLookup.put("Q", deadMemberFamily);
 				}
 			} else if (piece.getMySymbol().equals("6")) {
 					if (color.equals("b")) {
-						List<ChessPiece> deadMemberFamily = chessPieceLookup.get("k");
+						Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("k");
 						deadMemberFamily.remove(piece);
 						chessPieceLookup.remove("k");
 						chessPieceLookup.put("k", deadMemberFamily);
 					} else {
-						List<ChessPiece> deadMemberFamily = chessPieceLookup.get("K");
+						Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("K");
 						deadMemberFamily.remove(piece);
 						chessPieceLookup.remove("K");
 						chessPieceLookup.put("K", deadMemberFamily);
@@ -236,32 +236,32 @@ public class GameManagerImpl {
 		} else {
 			// update generic piece list
 			if (piece.getMySymbol().equals("p") || piece.getMySymbol().equals("P")) {
-					List<ChessPiece> deadMemberFamily = chessPieceLookup.get("1");
+					Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("1");
 					deadMemberFamily.remove(piece);
 					chessPieceLookup.remove("1");
 					chessPieceLookup.put("1", deadMemberFamily);
 			} else if (piece.getMySymbol().equals("r") || piece.getMySymbol().equals("R")) {
-					List<ChessPiece> deadMemberFamily = chessPieceLookup.get("2");
+					Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("2");
 					deadMemberFamily.remove(piece);
 					chessPieceLookup.remove("2");
 					chessPieceLookup.put("2", deadMemberFamily);
 			} else if (piece.getMySymbol().equals("n") || piece.getMySymbol().equals("N")) {
-				List<ChessPiece> deadMemberFamily = chessPieceLookup.get("3");
+				Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("3");
 				deadMemberFamily.remove(piece);
 				chessPieceLookup.remove("3");
 				chessPieceLookup.put("3", deadMemberFamily);
 			} else if (piece.getMySymbol().equals("b") || piece.getMySymbol().equals("B")) {
-				List<ChessPiece> deadMemberFamily = chessPieceLookup.get("4");
+				Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("4");
 				deadMemberFamily.remove(piece);
 				chessPieceLookup.remove("4");
 				chessPieceLookup.put("4", deadMemberFamily);
 			} else if (piece.getMySymbol().equals("q") || piece.getMySymbol().equals("Q")) {
-				List<ChessPiece> deadMemberFamily = chessPieceLookup.get("5");
+				Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("5");
 				deadMemberFamily.remove(piece);
 				chessPieceLookup.remove("5");
 				chessPieceLookup.put("5", deadMemberFamily);
 			} else if (piece.getMySymbol().equals("k") || piece.getMySymbol().equals("K")) {
-				List<ChessPiece> deadMemberFamily = chessPieceLookup.get("6");
+				Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("6");
 				deadMemberFamily.remove(piece);
 				chessPieceLookup.remove("6");
 				chessPieceLookup.put("6", deadMemberFamily);
@@ -269,21 +269,21 @@ public class GameManagerImpl {
 		}
 				
 		if (color.equals("b")) {
-			List<ChessPiece> deadMemberFamily = chessPieceLookup.get("d");
+			Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("d");
 			deadMemberFamily.remove(piece);
 			chessPieceLookup.remove("d");
 			chessPieceLookup.put("d", deadMemberFamily);
 		} else {
-			List<ChessPiece> deadMemberFamily = chessPieceLookup.get("l");
+			Set<ChessPiece> deadMemberFamily = chessPieceLookup.get("l");
 			deadMemberFamily.remove(piece);
 			chessPieceLookup.remove("l");
 			chessPieceLookup.put("l", deadMemberFamily);
 		}
-		List<ChessPiece> deadMemberFamily = chessPieceLookup.get(piece.getMySymbol());
+		Set<ChessPiece> deadMemberFamily = chessPieceLookup.get(piece.getMySymbol());
 		deadMemberFamily.remove(piece);
 		chessPieceLookup.remove(piece.getMySymbol());
 		chessPieceLookup.put(piece.getMySymbol().toString(), deadMemberFamily);
-		List<ChessPiece> deadMemberFamily2 = chessPieceLookup.get("g");
+		Set<ChessPiece> deadMemberFamily2 = chessPieceLookup.get("g");
 		deadMemberFamily2.remove(piece);
 		chessPieceLookup.remove("g");
 		chessPieceLookup.put("g", deadMemberFamily);
@@ -396,7 +396,7 @@ public class GameManagerImpl {
 		private ChessPiece evaluateSuspects(String piece, Location destination) {
 			// get suspects
 			piece = isWhiteTurn() ? piece : piece.toLowerCase();
-			List<ChessPiece> suspects = chessPieceLookup.get(piece); 
+			Set<ChessPiece> suspects = chessPieceLookup.get(piece); 
 			
 			// evaluate
 			for (ChessPiece suspect : suspects) {
@@ -420,11 +420,10 @@ public class GameManagerImpl {
 			} else {
 				piece = isWhiteTurn() ? piece : piece.toLowerCase();
 				// white's turn
-				List<ChessPiece> suspects = chessPieceLookup.get(piece);
-				for (int i = 0; i < suspects.size(); i++) {
-					ChessPiece current = suspects.get(i);
-					if (current.getFile().equals(file) && current.canReach(l)) {
-						icanReach = current;
+				Set<ChessPiece> suspects = chessPieceLookup.get(piece);
+				for (ChessPiece suspect : suspects) {
+					if (suspect.getFile().equals(file) && suspect.canReach(l)) {
+						icanReach = suspect;
 						break;
 					}
 				}
@@ -442,11 +441,10 @@ public class GameManagerImpl {
 			Location destination = chessBoard.getLocation(algebraicDestination);
 			piece = isWhiteTurn() ? piece : piece.toLowerCase();
 			// white's turn
-			List<ChessPiece> suspects = chessPieceLookup.get(piece);
-			for (int i = 0; i < suspects.size(); i++) {
-				ChessPiece current = suspects.get(i);
-				if (current.getRank().equals(rank) && current.canReach(destination)) {
-					icanReach = current;
+			Set<ChessPiece> suspects = chessPieceLookup.get(piece);
+			for (ChessPiece suspect : suspects) {
+				if (suspect.getRank().equals(rank) && suspect.canReach(destination)) {
+					icanReach = suspect;
 					break;
 				}
 			}
@@ -461,29 +459,29 @@ public class GameManagerImpl {
 			if (isWhiteTurn()) {
 				// white's turn
 				castleMoves.add(new CastleMove(game.getRound(), "w", "king"));
-				List<ChessPiece> kings = getChessPieceLookup().get("K");
-				ChessPiece king = kings.get(0);
+				Set<ChessPiece> kings = getChessPieceLookup().get("K");
+				ChessPiece king = (ChessPiece) kings.toArray()[0];
 				Location l = chessBoard.getLocation("g1");
 				king.move(l);
-				List<ChessPiece> rooks = getChessPieceLookup().get("R");
+				Set<ChessPiece> rooks = getChessPieceLookup().get("R");
 				ChessPiece r = null;
-				for (int i = 0; i < rooks.size(); i++) {
-					if (rooks.get(i).getLocation().getAlgebraicLocation().equals("h1")) {
-						r = rooks.get(i);
+				for (ChessPiece rook : rooks) {
+					if (rook.getLocation().getAlgebraicLocation().equals("h1")) {
+						r = rook;
 					}
 				}
 				updateBoard("f1", r);
 			} else {
 				castleMoves.add(new CastleMove(game.getRound(), "b", "king"));
-				List<ChessPiece> kings = getChessPieceLookup().get("k");
-				ChessPiece k = kings.get(0);
+				Set<ChessPiece> kings = getChessPieceLookup().get("k");
+				ChessPiece k = (ChessPiece) kings.toArray()[0];
 				Location l = new Location("g8");
 				k.move(l);
-				List<ChessPiece> rooks = getChessPieceLookup().get("r");
+				Set<ChessPiece> rooks = getChessPieceLookup().get("r");
 				ChessPiece r = null;
-				for (int i = 0; i < rooks.size(); i++) {
-					if (rooks.get(i).getLocation().getAlgebraicLocation().equals("h8")) {
-						r = rooks.get(i);
+				for (ChessPiece rook : rooks) {
+					if (rook.getLocation().getAlgebraicLocation().equals("h8")) {
+						r = rook;
 					}
 				}
 				updateBoard("f8", r);
@@ -494,29 +492,29 @@ public class GameManagerImpl {
 			if (isWhiteTurn()) {
 				// white's turn
 				castleMoves.add(new CastleMove(game.getRound(), "w", "queen"));
-				List<ChessPiece> kings = getChessPieceLookup().get("K");
-				ChessPiece k = kings.get(0);
+				Set<ChessPiece> kings = getChessPieceLookup().get("K");
+				ChessPiece k = (ChessPiece) kings.toArray()[0];
 				Location l = new Location("c1");
 				k.move(l);
-				List<ChessPiece> rooks = getChessPieceLookup().get("R");
-				ChessPiece rook = null;
-				for (int i = 0; i < rooks.size(); i++) {
-					if (rooks.get(i).getLocation().equals(new Location("a1"))) {
-						rook = rooks.get(i);
+				Set<ChessPiece> rooks = getChessPieceLookup().get("R");
+				ChessPiece r = null;
+				for (ChessPiece rook : rooks) {
+					if (rook.getLocation().equals(new Location("a1"))) {
+						r = rook;
 					}
 				}
-				updateBoard("d1", rook);
+				updateBoard("d1", r);
 			} else {
 				castleMoves.add(new CastleMove(game.getRound(), "b", "queen"));
-				List<ChessPiece> kings = getChessPieceLookup().get("k");
-				ChessPiece k = kings.get(0);
+				Set<ChessPiece> kings = getChessPieceLookup().get("k");
+				ChessPiece k = (ChessPiece) kings.toArray()[0];
 				Location l = new Location("c8");
 				k.move(l);
-				List<ChessPiece> rooks = getChessPieceLookup().get("r");
+				Set<ChessPiece> rooks = getChessPieceLookup().get("r");
 				ChessPiece r = null;
-				for (int i = 0; i < rooks.size(); i++) {
-					if (rooks.get(i).getLocation().equals(new Location("a8"))) {
-						r = rooks.get(i);
+				for (ChessPiece rook : rooks) {
+					if (rook.getLocation().equals(new Location("a8"))) {
+						r = rook;
 					}
 				}
 				Location l2 = new Location("d8");

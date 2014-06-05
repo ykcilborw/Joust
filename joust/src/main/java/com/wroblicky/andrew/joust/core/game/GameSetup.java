@@ -6,9 +6,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Set;
 import java.util.Set;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
@@ -35,9 +36,9 @@ public class GameSetup {
 	
 	public static GameManagerImpl setupDefaultGame() {
 		// Load initial default initial configuration into gameManager
-		List<ChessPiece> actives = new ArrayList<ChessPiece>();
-		List<ChessPiece> blackActives = new ArrayList<ChessPiece>();
-		List<ChessPiece> whiteActives = new ArrayList<ChessPiece>();
+		Set<ChessPiece> actives = new HashSet<ChessPiece>();
+		Set<ChessPiece> blackActives = new HashSet<ChessPiece>();
+		Set<ChessPiece> whiteActives = new HashSet<ChessPiece>();
 		ChessBoard chessBoard = new ChessBoard();
 
 		// create relevant chess pieces
@@ -145,18 +146,18 @@ public class GameSetup {
 		blackActives.add(bk1);
 		whiteActives.add(wk1);
 		
-		List<ChessPiece> allPawns = new ArrayList<ChessPiece>();
-		List<ChessPiece> allRooks = new ArrayList<ChessPiece>();
-		List<ChessPiece> allKnights = new ArrayList<ChessPiece>();
-		List<ChessPiece> allBishops = new ArrayList<ChessPiece>();
-		List<ChessPiece> allQueens = new ArrayList<ChessPiece>();
-		List<ChessPiece> allKings = new ArrayList<ChessPiece>();
+		Set<ChessPiece> allPawns = new HashSet<ChessPiece>();
+		Set<ChessPiece> allRooks = new HashSet<ChessPiece>();
+		Set<ChessPiece> allKnights = new HashSet<ChessPiece>();
+		Set<ChessPiece> allBishops = new HashSet<ChessPiece>();
+		Set<ChessPiece> allQueens = new HashSet<ChessPiece>();
+		Set<ChessPiece> allKings = new HashSet<ChessPiece>();
 		
 		Game game = new Game(chessBoard, new ArrayList<Turn>(),
 				new ChessPieceSubsetManager(activesSet));
 		GameManagerImpl gameManager = new GameManagerImpl(game);
-		HashMap<String, List<ChessPiece>> lookup = new HashMap<String, List<ChessPiece>>();
-		List<ChessPiece> pawns = new ArrayList<ChessPiece>();
+		HashMap<String, Set<ChessPiece>> lookup = new HashMap<String, Set<ChessPiece>>();
+		Set<ChessPiece> pawns = new HashSet<ChessPiece>();
 		pawns.add(wp1);
 		pawns.add(wp2);
 		pawns.add(wp3);
@@ -166,7 +167,7 @@ public class GameSetup {
 		pawns.add(wp7);
 		pawns.add(wp8);
 		lookup.put("P", pawns);
-		ArrayList<ChessPiece> pawns2 = new ArrayList<ChessPiece>();
+		HashSet<ChessPiece> pawns2 = new HashSet<ChessPiece>();
 		pawns2.add(bp1);
 		pawns2.add(bp2);
 		pawns2.add(bp3);
@@ -176,40 +177,40 @@ public class GameSetup {
 		pawns2.add(bp7);
 		pawns2.add(bp8);
 		lookup.put("p", pawns2);
-		ArrayList<ChessPiece> rooks = new ArrayList<ChessPiece>();
+		HashSet<ChessPiece> rooks = new HashSet<ChessPiece>();
 		rooks.add(wc1);
 		rooks.add(wc2);
 		lookup.put("R", rooks);
-		ArrayList<ChessPiece> rooks2 = new ArrayList<ChessPiece>();
+		HashSet<ChessPiece> rooks2 = new HashSet<ChessPiece>();
 		rooks2.add(bc1);
 		rooks2.add(bc2);
 		lookup.put("r", rooks2);
-		ArrayList<ChessPiece> knights = new ArrayList<ChessPiece>();
+		HashSet<ChessPiece> knights = new HashSet<ChessPiece>();
 		knights.add(wh1);
 		knights.add(wh2);
 		lookup.put("N", knights);
-		ArrayList<ChessPiece> knights2 = new ArrayList<ChessPiece>();
+		HashSet<ChessPiece> knights2 = new HashSet<ChessPiece>();
 		knights2.add(bh1);
 		knights2.add(bh2);
 		lookup.put("n", knights2);
-		ArrayList<ChessPiece> bishops = new ArrayList<ChessPiece>();
+		HashSet<ChessPiece> bishops = new HashSet<ChessPiece>();
 		bishops.add(wb1);
 		bishops.add(wb2);
 		lookup.put("B", bishops);
-		ArrayList<ChessPiece> bishops2 = new ArrayList<ChessPiece>();
+		HashSet<ChessPiece> bishops2 = new HashSet<ChessPiece>();
 		bishops2.add(bb1);
 		bishops2.add(bb2);
 		lookup.put("b", bishops2);
-		ArrayList<ChessPiece> queens = new ArrayList<ChessPiece>();
+		HashSet<ChessPiece> queens = new HashSet<ChessPiece>();
 		queens.add(wq1);
 		lookup.put("Q", queens);
-		ArrayList<ChessPiece> queens2 = new ArrayList<ChessPiece>();
+		HashSet<ChessPiece> queens2 = new HashSet<ChessPiece>();
 		queens2.add(bq1);
 		lookup.put("q", queens2);
-		ArrayList<ChessPiece> kings = new ArrayList<ChessPiece>();
+		HashSet<ChessPiece> kings = new HashSet<ChessPiece>();
 		kings.add(wk1);
 		lookup.put("K", kings);
-		ArrayList<ChessPiece> kings2 = new ArrayList<ChessPiece>();
+		HashSet<ChessPiece> kings2 = new HashSet<ChessPiece>();
 		kings2.add(bk1);
 		lookup.put("k", kings2);
 		
@@ -246,29 +247,29 @@ public class GameSetup {
 	public static GameManagerImpl setupSpecialLayout(String initialConfig) {
 		GameManagerImpl gameManager = null;
 		HashMap<Location, ChessPiece> map = new HashMap<Location, ChessPiece>();
-		ArrayList<ChessPiece> actives = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> blackActives = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> whiteActives = new ArrayList<ChessPiece>();
-		HashMap<String, List<ChessPiece>> lookup = new HashMap<String, List<ChessPiece>>();
-		ArrayList<ChessPiece> pawns = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> pawns2 = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> rooks = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> rooks2 = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> knights = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> knights2 = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> bishops = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> bishops2 = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> queens = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> queens2 = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> kings = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> kings2 = new ArrayList<ChessPiece>();
+		HashSet<ChessPiece> actives = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> blackActives = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> whiteActives = new HashSet<ChessPiece>();
+		HashMap<String, Set<ChessPiece>> lookup = new HashMap<String, Set<ChessPiece>>();
+		HashSet<ChessPiece> pawns = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> pawns2 = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> rooks = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> rooks2 = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> knights = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> knights2 = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> bishops = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> bishops2 = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> queens = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> queens2 = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> kings = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> kings2 = new HashSet<ChessPiece>();
 		
-		ArrayList<ChessPiece> allPawns = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> allRooks = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> allKnights = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> allBishops = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> allQueens = new ArrayList<ChessPiece>();
-		ArrayList<ChessPiece> allKings = new ArrayList<ChessPiece>();
+		HashSet<ChessPiece> allPawns = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> allRooks = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> allKnights = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> allBishops = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> allQueens = new HashSet<ChessPiece>();
+		HashSet<ChessPiece> allKings = new HashSet<ChessPiece>();
 		
 		Location[][] board = new Location[8][8];
 		ChessBoard chessBoard = new ChessBoard(board);
