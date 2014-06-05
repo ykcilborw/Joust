@@ -1,6 +1,7 @@
 package com.wroblicky.andrew.joust.core.general;
 
 import java.util.List;
+import java.util.Set;
 
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
@@ -8,18 +9,17 @@ import com.wroblicky.andrew.joust.core.ui.ChessGameDemo;
 
 public class Util {
 	
-	public static String[][] getStringBoard(List<ChessPiece> actives) {
+	public static String[][] getStringBoard(Set<ChessPiece> actives) {
 		String[][] newBoard = new String[8][8];
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				newBoard[i][j] = "-"; //denotes unoccupied
 			}
 		}
-		for (int k = 0; k < actives.size(); k++) {
-			ChessPiece current = actives.get(k);
-			int currX = current.getLocation().getXCoordinate();
-			int currY = current.getLocation().getYCoordinate();
-			newBoard[currX - 1][currY - 1] = current.getMySymbol().toString(); 
+		for (ChessPiece active: actives) {
+			int currX = active.getLocation().getXCoordinate();
+			int currY = active.getLocation().getYCoordinate();
+			newBoard[currX - 1][currY - 1] = active.getMySymbol().toString(); 
 		}
 		return newBoard;
 	}

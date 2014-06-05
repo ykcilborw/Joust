@@ -1,10 +1,13 @@
 package com.wroblicky.andrew.joust.core.game;
 
 import java.util.List;
+import java.util.Set;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
+import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.general.ChessPieceSubsetManager;
 import com.wroblicky.andrew.joust.core.move.Turn;
+import com.wroblicky.andrew.joust.core.qualifiable.Qualifiable;
 
 /**
  * A simple class that stores all the internal properties of a chess game
@@ -109,5 +112,13 @@ public class Game {
 
 	public void setCheck(boolean check) {
 		this.check = check;
+	}
+	
+	public Set<ChessPiece> getChessPieces(Qualifiable qualification) {
+		return chessPieceSubsetManager.getChessPieces(qualification);
+	}
+	
+	public void removeChessPiece(ChessPiece chessPiece) {
+		chessPieceSubsetManager.removeChessPiece(chessPiece);
 	}
 }

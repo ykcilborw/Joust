@@ -154,7 +154,7 @@ public class GameSetup {
 		
 		Game game = new Game(chessBoard, new ArrayList<Turn>(),
 				new ChessPieceSubsetManager(activesSet));
-		GameManagerImpl gameManager = new GameManagerImpl(game, actives, blackActives, whiteActives);
+		GameManagerImpl gameManager = new GameManagerImpl(game);
 		HashMap<String, List<ChessPiece>> lookup = new HashMap<String, List<ChessPiece>>();
 		List<ChessPiece> pawns = new ArrayList<ChessPiece>();
 		pawns.add(wp1);
@@ -566,7 +566,7 @@ public class GameSetup {
 			lookup.put("6", allKings);
 			Game game = new Game(chessBoard, new ArrayList<Turn>(),
 					new ChessPieceSubsetManager(activesSet));
-			gameManager = new GameManagerImpl(game, actives, blackActives, whiteActives);
+			gameManager = new GameManagerImpl(game);
 			gameManager.setChessPieceLookup(lookup);
 			//Close the input stream
 			in.close();

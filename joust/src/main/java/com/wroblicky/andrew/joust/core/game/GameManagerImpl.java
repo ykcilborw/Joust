@@ -6,17 +6,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.general.CastleMove;
 import com.wroblicky.andrew.joust.core.general.Util;
+import com.wroblicky.andrew.joust.core.qualifiable.Scope;
 
 public class GameManagerImpl {
-	private List<ChessPiece> myActivePieces;
-	private List<ChessPiece> myBlackActives;
-	private List<ChessPiece> myWhiteActives;
 	private Game game;
 	private Map<String, List<ChessPiece>> chessPieceLookup;
 	private List<String[][]> visitedBoards; // debugging ONLY!!!
@@ -25,12 +24,8 @@ public class GameManagerImpl {
 	private ChessPiece captured;
 	
 	
-	public GameManagerImpl(Game game, List<ChessPiece> activePieces,
-			List<ChessPiece> blacks, List<ChessPiece> whites) {
+	public GameManagerImpl(Game game) {
 		this.game = game;
-		myActivePieces = activePieces;
-		myBlackActives = blacks;
-		myWhiteActives = whites;
 		visitedBoards = new ArrayList<String[][]>();
 		castleMoves = new ArrayList<CastleMove>();
 	}
@@ -39,16 +34,16 @@ public class GameManagerImpl {
 		return game.getRound();
 	}
 	
-	public List<ChessPiece> getActivePieces() {
-		return myActivePieces;
+	public Set<ChessPiece> getActivePieces() {
+		return game.getChessPieces(Scope.ACTIVE);
 	}
 	
-	public List<ChessPiece> getBlackPieces() {
-		return myBlackActives;
+	public Set<ChessPiece> getBlackPieces() {
+		return game.getChessPieces(Scope.BLACK_ACTIVE);
 	}
 	
-	public List<ChessPiece> getWhitePieces() {
-		return myWhiteActives;
+	public Set<ChessPiece> getWhitePieces() {
+		return game.getChessPieces(Scope.WHITE_ACTIVE);
 	}
 	
 	@Deprecated
@@ -139,8 +134,9 @@ public class GameManagerImpl {
 				board[i][j] = "-"; //denotes unoccupied
 			}
 		}
-		for (int k = 0; k < myActivePieces.size(); k++) {
-			ChessPiece current = myActivePieces.get(k);
+		Set<ChessPiece> chessPieces = getActivePieces();
+		for (ChessPiece chessPiece : chessPieces) {
+			ChessPiece current = chessPiece;
 			int currX = current.getLocation().getXCoordinate();
 			int currY = current.getLocation().getYCoordinate();
 			board[currX - 1][currY - 1] = current.getMySymbol().toString(); 
@@ -158,7 +154,7 @@ public class GameManagerImpl {
 	
 	// TODO: make less ugly
 	public void removePiece(ChessPiece piece) {
-		myActivePieces.remove(piece);
+		game.removeChessPiece(piece);
 		String color = piece.getAllegiance().getAllegiance();
 		if (piece.getMySymbol().equals("1") || piece.getMySymbol().equals("2") || piece.getMySymbol().equals("3") ||
 			piece.getMySymbol().equals("4") || piece.getMySymbol().equals("5") || piece.getMySymbol().equals("6")) {
@@ -273,13 +269,11 @@ public class GameManagerImpl {
 		}
 				
 		if (color.equals("b")) {
-			myBlackActives.remove(piece);
 			List<ChessPiece> deadMemberFamily = chessPieceLookup.get("d");
 			deadMemberFamily.remove(piece);
 			chessPieceLookup.remove("d");
 			chessPieceLookup.put("d", deadMemberFamily);
 		} else {
-			myWhiteActives.remove(piece);
 			List<ChessPiece> deadMemberFamily = chessPieceLookup.get("l");
 			deadMemberFamily.remove(piece);
 			chessPieceLookup.remove("l");
@@ -352,7 +346,6 @@ public class GameManagerImpl {
 		}
 		
 		private void handleLengthFourMove(String currentMove) {
-			//System.out.println("current move length 4");
 			if (currentMove.substring(1, 2).equals("x")) {
 				handleLengthFourCapture(currentMove);
 			} else if (currentMove.contains("+") || currentMove.contains("#")){

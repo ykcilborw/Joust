@@ -760,19 +760,19 @@ public class ChessBoardMatcher {
 				//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 				String side = candidates.get(i).getAllegiance().getAllegiance();
 				if (side.equals("b")) {
-					for (int j = 0; j < myGame.getBlackPieces().size(); j++) {
+					for (ChessPiece blackPiece : myGame.getBlackPieces()) {
 						Location mySpot = candidates.get(i).getLocation();
 						//System.out.println("first: " + myGame.getBlackPieces().get(j).getmySymbol());
-						if (myGame.getBlackPieces().get(j).canDefend(mySpot)) {
+						if (blackPiece.canDefend(mySpot)) {
 							toReturn = true;
 							break;
 						}
 					} 
 				} else {
-					for (int j = 0; j < myGame.getWhitePieces().size(); j++) {
+					for (ChessPiece whitePiece : myGame.getWhitePieces()) {
 						Location mySpot = candidates.get(i).getLocation();
 						//System.out.println("first: " + myGame.getWhitePieces().get(j).getmySymbol());
-						if (myGame.getWhitePieces().get(j).canDefend(mySpot)) {
+						if (whitePiece.canDefend(mySpot)) {
 							toReturn = true;
 							break;
 						}
@@ -798,19 +798,19 @@ public class ChessBoardMatcher {
 			//System.out.println("candidate: " + candidates.get(i).getmySymbol());
 			String side = candidates.get(i).getAllegiance().getAllegiance();
 			if (side.equals("b")) {
-				for (int j = 0; j < myGame.getBlackPieces().size(); j++) {
+				for (ChessPiece blackPiece : myGame.getBlackPieces()) {
 					Location mySpot = candidates.get(i).getLocation();
 					//System.out.println("first: " + myGame.getBlackPieces().get(j).getmySymbol());
-					if (myGame.getBlackPieces().get(j).canDefend(mySpot)) {
+					if (blackPiece.canDefend(mySpot)) {
 						toReturn = true;
 						newCandidates.add(candidates.get(i));
 					}
 				} 
 			} else {
-				for (int j = 0; j < myGame.getWhitePieces().size(); j++) {
+				for (ChessPiece whitePiece : myGame.getWhitePieces()) {
 					Location mySpot = candidates.get(i).getLocation();
 					//System.out.println("first: " + myGame.getWhitePieces().get(j).getmySymbol());
-					if (myGame.getWhitePieces().get(j).canDefend(mySpot)) {
+					if (whitePiece.canDefend(mySpot)) {
 						toReturn = true;
 						newCandidates.add(candidates.get(i));
 					}
