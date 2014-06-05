@@ -1,4 +1,4 @@
-package com.wroblicky.andrew.joust.core.general;
+package com.wroblicky.andrew.joust.core.unused;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
