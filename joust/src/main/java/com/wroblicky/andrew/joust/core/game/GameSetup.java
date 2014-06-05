@@ -240,7 +240,6 @@ public class GameSetup {
 		lookup.put("4", allBishops);
 		lookup.put("5", allQueens);
 		lookup.put("6", allKings);
-		gameManager.setChessPieceLookup(lookup);
 		return gameManager;
 	}
 
@@ -568,7 +567,6 @@ public class GameSetup {
 			Game game = new Game(chessBoard, new ArrayList<Turn>(),
 					new ChessPieceSubsetManager(activesSet));
 			gameManager = new GameManagerImpl(game);
-			gameManager.setChessPieceLookup(lookup);
 			//Close the input stream
 			in.close();
 		} catch (IOException e){//Catch exception if any

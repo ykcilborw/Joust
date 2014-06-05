@@ -11,6 +11,7 @@ import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.game.GameManagerImpl;
 import com.wroblicky.andrew.joust.core.game.GameSetup;
+import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
 import com.wroblicky.andrew.joust.pgn.PGNParser;
 
 import fri.patterns.interpreter.parsergenerator.examples.Joust;
@@ -2031,7 +2032,7 @@ public class ChessBoardMatcher {
 	private boolean execExists(ArrayList<String> args) {
 		boolean goodSoFar = false;
 		for (int i = 0; i < args.size(); i++) {
-			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(args.get(i));
+			Set<ChessPiece> candidates = myGame.getChessPieces(ChessPieceAllegianceType.valueOf(args.get(i)));
 			if (candidates.size() > 0) {
 				goodSoFar = true;
 			}
@@ -2058,8 +2059,6 @@ public class ChessBoardMatcher {
 		} else {
 			capturerColor = capturer.getAllegiance().getAllegiance();
 			capturedColor = captured.getAllegiance().getAllegiance();
-			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
-			Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			if ((arg1.equals("g") || arg1.equals("G"))) {
 				didCapture = true;
 			}
