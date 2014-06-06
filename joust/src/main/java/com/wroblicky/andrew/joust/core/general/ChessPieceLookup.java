@@ -5,6 +5,8 @@ import java.util.Set;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
 
+@Deprecated
+// Temporary class to aid in transition to subset manager
 public class ChessPieceLookup {
 	
 	private ChessPieceSubsetManager chessPieceSubsetManager;

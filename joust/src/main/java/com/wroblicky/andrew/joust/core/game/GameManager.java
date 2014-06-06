@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.general.CastleMove;
@@ -69,7 +68,7 @@ public class GameManager {
 		captured = null;
 		game.setCheck(false);
 		game.setCheckmate(false);
-		PGNMoveInterpreter pgnMoveInterpreter = new PGNMoveInterpreter(myMoves, game.getBoard());
+		PGNMoveInterpreter pgnMoveInterpreter = new PGNMoveInterpreter(myMoves);
 		pgnMoveInterpreter.update();
 	}
 	
@@ -196,11 +195,9 @@ public class GameManager {
 	public class PGNMoveInterpreter {
 		
 		private List<String> moves;
-		private ChessBoard chessBoard;
 		
-		public PGNMoveInterpreter(List<String> moves, ChessBoard chessBoard) {
+		public PGNMoveInterpreter(List<String> moves) {
 			this.moves = moves;
-			this.chessBoard = chessBoard;
 		}
 		
 		public void update() {
@@ -287,7 +284,7 @@ public class GameManager {
 		}
 		
 		private ChessPiece determineChessPiece(String move, String piece) {
-			Location destination = chessBoard.getLocation(move);
+			Location destination = game.getBoard().getLocation(move);
 			return evaluateSuspects(piece, destination);
 		}
 		
@@ -312,7 +309,7 @@ public class GameManager {
 		
 		private ChessPiece determineFileChessPiece(String file, String piece, String move) {
 			ChessPiece icanReach = null;
-			Location l = chessBoard.getLocation(move);
+			Location l = game.getBoard().getLocation(move);
 			Character c = file.charAt(0);
 			if (Character.isDigit(c)) {
 				icanReach = determineRankChessPiece(file, piece, move);
@@ -337,7 +334,7 @@ public class GameManager {
 		private ChessPiece determineRankChessPiece(String rank, String piece,
 				String algebraicDestination) {
 			ChessPiece icanReach = null;
-			Location destination = chessBoard.getLocation(algebraicDestination);
+			Location destination = game.getBoard().getLocation(algebraicDestination);
 			piece = isWhiteTurn() ? piece : piece.toLowerCase();
 			// white's turn
 			Set<ChessPiece> suspects = chessPieceSubsetManager.getChessPieces(
@@ -362,7 +359,7 @@ public class GameManager {
 				Set<ChessPiece> kings = chessPieceSubsetManager.getChessPieces(
 						ChessPieceAllegianceType.WHITE_KING);
 				ChessPiece king = (ChessPiece) kings.toArray()[0];
-				Location l = chessBoard.getLocation("g1");
+				Location l = game.getBoard().getLocation("g1");
 				king.move(l);
 				Set<ChessPiece> rooks = chessPieceSubsetManager.getChessPieces(
 						ChessPieceAllegianceType.WHITE_ROOK);
