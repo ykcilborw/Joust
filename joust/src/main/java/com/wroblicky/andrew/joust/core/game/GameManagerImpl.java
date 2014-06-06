@@ -11,6 +11,7 @@ import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.general.CastleMove;
 import com.wroblicky.andrew.joust.core.general.ChessPieceLookup;
+import com.wroblicky.andrew.joust.core.general.ChessPieceSubsetManager;
 import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
 import com.wroblicky.andrew.joust.core.qualifiable.Qualifiable;
@@ -24,13 +25,15 @@ public class GameManagerImpl {
 	private ChessPiece capturer;
 	private ChessPiece captured;
 	private ChessPieceLookup chessPieceLookup;
+	private ChessPieceSubsetManager chessPieceSubsetManager;
 	
 	
-	public GameManagerImpl(Game game) {
+	public GameManagerImpl(Game game, ChessPieceSubsetManager chessPieceSubsetManager) {
 		this.game = game;
 		visitedBoards = new ArrayList<String[][]>();
 		castleMoves = new ArrayList<CastleMove>();
-		chessPieceLookup = new ChessPieceLookup(game);
+		chessPieceLookup = new ChessPieceLookup(chessPieceSubsetManager);
+		this.chessPieceSubsetManager = chessPieceSubsetManager;
 	}
 	
 	public int getRound() {
@@ -38,19 +41,19 @@ public class GameManagerImpl {
 	}
 	
 	public Set<ChessPiece> getActivePieces() {
-		return game.getChessPieces(Scope.ACTIVE);
+		return chessPieceSubsetManager.getChessPieces(Scope.ACTIVE);
 	}
 	
 	public Set<ChessPiece> getBlackPieces() {
-		return game.getChessPieces(Scope.BLACK_ACTIVE);
+		return chessPieceSubsetManager.getChessPieces(Scope.BLACK_ACTIVE);
 	}
 	
 	public Set<ChessPiece> getWhitePieces() {
-		return game.getChessPieces(Scope.WHITE_ACTIVE);
+		return chessPieceSubsetManager.getChessPieces(Scope.WHITE_ACTIVE);
 	}
 	
 	public Set<ChessPiece> getChessPieces(Qualifiable qualification) {
-		return game.getChessPieces(qualification);
+		return chessPieceSubsetManager.getChessPieces(qualification);
 	}
 	
 	public ChessPieceLookup getChessPieceLookup() {
@@ -156,7 +159,7 @@ public class GameManagerImpl {
 	}
 	
 	public void removePiece(ChessPiece piece) {
-		game.removeChessPiece(piece);
+		chessPieceSubsetManager.removeChessPiece(piece);
 	}
 	
 	public class PGNMoveInterpreter {
@@ -266,7 +269,7 @@ public class GameManagerImpl {
 		private ChessPiece evaluateSuspects(String piece, Location destination) {
 			// get suspects
 			piece = isWhiteTurn() ? piece : piece.toLowerCase();
-			Set<ChessPiece> suspects = game.getChessPieces(
+			Set<ChessPiece> suspects = chessPieceSubsetManager.getChessPieces(
 					ChessPieceAllegianceType.valueOf(piece)); 
 			
 			// evaluate
@@ -290,7 +293,7 @@ public class GameManagerImpl {
 				icanReach = determineRankChessPiece(file, piece, move);
 			} else {
 				piece = isWhiteTurn() ? piece : piece.toLowerCase();
-				Set<ChessPiece> suspects = game.getChessPieces(
+				Set<ChessPiece> suspects = chessPieceSubsetManager.getChessPieces(
 						ChessPieceAllegianceType.valueOf(piece));
 				for (ChessPiece suspect : suspects) {
 					if (suspect.getFile().equals(file) && suspect.canReach(l)) {
@@ -312,7 +315,7 @@ public class GameManagerImpl {
 			Location destination = chessBoard.getLocation(algebraicDestination);
 			piece = isWhiteTurn() ? piece : piece.toLowerCase();
 			// white's turn
-			Set<ChessPiece> suspects = game.getChessPieces(
+			Set<ChessPiece> suspects = chessPieceSubsetManager.getChessPieces(
 					ChessPieceAllegianceType.valueOf(piece));
 			for (ChessPiece suspect : suspects) {
 				if (suspect.getRank().equals(rank) && suspect.canReach(destination)) {
@@ -331,12 +334,12 @@ public class GameManagerImpl {
 			if (isWhiteTurn()) {
 				// white's turn
 				castleMoves.add(new CastleMove(game.getRound(), "w", "king"));
-				Set<ChessPiece> kings = game.getChessPieces(
+				Set<ChessPiece> kings = chessPieceSubsetManager.getChessPieces(
 						ChessPieceAllegianceType.WHITE_KING);
 				ChessPiece king = (ChessPiece) kings.toArray()[0];
 				Location l = chessBoard.getLocation("g1");
 				king.move(l);
-				Set<ChessPiece> rooks = game.getChessPieces(
+				Set<ChessPiece> rooks = chessPieceSubsetManager.getChessPieces(
 						ChessPieceAllegianceType.WHITE_ROOK);
 				ChessPiece r = null;
 				for (ChessPiece rook : rooks) {
@@ -347,11 +350,11 @@ public class GameManagerImpl {
 				updateBoard("f1", r);
 			} else {
 				castleMoves.add(new CastleMove(game.getRound(), "b", "king"));
-				Set<ChessPiece> kings = game.getChessPieces(ChessPieceAllegianceType.BLACK_KING);
+				Set<ChessPiece> kings = chessPieceSubsetManager.getChessPieces(ChessPieceAllegianceType.BLACK_KING);
 				ChessPiece k = (ChessPiece) kings.toArray()[0];
 				Location l = new Location("g8");
 				k.move(l);
-				Set<ChessPiece> rooks = game.getChessPieces(ChessPieceAllegianceType.BLACK_ROOK);
+				Set<ChessPiece> rooks = chessPieceSubsetManager.getChessPieces(ChessPieceAllegianceType.BLACK_ROOK);
 				ChessPiece r = null;
 				for (ChessPiece rook : rooks) {
 					if (rook.getLocation().getAlgebraicLocation().equals("h8")) {
@@ -366,11 +369,11 @@ public class GameManagerImpl {
 			if (isWhiteTurn()) {
 				// white's turn
 				castleMoves.add(new CastleMove(game.getRound(), "w", "queen"));
-				Set<ChessPiece> kings = game.getChessPieces(ChessPieceAllegianceType.WHITE_KING);
+				Set<ChessPiece> kings = chessPieceSubsetManager.getChessPieces(ChessPieceAllegianceType.WHITE_KING);
 				ChessPiece k = (ChessPiece) kings.toArray()[0];
 				Location l = new Location("c1");
 				k.move(l);
-				Set<ChessPiece> rooks = game.getChessPieces(ChessPieceAllegianceType.WHITE_ROOK);
+				Set<ChessPiece> rooks = chessPieceSubsetManager.getChessPieces(ChessPieceAllegianceType.WHITE_ROOK);
 				ChessPiece r = null;
 				for (ChessPiece rook : rooks) {
 					if (rook.getLocation().equals(new Location("a1"))) {
@@ -380,11 +383,11 @@ public class GameManagerImpl {
 				updateBoard("d1", r);
 			} else {
 				castleMoves.add(new CastleMove(game.getRound(), "b", "queen"));
-				Set<ChessPiece> kings = game.getChessPieces(ChessPieceAllegianceType.BLACK_KING);
+				Set<ChessPiece> kings = chessPieceSubsetManager.getChessPieces(ChessPieceAllegianceType.BLACK_KING);
 				ChessPiece k = (ChessPiece) kings.toArray()[0];
 				Location l = new Location("c8");
 				k.move(l);
-				Set<ChessPiece> rooks = game.getChessPieces(ChessPieceAllegianceType.BLACK_ROOK);
+				Set<ChessPiece> rooks = chessPieceSubsetManager.getChessPieces(ChessPieceAllegianceType.BLACK_ROOK);
 				ChessPiece r = null;
 				for (ChessPiece rook : rooks) {
 					if (rook.getLocation().equals(new Location("a8"))) {

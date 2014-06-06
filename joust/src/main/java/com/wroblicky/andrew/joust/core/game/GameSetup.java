@@ -6,10 +6,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Set;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
@@ -37,8 +35,6 @@ public class GameSetup {
 	public static GameManagerImpl setupDefaultGame() {
 		// Load initial default initial configuration into gameManager
 		Set<ChessPiece> actives = new HashSet<ChessPiece>();
-		Set<ChessPiece> blackActives = new HashSet<ChessPiece>();
-		Set<ChessPiece> whiteActives = new HashSet<ChessPiece>();
 		ChessBoard chessBoard = new ChessBoard();
 
 		// create relevant chess pieces
@@ -113,133 +109,8 @@ public class GameSetup {
 			activesSet.add(chessPiece);
 		}
 		
-		whiteActives.add(wp1);
-		whiteActives.add(wp2);
-		whiteActives.add(wp3);
-		whiteActives.add(wp4);
-		whiteActives.add(wp5);
-		whiteActives.add(wp6);
-		whiteActives.add(wp7);
-		whiteActives.add(wp8);
-		blackActives.add(bp1);
-		blackActives.add(bp2);
-		blackActives.add(bp3);
-		blackActives.add(bp4);
-		blackActives.add(bp5);
-		blackActives.add(bp6);
-		blackActives.add(bp7);
-		blackActives.add(bp8);
-		whiteActives.add(wc1);
-		whiteActives.add(wc2);
-		blackActives.add(bc1);
-		blackActives.add(bc2);
-		whiteActives.add(wh1);
-		whiteActives.add(wh2);
-		blackActives.add(bh1);
-		blackActives.add(bh2);
-		whiteActives.add(wb1);
-		whiteActives.add(wb2);
-		blackActives.add(bb1);
-		blackActives.add(bb2);
-		blackActives.add(bq1);
-		whiteActives.add(wq1);
-		blackActives.add(bk1);
-		whiteActives.add(wk1);
-		
-		Set<ChessPiece> allPawns = new HashSet<ChessPiece>();
-		Set<ChessPiece> allRooks = new HashSet<ChessPiece>();
-		Set<ChessPiece> allKnights = new HashSet<ChessPiece>();
-		Set<ChessPiece> allBishops = new HashSet<ChessPiece>();
-		Set<ChessPiece> allQueens = new HashSet<ChessPiece>();
-		Set<ChessPiece> allKings = new HashSet<ChessPiece>();
-		
-		Game game = new Game(chessBoard, new ArrayList<Turn>(),
-				new ChessPieceSubsetManager(activesSet));
-		GameManagerImpl gameManager = new GameManagerImpl(game);
-		HashMap<String, Set<ChessPiece>> lookup = new HashMap<String, Set<ChessPiece>>();
-		Set<ChessPiece> pawns = new HashSet<ChessPiece>();
-		pawns.add(wp1);
-		pawns.add(wp2);
-		pawns.add(wp3);
-		pawns.add(wp4);
-		pawns.add(wp5);
-		pawns.add(wp6);
-		pawns.add(wp7);
-		pawns.add(wp8);
-		lookup.put("P", pawns);
-		HashSet<ChessPiece> pawns2 = new HashSet<ChessPiece>();
-		pawns2.add(bp1);
-		pawns2.add(bp2);
-		pawns2.add(bp3);
-		pawns2.add(bp4);
-		pawns2.add(bp5);
-		pawns2.add(bp6);
-		pawns2.add(bp7);
-		pawns2.add(bp8);
-		lookup.put("p", pawns2);
-		HashSet<ChessPiece> rooks = new HashSet<ChessPiece>();
-		rooks.add(wc1);
-		rooks.add(wc2);
-		lookup.put("R", rooks);
-		HashSet<ChessPiece> rooks2 = new HashSet<ChessPiece>();
-		rooks2.add(bc1);
-		rooks2.add(bc2);
-		lookup.put("r", rooks2);
-		HashSet<ChessPiece> knights = new HashSet<ChessPiece>();
-		knights.add(wh1);
-		knights.add(wh2);
-		lookup.put("N", knights);
-		HashSet<ChessPiece> knights2 = new HashSet<ChessPiece>();
-		knights2.add(bh1);
-		knights2.add(bh2);
-		lookup.put("n", knights2);
-		HashSet<ChessPiece> bishops = new HashSet<ChessPiece>();
-		bishops.add(wb1);
-		bishops.add(wb2);
-		lookup.put("B", bishops);
-		HashSet<ChessPiece> bishops2 = new HashSet<ChessPiece>();
-		bishops2.add(bb1);
-		bishops2.add(bb2);
-		lookup.put("b", bishops2);
-		HashSet<ChessPiece> queens = new HashSet<ChessPiece>();
-		queens.add(wq1);
-		lookup.put("Q", queens);
-		HashSet<ChessPiece> queens2 = new HashSet<ChessPiece>();
-		queens2.add(bq1);
-		lookup.put("q", queens2);
-		HashSet<ChessPiece> kings = new HashSet<ChessPiece>();
-		kings.add(wk1);
-		lookup.put("K", kings);
-		HashSet<ChessPiece> kings2 = new HashSet<ChessPiece>();
-		kings2.add(bk1);
-		lookup.put("k", kings2);
-		
-		allPawns.addAll(pawns);
-		allPawns.addAll(pawns2);
-		allRooks.addAll(rooks);
-		allRooks.addAll(rooks2);
-		allKnights.addAll(knights);
-		allKnights.addAll(knights2);
-		allBishops.addAll(bishops);
-		allBishops.addAll(bishops2);
-		allQueens.addAll(queens);
-		allQueens.addAll(queens2);
-		allKings.addAll(kings);
-		allKings.addAll(kings2);
-		
-		
-		lookup.put("g", actives);
-		lookup.put("G", actives);
-		lookup.put("d", blackActives);
-		lookup.put("D", blackActives);
-		lookup.put("l", whiteActives);
-		lookup.put("L", whiteActives);
-		lookup.put("1", allPawns);
-		lookup.put("2", allRooks);
-		lookup.put("3", allKnights);
-		lookup.put("4", allBishops);
-		lookup.put("5", allQueens);
-		lookup.put("6", allKings);
+		Game game = new Game(chessBoard, new ArrayList<Turn>());
+		GameManagerImpl gameManager = new GameManagerImpl(game, new ChessPieceSubsetManager(activesSet));
 		return gameManager;
 	}
 
@@ -564,9 +435,8 @@ public class GameSetup {
 			lookup.put("4", allBishops);
 			lookup.put("5", allQueens);
 			lookup.put("6", allKings);
-			Game game = new Game(chessBoard, new ArrayList<Turn>(),
-					new ChessPieceSubsetManager(activesSet));
-			gameManager = new GameManagerImpl(game);
+			Game game = new Game(chessBoard, new ArrayList<Turn>());
+			gameManager = new GameManagerImpl(game, new ChessPieceSubsetManager(activesSet));
 			//Close the input stream
 			in.close();
 		} catch (IOException e){//Catch exception if any
