@@ -9,7 +9,7 @@ import java.util.Set;
 
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
-import com.wroblicky.andrew.joust.core.game.GameManagerImpl;
+import com.wroblicky.andrew.joust.core.game.GameManager;
 import com.wroblicky.andrew.joust.core.game.GameSetup;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
 import com.wroblicky.andrew.joust.pgn.PGNParser;
@@ -21,7 +21,7 @@ import fri.patterns.interpreter.parsergenerator.examples.Joust;
  * Matcher class for regexes in Java
  */
 public class ChessBoardMatcher {
-	GameManagerImpl myGame;
+	GameManager myGame;
 	List<String> myMoves;
 	Map<String, Set<ChessPiece>> mySuspects;
 	List<String[][]> matchedBoards;
@@ -61,7 +61,7 @@ public class ChessBoardMatcher {
 		occursFlag = false;
 	}
 	
-	protected GameManagerImpl getGame() {
+	protected GameManager getGame() {
 		return myGame;
 	}
 	

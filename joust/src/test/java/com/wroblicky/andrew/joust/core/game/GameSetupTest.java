@@ -10,7 +10,7 @@ public class GameSetupTest {
 
 	@Test
 	public void testSetupDefaultGame() {
-		GameManagerImpl gameManager = GameSetup.setupDefaultGame();
+		GameManager gameManager = GameSetup.setupDefaultGame();
 	}
 
 	@Test

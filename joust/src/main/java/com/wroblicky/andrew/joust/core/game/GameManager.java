@@ -17,7 +17,7 @@ import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
 import com.wroblicky.andrew.joust.core.qualifiable.Qualifiable;
 import com.wroblicky.andrew.joust.core.qualifiable.Scope;
 
-public class GameManagerImpl {
+public class GameManager {
 	private Game game;
 	private List<String[][]> visitedBoards; // debugging ONLY!!!
 	private List<CastleMove> castleMoves; // for ChessDemoVisualizations ONLY!!
@@ -27,7 +27,7 @@ public class GameManagerImpl {
 	private ChessPieceSubsetManager chessPieceSubsetManager;
 	
 	
-	public GameManagerImpl(Game game, ChessPieceSubsetManager chessPieceSubsetManager) {
+	public GameManager(Game game, ChessPieceSubsetManager chessPieceSubsetManager) {
 		this.game = game;
 		visitedBoards = new ArrayList<String[][]>();
 		castleMoves = new ArrayList<CastleMove>();

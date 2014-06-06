@@ -32,7 +32,7 @@ import com.wroblicky.andrew.joust.core.move.Turn;
  */
 public class GameSetup {
 	
-	public static GameManagerImpl setupDefaultGame() {
+	public static GameManager setupDefaultGame() {
 		// Load initial default initial configuration into gameManager
 		Set<ChessPiece> actives = new HashSet<ChessPiece>();
 		ChessBoard chessBoard = new ChessBoard();
@@ -110,12 +110,12 @@ public class GameSetup {
 		}
 		
 		Game game = new Game(chessBoard, new ArrayList<Turn>(), activesSet);
-		GameManagerImpl gameManager = new GameManagerImpl(game, new ChessPieceSubsetManager(activesSet));
+		GameManager gameManager = new GameManager(game, new ChessPieceSubsetManager(activesSet));
 		return gameManager;
 	}
 
-	public static GameManagerImpl setupSpecialLayout(String initialConfig) {
-		GameManagerImpl gameManager = null;
+	public static GameManager setupSpecialLayout(String initialConfig) {
+		GameManager gameManager = null;
 		HashMap<Location, ChessPiece> map = new HashMap<Location, ChessPiece>();
 		HashSet<ChessPiece> actives = new HashSet<ChessPiece>();
 		HashSet<ChessPiece> blackActives = new HashSet<ChessPiece>();
@@ -436,7 +436,7 @@ public class GameSetup {
 			lookup.put("5", allQueens);
 			lookup.put("6", allKings);
 			Game game = new Game(chessBoard, new ArrayList<Turn>(), activesSet);
-			gameManager = new GameManagerImpl(game, new ChessPieceSubsetManager(activesSet));
+			gameManager = new GameManager(game, new ChessPieceSubsetManager(activesSet));
 			//Close the input stream
 			in.close();
 		} catch (IOException e){//Catch exception if any
