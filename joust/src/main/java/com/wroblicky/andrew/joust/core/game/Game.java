@@ -1,8 +1,10 @@
 package com.wroblicky.andrew.joust.core.game;
 
 import java.util.List;
+import java.util.Set;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
+import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.move.Turn;
 
 /**
@@ -15,6 +17,7 @@ public class Game {
 	
 	private ChessBoard board;
 	private List<Turn> turns;
+	private Set<ChessPiece> chessPieces;
 	
 	// game properties
 	private boolean isInProgress = true; // by default
@@ -24,10 +27,10 @@ public class Game {
 	private boolean check = false;
 	private boolean checkmate = false;
 	
-	public Game(ChessBoard board, List<Turn> turns) {
+	public Game(ChessBoard board, List<Turn> turns, Set<ChessPiece> chessPieces) {
 		this.board = board;
 		this.turns = turns;
-		
+		this.setChessPieces(chessPieces);
 	}
 	
 	public ChessBoard getBoard() {
@@ -44,6 +47,14 @@ public class Game {
 	
 	public void setTurns(List<Turn> turns) {
 		this.turns = turns;
+	}
+	
+	public Set<ChessPiece> getChessPieces() {
+		return chessPieces;
+	}
+
+	public void setChessPieces(Set<ChessPiece> chessPieces) {
+		this.chessPieces = chessPieces;
 	}
 	
 	// game properties
@@ -97,5 +108,5 @@ public class Game {
 
 	public void setCheck(boolean check) {
 		this.check = check;
-	}
+	}	
 }

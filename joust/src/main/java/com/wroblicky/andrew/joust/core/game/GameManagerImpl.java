@@ -19,7 +19,6 @@ import com.wroblicky.andrew.joust.core.qualifiable.Scope;
 
 public class GameManagerImpl {
 	private Game game;
-	//private Map<String, Set<ChessPiece>> chessPieceLookup;
 	private List<String[][]> visitedBoards; // debugging ONLY!!!
 	private List<CastleMove> castleMoves; // for ChessDemoVisualizations ONLY!!
 	private ChessPiece capturer;
