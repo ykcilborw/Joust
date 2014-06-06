@@ -157,6 +157,38 @@ public class GameManagerImpl {
 		}
 	}
 	
+	private void handleCapture(String algebraicDestination, ChessPiece chessPiece) {
+		// remove old piece
+		Location destination = game.getBoard().getLocation(algebraicDestination);
+		ChessPiece dead = game.getBoard().getChessPieceByLocation(destination);
+		removePiece(dead);
+		
+		// update metadata
+		capturer = chessPiece;
+		captured = dead;
+		updateBoard(algebraicDestination, chessPiece);
+	}
+	
+	public void handleCheck(String algebraicDestination, String checkType,
+			ChessPiece chessPiece) {
+		if (checkType.equals("+")) {
+			game.setCheck(true);
+		} else {
+			game.setCheckmate(true);
+		}
+		updateBoard(algebraicDestination, chessPiece);
+	}
+	
+	private void handleGameOver() {
+		game.setInProgress(false);
+	}
+	
+	private void updateBoard(String algebraicDestination, ChessPiece chessPiece) {
+		Location destination = game.getBoard().getLocation(algebraicDestination);
+		chessPiece.move(destination);
+		game.incrementRound();
+	}
+	
 	public void removePiece(ChessPiece piece) {
 		chessPieceSubsetManager.removeChessPiece(piece);
 	}
@@ -247,12 +279,6 @@ public class GameManagerImpl {
 					throw new RuntimeException("Unknown length five move: " + currentMove);
 				}
 			}
-		}
-		
-		private void updateBoard(String algebraicDestination, ChessPiece chessPiece) {
-			Location destination = chessBoard.getLocation(algebraicDestination);
-			chessPiece.move(destination);
-			game.incrementRound();
 		}
 		
 		private ChessPiece determineChessPiece(String move) {
@@ -399,10 +425,6 @@ public class GameManagerImpl {
 			}
 		}
 		
-		private void handleGameOver() {
-			game.setInProgress(false);
-		}
-		
 		private void handleLengthFourCapture(String currentMove) {
 			String type = currentMove.substring(0, 1);
 			String algebraicDestination = currentMove.substring(2, 4);
@@ -445,18 +467,6 @@ public class GameManagerImpl {
 			}
 		}
 		
-		private void handleCapture(String algebraicDestination, ChessPiece chessPiece) {
-			// remove old piece
-			Location destination = chessBoard.getLocation(algebraicDestination);
-			ChessPiece dead = game.getBoard().getChessPieceByLocation(destination);
-			removePiece(dead);
-			
-			// update metadata
-			capturer = chessPiece;
-			captured = dead;
-			updateBoard(algebraicDestination, chessPiece);
-		}
-		
 		private void handleLengthThreeCheck(String currentMove) {
 			// parse relevant pieces
 			String algebraicDestination = currentMove.substring(0, 2);
@@ -488,16 +498,6 @@ public class GameManagerImpl {
 			// handle
 			ChessPiece chessPiece = determineFileChessPiece(file, type, algebraicDestination);
 			handleCheck(algebraicDestination, checkType, chessPiece);
-		}
-		
-		private void handleCheck(String algebraicDestination, String checkType,
-				ChessPiece chessPiece) {
-			if (checkType.equals("+")) {
-				game.setCheck(true);
-			} else {
-				game.setCheckmate(true);
-			}
-			updateBoard(algebraicDestination, chessPiece);
 		}
 	}
 }
