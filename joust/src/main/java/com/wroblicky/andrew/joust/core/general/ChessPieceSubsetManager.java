@@ -1,5 +1,6 @@
 package com.wroblicky.andrew.joust.core.general;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -29,6 +30,7 @@ public class ChessPieceSubsetManager {
 	public ChessPieceSubsetManager(Set<ChessPiece> allPieces) {
 		this.allPieces = allPieces;
 		this.deceasedPieces = new HashSet<ChessPiece>();
+		
 		initialize();
 	}
 
@@ -108,6 +110,7 @@ public class ChessPieceSubsetManager {
 	}
 	
 	private void initializeChessPieceTypeMap() {
+		this.chessPieceTypeMap = new HashMap<ChessPieceType, Set<ChessPiece>>();
 		chessPieceTypeMap.put(ChessPieceType.PAWN, new HashSet<ChessPiece>());
 		chessPieceTypeMap.put(ChessPieceType.ROOK, new HashSet<ChessPiece>());
 		chessPieceTypeMap.put(ChessPieceType.KNIGHT, new HashSet<ChessPiece>());
@@ -117,6 +120,7 @@ public class ChessPieceSubsetManager {
 	}
 	
 	private void initializeChessPieceAllegianceTypeMap() {
+		this.chessPieceAllegianceTypeMap = new HashMap<ChessPieceAllegianceType, Set<ChessPiece>>();
 		chessPieceAllegianceTypeMap.put(ChessPieceAllegianceType.BLACK_PAWN, new HashSet<ChessPiece>());
 		chessPieceAllegianceTypeMap.put(ChessPieceAllegianceType.BLACK_ROOK, new HashSet<ChessPiece>());
 		chessPieceAllegianceTypeMap.put(ChessPieceAllegianceType.BLACK_KNIGHT, new HashSet<ChessPiece>());

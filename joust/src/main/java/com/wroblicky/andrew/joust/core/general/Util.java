@@ -39,7 +39,7 @@ public class Util {
 				}
 		}
 		jo.getGame().printVisitedBoards();
-		ChessGameDemo.start(boards, jo, joustProgram, jo.getGame().getCastleMoves());
+		ChessGameDemo.start(boards, jo, joustProgram, jo.getPGNViewer().getCastleMoves());
 	}
 	
 	public static int reverseNum(int num) {

@@ -10,7 +10,7 @@ import java.util.Set;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.game.GameManager;
-import com.wroblicky.andrew.joust.core.game.GameSetup;
+import com.wroblicky.andrew.joust.core.game.PGNViewer;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
 import com.wroblicky.andrew.joust.pgn.PGNParser;
 
@@ -22,6 +22,7 @@ import fri.patterns.interpreter.parsergenerator.examples.Joust;
  */
 public class ChessBoardMatcher {
 	GameManager myGame;
+	PGNViewer pgnViewer;
 	List<String> myMoves;
 	Map<String, Set<ChessPiece>> mySuspects;
 	List<String[][]> matchedBoards;
@@ -32,7 +33,8 @@ public class ChessBoardMatcher {
 	
 	// need to rethink
 	public ChessBoardMatcher(String pgnGame) {
-		myGame = GameSetup.setupDefaultGame();
+		pgnViewer = new PGNViewer(PGNParser.getPGNGame(pgnGame));
+		myGame = pgnViewer.getGame();
 		myMoves = PGNParser.getPGNGame(pgnGame).getMoves();
 		matchedBoards = new ArrayList<String[][]>();
 		matchedRounds = new ArrayList<Integer>();
@@ -42,7 +44,8 @@ public class ChessBoardMatcher {
 	}
 	
 	public ChessBoardMatcher(String pgnGame, String initialConfigFile) {
-		myGame = GameSetup.setupSpecialLayout(initialConfigFile);
+		pgnViewer = new PGNViewer(PGNParser.getPGNGame(pgnGame));
+		myGame = pgnViewer.getGame();
 		myMoves = PGNParser.getPGNGame(pgnGame).getMoves();
 		matchedBoards = new ArrayList<String[][]>();
 		matchedRounds = new ArrayList<Integer>();
@@ -52,13 +55,18 @@ public class ChessBoardMatcher {
 	}
 	
 	public ChessBoardMatcher(String pgnGame, String initialConfigFile, boolean special) {
-		myGame = GameSetup.setupSpecialLayout(initialConfigFile);
+		pgnViewer = new PGNViewer(PGNParser.getPGNGame(pgnGame));
+		myGame = pgnViewer.getGame();
 		myMoves = PGNParser.getPGNGame(pgnGame).getMoves();
 		matchedBoards = new ArrayList<String[][]>();
 		matchedRounds = new ArrayList<Integer>();
 		mySuspects = new HashMap<String, Set<ChessPiece>> ();
 		isSpecial = special;
 		occursFlag = false;
+	}
+	
+	public PGNViewer getPGNViewer() {
+		return pgnViewer;
 	}
 	
 	protected GameManager getGame() {
@@ -129,7 +137,7 @@ public class ChessBoardMatcher {
 			}
 			// no point updating board if we found a match, just return it
 			if (isSpecial == false && myMoves.size() != myGame.getRound()) { //&& token.get(0).equals("occurs") == false) {
-				myGame.update(myMoves);
+				pgnViewer.playNextTurn();
 			} else {
 				// if they are equal need to update myRound still so that end doesn't keep returning true forever
 				myGame.setRound(myGame.getRound() + 1);
@@ -155,7 +163,9 @@ public class ChessBoardMatcher {
 			// need to update board so next token has proper configuration
 			// However if it's end of game don't worry about it
 			if (myMoves.size() != myGame.getRound() ){//&& token.get(0).equals("occurs") == false) {
-				myGame.update(myMoves);
+				for (String move : myMoves) {
+					pgnViewer.playNextTurn();
+				}
 			} 
 		}
 		return foundMatch;
@@ -178,7 +188,9 @@ public class ChessBoardMatcher {
 				matchedRounds.add(round);
 				// Similarly only update board if not a match && not end of game
 				if (myMoves.size() - 1 != myGame.getRound()) {
-					myGame.update(myMoves);
+					for (String move : myMoves) {
+						pgnViewer.playNextTurn();
+					}
 				} 
 				else {
 					// end of game
@@ -2277,24 +2289,10 @@ public class ChessBoardMatcher {
 	}
 	
 	private boolean execEnd() {
-		int numMoves = myMoves.size() - 1;
-		//System.out.println("execEnd myRound: " + myGame.getmyRound());
-		//System.out.println("execEnd myMoves: " + numMoves);
-		boolean toReturn = false;
-		if (myGame.getRound() == numMoves) {
-			// last move
-			toReturn = true;
-		}
-		//System.out.println("toReturn: " + toReturn);
-		return toReturn;
+		return myGame.isInProgress();
 	}
 	
 	private boolean execStart() {
-		//System.out.println("myRound: " + myGame.getmyRound());
-		boolean toReturn = false;
-		if (myGame.getRound() == 0) {
-			toReturn = true;
-		}
-		return toReturn;
+		return (myGame.getRound() == 0);
 	}	
 }

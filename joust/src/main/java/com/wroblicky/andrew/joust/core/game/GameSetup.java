@@ -109,7 +109,7 @@ public class GameSetup {
 			activesSet.add(chessPiece);
 		}
 		
-		Game game = new Game(chessBoard, new ArrayList<Turn>(), activesSet);
+		Game game = new Game(chessBoard, new ArrayList<Turn>(), new ChessPieceSubsetManager(activesSet));
 		GameManager gameManager = new GameManager(game, new ChessPieceSubsetManager(activesSet));
 		return gameManager;
 	}
@@ -435,7 +435,7 @@ public class GameSetup {
 			lookup.put("4", allBishops);
 			lookup.put("5", allQueens);
 			lookup.put("6", allKings);
-			Game game = new Game(chessBoard, new ArrayList<Turn>(), activesSet);
+			Game game = new Game(chessBoard, new ArrayList<Turn>(), new ChessPieceSubsetManager(activesSet));
 			gameManager = new GameManager(game, new ChessPieceSubsetManager(activesSet));
 			//Close the input stream
 			in.close();

@@ -5,7 +5,9 @@ import java.util.Set;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
+import com.wroblicky.andrew.joust.core.general.ChessPieceSubsetManager;
 import com.wroblicky.andrew.joust.core.move.Turn;
+import com.wroblicky.andrew.joust.core.qualifiable.Qualifiable;
 
 /**
  * A simple class that stores all the internal properties of a chess game
@@ -17,7 +19,7 @@ public class Game {
 	
 	private ChessBoard board;
 	private List<Turn> turns;
-	private Set<ChessPiece> chessPieces;
+	private ChessPieceSubsetManager chessPieceSubsetManager;
 	
 	// game properties
 	private boolean isInProgress = true; // by default
@@ -27,10 +29,11 @@ public class Game {
 	private boolean check = false;
 	private boolean checkmate = false;
 	
-	public Game(ChessBoard board, List<Turn> turns, Set<ChessPiece> chessPieces) {
+	public Game(ChessBoard board, List<Turn> turns, 
+			ChessPieceSubsetManager chessPieceSubsetManager) {
 		this.board = board;
 		this.turns = turns;
-		this.setChessPieces(chessPieces);
+		this.chessPieceSubsetManager = chessPieceSubsetManager;
 	}
 	
 	public ChessBoard getBoard() {
@@ -49,12 +52,12 @@ public class Game {
 		this.turns = turns;
 	}
 	
-	public Set<ChessPiece> getChessPieces() {
-		return chessPieces;
+	public Set<ChessPiece> getChessPieces(Qualifiable qualification) {
+		return chessPieceSubsetManager.getChessPieces(qualification);
 	}
 
-	public void setChessPieces(Set<ChessPiece> chessPieces) {
-		this.chessPieces = chessPieces;
+	public void removeChessPiece(ChessPiece chessPiece) {
+		chessPieceSubsetManager.removeChessPiece(chessPiece);
 	}
 	
 	// game properties
