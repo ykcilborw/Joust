@@ -1,8 +1,10 @@
 package com.wroblicky.andrew.joust.core.game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Set;
 
 import com.wroblicky.andrew.joust.core.board.Location;
@@ -18,18 +20,36 @@ public final class PGNViewer {
 	private GameManager gameManager;
 	private ListIterator<String> moves;
 	private List<CastleMove> castleMoves; // for ChessDemoVisualizations ONLY!!
+	private final Map<String, String> enumLookup = new HashMap<String, String>();
 	
 	
 	public PGNViewer(PGNGame pgnGame) {
 		this.moves = pgnGame.getMoves().listIterator();
 		this.gameManager = GameSetup.setupDefaultGame();
 		castleMoves = new ArrayList<CastleMove>();
+		initialize();
 	}
 	
 	public PGNViewer(PGNGame pgnGame, String initialConfig) {
 		this.moves = pgnGame.getMoves().listIterator();
 		this.gameManager = GameSetup.setupSpecialLayout(initialConfig);
 		castleMoves = new ArrayList<CastleMove>();
+		initialize();
+	}
+	
+	private void initialize() {
+		enumLookup.put("p", "BLACK_PAWN");
+		enumLookup.put("r", "BLACK_ROOK");
+		enumLookup.put("n", "BLACK_KNIGHT");
+		enumLookup.put("b", "BLACK_BISHOP");
+		enumLookup.put("q", "BLACK_QUEEN");
+		enumLookup.put("k", "BLACK_KING");
+		enumLookup.put("P", "WHITE_PAWN");
+		enumLookup.put("R", "WHITE_ROOK");
+		enumLookup.put("N", "WHITE_KNIGHT");
+		enumLookup.put("B", "WHITE_BISHOP");
+		enumLookup.put("Q", "WHITE_QUEEN");
+		enumLookup.put("K", "WHITE_KING");
 	}
 	
 	@Deprecated
@@ -165,7 +185,7 @@ public final class PGNViewer {
 		piece = gameManager.isWhiteTurn() ? piece : piece.toLowerCase();
 		System.out.println("value: " + ChessPieceAllegianceType.WHITE_PAWN);
 		Set<ChessPiece> suspects = gameManager.getChessPieces(
-				ChessPieceAllegianceType.valueOf(piece)); 
+				convert(piece)); 
 		
 		// evaluate
 		for (ChessPiece suspect : suspects) {
@@ -178,6 +198,11 @@ public final class PGNViewer {
 		throw new RuntimeException("Improperly formatted PGN file. " +
 				"Could not find a piece that could've legally moved to " 
 				+ destination);
+	}
+	
+	private ChessPieceAllegianceType convert(String s) {
+		String lookup = enumLookup.get(s);
+		return ChessPieceAllegianceType.valueOf(lookup);
 	}
 	
 	private ChessPiece determineFileChessPiece(String file, String piece, String move) {
