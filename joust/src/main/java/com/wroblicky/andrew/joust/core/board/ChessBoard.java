@@ -118,16 +118,16 @@ public class ChessBoard {
 	
 	public Location getNorthWestNeighbor(Location location) {
 		// get adjusted x and y
-		int x = location.getXCoordinate() + 1;
-		int y = location.getYCoordinate() - 1;
+		int x = location.getXCoordinate() - 1;
+		int y = location.getYCoordinate() + 1;
 		
 		return getLocation(x, y);
 	}
 	
 	public Location getWestNeighbor(Location location) {
 		// get adjusted x and y
-		int x = location.getXCoordinate();
-		int y = location.getYCoordinate() - 1;
+		int x = location.getXCoordinate() - 1;
+		int y = location.getYCoordinate();
 		
 		return getLocation(x, y);
 	}
@@ -142,24 +142,24 @@ public class ChessBoard {
 	
 	public Location getSouthNeighbor(Location location) {
 		// get adjusted x and y
-		int x = location.getXCoordinate() - 1;
-		int y = location.getYCoordinate();
+		int x = location.getXCoordinate();
+		int y = location.getYCoordinate() - 1;
 		
 		return getLocation(x, y);
 	}
 	
 	public Location getSouthEastNeighbor(Location location) {
 		// get adjusted x and y
-		int x = location.getXCoordinate() - 1;
-		int y = location.getYCoordinate() + 1;
+		int x = location.getXCoordinate() + 1;
+		int y = location.getYCoordinate() - 1;
 		
 		return getLocation(x, y);
 	}
 	
 	public Location getEastNeighbor(Location location) {
 		// get adjusted x and y
-		int x = location.getXCoordinate();
-		int y = location.getYCoordinate() + 1;
+		int x = location.getXCoordinate() + 1;
+		int y = location.getYCoordinate();
 		
 		return getLocation(x, y);
 	}

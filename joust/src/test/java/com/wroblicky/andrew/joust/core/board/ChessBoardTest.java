@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import com.wroblicky.andrew.joust.core.chesspiece.Pawn;
 import com.wroblicky.andrew.joust.core.move.Move;
+import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
 
 public class ChessBoardTest {
 
@@ -22,6 +23,79 @@ public class ChessBoardTest {
 		Assert.assertEquals(location2.getAlgebraicLocation().equals("a5"), true);
 		Assert.assertEquals(location2.getXCoordinate() == 0, true);
 		Assert.assertEquals(location2.getYCoordinate() == 4, true);
+	}
+	
+	@Test
+	public void testNorthNeighbor() {
+		// test adjusted x and y
+		ChessBoard board = new ChessBoard();
+		Location e1 = board.getLocation("e1");
+		Location e8 = board.getLocation("e8");
+		Assert.assertEquals(board.getNorthNeighbor(e1).getAlgebraicLocation(), "e2");
+		Assert.assertEquals(board.getNorthNeighbor(e8), null);
+	}
+	
+	@Test
+	public void testNorthWestNeighbor() {
+		ChessBoard board = new ChessBoard();
+		Location e1 = board.getLocation("e1");
+		Location e8 = board.getLocation("e8");
+		Assert.assertEquals(board.getNorthWestNeighbor(e1).getAlgebraicLocation(), "d2");
+		Assert.assertEquals(board.getNorthWestNeighbor(e8), null);
+	}
+	
+	@Test
+	public void testWestNeighbor() {
+		ChessBoard board = new ChessBoard();
+		Location e1 = board.getLocation("e1");
+		Location a1 = board.getLocation("a1");
+		Assert.assertEquals(board.getWestNeighbor(e1).getAlgebraicLocation(), "d1");
+		Assert.assertEquals(board.getWestNeighbor(a1), null);
+	}
+	
+	@Test
+	public void testSouthWestNeighbor() {
+		ChessBoard board = new ChessBoard();
+		Location e2 = board.getLocation("e2");
+		Location a1 = board.getLocation("a1");
+		Assert.assertEquals(board.getSouthWestNeighbor(e2).getAlgebraicLocation(), "d1");
+		Assert.assertEquals(board.getSouthWestNeighbor(a1), null);
+	}
+	
+	@Test
+	public void testSouthNeighbor() {
+		ChessBoard board = new ChessBoard();
+		Location e2 = board.getLocation("e2");
+		Location a1 = board.getLocation("a1");
+		Assert.assertEquals(board.getSouthNeighbor(e2).getAlgebraicLocation(), "e1");
+		Assert.assertEquals(board.getSouthNeighbor(a1), null);
+	}
+	
+	@Test
+	public void testSouthEastNeighbor() {
+		ChessBoard board = new ChessBoard();
+		Location e2 = board.getLocation("e2");
+		Location a1 = board.getLocation("a1");
+		Assert.assertEquals(board.getSouthEastNeighbor(e2).getAlgebraicLocation(), "f1");
+		Assert.assertEquals(board.getSouthEastNeighbor(a1), null);
+	}
+	
+	@Test
+	public void testEastNeighbor() {
+		ChessBoard board = new ChessBoard();
+		Location e1 = board.getLocation("e1");
+		Location h8 = board.getLocation("h8");
+		Assert.assertEquals(board.getEastNeighbor(e1).getAlgebraicLocation(), "f1");
+		Assert.assertEquals(board.getEastNeighbor(h8), null);
+	}
+	
+	@Test
+	public void testNorthEastNeighbor() {
+		ChessBoard board = new ChessBoard();
+		Location e1 = board.getLocation("e1");
+		Location e8 = board.getLocation("e8");
+		Assert.assertEquals(board.getNorthEastNeighbor(e1).getAlgebraicLocation(), "f2");
+		Assert.assertEquals(board.getNorthEastNeighbor(e8), null);
 	}
 	
 	@Test
@@ -48,7 +122,7 @@ public class ChessBoardTest {
 		Location location = board.getLocation("a1");
 		Pawn pawn = new Pawn();
 		board.addChessPiece(pawn, location);
-		Assert.assertEquals(board.getChessPieceByLocation(location).getMySymbol(), "p");
+		Assert.assertEquals(board.getChessPieceByLocation(location).getMySymbol(), ChessPieceAllegianceType.BLACK_PAWN);
 	}
 
 	@Test
@@ -59,7 +133,7 @@ public class ChessBoardTest {
 		board.addChessPiece(pawn, originalLocation);
 		
 		// make sure chess piece was added
-		Assert.assertEquals(board.getChessPieceByLocation(originalLocation).getMySymbol(), "p");
+		Assert.assertEquals(board.getChessPieceByLocation(originalLocation).getMySymbol(), ChessPieceAllegianceType.BLACK_PAWN);
 	}
 
 	@Test
@@ -71,13 +145,13 @@ public class ChessBoardTest {
 		board.addChessPiece(pawn, originalLocation);
 		
 		// make sure chess piece was added
-		Assert.assertEquals(board.getChessPieceByLocation(originalLocation).getMySymbol(), "p");
+		Assert.assertEquals(board.getChessPieceByLocation(originalLocation).getMySymbol(), ChessPieceAllegianceType.BLACK_PAWN);
 		
 		// make sure chess piece was not already in new location
 		Assert.assertEquals(board.getChessPieceByLocation(newLocation), null);
 		
 		board.moveChessPiece(new Move(pawn, originalLocation, newLocation));
-		Assert.assertEquals(board.getChessPieceByLocation(newLocation).getMySymbol(), "p");
+		Assert.assertEquals(board.getChessPieceByLocation(newLocation).getMySymbol(), ChessPieceAllegianceType.BLACK_PAWN);
 	}
 
 	@Test
@@ -86,7 +160,7 @@ public class ChessBoardTest {
 		Location location = board.getLocation("a1");
 		Pawn pawn = new Pawn();
 		board.addChessPiece(pawn, location);
-		Assert.assertEquals(board.getChessPieceByLocation(location).getMySymbol(), ("p"));
+		Assert.assertEquals(board.getChessPieceByLocation(location).getMySymbol(), ChessPieceAllegianceType.BLACK_PAWN);
 		board.removeChessPiece(pawn, location);
 		Assert.assertEquals(board.getChessPieceByLocation(location), null);
 	}
