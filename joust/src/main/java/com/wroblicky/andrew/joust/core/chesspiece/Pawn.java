@@ -27,7 +27,7 @@ public class Pawn extends ChessPiece {
 		this.hasMovedAtAll = false;
 		this.movedTwice = false;
 		this.alive = true;
-		this.chessID = 1;
+		this.chessID = "p1";
 		this.chessBoard = new ChessBoard();
 	}
 	
@@ -36,7 +36,7 @@ public class Pawn extends ChessPiece {
 		this.hasMovedAtAll = false;
 		this.movedTwice = false;
 		this.alive = true;
-		this.chessID = id;
+		this.chessID = getMySymbol().getChessPieceAllegianceType() + chessID;
 		this.chessBoard = chessBoard;
 	}
 	

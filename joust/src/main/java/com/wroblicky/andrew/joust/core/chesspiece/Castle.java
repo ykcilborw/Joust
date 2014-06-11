@@ -23,7 +23,7 @@ public class Castle extends ChessPiece {
 	public Castle() {
 		this.alive = true;
 		this.allegiance = Allegiance.BLACK;
-		this.chessID = 1;
+		this.chessID = "b1";
 		this.chessBoard = new ChessBoard(new Location[8][8]);
 	}
 	
@@ -31,7 +31,7 @@ public class Castle extends ChessPiece {
 		this.allegiance = allegiance;
 		this.alive = true;
 		this.chessBoard = chessBoard;
-		this.chessID = id;
+		this.chessID = getMySymbol().getChessPieceAllegianceType() + chessID;
 	}
 	
 	@Override

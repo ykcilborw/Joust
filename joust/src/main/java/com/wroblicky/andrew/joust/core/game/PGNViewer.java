@@ -183,7 +183,6 @@ public final class PGNViewer {
 	private ChessPiece evaluateSuspects(String piece, Location destination) {
 		// get suspects
 		piece = gameManager.isWhiteTurn() ? piece : piece.toLowerCase();
-		System.out.println("value: " + ChessPieceAllegianceType.WHITE_PAWN);
 		Set<ChessPiece> suspects = gameManager.getChessPieces(
 				convert(piece)); 
 		

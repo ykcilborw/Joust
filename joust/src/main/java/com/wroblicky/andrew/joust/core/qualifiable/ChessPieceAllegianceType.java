@@ -32,6 +32,6 @@ public enum ChessPieceAllegianceType implements Qualifiable {
 	
 	@Override
 	public String toString() {
-		return this.chessPieceAllegianceType;
+		return this.name();
 	}
 }

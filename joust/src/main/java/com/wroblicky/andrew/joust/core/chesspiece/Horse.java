@@ -6,6 +6,7 @@ import java.util.ListIterator;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.board.Location;
+import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceType;
 
@@ -20,14 +21,14 @@ public class Horse extends ChessPiece {
 	public Horse() {
 		this.allegiance = Allegiance.BLACK;
 		this.alive = true;
-		this.chessID = 1;
+		this.chessID = "n1";
 		this.chessBoard = new ChessBoard();
 	}
 	
 	public Horse(Allegiance allegiance, int chessID, ChessBoard chessBoard) {
 		this.allegiance = allegiance;
 		this.alive = true;
-		this.chessID = chessID;
+		this.chessID = getMySymbol().getChessPieceAllegianceType() + chessID;
 		this.chessBoard = chessBoard;
 	}
 	

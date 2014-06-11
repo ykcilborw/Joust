@@ -24,14 +24,14 @@ public class Bishop extends ChessPiece {
 	public Bishop() {
 		this.alive = true;
 		this.allegiance = Allegiance.BLACK;
-		this.chessID = 1;
+		this.chessID = "b1";
 		this.chessBoard = new ChessBoard(new Location[8][8]);
 	}
 	
 	public Bishop(Allegiance allegiance, int chessID, ChessBoard chessBoard) {
 		this.alive = true;
 		this.allegiance = allegiance;
-		this.chessID = chessID;
+		this.chessID = getMySymbol().getChessPieceAllegianceType() + chessID;
 		this.chessBoard = chessBoard;
 	}
 	

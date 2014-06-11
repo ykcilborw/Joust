@@ -13,6 +13,13 @@ import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Allegiance;
 public class BishopTest {
 
 	@Test
+	public void testGetID() {
+		ChessBoard board = new ChessBoard();
+		Bishop bishop = new Bishop(Allegiance.BLACK, 1, board);
+		Assert.assertEquals(bishop.getID(), "b1");
+	}
+	
+	@Test
 	public void testGetMyType() {
 		Bishop bishop = new Bishop();
 		Assert.assertEquals(bishop.getMyType(), "Bishop");

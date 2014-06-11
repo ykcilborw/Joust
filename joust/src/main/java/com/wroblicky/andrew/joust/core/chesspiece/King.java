@@ -1,11 +1,15 @@
 package com.wroblicky.andrew.joust.core.chesspiece;
 
+import static com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Occupier.UNOCCUPIED;
+import static com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Occupier.ENEMY;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.board.Location;
+import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceType;
 
@@ -21,14 +25,14 @@ public class King extends ChessPiece{
 		this.allegiance = Allegiance.BLACK;
 		this.alive = true;
 		this.chessBoard = new ChessBoard();
-		this.chessID = 1;
+		this.chessID = "k1";
 	}
 	
 	public King(Allegiance allegiance, int id, ChessBoard chessBoard) {
 		this.allegiance = allegiance;
 		this.alive = true;
 		this.chessBoard = chessBoard;
-		this.chessID = id;
+		this.chessID = getMySymbol().getChessPieceAllegianceType() + chessID;
 	}
 	
 	@Override
@@ -52,7 +56,7 @@ public class King extends ChessPiece{
 		
 		while (possibilityIterator.hasNext()) {
 			Location location = possibilityIterator.next();
-			if (!isCapableOfOccupation(location)) {
+			if (location == null || (checkAvailability(location) != UNOCCUPIED && checkAvailability(location) != ENEMY)) {
 				possibilityIterator.remove();
 			}
 		}

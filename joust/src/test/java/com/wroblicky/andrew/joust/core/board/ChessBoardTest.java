@@ -26,6 +26,13 @@ public class ChessBoardTest {
 	}
 	
 	@Test
+	public void testGetLocationWithParameters() {
+		ChessBoard board = new ChessBoard();
+		Location initial = board.getLocation("a1");
+		Assert.assertEquals(board.getLocation(initial, 1, 2).getAlgebraicLocation(), "b3");
+	}
+	
+	@Test
 	public void testNorthNeighbor() {
 		// test adjusted x and y
 		ChessBoard board = new ChessBoard();

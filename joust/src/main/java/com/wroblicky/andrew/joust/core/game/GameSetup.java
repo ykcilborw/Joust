@@ -109,6 +109,46 @@ public class GameSetup {
 			activesSet.add(chessPiece);
 		}
 		
+		// white pawns
+		chessBoard.addChessPiece(wp1, chessBoard.getLocation("a2"));
+		chessBoard.addChessPiece(wp2, chessBoard.getLocation("b2"));
+		chessBoard.addChessPiece(wp3, chessBoard.getLocation("c2"));
+		chessBoard.addChessPiece(wp4, chessBoard.getLocation("d2"));
+		chessBoard.addChessPiece(wp5, chessBoard.getLocation("e2"));
+		chessBoard.addChessPiece(wp6, chessBoard.getLocation("f2"));
+		chessBoard.addChessPiece(wp7, chessBoard.getLocation("g2"));
+		chessBoard.addChessPiece(wp8, chessBoard.getLocation("h2"));
+		
+		// white royals
+		chessBoard.addChessPiece(wc1, chessBoard.getLocation("a1"));
+		chessBoard.addChessPiece(wh1, chessBoard.getLocation("b1"));
+		chessBoard.addChessPiece(wb1, chessBoard.getLocation("c1"));
+		chessBoard.addChessPiece(wk1, chessBoard.getLocation("d1"));
+		chessBoard.addChessPiece(wq1, chessBoard.getLocation("e1"));
+		chessBoard.addChessPiece(wb2, chessBoard.getLocation("f1"));
+		chessBoard.addChessPiece(wh2, chessBoard.getLocation("g1"));
+		chessBoard.addChessPiece(wc2, chessBoard.getLocation("h1"));
+		
+		// black pawns
+		chessBoard.addChessPiece(bp1, chessBoard.getLocation("a7"));
+		chessBoard.addChessPiece(bp2, chessBoard.getLocation("b7"));
+		chessBoard.addChessPiece(bp3, chessBoard.getLocation("c7"));
+		chessBoard.addChessPiece(bp4, chessBoard.getLocation("d7"));
+		chessBoard.addChessPiece(bp5, chessBoard.getLocation("e7"));
+		chessBoard.addChessPiece(bp6, chessBoard.getLocation("f7"));
+		chessBoard.addChessPiece(bp7, chessBoard.getLocation("g7"));
+		chessBoard.addChessPiece(bp8, chessBoard.getLocation("h7"));
+		
+		// black royals
+		chessBoard.addChessPiece(wc1, chessBoard.getLocation("a1"));
+		chessBoard.addChessPiece(wh1, chessBoard.getLocation("b1"));
+		chessBoard.addChessPiece(wb1, chessBoard.getLocation("c1"));
+		chessBoard.addChessPiece(wk1, chessBoard.getLocation("d1"));
+		chessBoard.addChessPiece(wq1, chessBoard.getLocation("e1"));
+		chessBoard.addChessPiece(wb2, chessBoard.getLocation("f1"));
+		chessBoard.addChessPiece(wh2, chessBoard.getLocation("g1"));
+		chessBoard.addChessPiece(wc2, chessBoard.getLocation("h1"));
+	
 		Game game = new Game(chessBoard, new ArrayList<Turn>(), new ChessPieceSubsetManager(activesSet));
 		GameManager gameManager = new GameManager(game, new ChessPieceSubsetManager(activesSet));
 		return gameManager;

@@ -22,7 +22,7 @@ public abstract class ChessPiece {
 	
 	boolean alive;
 	Allegiance allegiance;
-	int chessID; // represents original starting location
+	String chessID; // represents original starting location
 	ChessBoard chessBoard;
 	
 	public enum Allegiance {
@@ -135,7 +135,7 @@ public abstract class ChessPiece {
 	}
 	
 	// id related method
-	public int getID() {
+	public String getID() {
 		return chessID;
 	}
 	

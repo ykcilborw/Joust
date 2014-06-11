@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.board.Location;
+import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceType;
 
@@ -25,14 +26,14 @@ public class Queen extends ChessPiece {
 		this.allegiance = Allegiance.BLACK;
 		this.alive = true;
 		this.chessBoard = new ChessBoard();
-		this.chessID = 1;
+		this.chessID = "q1";
 	}
 	
 	public Queen(Allegiance allegiance, int id, ChessBoard chessBoard) {
 		this.allegiance = allegiance;
 		this.alive = true;
 		this.chessBoard = chessBoard;
-		this.chessID = id;
+		this.chessID = getMySymbol().getChessPieceAllegianceType() + chessID;
 	}
 	
 	@Override

@@ -11,7 +11,7 @@ import com.wroblicky.andrew.joust.core.move.Move;
 public class ChessBoard {
 	
 	private Location[][] chessBoard;
-	private Map<ChessPiece, Location> chessPieceToLocation;
+	private Map<String, Location> chessPieceToLocation;
 	
 	public enum Direction {
 			
@@ -58,13 +58,13 @@ public class ChessBoard {
 	// constructors
 	public ChessBoard() {
 		this.chessBoard = new Location[8][8];
-		this.chessPieceToLocation = new HashMap<ChessPiece, Location>();
+		this.chessPieceToLocation = new HashMap<String, Location>();
 		createBackingBoard();
 	}
 	
 	public ChessBoard(Location[][] chessBoard) {
 		this.chessBoard = chessBoard;
-		this.chessPieceToLocation = new HashMap<ChessPiece, Location>();
+		this.chessPieceToLocation = new HashMap<String, Location>();
 	}
 	
 	/**
@@ -203,7 +203,7 @@ public class ChessBoard {
 	 * Given a chess piece, returns the Location associated with it
 	 */
 	public Location getLocationByChessPiece(ChessPiece chessPiece) {
-		return chessPieceToLocation.get(chessPiece);
+		return chessPieceToLocation.get(chessPiece.getID());
 	}
 	
 	/**
@@ -220,7 +220,7 @@ public class ChessBoard {
 	 */
 	public void addChessPiece(ChessPiece chessPiece, Location location) {
 		addChessPieceToBoard(chessPiece, location);
-		chessPieceToLocation.put(chessPiece, location);
+		chessPieceToLocation.put(chessPiece.getID(), location);
 	}
 	
 	/**
