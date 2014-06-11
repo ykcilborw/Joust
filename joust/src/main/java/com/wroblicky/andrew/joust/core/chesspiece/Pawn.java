@@ -31,7 +31,7 @@ public class Pawn extends ChessPiece {
 		this.chessBoard = new ChessBoard();
 	}
 	
-	public Pawn(Allegiance allegiance, int id, ChessBoard chessBoard) {
+	public Pawn(Allegiance allegiance, int chessID, ChessBoard chessBoard) {
 		this.allegiance = allegiance;
 		this.hasMovedAtAll = false;
 		this.movedTwice = false;

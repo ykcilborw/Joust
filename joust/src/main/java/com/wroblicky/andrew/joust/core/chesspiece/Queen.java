@@ -29,7 +29,7 @@ public class Queen extends ChessPiece {
 		this.chessID = "q1";
 	}
 	
-	public Queen(Allegiance allegiance, int id, ChessBoard chessBoard) {
+	public Queen(Allegiance allegiance, int chessID, ChessBoard chessBoard) {
 		this.allegiance = allegiance;
 		this.alive = true;
 		this.chessBoard = chessBoard;

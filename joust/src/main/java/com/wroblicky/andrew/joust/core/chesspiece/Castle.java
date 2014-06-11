@@ -27,7 +27,7 @@ public class Castle extends ChessPiece {
 		this.chessBoard = new ChessBoard(new Location[8][8]);
 	}
 	
-	public Castle(Allegiance allegiance, int id, ChessBoard chessBoard) {
+	public Castle(Allegiance allegiance, int chessID, ChessBoard chessBoard) {
 		this.allegiance = allegiance;
 		this.alive = true;
 		this.chessBoard = chessBoard;

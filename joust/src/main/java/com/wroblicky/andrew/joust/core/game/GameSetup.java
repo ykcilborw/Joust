@@ -61,7 +61,7 @@ public class GameSetup {
 		Bishop wb1 = new Bishop(Allegiance.WHITE, 1, chessBoard);
 		Bishop wb2 = new Bishop(Allegiance.WHITE, 2, chessBoard);
 		Queen wq1 = new Queen(Allegiance.WHITE, 1, chessBoard);
-		King wk1 = new King(Allegiance.WHITE, 2, chessBoard);
+		King wk1 = new King(Allegiance.WHITE, 1, chessBoard);
 		Castle bc1 = new Castle(Allegiance.BLACK, 1, chessBoard);
 		Castle bc2 = new Castle(Allegiance.BLACK, 2, chessBoard);
 		Horse bh1 = new Horse(Allegiance.BLACK, 1, chessBoard);
@@ -140,14 +140,14 @@ public class GameSetup {
 		chessBoard.addChessPiece(bp8, chessBoard.getLocation("h7"));
 		
 		// black royals
-		chessBoard.addChessPiece(wc1, chessBoard.getLocation("a1"));
-		chessBoard.addChessPiece(wh1, chessBoard.getLocation("b1"));
-		chessBoard.addChessPiece(wb1, chessBoard.getLocation("c1"));
-		chessBoard.addChessPiece(wk1, chessBoard.getLocation("d1"));
-		chessBoard.addChessPiece(wq1, chessBoard.getLocation("e1"));
-		chessBoard.addChessPiece(wb2, chessBoard.getLocation("f1"));
-		chessBoard.addChessPiece(wh2, chessBoard.getLocation("g1"));
-		chessBoard.addChessPiece(wc2, chessBoard.getLocation("h1"));
+		chessBoard.addChessPiece(bc1, chessBoard.getLocation("a1"));
+		chessBoard.addChessPiece(bh1, chessBoard.getLocation("b1"));
+		chessBoard.addChessPiece(bb1, chessBoard.getLocation("c1"));
+		chessBoard.addChessPiece(bk1, chessBoard.getLocation("d1"));
+		chessBoard.addChessPiece(bq1, chessBoard.getLocation("e1"));
+		chessBoard.addChessPiece(bb2, chessBoard.getLocation("f1"));
+		chessBoard.addChessPiece(bh2, chessBoard.getLocation("g1"));
+		chessBoard.addChessPiece(bc2, chessBoard.getLocation("h1"));
 	
 		Game game = new Game(chessBoard, new ArrayList<Turn>(), new ChessPieceSubsetManager(activesSet));
 		GameManager gameManager = new GameManager(game, new ChessPieceSubsetManager(activesSet));

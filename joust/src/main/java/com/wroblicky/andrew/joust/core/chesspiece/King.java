@@ -28,7 +28,7 @@ public class King extends ChessPiece{
 		this.chessID = "k1";
 	}
 	
-	public King(Allegiance allegiance, int id, ChessBoard chessBoard) {
+	public King(Allegiance allegiance, int chessID, ChessBoard chessBoard) {
 		this.allegiance = allegiance;
 		this.alive = true;
 		this.chessBoard = chessBoard;
