@@ -9,29 +9,34 @@ import org.junit.Test;
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Allegiance;
+import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
+import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceType;
 
 public class BishopTest {
 
 	@Test
 	public void testGetID() {
 		ChessBoard board = new ChessBoard();
-		Bishop bishop = new Bishop(Allegiance.BLACK, 1, board);
-		Assert.assertEquals(bishop.getID(), "b1");
+		Bishop blackBishop = new Bishop(Allegiance.BLACK, 1, board);
+		Assert.assertEquals(blackBishop.getID(), "b1");
+		
+		Bishop whiteBishop = new Bishop(Allegiance.WHITE, 1, board);
+		Assert.assertEquals(whiteBishop.getID(), "B1");
 	}
 	
 	@Test
 	public void testGetMyType() {
 		Bishop bishop = new Bishop();
-		Assert.assertEquals(bishop.getMyType(), "Bishop");
+		Assert.assertEquals(bishop.getMyType(), ChessPieceType.BISHOP);
 	}
 
 	@Test
 	public void testGetMySymbol() {
 		Bishop blackBishop = new Bishop(Allegiance.BLACK, 1, new ChessBoard());
-		Assert.assertEquals(blackBishop.getMySymbol(), "b");
+		Assert.assertEquals(blackBishop.getMySymbol(), ChessPieceAllegianceType.BLACK_BISHOP);
 		
 		Bishop whiteBishop = new Bishop(Allegiance.WHITE, 1, new ChessBoard());
-		Assert.assertEquals(whiteBishop.getMySymbol(), "B");
+		Assert.assertEquals(whiteBishop.getMySymbol(), ChessPieceAllegianceType.WHITE_BISHOP);
 	}
 
 	@Test

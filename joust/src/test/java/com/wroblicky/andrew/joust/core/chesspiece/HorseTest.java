@@ -9,22 +9,31 @@ import org.junit.Test;
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Allegiance;
+import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
+import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceType;
 
 public class HorseTest {
 
 	@Test
+	public void testGetID() {
+		ChessBoard board = new ChessBoard();
+		Horse horse = new Horse(Allegiance.BLACK, 1, board);
+		Assert.assertEquals(horse.getID(), "n1");
+	}
+	
+	@Test
 	public void testGetMyType() {
 		Horse horse = new Horse();
-		Assert.assertEquals(horse.getMyType(), "Horse");
+		Assert.assertEquals(horse.getMyType(), ChessPieceType.KNIGHT);
 	}
 
 	@Test
 	public void testGetMySymbol() {
 		Horse blackHorse = new Horse(Allegiance.BLACK, 1, new ChessBoard());
-		Assert.assertEquals(blackHorse.getMySymbol(), "n");
+		Assert.assertEquals(blackHorse.getMySymbol(), ChessPieceAllegianceType.BLACK_KNIGHT);
 		
 		Horse whiteHorse = new Horse(Allegiance.WHITE, 1, new ChessBoard());
-		Assert.assertEquals(whiteHorse.getMySymbol(), "N");
+		Assert.assertEquals(whiteHorse.getMySymbol(), ChessPieceAllegianceType.WHITE_KNIGHT);
 	}
 
 	@Test

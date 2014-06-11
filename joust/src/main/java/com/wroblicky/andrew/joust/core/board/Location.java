@@ -75,11 +75,11 @@ public class Location {
 	}
 	
 	public boolean equals(Location l) {
-		boolean toReturn = false;
-		if (l.getXCoordinate() == myX && l.getYCoordinate() == myY) {
-			toReturn = true;
+		if (l != null && (l.getXCoordinate() == myX && l.getYCoordinate() == myY)) {
+			return true;
+		} else {
+			return false;
 		}
-		return toReturn;
 	}
 	
 	public static String convert(int x, int y) {

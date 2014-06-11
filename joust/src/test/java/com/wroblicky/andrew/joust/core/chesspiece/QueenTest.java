@@ -9,22 +9,31 @@ import org.junit.Test;
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Allegiance;
+import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
+import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceType;
 
 public class QueenTest {
 
 	@Test
+	public void testGetID() {
+		ChessBoard board = new ChessBoard();
+		Queen queen = new Queen(Allegiance.BLACK, 1, board);
+		Assert.assertEquals(queen.getID(), "q1");
+	}
+	
+	@Test
 	public void testGetMyType() {
 		Queen queen = new Queen();
-		Assert.assertEquals(queen.getMyType(), "Queen");
+		Assert.assertEquals(queen.getMyType(), ChessPieceType.QUEEN);
 	}
 
 	@Test
 	public void testGetMySymbol() {
 		Queen blackQueen = new Queen(Allegiance.BLACK, 1, new ChessBoard());
-		Assert.assertEquals(blackQueen.getMySymbol(), "q");
+		Assert.assertEquals(blackQueen.getMySymbol(), ChessPieceAllegianceType.BLACK_QUEEN);
 		
 		Queen whiteQueen = new Queen(Allegiance.WHITE, 1, new ChessBoard());
-		Assert.assertEquals(whiteQueen.getMySymbol(), "Q");
+		Assert.assertEquals(whiteQueen.getMySymbol(), ChessPieceAllegianceType.WHITE_QUEEN);
 	}
 
 	@Test

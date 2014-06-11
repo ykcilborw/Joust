@@ -9,22 +9,34 @@ import org.junit.Test;
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Allegiance;
+import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
+import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceType;
 
 public class CastleTest {
 
 	@Test
+	public void testGetID() {
+		ChessBoard board = new ChessBoard();
+		Castle blackCastle = new Castle(Allegiance.BLACK, 1, board);
+		Assert.assertEquals(blackCastle.getID(), "r1");
+		
+		Castle whiteCastle = new Castle(Allegiance.WHITE, 1, board);
+		Assert.assertEquals(whiteCastle.getID(), "R1");
+	}
+	
+	@Test
 	public void testGetMyType() {
 		Castle castle = new Castle();
-		Assert.assertEquals(castle.getMyType(), "Rook");
+		Assert.assertEquals(castle.getMyType(), ChessPieceType.ROOK);
 	}
 
 	@Test
 	public void testGetMySymbol() {
 		Castle blackCastle = new Castle(Allegiance.BLACK, 1, new ChessBoard());
-		Assert.assertEquals(blackCastle.getMySymbol(), "r");
+		Assert.assertEquals(blackCastle.getMySymbol(), ChessPieceAllegianceType.BLACK_ROOK);
 		
 		Castle whiteCastle = new Castle(Allegiance.WHITE, 1, new ChessBoard());
-		Assert.assertEquals(whiteCastle.getMySymbol(), "R");
+		Assert.assertEquals(whiteCastle.getMySymbol(), ChessPieceAllegianceType.WHITE_ROOK);
 	}
 
 	@Test

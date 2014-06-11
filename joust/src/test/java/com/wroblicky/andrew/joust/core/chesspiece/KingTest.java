@@ -1,7 +1,5 @@
 package com.wroblicky.andrew.joust.core.chesspiece;
 
-import static org.junit.Assert.*;
-
 import java.util.List;
 
 import junit.framework.Assert;
@@ -11,12 +9,18 @@ import org.junit.Test;
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Allegiance;
-import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceType;
 
 public class KingTest {
 
+	@Test
+	public void testGetID() {
+		ChessBoard board = new ChessBoard();
+		King king = new King(Allegiance.BLACK, 1, board);
+		Assert.assertEquals(king.getID(), "k1");
+	}
+	
 	@Test
 	public void testGetMyType() {
 		King king = new King();

@@ -6,6 +6,7 @@ import org.junit.Test;
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Allegiance;
+import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Occupier;
 
 public class ChessPieceTest {
 
@@ -65,22 +66,15 @@ public class ChessPieceTest {
 	}
 
 	@Test
-	public void testGetID() {
-		ChessBoard board = new ChessBoard();
-		Pawn pawn = new Pawn(Allegiance.WHITE, 17, board);
-		Assert.assertEquals(pawn.getID(), 17);
-	}
-
-	@Test
 	public void testCheckAvailability() {
 		ChessBoard board = new ChessBoard();
 		Pawn pawn1 = new Pawn(Allegiance.WHITE, 1, board);
 		Pawn pawn2 = new Pawn(Allegiance.BLACK, 2, board);
-		board.addChessPiece(pawn1, new Location("a5"));
-		board.addChessPiece(pawn2, new Location("a6"));
-		Assert.assertEquals(pawn1.checkAvailability(board.getLocation("a5")).equals("friend"), true);
-		Assert.assertEquals(pawn1.checkAvailability(board.getLocation("a7")).equals("unoccupied"), true);
-		Assert.assertEquals(pawn2.checkAvailability(board.getLocation("a5")).equals("enemy"), true);
+		board.addChessPiece(pawn1, board.getLocation("a5"));
+		board.addChessPiece(pawn2, board.getLocation("a6"));
+		Assert.assertEquals(pawn1.checkAvailability(board.getLocation("a5")) == Occupier.FRIEND, true);
+		Assert.assertEquals(pawn1.checkAvailability(board.getLocation("a7")) == Occupier.UNOCCUPIED, true);
+		Assert.assertEquals(pawn2.checkAvailability(board.getLocation("a5")) == Occupier.ENEMY, true);
 	}
 
 	@Test
