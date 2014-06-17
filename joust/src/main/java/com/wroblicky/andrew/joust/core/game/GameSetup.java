@@ -72,6 +72,8 @@ public class GameSetup {
 		King bk1 = new King(Allegiance.BLACK, 1, chessBoard);
 		
 		// add pieces to actives
+		
+		// white pawns
 		actives.add(wp1);
 		actives.add(wp2);
 		actives.add(wp3);
@@ -80,6 +82,8 @@ public class GameSetup {
 		actives.add(wp6);
 		actives.add(wp7);
 		actives.add(wp8);
+		
+		// black pawns
 		actives.add(bp1);
 		actives.add(bp2);
 		actives.add(bp3);
@@ -88,20 +92,36 @@ public class GameSetup {
 		actives.add(bp6);
 		actives.add(bp7);
 		actives.add(bp8);
+		
+		// white castles
 		actives.add(wc1);
 		actives.add(wc2);
+		
+		// black castles
 		actives.add(bc1);
 		actives.add(bc2);
+		
+		// white knights
 		actives.add(wh1);
 		actives.add(wh2);
+		
+		// black knights
 		actives.add(bh1);
 		actives.add(bh2);
+		
+		// white bishops
 		actives.add(wb1);
 		actives.add(wb2);
+		
+		// black bishops
 		actives.add(bb1);
 		actives.add(bb2);
+		
+		// queens
 		actives.add(bq1);
 		actives.add(wq1);
+		
+		// kings
 		actives.add(bk1);
 		actives.add(wk1);
 		Set<ChessPiece> activesSet = new HashSet<ChessPiece>();
@@ -140,17 +160,17 @@ public class GameSetup {
 		chessBoard.addChessPiece(bp8, chessBoard.getLocation("h7"));
 		
 		// black royals
-		chessBoard.addChessPiece(bc1, chessBoard.getLocation("a1"));
-		chessBoard.addChessPiece(bh1, chessBoard.getLocation("b1"));
-		chessBoard.addChessPiece(bb1, chessBoard.getLocation("c1"));
-		chessBoard.addChessPiece(bk1, chessBoard.getLocation("d1"));
-		chessBoard.addChessPiece(bq1, chessBoard.getLocation("e1"));
-		chessBoard.addChessPiece(bb2, chessBoard.getLocation("f1"));
-		chessBoard.addChessPiece(bh2, chessBoard.getLocation("g1"));
-		chessBoard.addChessPiece(bc2, chessBoard.getLocation("h1"));
+		chessBoard.addChessPiece(bc1, chessBoard.getLocation("a8"));
+		chessBoard.addChessPiece(bh1, chessBoard.getLocation("b8"));
+		chessBoard.addChessPiece(bb1, chessBoard.getLocation("c8"));
+		chessBoard.addChessPiece(bk1, chessBoard.getLocation("d8"));
+		chessBoard.addChessPiece(bq1, chessBoard.getLocation("e8"));
+		chessBoard.addChessPiece(bb2, chessBoard.getLocation("f8"));
+		chessBoard.addChessPiece(bh2, chessBoard.getLocation("g8"));
+		chessBoard.addChessPiece(bc2, chessBoard.getLocation("h8"));
 	
 		Game game = new Game(chessBoard, new ArrayList<Turn>(), new ChessPieceSubsetManager(activesSet));
-		GameManager gameManager = new GameManager(game, new ChessPieceSubsetManager(activesSet));
+		GameManager gameManager = new GameManager(game);
 		return gameManager;
 	}
 
@@ -476,7 +496,7 @@ public class GameSetup {
 			lookup.put("5", allQueens);
 			lookup.put("6", allKings);
 			Game game = new Game(chessBoard, new ArrayList<Turn>(), new ChessPieceSubsetManager(activesSet));
-			gameManager = new GameManager(game, new ChessPieceSubsetManager(activesSet));
+			gameManager = new GameManager(game);
 			//Close the input stream
 			in.close();
 		} catch (IOException e){//Catch exception if any

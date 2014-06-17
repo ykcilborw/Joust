@@ -3,6 +3,7 @@ package com.wroblicky.andrew.joust.core.game;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -28,10 +29,10 @@ public class GameManager {
 	private ChessPiece captured;
 	private ChessPieceLookup chessPieceLookup;
 
-	public GameManager(Game game, ChessPieceSubsetManager chessPieceSubsetManager) {
+	public GameManager(Game game) {
 		this.game = game;
 		visitedBoards = new ArrayList<String[][]>();
-		chessPieceLookup = new ChessPieceLookup(chessPieceSubsetManager);
+		chessPieceLookup = new ChessPieceLookup(new ChessPieceSubsetManager(new HashSet<ChessPiece>()));
 	}
 	
 	public int getRound() {
