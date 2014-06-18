@@ -3,6 +3,7 @@ package com.wroblicky.andrew.joust.core.board;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.general.Util;
@@ -289,10 +290,24 @@ public class ChessBoard {
 	/**
 	 * Convenience method to visualize the board in standard out
 	 */
-	public void printBoard() {
+	public void printBoard(Set<ChessPiece> chessPieces) {
+		String[][] board = new String[8][8];
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				board[i][j] = "-"; //denotes unoccupied
+			}
+		}
+		for (ChessPiece chessPiece : chessPieces) {
+			ChessPiece current = chessPiece;
+			int currX = current.getLocation().getXCoordinate();
+			int currY = current.getLocation().getYCoordinate();
+			board[currX - 1][currY - 1] = current.getMySymbol().toString(); 
+		}
+		
+		
 		for (int j = 7; j > -1; j--) {
 			for (int i = 0; i < 8; i++) {
-				System.out.print(chessBoard[i][j].getChessPiece().getMySymbol() + " ");
+				System.out.print(board[i][j] + " ");
 			}
 			System.out.println("");
 		}

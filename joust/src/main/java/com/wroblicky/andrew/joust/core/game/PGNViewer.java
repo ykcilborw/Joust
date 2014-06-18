@@ -10,7 +10,10 @@ import java.util.Set;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.general.CastleMove;
+import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
+import com.wroblicky.andrew.joust.core.qualifiable.Qualifiable;
+import com.wroblicky.andrew.joust.core.qualifiable.Scope;
 import com.wroblicky.andrew.joust.pgn.PGNGame;
 import com.wroblicky.andrew.joust.pgn.PGNParser;
 
@@ -401,7 +404,9 @@ public final class PGNViewer {
 			PGNViewer pgnViewer = new PGNViewer(PGNParser.getPGNGame(pgnGame));
 			pgnViewer.initializeGame();
 			while (pgnViewer.getGame().isInProgress()) {
-				pgnViewer.playNextTurn();
+				Game game = pgnViewer.playNextTurn();
+				Util.print("Current Round: " + game.getRound() + "\n");
+				game.getBoard().printBoard(game.getChessPieces(Scope.ACTIVE));
 			}
 		}
 	}
