@@ -57,12 +57,12 @@ public class PawnTest {
 		board.removeChessPiece(horse, board.getLocation("b2"));
 		board.removeChessPiece(pawn2, board.getLocation("a3"));
 		List<Location> locations2 = pawn.getPossibleMoves();
-		Assert.assertEquals(locations2.size(), 1);
+		Assert.assertEquals(locations2.size(), 2);
 		
 		// all moves
 		board.addChessPiece(pawn2, board.getLocation("b3"));
 		List<Location> locations3 = pawn.getPossibleMoves();
-		Assert.assertEquals(locations3.size(), 2);
+		Assert.assertEquals(locations3.size(), 3);
 	}
 
 	@Test

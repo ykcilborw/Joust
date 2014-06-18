@@ -142,7 +142,7 @@ public class Pawn extends ChessPiece {
 		
 		if (moveUpOnce != null && checkAvailability(moveUpOnce) == UNOCCUPIED) {
 			locations.add(moveUpOnce);
-			if (!hasMovedAtAll && moveUpTwice != null && checkAvailability(moveUpTwice).equals("UNOCCUPIED") ) {
+			if (!hasMovedAtAll && moveUpTwice != null && checkAvailability(moveUpTwice) == UNOCCUPIED) {
 				locations.add(moveUpTwice);
 			}
 		}
