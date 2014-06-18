@@ -216,7 +216,7 @@ public final class PGNViewer {
 		} else {
 			piece = gameManager.isWhiteTurn() ? piece : piece.toLowerCase();
 			Set<ChessPiece> suspects = gameManager.getChessPieces(
-					ChessPieceAllegianceType.valueOf(piece));
+					ChessPieceAllegianceType.valueOf(enumLookup.get(piece)));
 			for (ChessPiece suspect : suspects) {
 				if (suspect.getFile().equals(file) && suspect.canReach(l)) {
 					icanReach = suspect;
@@ -238,7 +238,7 @@ public final class PGNViewer {
 		piece = gameManager.isWhiteTurn() ? piece : piece.toLowerCase();
 		// white's turn
 		Set<ChessPiece> suspects = gameManager.getChessPieces(
-				ChessPieceAllegianceType.valueOf(piece));
+				ChessPieceAllegianceType.valueOf(enumLookup.get(piece)));
 		for (ChessPiece suspect : suspects) {
 			if (suspect.getRank().equals(rank) && suspect.canReach(destination)) {
 				icanReach = suspect;

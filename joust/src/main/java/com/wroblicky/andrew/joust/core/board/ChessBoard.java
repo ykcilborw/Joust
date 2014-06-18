@@ -301,9 +301,8 @@ public class ChessBoard {
 			ChessPiece current = chessPiece;
 			int currX = current.getLocation().getXCoordinate();
 			int currY = current.getLocation().getYCoordinate();
-			board[currX - 1][currY - 1] = current.getMySymbol().toString(); 
+			board[currX][currY] = current.getMySymbol().getChessPieceAllegianceType(); 
 		}
-		
 		
 		for (int j = 7; j > -1; j--) {
 			for (int i = 0; i < 8; i++) {
@@ -311,5 +310,6 @@ public class ChessBoard {
 			}
 			System.out.println("");
 		}
+		System.out.println("");
 	}
 }
