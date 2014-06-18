@@ -124,10 +124,6 @@ public class GameSetup {
 		// kings
 		actives.add(bk1);
 		actives.add(wk1);
-		Set<ChessPiece> activesSet = new HashSet<ChessPiece>();
-		for (ChessPiece chessPiece : actives) {
-			activesSet.add(chessPiece);
-		}
 		
 		// white pawns
 		chessBoard.addChessPiece(wp1, chessBoard.getLocation("a2"));
@@ -169,7 +165,7 @@ public class GameSetup {
 		chessBoard.addChessPiece(bh2, chessBoard.getLocation("g8"));
 		chessBoard.addChessPiece(bc2, chessBoard.getLocation("h8"));
 	
-		Game game = new Game(chessBoard, new ArrayList<Turn>(), new ChessPieceSubsetManager(activesSet));
+		Game game = new Game(chessBoard, new ArrayList<Turn>(), new ChessPieceSubsetManager(actives));
 		GameManager gameManager = new GameManager(game);
 		return gameManager;
 	}

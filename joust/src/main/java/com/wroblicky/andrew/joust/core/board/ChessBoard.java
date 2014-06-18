@@ -230,8 +230,9 @@ public class ChessBoard {
 	private void addChessPieceToBoard(ChessPiece chessPiece, Location location) {
 		int x = location.getXCoordinate();
 		int y = location.getYCoordinate();
-		if (chessBoard[x][y] != null) {
-			throw new RuntimeException("A chess piece is already occupying this location");
+		if (chessBoard[x][y].getChessPiece() != null) {
+			throw new RuntimeException("A chess piece is already occupying this location " +
+		chessBoard[x][y].getChessPiece());
 		}
 		chessBoard[x][y].setChessPiece(chessPiece);
 	}

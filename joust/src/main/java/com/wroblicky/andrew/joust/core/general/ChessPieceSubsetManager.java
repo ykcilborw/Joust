@@ -52,10 +52,10 @@ public class ChessPieceSubsetManager {
 			return whiteActives;
 		} else if (qualification == Scope.DECEASED) {
 			return deceasedPieces;
-		} else if (qualification.getClass().getName().equals("ChessPieceType")) {
-			return chessPieceTypeMap.get(qualification.getQualification().toString());
-		} else if (qualification.getClass().getName().equals("ChessPieceAllegianceType")) {
-			return chessPieceAllegianceTypeMap.get(qualification.getQualification().toString());
+		} else if (qualification.getClass().getSimpleName().equals("ChessPieceType")) {
+			return chessPieceTypeMap.get(qualification.getQualification());
+		} else if (qualification.getClass().getSimpleName().equals("ChessPieceAllegianceType")) {
+			return chessPieceAllegianceTypeMap.get(qualification.getQualification());
 		} else {  // try to just return all of them
 			return allPieces;
 		}

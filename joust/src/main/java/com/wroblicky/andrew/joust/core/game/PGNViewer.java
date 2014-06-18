@@ -12,7 +12,6 @@ import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.general.CastleMove;
 import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
-import com.wroblicky.andrew.joust.core.qualifiable.Qualifiable;
 import com.wroblicky.andrew.joust.core.qualifiable.Scope;
 import com.wroblicky.andrew.joust.pgn.PGNGame;
 import com.wroblicky.andrew.joust.pgn.PGNParser;
@@ -316,9 +315,7 @@ public final class PGNViewer {
 					r = rook;
 				}
 			}
-			Location l2 = new Location("d8");
-			r.move(l2);
-			gameManager.setRound(gameManager.getRound() + 1);
+			gameManager.updateBoard("d8", r);
 		}
 	}
 	
