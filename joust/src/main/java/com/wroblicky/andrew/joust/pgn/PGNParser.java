@@ -8,6 +8,8 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.wroblicky.andrew.joust.core.general.Util;
+
 /**
  * Converts the moves described in a PGN text file into a
  * list of string tokens
@@ -69,7 +71,7 @@ public class PGNParser {
 					} else if (key.equalsIgnoreCase("Result")) {
 						// not sure why this is necessary to remove dangling " character
 						// at end
-						value = value.substring(0, value.length() - 2);
+						value = value.substring(0, value.length());
 						pgnGame.setResult(value);
 					}
 				}
@@ -84,6 +86,6 @@ public class PGNParser {
 	}
 	
 	private static String stripQuotes(String s) {
-		return s.replaceAll("^\"|\"$", "").replaceAll("^'|'$", "");
+	    return s.trim().replaceAll("^\"|\"$", "").replaceAll("^'|'$", "");
 	}
 }
