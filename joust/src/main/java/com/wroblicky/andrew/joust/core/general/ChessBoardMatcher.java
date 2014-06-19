@@ -123,7 +123,6 @@ public class ChessBoardMatcher {
 		//System.out.println("findToken");
 		boolean foundMatch = false;
 		while (foundMatch == false && myGame.isInProgress() == true) {
-			myGame.printBoard2(myGame.getRound());
 			//System.out.println("The Positions:");
 			//myGame.printMyPositions();
 			foundMatch = evalStatement(token);
@@ -148,13 +147,9 @@ public class ChessBoardMatcher {
 	}
 	
 	private boolean findThroughToken(ArrayList<Object> token) {
-		//System.out.println("findThroughToken");
 		boolean foundMatch = false;
 		while (foundMatch == false && myGame.isInProgress() == true) {
-			myGame.printBoard2(myGame.getRound());
-			//System.out.println("token: " + token);
 			foundMatch = evalStatement(token);
-			//System.out.println("findThroughToken foundMatch: " + foundMatch);
 			// Since it's find through token include matched board regardless if foundMatch is true
 			String[][] board = Util.getStringBoard(myGame.getActivePieces());
 			matchedBoards.add(board);
@@ -172,14 +167,10 @@ public class ChessBoardMatcher {
 	}
 	
 	private boolean findUntilToken(ArrayList<Object> token) {
-		//System.out.println("findUntilToken");
 		boolean foundMatch = false;
 		boolean gameStillGoing = true;
 		while (foundMatch == false && gameStillGoing == true) {
-			myGame.printBoard2(myGame.getRound());
 			foundMatch = evalStatement(token);
-			//System.out.println("findUntilToken token: " + token);
-			//System.out.println("findUntilToken foundMatch: " + foundMatch);
 			// only add board if we DIDN'T find a match b/c until
 			if (foundMatch == false) {
 				String[][] board = Util.getStringBoard(myGame.getActivePieces());
@@ -194,7 +185,6 @@ public class ChessBoardMatcher {
 				} 
 				else {
 					// end of game
-					//System.out.println("findUntilToken myGame progress: " + myGreedFlag);
 					if (myGreedFlag == true) {
 						foundMatch = true;
 					}
@@ -203,7 +193,6 @@ public class ChessBoardMatcher {
 			if (myGame.isInProgress() == false) {
 				gameStillGoing = false;
 			}
-			//System.out.println("findUntilToken2 foundMatch: " + foundMatch);
 		}
 		return foundMatch;
 	}
@@ -214,7 +203,6 @@ public class ChessBoardMatcher {
 		int tokensLeft = size;
 		for (int i = 0; i < size; i++) {
 			ArrayList<Object> current = (ArrayList<Object>) sequence.get(i);
-			//System.out.println("current.get(0): " + current.get(0));
 			if (current.get(0).equals("through")) {
 				if (findThroughSequence(current) != true) {
 					break;
@@ -228,7 +216,6 @@ public class ChessBoardMatcher {
 					tokensLeft -= 1;
 				}
 			} else if (current.get(0).equals("*")) {
-				//System.out.println("current: " + current);
 				current.remove(current.get(0));
 				current.add(0, "until");
 				ArrayList<Object> notStatement = new ArrayList<Object>();
@@ -242,7 +229,6 @@ public class ChessBoardMatcher {
 				orStatement.add(endStatement);
 				//current.add(2, notStatement);
 				current.add(2, orStatement);
-				//System.out.println("*current: " + current);
 				if (findUntilSequence(current) != true) {
 					break;
 				} else {
@@ -264,7 +250,6 @@ public class ChessBoardMatcher {
 	}
 	
 	private boolean findThroughSequence(ArrayList<Object> sequence) {
-		//System.out.println("In find through sequence");
 		boolean foundMatch = false;
 		// first eval left branch
 		ArrayList<Object> left = (ArrayList<Object>) sequence.get(1);
@@ -282,7 +267,6 @@ public class ChessBoardMatcher {
 				occursFlagLeft = true;
 				leftSuccess = findToken(left);
 			}else {
-				//System.out.println("findThroughSequence left: " + left);
 				leftSuccess = findToken(left);
 			}
 		} else {
@@ -294,9 +278,7 @@ public class ChessBoardMatcher {
 			boolean rightSuccess = false;
 			ArrayList<Object> right = (ArrayList<Object>) sequence.get(2);
 			Object test2 = right.get(0);
-			//System.out.println("test2: " + test2);
 			String s = (String) test2;
-			//System.out.println("through sequence s: " + s);
 			if (s.equals("occurs") && occursFlagLeft == false) {
 				ArrayList<Object> arg = (ArrayList<Object>) right.get(1);
 				rightSuccess = findUntilToken(arg);
@@ -316,14 +298,11 @@ public class ChessBoardMatcher {
 			if (rightSuccess == true) {
 					foundMatch = true;
 			}
-			
-			//System.out.println("rightSuccess: " + rightSuccess);
 		} 
 		return foundMatch;
 	}
 	
 	private boolean findUntilSequence(ArrayList<Object> sequence) {
-		//System.out.println("In find through sequence");
 		boolean foundMatch = false;
 		// first eval left branch
 		ArrayList<Object> left = (ArrayList<Object>) sequence.get(1);
@@ -365,12 +344,10 @@ public class ChessBoardMatcher {
 	}
 
 	private boolean evalStatement(ArrayList<Object> ast) {
-		//System.out.println("evalStatement current statement: " + ast);
 		boolean toReturn = false;
 		Object next = ast.get(0);
 		if (next instanceof String) {
 			if (next.equals("occupies")) {
-				//System.out.println("occupies here");
 				String arg1 = (String) ast.get(1);
 				String arg2 = (String) ast.get(2);
 				//arg2 = arg2.substring(0, arg2.length() -1);
@@ -384,7 +361,6 @@ public class ChessBoardMatcher {
 				left.add(arg2);
 				left.add(arg1);
 				boolean leftResult = evalStatement(left); 
-				//System.out.println("left result: " + leftResult);
 				if (leftResult == true) {
 					ArrayList<Object> right = new ArrayList<Object>();
 					right.add("lowerFile");
@@ -402,22 +378,18 @@ public class ChessBoardMatcher {
 			}  else if (next.equals("captured")) {
 				String arg1 = (String) ast.get(1);
 				String arg2 = (String) ast.get(2);
-				//arg2 = arg2.substring(0, arg2.length() -1);
 				toReturn = execCaptured(arg1, arg2);
 			} else if (next.equals("sameFile")) {
 				String arg1 = (String) ast.get(1);
 				String arg2 = (String) ast.get(2);
-				//arg2 = arg2.substring(0, arg2.length() -1);
 				toReturn = execSameFile(arg1, arg2);
 			}  else if (next.equals("higherFile")) {
 				String arg1 = (String) ast.get(1);
 				String arg2 = (String) ast.get(2);
-				//arg2 = arg2.substring(0, arg2.length() -1);
 				toReturn = execHigherFile(arg1, arg2);
 			}  else if (next.equals("lowerFile")) {
 				String arg1 = (String) ast.get(1);
 				String arg2 = (String) ast.get(2);
-				//arg2 = arg2.substring(0, arg2.length() -1);
 				toReturn = execLowerFile(arg1, arg2);
 			} else if (next.equals("file")) {
 				String arg1 = (String) ast.get(1);
@@ -436,7 +408,6 @@ public class ChessBoardMatcher {
 				left.add(arg2);
 				left.add(arg1);
 				boolean leftResult = evalStatement(left); 
-				//System.out.println("left result: " + leftResult);
 				if (leftResult == true) {
 					ArrayList<Object> right = new ArrayList<Object>();
 					right.add("lowerRank");
@@ -462,7 +433,6 @@ public class ChessBoardMatcher {
 			}	else if (next.equals("sameRank")) {
 				String arg1 = (String) ast.get(1);
 				String arg2 = (String) ast.get(2);
-				//arg2 = arg2.substring(0, arg2.length() -1);
 				toReturn = execSameRank(arg1, arg2);
 			} else if (next.equals("rank")) {
 				String arg1 = (String) ast.get(1);
@@ -483,11 +453,9 @@ public class ChessBoardMatcher {
 			} else if (next.equals("canAttack")) {
 				String arg1 = (String) ast.get(1);
 				String arg2 = (String) ast.get(2);
-				//arg2 = arg2.substring(0, arg2.length() -1);
 				toReturn = execCanAttack(arg1, arg2);
 			} else if (next.equals("isDefended")) {
 				String arg1 = (String) ast.get(1);
-				//arg1 = arg1.substring(0, arg1.length() -1);
 				toReturn = execisDefended(arg1);
 			} else if (next.equals("only")) {
 				ArrayList<String> args = (ArrayList<String>) ast.get(1);
@@ -592,7 +560,6 @@ public class ChessBoardMatcher {
 				ArrayList<Object> arg = (ArrayList<Object>) ast.get(1);
 				toReturn = evalStatement(arg);
 			} else if (next.equals("greedFlag")) {
-				//System.out.println("greed set");
 				myGreedFlag = true;
 				toReturn = false;
 			}
@@ -601,8 +568,6 @@ public class ChessBoardMatcher {
 	}
 	
 	private boolean execOccupies(String arg1, String arg2) {
-		//System.out.println("occup arg1: " + arg1);
-		//System.out.println("occup arg2: " + arg2);
 		// call variable version
 		boolean toReturn = false;
 		if (arg1.length() > 1) {
@@ -610,9 +575,6 @@ public class ChessBoardMatcher {
 		} else {
 			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			for (ChessPiece candidate : candidates) {
-				//System.out.println("candidate: " + candidate.getmySymbol());
-				//System.out.println("candidate loc: " + candidate.getLocation());
-				//System.out.println("candidate pos: " + candidate.getLocation().getmyAlgebraicLocation());
 				if (candidate.getLocation().getAlgebraicLocation().equals(arg2)) {
 						toReturn = true;
 						break;
@@ -634,35 +596,26 @@ public class ChessBoardMatcher {
 	}
 	
 	private boolean execOccupiesVar(String arg1, String arg2, String arg3) {
-		//System.out.println("arg1: " + arg1);
-		//System.out.println("arg2: " + arg2);
 		Set<ChessPiece> candidates = mySuspects.get(arg2);
 		Set<ChessPiece> newCandidates = new HashSet<ChessPiece>();
 		if (candidates == null){
-			//System.out.println("candidates occupies first");
 			candidates = myGame.getChessPieceLookup().get(arg1);
 		}
 		boolean toReturn = false;
 		for (ChessPiece candidate : candidates) {
-			//System.out.println("candidate: " + candidate.getmySymbol());
-			//System.out.println("candidate loc: " + candidate.getLocation());
 			if (candidate.getLocation().getAlgebraicLocation().equals(arg3)) {
 					toReturn = true;
-					//System.out.println("newCandidates: " + candidate.getLocation());
 					newCandidates.add(candidate);
 			}
 		}
 		mySuspects.remove(arg1 + arg2);
 		mySuspects.put(arg1 + arg2, newCandidates);
-		//System.out.println("occupy var suspects: " + mySuspects.get(arg1 + arg2));
 		return toReturn;
 	}
 	
 	
 	// rewrite using canReach()
 	private boolean execCanAttack(String arg1, String arg2) {
-		//System.out.println("canAttack arg1: " + arg1);
-		//System.out.println("canAttack arg2: " + arg2);
 		boolean toReturn = false;
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execCanAttackVar(arg1, arg2);
@@ -671,7 +624,6 @@ public class ChessBoardMatcher {
 			Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 			for (ChessPiece candidate : candidates) {
 				for (ChessPiece candidate2 : candidates2) {
-					//System.out.println("canAttack candidate: " + candidate);
 					// Get all of i's possible locations
 					// see if any match j's location
 					List<Location> possibles = candidate.getPossibleMoves();
@@ -695,8 +647,6 @@ public class ChessBoardMatcher {
 	}
 	
 	private boolean execCanAttackVar(String arg1, String arg2) {
-		//System.out.println("arg1: " + arg1);
-		//System.out.println("arg2: " + arg2);
 		boolean toReturn = false;
 		
 		// determine if arg1 is a var and if so what the suspects should be
@@ -705,20 +655,15 @@ public class ChessBoardMatcher {
 		String var = null;
 		if (arg1.length() > 1) {
 			var = arg1;
-			//System.out.println("var: " + var);
 			maybeCandidates = mySuspects.get(var);
-			//System.out.println("mySuspects: " + mySuspects);
 			if (maybeCandidates != null){
 				// then there were prior results!
-				//System.out.println("candidates1: " + candidates);
 				candidates = maybeCandidates;
 			} else {
 				// a var statement but first time
-				//System.out.println("candidates2: " + candidates);
 				candidates = myGame.getChessPieceLookup().get(arg1.substring(0, 1));
 			}
 		}
-		//System.out.println("candidates: " + candidates);
 		
 		// same for arg2
 		Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
@@ -764,7 +709,6 @@ public class ChessBoardMatcher {
 	}
 	
 	private boolean execisDefended(String arg1) {
-		//System.out.println("arg1: " + arg1);
 		boolean toReturn = false;
 		if (arg1.length() > 1) {
 			// call variable version
@@ -772,12 +716,10 @@ public class ChessBoardMatcher {
 		} else {
 			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			for (ChessPiece candidate : candidates) {
-				//System.out.println("candidate: " + candidate.getmySymbol());
 				String side = candidate.getAllegiance().getAllegiance();
 				if (side.equals("b")) {
 					for (ChessPiece blackPiece : myGame.getBlackPieces()) {
 						Location mySpot = candidate.getLocation();
-						//System.out.println("first: " + myGame.getBlackPieces().get(j).getmySymbol());
 						if (blackPiece.canDefend(mySpot)) {
 							toReturn = true;
 							break;
@@ -786,7 +728,6 @@ public class ChessBoardMatcher {
 				} else {
 					for (ChessPiece whitePiece : myGame.getWhitePieces()) {
 						Location mySpot = candidate.getLocation();
-						//System.out.println("first: " + myGame.getWhitePieces().get(j).getmySymbol());
 						if (whitePiece.canDefend(mySpot)) {
 							toReturn = true;
 							break;
@@ -802,7 +743,6 @@ public class ChessBoardMatcher {
 	}
 	
 	private boolean execisDefendedVar(String arg1, String arg2) {
-		//System.out.println("arg1: " + arg1);
 		boolean toReturn = false;
 		Set<ChessPiece> candidates = mySuspects.get(arg1);
 		Set<ChessPiece> newCandidates = new HashSet<ChessPiece>();
@@ -810,12 +750,10 @@ public class ChessBoardMatcher {
 			candidates = myGame.getChessPieceLookup().get(arg1);
 		}
 		for (ChessPiece candidate : candidates) {
-			//System.out.println("candidate: " + candidate.getmySymbol());
 			String side = candidate.getAllegiance().getAllegiance();
 			if (side.equals("b")) {
 				for (ChessPiece blackPiece : myGame.getBlackPieces()) {
 					Location mySpot = candidate.getLocation();
-					//System.out.println("first: " + myGame.getBlackPieces().get(j).getmySymbol());
 					if (blackPiece.canDefend(mySpot)) {
 						toReturn = true;
 						newCandidates.add(candidate);
@@ -824,7 +762,6 @@ public class ChessBoardMatcher {
 			} else {
 				for (ChessPiece whitePiece : myGame.getWhitePieces()) {
 					Location mySpot = candidate.getLocation();
-					//System.out.println("first: " + myGame.getWhitePieces().get(j).getmySymbol());
 					if (whitePiece.canDefend(mySpot)) {
 						toReturn = true;
 						newCandidates.add(candidate);
@@ -838,8 +775,6 @@ public class ChessBoardMatcher {
 	}
 	
 	private boolean execSameFile(String arg1, String arg2) {
-		//System.out.println("arg1: " + arg1);
-		//System.out.println("arg2: " + arg2);
 		boolean toReturn = false;
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execSameFileVar(arg1, arg2);
@@ -849,9 +784,7 @@ public class ChessBoardMatcher {
 			for (ChessPiece candidate : candidates) {
 				for (ChessPiece candidate2 : candidates2) {
 					String file1 = candidate.getLocation().getFile();
-					//System.out.println("file1: " + file1);
 					String file2 = candidate2.getLocation().getFile();
-					//System.out.println("file2: " + file2);
 					if (file1.equals(file2)) {
 						toReturn = true;
 						break;
@@ -867,8 +800,6 @@ public class ChessBoardMatcher {
 	}
 	
 	private boolean execSameFileVar(String arg1, String arg2) {
-		//System.out.println("arg1: " + arg1);
-		//System.out.println("arg2: " + arg2);
 		boolean toReturn = false;
 		// determine if arg1 is a var and if so what the suspects should be
 		Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
@@ -876,20 +807,15 @@ public class ChessBoardMatcher {
 		String var = null;
 		if (arg1.length() > 1) {
 			var = arg1;
-			//System.out.println("var: " + var);
 			maybeCandidates = mySuspects.get(var);
-			//System.out.println("mySuspects: " + mySuspects);
 			if (maybeCandidates != null){
 				// then there were prior results!
-				//System.out.println("candidates1: " + candidates);
 				candidates = maybeCandidates;
 			} else {
 				// a var statement but first time
-				//System.out.println("candidates2: " + candidates);
 				candidates = myGame.getChessPieceLookup().get(arg1.substring(0, 1));
 			}
 		}
-		//System.out.println("candidates: " + candidates);
 		
 		// same for arg2
 		Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
@@ -909,9 +835,7 @@ public class ChessBoardMatcher {
 		for (ChessPiece candidate : candidates) {
 			for (ChessPiece candidate2 : candidates2) {
 				String file1 = candidate.getLocation().getFile();
-				//System.out.println("file1: " + file1);
 				String file2 = candidate2.getLocation().getFile();
-				//System.out.println("file2: " + file1);
 				if (file1.equals(file2)) {
 					toReturn = true;
 					newCandidates.add(candidate);
@@ -931,8 +855,6 @@ public class ChessBoardMatcher {
 	}
 	
 	private boolean execHigherFile(String arg1, String arg2) {
-		//System.out.println("arg1: " + arg1);
-		//System.out.println("arg2: " + arg2);
 		boolean toReturn = false;
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execHigherFileVar(arg1, arg2);
@@ -942,9 +864,7 @@ public class ChessBoardMatcher {
 			for (ChessPiece candidate : candidates) {
 				for (ChessPiece candidate2 : candidates2) {
 					String file1 = candidate.getLocation().getFile();
-					//System.out.println("file1: " + file1);
 					String file2 = candidate2.getLocation().getFile();
-					//System.out.println("file2: " + file1);
 					if (Util.fileToNum(file1) > Util.fileToNum(file2)) {
 						toReturn = true;
 						break;
@@ -967,16 +887,12 @@ public class ChessBoardMatcher {
 		String var = null;
 		if (arg1.length() > 1) {
 			var = arg1;
-			//System.out.println("var: " + var);
 			maybeCandidates = mySuspects.get(var);
-			//System.out.println("mySuspects: " + mySuspects);
 			if (maybeCandidates != null){
 				// then there were prior results!
-				//System.out.println("candidates1: " + candidates);
 				candidates = maybeCandidates;
 			} else {
 				// a var statement but first time
-				//System.out.println("candidates2: " + candidates);
 				candidates = myGame.getChessPieceLookup().get(arg1.substring(0, 1));
 			}
 		}
@@ -999,9 +915,7 @@ public class ChessBoardMatcher {
 		for (ChessPiece candidate : candidates) {
 			for (ChessPiece candidate2 : candidates2) {
 				String file1 = candidate.getLocation().getFile();
-				//System.out.println("file1: " + file1);
 				String file2 = candidate2.getLocation().getFile();
-				//System.out.println("file2: " + file1);
 				if (Util.fileToNum(file1) > Util.fileToNum(file2)) {
 					toReturn = true;
 					newCandidates.add(candidate);
@@ -1021,7 +935,6 @@ public class ChessBoardMatcher {
 	}
 	
 	private boolean execLowerFile(String arg1, String arg2) {
-		//System.out.println("lower file");
 		boolean toReturn = false;
 		if (arg1.length() > 1 || arg2.length() > 1) {
 			toReturn = execLowerFileVar(arg1, arg2);
@@ -1031,11 +944,7 @@ public class ChessBoardMatcher {
 			for (ChessPiece candidate : candidates) {
 				for (ChessPiece candidate2 : candidates2) {
 					String file1 = candidate.getLocation().getFile();
-					//System.out.println("file1: " + file1);
-					//System.out.println("file1: " + Util.fileToNum(file1));
 					String file2 = candidate2.getLocation().getFile();
-					//System.out.println("file2: " + file2);
-					//System.out.println("file2: " + Util.fileToNum(file2));
 					if (Util.fileToNum(file1) < Util.fileToNum(file2)) {
 						toReturn = true;
 						break;
@@ -1058,20 +967,15 @@ public class ChessBoardMatcher {
 		String var = null;
 		if (arg1.length() > 1) {
 			var = arg1;
-			//System.out.println("var: " + var);
 			maybeCandidates = mySuspects.get(var);
-			//System.out.println("mySuspects: " + mySuspects);
 			if (maybeCandidates != null){
 				// then there were prior results!
-				//System.out.println("candidates1: " + candidates);
 				candidates = maybeCandidates;
 			} else {
 				// a var statement but first time
-				//System.out.println("candidates2: " + candidates);
 				candidates = myGame.getChessPieceLookup().get(arg1.substring(0, 1));
 			}
 		}
-		//System.out.println("candidates: " + candidates);
 		// same for arg2
 		Set<ChessPiece> candidates2 = myGame.getChessPieceLookup().get(arg2);
 		Set<ChessPiece> maybeCandidates2 = null;
@@ -1090,9 +994,7 @@ public class ChessBoardMatcher {
 		for (ChessPiece candidate : candidates) {
 			for (ChessPiece candidate2 : candidates2) {
 				String file1 = candidate.getLocation().getFile();
-				//System.out.println("file1: " + file1);
 				String file2 = candidate2.getLocation().getFile();
-				//System.out.println("file2: " + file1);
 				if (Util.fileToNum(file1) < Util.fileToNum(file2)) {
 					toReturn = true;
 					newCandidates.add(candidate);
@@ -1112,15 +1014,12 @@ public class ChessBoardMatcher {
 	}
 	
 	private boolean execFile(String arg1, String arg2) {
-		//System.out.println("arg1: " + arg1);
-		//System.out.println("arg2: " + arg2);
 		boolean toReturn = false;
 		if (arg1.length() > 1) {
 			toReturn = execFileVar(arg1.substring(0, 1), arg1.substring(1), arg2);
 		} else {
 			Set<ChessPiece> candidates = myGame.getChessPieceLookup().get(arg1);
 			for (ChessPiece candidate : candidates) {
-				//System.out.println("candidate: " + candidate.getmySymbol());
 				if (candidate.getLocation().getFile().equals(arg2)) {
 					toReturn = true;
 					break;
