@@ -57,6 +57,7 @@ public class Game {
 	}
 
 	public void removeChessPiece(ChessPiece chessPiece) {
+		board.removeChessPiece(chessPiece);
 		chessPieceSubsetManager.removeChessPiece(chessPiece);
 	}
 	

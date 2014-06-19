@@ -157,7 +157,7 @@ public final class PGNViewer {
 	
 	private void handleLengthFiveMove(String currentMove) {
 		if (currentMove.contains("x")) {
-			handleLongCapture(currentMove);
+			handleLengthFiveCapture(currentMove);
 		} else if (currentMove.equals("O-O-O")) { 
 			handleQueenSideCastle();
 		} else {
@@ -339,7 +339,7 @@ public final class PGNViewer {
 	}
 	
 	// Captures with 5 chars!
-	private void handleLongCapture(String currentMove) {
+	private void handleLengthFiveCapture(String currentMove) {
 		if (currentMove.substring(4, 5).equals("+") || currentMove.substring(4, 5).equals("#")) {
 			String checkorMate = currentMove.substring(4, 5);
 			String capture = currentMove.substring(0,4);

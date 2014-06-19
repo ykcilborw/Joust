@@ -8,6 +8,7 @@ import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.general.ChessPieceLookup;
 import com.wroblicky.andrew.joust.core.general.ChessPieceSubsetManager;
+import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.qualifiable.Qualifiable;
 import com.wroblicky.andrew.joust.core.qualifiable.Scope;
 

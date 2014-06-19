@@ -231,8 +231,9 @@ public class ChessBoard {
 		int x = location.getXCoordinate();
 		int y = location.getYCoordinate();
 		if (chessBoard[x][y].getChessPiece() != null) {
-			throw new RuntimeException("A chess piece is already occupying this location " +
-		chessBoard[x][y].getChessPiece());
+			throw new RuntimeException("The chess piece " + chessPiece + " can't take " +
+					" this location because " + chessBoard[x][y].getChessPiece() +
+					" is already occupying it");
 		}
 		chessBoard[x][y].setChessPiece(chessPiece);
 	}
@@ -251,6 +252,14 @@ public class ChessBoard {
 	public void moveChessPiece(ChessPiece chessPiece, Location start, Location destination) {
 		removeChessPiece(chessPiece, start);
 		addChessPiece(chessPiece, destination);
+	}
+	
+	/**
+	 * Removes the chess piece from the board
+	 */
+	public void removeChessPiece(ChessPiece chessPiece) {
+		removeChessPieceFromBoard(chessPiece, this.getLocationByChessPiece(chessPiece));
+		chessPieceToLocation.remove(chessPiece);
 	}
 	
 	/**
