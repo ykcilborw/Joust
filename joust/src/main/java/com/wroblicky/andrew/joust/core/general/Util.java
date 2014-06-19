@@ -38,7 +38,6 @@ public class Util {
 					System.out.println("");
 				}
 		}
-		jo.getGame().printVisitedBoards();
 		ChessGameDemo.start(boards, jo, joustProgram, jo.getPGNViewer().getCastleMoves());
 	}
 	
