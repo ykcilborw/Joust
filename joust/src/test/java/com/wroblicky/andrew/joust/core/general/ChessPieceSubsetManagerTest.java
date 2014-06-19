@@ -24,6 +24,7 @@ import com.wroblicky.andrew.joust.core.qualifiable.Scope;
 public class ChessPieceSubsetManagerTest {
 	
 	private ChessPieceSubsetManager chessPieceSubsetManager;
+	private King whiteKing;
 	
 	@Before
 	public void init() {
@@ -115,6 +116,7 @@ public class ChessPieceSubsetManagerTest {
 		actives.add(bk1);
 		actives.add(wk1);
 		chessPieceSubsetManager = new ChessPieceSubsetManager(actives);
+		whiteKing = wk1;
 	}
 
 	@Test
@@ -293,6 +295,181 @@ public class ChessPieceSubsetManagerTest {
 	}
 	
 	@Test
+	public void testGetAllRooks() {
+		Set<ChessPiece> actives = chessPieceSubsetManager.getChessPieces(ChessPieceType.ROOK);
+		Assert.assertEquals(actives.size(), 4);
+		
+		int pawnCount = 0;
+		int rookCount = 0;
+		int knightCount = 0;
+		int bishopCount = 0;
+		int queenCount = 0;
+		int kingCount = 0;
+		for (ChessPiece chessPiece : actives) {
+			if (chessPiece instanceof Pawn) {
+				pawnCount += 1;
+			} else if (chessPiece instanceof Castle) {
+				rookCount += 1;
+			} else if (chessPiece instanceof Horse) {
+				knightCount += 1;
+			} else if (chessPiece instanceof Bishop) {
+				bishopCount += 1;
+			} else if (chessPiece instanceof Queen) {
+				queenCount += 1;
+			} else if (chessPiece instanceof King) {
+				kingCount += 1;
+			}
+		}
+		
+		Assert.assertEquals(pawnCount, 0);
+		Assert.assertEquals(rookCount, 4);
+		Assert.assertEquals(knightCount, 0);
+		Assert.assertEquals(bishopCount, 0);
+		Assert.assertEquals(queenCount, 0);
+		Assert.assertEquals(kingCount, 0);
+	}
+	
+	@Test
+	public void testGetAllKnights() {
+		Set<ChessPiece> actives = chessPieceSubsetManager.getChessPieces(ChessPieceType.KNIGHT);
+		Assert.assertEquals(actives.size(), 4);
+		
+		int pawnCount = 0;
+		int rookCount = 0;
+		int knightCount = 0;
+		int bishopCount = 0;
+		int queenCount = 0;
+		int kingCount = 0;
+		for (ChessPiece chessPiece : actives) {
+			if (chessPiece instanceof Pawn) {
+				pawnCount += 1;
+			} else if (chessPiece instanceof Castle) {
+				rookCount += 1;
+			} else if (chessPiece instanceof Horse) {
+				knightCount += 1;
+			} else if (chessPiece instanceof Bishop) {
+				bishopCount += 1;
+			} else if (chessPiece instanceof Queen) {
+				queenCount += 1;
+			} else if (chessPiece instanceof King) {
+				kingCount += 1;
+			}
+		}
+		
+		Assert.assertEquals(pawnCount, 0);
+		Assert.assertEquals(rookCount, 0);
+		Assert.assertEquals(knightCount, 4);
+		Assert.assertEquals(bishopCount, 0);
+		Assert.assertEquals(queenCount, 0);
+		Assert.assertEquals(kingCount, 0);
+	}
+	
+	@Test
+	public void testGetAllBishops() {
+		Set<ChessPiece> actives = chessPieceSubsetManager.getChessPieces(ChessPieceType.BISHOP);
+		Assert.assertEquals(actives.size(), 4);
+		
+		int pawnCount = 0;
+		int rookCount = 0;
+		int knightCount = 0;
+		int bishopCount = 0;
+		int queenCount = 0;
+		int kingCount = 0;
+		for (ChessPiece chessPiece : actives) {
+			if (chessPiece instanceof Pawn) {
+				pawnCount += 1;
+			} else if (chessPiece instanceof Castle) {
+				rookCount += 1;
+			} else if (chessPiece instanceof Horse) {
+				knightCount += 1;
+			} else if (chessPiece instanceof Bishop) {
+				bishopCount += 1;
+			} else if (chessPiece instanceof Queen) {
+				queenCount += 1;
+			} else if (chessPiece instanceof King) {
+				kingCount += 1;
+			}
+		}
+		
+		Assert.assertEquals(pawnCount, 0);
+		Assert.assertEquals(rookCount, 0);
+		Assert.assertEquals(knightCount, 0);
+		Assert.assertEquals(bishopCount, 4);
+		Assert.assertEquals(queenCount, 0);
+		Assert.assertEquals(kingCount, 0);
+	}
+	
+	@Test
+	public void testGetAllQueens() {
+		Set<ChessPiece> actives = chessPieceSubsetManager.getChessPieces(ChessPieceType.QUEEN);
+		Assert.assertEquals(actives.size(), 2);
+		
+		int pawnCount = 0;
+		int rookCount = 0;
+		int knightCount = 0;
+		int bishopCount = 0;
+		int queenCount = 0;
+		int kingCount = 0;
+		for (ChessPiece chessPiece : actives) {
+			if (chessPiece instanceof Pawn) {
+				pawnCount += 1;
+			} else if (chessPiece instanceof Castle) {
+				rookCount += 1;
+			} else if (chessPiece instanceof Horse) {
+				knightCount += 1;
+			} else if (chessPiece instanceof Bishop) {
+				bishopCount += 1;
+			} else if (chessPiece instanceof Queen) {
+				queenCount += 1;
+			} else if (chessPiece instanceof King) {
+				kingCount += 1;
+			}
+		}
+		
+		Assert.assertEquals(pawnCount, 0);
+		Assert.assertEquals(rookCount, 0);
+		Assert.assertEquals(knightCount, 0);
+		Assert.assertEquals(bishopCount, 0);
+		Assert.assertEquals(queenCount, 2);
+		Assert.assertEquals(kingCount, 0);
+	}
+	
+	@Test
+	public void testGetAllKings() {
+		Set<ChessPiece> actives = chessPieceSubsetManager.getChessPieces(ChessPieceType.KING);
+		Assert.assertEquals(actives.size(), 2);
+		
+		int pawnCount = 0;
+		int rookCount = 0;
+		int knightCount = 0;
+		int bishopCount = 0;
+		int queenCount = 0;
+		int kingCount = 0;
+		for (ChessPiece chessPiece : actives) {
+			if (chessPiece instanceof Pawn) {
+				pawnCount += 1;
+			} else if (chessPiece instanceof Castle) {
+				rookCount += 1;
+			} else if (chessPiece instanceof Horse) {
+				knightCount += 1;
+			} else if (chessPiece instanceof Bishop) {
+				bishopCount += 1;
+			} else if (chessPiece instanceof Queen) {
+				queenCount += 1;
+			} else if (chessPiece instanceof King) {
+				kingCount += 1;
+			}
+		}
+		
+		Assert.assertEquals(pawnCount, 0);
+		Assert.assertEquals(rookCount, 0);
+		Assert.assertEquals(knightCount, 0);
+		Assert.assertEquals(bishopCount, 0);
+		Assert.assertEquals(queenCount, 0);
+		Assert.assertEquals(kingCount, 2);
+	}
+	
+	@Test
 	public void testGetAllWhitePawns() {
 		Set<ChessPiece> actives = chessPieceSubsetManager.getChessPieces(ChessPieceAllegianceType.WHITE_PAWN);
 		Assert.assertEquals(actives.size(), 8);
@@ -326,10 +503,123 @@ public class ChessPieceSubsetManagerTest {
 		Assert.assertEquals(queenCount, 0);
 		Assert.assertEquals(kingCount, 0);
 	}
+	
+	@Test
+	public void testGetAllBlackPawns() {
+		Set<ChessPiece> actives = chessPieceSubsetManager.getChessPieces(ChessPieceAllegianceType.BLACK_PAWN);
+		Assert.assertEquals(actives.size(), 8);
+		
+		int pawnCount = 0;
+		int rookCount = 0;
+		int knightCount = 0;
+		int bishopCount = 0;
+		int queenCount = 0;
+		int kingCount = 0;
+		for (ChessPiece chessPiece : actives) {
+			if (chessPiece instanceof Pawn) {
+				pawnCount += 1;
+			} else if (chessPiece instanceof Castle) {
+				rookCount += 1;
+			} else if (chessPiece instanceof Horse) {
+				knightCount += 1;
+			} else if (chessPiece instanceof Bishop) {
+				bishopCount += 1;
+			} else if (chessPiece instanceof Queen) {
+				queenCount += 1;
+			} else if (chessPiece instanceof King) {
+				kingCount += 1;
+			}
+		}
+		
+		Assert.assertEquals(pawnCount, 8);
+		Assert.assertEquals(rookCount, 0);
+		Assert.assertEquals(knightCount, 0);
+		Assert.assertEquals(bishopCount, 0);
+		Assert.assertEquals(queenCount, 0);
+		Assert.assertEquals(kingCount, 0);
+	}
+	
+	@Test
+	public void testGetAllWhiteRooks() {
+		Set<ChessPiece> actives = chessPieceSubsetManager.getChessPieces(ChessPieceAllegianceType.WHITE_ROOK);
+		Assert.assertEquals(actives.size(), 2);
+		
+		int pawnCount = 0;
+		int rookCount = 0;
+		int knightCount = 0;
+		int bishopCount = 0;
+		int queenCount = 0;
+		int kingCount = 0;
+		for (ChessPiece chessPiece : actives) {
+			if (chessPiece instanceof Pawn) {
+				pawnCount += 1;
+			} else if (chessPiece instanceof Castle) {
+				rookCount += 1;
+			} else if (chessPiece instanceof Horse) {
+				knightCount += 1;
+			} else if (chessPiece instanceof Bishop) {
+				bishopCount += 1;
+			} else if (chessPiece instanceof Queen) {
+				queenCount += 1;
+			} else if (chessPiece instanceof King) {
+				kingCount += 1;
+			}
+		}
+		
+		Assert.assertEquals(pawnCount, 0);
+		Assert.assertEquals(rookCount, 2);
+		Assert.assertEquals(knightCount, 0);
+		Assert.assertEquals(bishopCount, 0);
+		Assert.assertEquals(queenCount, 0);
+		Assert.assertEquals(kingCount, 0);
+	}
+	
+	@Test
+	public void testGetAllBlackRooks() {
+		Set<ChessPiece> actives = chessPieceSubsetManager.getChessPieces(ChessPieceAllegianceType.BLACK_ROOK);
+		Assert.assertEquals(actives.size(), 2);
+		
+		int pawnCount = 0;
+		int rookCount = 0;
+		int knightCount = 0;
+		int bishopCount = 0;
+		int queenCount = 0;
+		int kingCount = 0;
+		for (ChessPiece chessPiece : actives) {
+			if (chessPiece instanceof Pawn) {
+				pawnCount += 1;
+			} else if (chessPiece instanceof Castle) {
+				rookCount += 1;
+			} else if (chessPiece instanceof Horse) {
+				knightCount += 1;
+			} else if (chessPiece instanceof Bishop) {
+				bishopCount += 1;
+			} else if (chessPiece instanceof Queen) {
+				queenCount += 1;
+			} else if (chessPiece instanceof King) {
+				kingCount += 1;
+			}
+		}
+		
+		Assert.assertEquals(pawnCount, 0);
+		Assert.assertEquals(rookCount, 2);
+		Assert.assertEquals(knightCount, 0);
+		Assert.assertEquals(bishopCount, 0);
+		Assert.assertEquals(queenCount, 0);
+		Assert.assertEquals(kingCount, 0);
+	}
 
 	@Test
 	public void testRemoveChessPiece() {
-		// TODO
+		chessPieceSubsetManager.removeChessPiece(whiteKing);
+		Set<ChessPiece> actives = chessPieceSubsetManager.getChessPieces(Scope.ACTIVE);
+		Assert.assertEquals(actives.size(), 31);
+		Set<ChessPiece> deceased = chessPieceSubsetManager.getChessPieces(Scope.DECEASED);
+		Assert.assertEquals(deceased.size(), 1);
+		Set<ChessPiece> kings = chessPieceSubsetManager.getChessPieces(ChessPieceType.KING);
+		Assert.assertEquals(kings.size(), 1);
+		Set<ChessPiece> whiteKings = chessPieceSubsetManager.getChessPieces(ChessPieceAllegianceType.WHITE_KING);
+		Assert.assertEquals(whiteKings.size(), 0);
 	}
 
 }
