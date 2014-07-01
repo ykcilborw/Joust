@@ -139,8 +139,8 @@ public class GameSetup {
 		chessBoard.addChessPiece(wc1, chessBoard.getLocation("a1"));
 		chessBoard.addChessPiece(wh1, chessBoard.getLocation("b1"));
 		chessBoard.addChessPiece(wb1, chessBoard.getLocation("c1"));
-		chessBoard.addChessPiece(wk1, chessBoard.getLocation("d1"));
-		chessBoard.addChessPiece(wq1, chessBoard.getLocation("e1"));
+		chessBoard.addChessPiece(wq1, chessBoard.getLocation("d1"));
+		chessBoard.addChessPiece(wk1, chessBoard.getLocation("e1"));
 		chessBoard.addChessPiece(wb2, chessBoard.getLocation("f1"));
 		chessBoard.addChessPiece(wh2, chessBoard.getLocation("g1"));
 		chessBoard.addChessPiece(wc2, chessBoard.getLocation("h1"));
@@ -159,8 +159,8 @@ public class GameSetup {
 		chessBoard.addChessPiece(bc1, chessBoard.getLocation("a8"));
 		chessBoard.addChessPiece(bh1, chessBoard.getLocation("b8"));
 		chessBoard.addChessPiece(bb1, chessBoard.getLocation("c8"));
-		chessBoard.addChessPiece(bk1, chessBoard.getLocation("d8"));
-		chessBoard.addChessPiece(bq1, chessBoard.getLocation("e8"));
+		chessBoard.addChessPiece(bq1, chessBoard.getLocation("d8"));
+		chessBoard.addChessPiece(bk1, chessBoard.getLocation("e8"));
 		chessBoard.addChessPiece(bb2, chessBoard.getLocation("f8"));
 		chessBoard.addChessPiece(bh2, chessBoard.getLocation("g8"));
 		chessBoard.addChessPiece(bc2, chessBoard.getLocation("h8"));
