@@ -24,14 +24,13 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-import com.wroblicky.andrew.joust.core.general.CastleMove;
 import com.wroblicky.andrew.joust.core.general.ChessBoardMatcher;
 import com.wroblicky.andrew.joust.core.general.Util;
 
 /* All code in this class taken from http://roseindia.net/java/example/java/swing/chess-application-swing.shtml
  * 
  */
-
+@SuppressWarnings("serial")
 public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionListener, ActionListener {
 	JLayeredPane layeredPane;
 	JPanel chessBoard;
@@ -41,17 +40,15 @@ public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionL
 	int index;
 	List<JLabel> capturedPieces;
 	List<String[][]> myBoards;
-	List<CastleMove> myCastles;
 	ChessBoardMatcher myJouster;
 	String myProgram;
 	
-	public ChessGameDemo(List<String[][]> boards, ChessBoardMatcher j, String joustProgram, List<CastleMove> castles) {
+	public ChessGameDemo(List<String[][]> boards, ChessBoardMatcher j, String joustProgram) {
 		Dimension boardSize = new Dimension(600, 600);
 		index = 0;
 		myBoards = boards;
 		myJouster = j;
 		myProgram = joustProgram;
-		myCastles = castles;
 		capturedPieces = new ArrayList<JLabel>();
 		JButton b1 = new JButton("Next");
 	    b1.setVerticalTextPosition(AbstractButton.CENTER);
@@ -262,7 +259,7 @@ public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionL
 				boolean wasCapture = false;
 				boolean wasCastle = false;
 				// first check if special castling case happened
-				for (int m = 0; m < myCastles.size(); m++) {
+				/*for (int m = 0; m < myCastles.size(); m++) {
 					CastleMove temp = myCastles.get(m);
 					//System.out.println("demo round: " + temp.getRound());
 					//System.out.println("demo index: " + index);
@@ -508,7 +505,7 @@ public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionL
 							piece.setVisible(true);
 						}
 					}
-				}
+				} */
 				
 				if (wasCastle == false) {
 					for (int i = 0; i < 8; i++) {
@@ -583,7 +580,7 @@ public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionL
 					boolean wasCapture = false;
 					boolean wasCastle = false;
 					// first check if special castling case happened
-					for (int m = 0; m < myCastles.size(); m++) {
+					/*for (int m = 0; m < myCastles.size(); m++) {
 						CastleMove temp = myCastles.get(m);
 						//System.out.println("back demo round: " + temp.getRound());
 						//System.out.println("back demo index: " + index);
@@ -819,7 +816,7 @@ public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionL
 								piece.setVisible(true);
 							}
 						}
-					}
+					} */
 					
 					int capturednewX = 0;
 					int capturednewY = 0;
@@ -976,8 +973,8 @@ public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionL
 	}
 	*/
 	
-	public static void start(List<String[][]> boards, ChessBoardMatcher j, String joustProgram, List<CastleMove> castles) {
-		JFrame frame = new ChessGameDemo(boards, j, joustProgram, castles);
+	public static void start(List<String[][]> boards, ChessBoardMatcher j, String joustProgram) {
+		JFrame frame = new ChessGameDemo(boards, j, joustProgram);
 		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE );
 		frame.pack();
 		frame.setResizable(true);

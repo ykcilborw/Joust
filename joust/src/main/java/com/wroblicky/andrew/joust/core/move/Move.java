@@ -7,7 +7,7 @@ public class Move {
 	
 	private ChessPiece chessPiece;
 	private Location start;
-	private Location destination;
+	private Location destination; // if null indicates the chess piece is to be removed
 	
 	public Move(ChessPiece chessPiece, Location start, Location destination) {
 		this.chessPiece = chessPiece;

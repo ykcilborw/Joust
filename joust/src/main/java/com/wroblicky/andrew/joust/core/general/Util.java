@@ -38,7 +38,7 @@ public class Util {
 					System.out.println("");
 				}
 		}
-		ChessGameDemo.start(boards, jo, joustProgram, jo.getPGNViewer().getCastleMoves());
+		ChessGameDemo.start(boards, jo, joustProgram);
 	}
 	
 	public static int reverseNum(int num) {

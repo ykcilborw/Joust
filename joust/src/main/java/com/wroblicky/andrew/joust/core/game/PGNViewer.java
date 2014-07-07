@@ -21,21 +21,18 @@ public final class PGNViewer {
 	
 	private GameManager gameManager;
 	private ListIterator<String> moves;
-	private List<CastleMove> castleMoves; // for ChessDemoVisualizations ONLY!!
 	private final Map<String, String> enumLookup = new HashMap<String, String>();
 	
 	
 	public PGNViewer(PGNGame pgnGame) {
 		this.moves = pgnGame.getMoves().listIterator();
 		this.gameManager = GameSetup.setupDefaultGame();
-		castleMoves = new ArrayList<CastleMove>();
 		initialize();
 	}
 	
 	public PGNViewer(PGNGame pgnGame, String initialConfig) {
 		this.moves = pgnGame.getMoves().listIterator();
 		this.gameManager = GameSetup.setupSpecialLayout(initialConfig);
-		castleMoves = new ArrayList<CastleMove>();
 		initialize();
 	}
 	
@@ -52,11 +49,6 @@ public final class PGNViewer {
 		enumLookup.put("B", "WHITE_BISHOP");
 		enumLookup.put("Q", "WHITE_QUEEN");
 		enumLookup.put("K", "WHITE_KING");
-	}
-	
-	@Deprecated
-	public List<CastleMove> getCastleMoves() {
-		return castleMoves;
 	}
 	
 	public GameManager getGame() {
@@ -254,7 +246,6 @@ public final class PGNViewer {
 	private void handleKingSideCastle() {
 		if (gameManager.isWhiteTurn()) {
 			// white's turn
-			castleMoves.add(new CastleMove(gameManager.getRound(), "w", "king"));
 			Set<ChessPiece> kings = gameManager.getChessPieces(
 					ChessPieceAllegianceType.WHITE_KING);
 			ChessPiece king = (ChessPiece) kings.toArray()[0];
@@ -270,7 +261,6 @@ public final class PGNViewer {
 			}
 			gameManager.updateBoard("f1", r);
 		} else {
-			castleMoves.add(new CastleMove(gameManager.getRound(), "b", "king"));
 			Set<ChessPiece> kings = gameManager.getChessPieces(ChessPieceAllegianceType.BLACK_KING);
 			ChessPiece k = (ChessPiece) kings.toArray()[0];
 			Location l = new Location("g8");
@@ -289,7 +279,6 @@ public final class PGNViewer {
 	private void handleQueenSideCastle() {
 		if (gameManager.isWhiteTurn()) {
 			// white's turn
-			castleMoves.add(new CastleMove(gameManager.getRound(), "w", "queen"));
 			Set<ChessPiece> kings = gameManager.getChessPieces(ChessPieceAllegianceType.WHITE_KING);
 			ChessPiece k = (ChessPiece) kings.toArray()[0];
 			Location l = new Location("c1");
@@ -303,7 +292,6 @@ public final class PGNViewer {
 			}
 			gameManager.updateBoard("d1", r);
 		} else {
-			castleMoves.add(new CastleMove(gameManager.getRound(), "b", "queen"));
 			Set<ChessPiece> kings = gameManager.getChessPieces(ChessPieceAllegianceType.BLACK_KING);
 			ChessPiece k = (ChessPiece) kings.toArray()[0];
 			Location l = new Location("c8");

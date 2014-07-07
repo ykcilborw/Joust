@@ -9,6 +9,8 @@ import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.general.ChessPieceLookup;
 import com.wroblicky.andrew.joust.core.general.ChessPieceSubsetManager;
 import com.wroblicky.andrew.joust.core.general.Util;
+import com.wroblicky.andrew.joust.core.move.Move;
+import com.wroblicky.andrew.joust.core.move.Turn;
 import com.wroblicky.andrew.joust.core.qualifiable.Qualifiable;
 import com.wroblicky.andrew.joust.core.qualifiable.Scope;
 
@@ -125,12 +127,31 @@ public class GameManager {
 		game.setInProgress(false);
 	}
 	
+	@Deprecated
 	public void updateBoard(String algebraicDestination, ChessPiece chessPiece) {
 		Location destination = game.getBoard().getLocation(algebraicDestination);
 		chessPiece.move(destination);
 		game.incrementRound();
 	}
 	
+	public void updateBoard(Turn turn) {
+		for (Move move : turn.getMoves()) {
+			handleMove(move);
+		}
+	}
+	
+	private void handleMove(Move move) {
+		ChessPiece chessPiece = move.getChessPiece();
+		Location destination = move.getDestination();
+		if (destination == null) {
+			game.removeChessPiece(chessPiece);
+		} else {
+			chessPiece.move(destination);
+		}
+		game.incrementRound();
+	}
+	
+	@Deprecated
 	public void removePiece(ChessPiece chessPiece) {
 		game.removeChessPiece(chessPiece);
 	}
