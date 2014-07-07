@@ -13,7 +13,7 @@ import com.wroblicky.andrew.joust.core.chesspiece.Bishop;
 import com.wroblicky.andrew.joust.core.chesspiece.Rook;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Allegiance;
-import com.wroblicky.andrew.joust.core.chesspiece.Horse;
+import com.wroblicky.andrew.joust.core.chesspiece.Knight;
 import com.wroblicky.andrew.joust.core.chesspiece.King;
 import com.wroblicky.andrew.joust.core.chesspiece.Pawn;
 import com.wroblicky.andrew.joust.core.chesspiece.Queen;
@@ -50,16 +50,16 @@ public class ChessPieceSubsetManagerTest {
 		Pawn bp8 = new Pawn(Allegiance.BLACK, 8, chessBoard);
 		Rook wc1 = new Rook(Allegiance.WHITE, 1, chessBoard);
 		Rook wc2 = new Rook(Allegiance.WHITE, 2, chessBoard);
-		Horse wh1 = new Horse(Allegiance.WHITE, 1, chessBoard);
-		Horse wh2 = new Horse(Allegiance.WHITE, 2, chessBoard);
+		Knight wh1 = new Knight(Allegiance.WHITE, 1, chessBoard);
+		Knight wh2 = new Knight(Allegiance.WHITE, 2, chessBoard);
 		Bishop wb1 = new Bishop(Allegiance.WHITE, 1, chessBoard);
 		Bishop wb2 = new Bishop(Allegiance.WHITE, 2, chessBoard);
 		Queen wq1 = new Queen(Allegiance.WHITE, 1, chessBoard);
 		King wk1 = new King(Allegiance.WHITE, 1, chessBoard);
 		Rook bc1 = new Rook(Allegiance.BLACK, 1, chessBoard);
 		Rook bc2 = new Rook(Allegiance.BLACK, 2, chessBoard);
-		Horse bh1 = new Horse(Allegiance.BLACK, 1, chessBoard);
-		Horse bh2 = new Horse(Allegiance.BLACK, 2, chessBoard);
+		Knight bh1 = new Knight(Allegiance.BLACK, 1, chessBoard);
+		Knight bh2 = new Knight(Allegiance.BLACK, 2, chessBoard);
 		Bishop bb1 = new Bishop(Allegiance.BLACK, 1, chessBoard);
 		Bishop bb2 = new Bishop(Allegiance.BLACK, 2, chessBoard);
 		Queen bq1 = new Queen(Allegiance.BLACK, 1, chessBoard);
@@ -135,7 +135,7 @@ public class ChessPieceSubsetManagerTest {
 				pawnCount += 1;
 			} else if (chessPiece instanceof Rook) {
 				rookCount += 1;
-			} else if (chessPiece instanceof Horse) {
+			} else if (chessPiece instanceof Knight) {
 				knightCount += 1;
 			} else if (chessPiece instanceof Bishop) {
 				bishopCount += 1;
@@ -170,7 +170,7 @@ public class ChessPieceSubsetManagerTest {
 				pawnCount += 1;
 			} else if (chessPiece instanceof Rook) {
 				rookCount += 1;
-			} else if (chessPiece instanceof Horse) {
+			} else if (chessPiece instanceof Knight) {
 				knightCount += 1;
 			} else if (chessPiece instanceof Bishop) {
 				bishopCount += 1;
@@ -205,7 +205,7 @@ public class ChessPieceSubsetManagerTest {
 				pawnCount += 1;
 			} else if (chessPiece instanceof Rook) {
 				rookCount += 1;
-			} else if (chessPiece instanceof Horse) {
+			} else if (chessPiece instanceof Knight) {
 				knightCount += 1;
 			} else if (chessPiece instanceof Bishop) {
 				bishopCount += 1;
@@ -240,7 +240,7 @@ public class ChessPieceSubsetManagerTest {
 				pawnCount += 1;
 			} else if (chessPiece instanceof Rook) {
 				rookCount += 1;
-			} else if (chessPiece instanceof Horse) {
+			} else if (chessPiece instanceof Knight) {
 				knightCount += 1;
 			} else if (chessPiece instanceof Bishop) {
 				bishopCount += 1;
@@ -275,7 +275,7 @@ public class ChessPieceSubsetManagerTest {
 				pawnCount += 1;
 			} else if (chessPiece instanceof Rook) {
 				rookCount += 1;
-			} else if (chessPiece instanceof Horse) {
+			} else if (chessPiece instanceof Knight) {
 				knightCount += 1;
 			} else if (chessPiece instanceof Bishop) {
 				bishopCount += 1;
@@ -310,7 +310,7 @@ public class ChessPieceSubsetManagerTest {
 				pawnCount += 1;
 			} else if (chessPiece instanceof Rook) {
 				rookCount += 1;
-			} else if (chessPiece instanceof Horse) {
+			} else if (chessPiece instanceof Knight) {
 				knightCount += 1;
 			} else if (chessPiece instanceof Bishop) {
 				bishopCount += 1;
@@ -345,7 +345,7 @@ public class ChessPieceSubsetManagerTest {
 				pawnCount += 1;
 			} else if (chessPiece instanceof Rook) {
 				rookCount += 1;
-			} else if (chessPiece instanceof Horse) {
+			} else if (chessPiece instanceof Knight) {
 				knightCount += 1;
 			} else if (chessPiece instanceof Bishop) {
 				bishopCount += 1;
@@ -380,7 +380,7 @@ public class ChessPieceSubsetManagerTest {
 				pawnCount += 1;
 			} else if (chessPiece instanceof Rook) {
 				rookCount += 1;
-			} else if (chessPiece instanceof Horse) {
+			} else if (chessPiece instanceof Knight) {
 				knightCount += 1;
 			} else if (chessPiece instanceof Bishop) {
 				bishopCount += 1;
@@ -415,7 +415,7 @@ public class ChessPieceSubsetManagerTest {
 				pawnCount += 1;
 			} else if (chessPiece instanceof Rook) {
 				rookCount += 1;
-			} else if (chessPiece instanceof Horse) {
+			} else if (chessPiece instanceof Knight) {
 				knightCount += 1;
 			} else if (chessPiece instanceof Bishop) {
 				bishopCount += 1;
@@ -450,7 +450,7 @@ public class ChessPieceSubsetManagerTest {
 				pawnCount += 1;
 			} else if (chessPiece instanceof Rook) {
 				rookCount += 1;
-			} else if (chessPiece instanceof Horse) {
+			} else if (chessPiece instanceof Knight) {
 				knightCount += 1;
 			} else if (chessPiece instanceof Bishop) {
 				bishopCount += 1;
@@ -485,7 +485,7 @@ public class ChessPieceSubsetManagerTest {
 				pawnCount += 1;
 			} else if (chessPiece instanceof Rook) {
 				rookCount += 1;
-			} else if (chessPiece instanceof Horse) {
+			} else if (chessPiece instanceof Knight) {
 				knightCount += 1;
 			} else if (chessPiece instanceof Bishop) {
 				bishopCount += 1;
@@ -520,7 +520,7 @@ public class ChessPieceSubsetManagerTest {
 				pawnCount += 1;
 			} else if (chessPiece instanceof Rook) {
 				rookCount += 1;
-			} else if (chessPiece instanceof Horse) {
+			} else if (chessPiece instanceof Knight) {
 				knightCount += 1;
 			} else if (chessPiece instanceof Bishop) {
 				bishopCount += 1;
@@ -555,7 +555,7 @@ public class ChessPieceSubsetManagerTest {
 				pawnCount += 1;
 			} else if (chessPiece instanceof Rook) {
 				rookCount += 1;
-			} else if (chessPiece instanceof Horse) {
+			} else if (chessPiece instanceof Knight) {
 				knightCount += 1;
 			} else if (chessPiece instanceof Bishop) {
 				bishopCount += 1;
@@ -590,7 +590,7 @@ public class ChessPieceSubsetManagerTest {
 				pawnCount += 1;
 			} else if (chessPiece instanceof Rook) {
 				rookCount += 1;
-			} else if (chessPiece instanceof Horse) {
+			} else if (chessPiece instanceof Knight) {
 				knightCount += 1;
 			} else if (chessPiece instanceof Bishop) {
 				bishopCount += 1;

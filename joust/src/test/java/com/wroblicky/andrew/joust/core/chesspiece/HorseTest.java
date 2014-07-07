@@ -17,22 +17,22 @@ public class HorseTest {
 	@Test
 	public void testGetID() {
 		ChessBoard board = new ChessBoard();
-		Horse horse = new Horse(Allegiance.BLACK, 1, board);
+		Knight horse = new Knight(Allegiance.BLACK, 1, board);
 		Assert.assertEquals(horse.getID(), "n1");
 	}
 	
 	@Test
 	public void testGetMyType() {
-		Horse horse = new Horse();
+		Knight horse = new Knight();
 		Assert.assertEquals(horse.getMyType(), ChessPieceType.KNIGHT);
 	}
 
 	@Test
 	public void testGetMySymbol() {
-		Horse blackHorse = new Horse(Allegiance.BLACK, 1, new ChessBoard());
+		Knight blackHorse = new Knight(Allegiance.BLACK, 1, new ChessBoard());
 		Assert.assertEquals(blackHorse.getMySymbol(), ChessPieceAllegianceType.BLACK_KNIGHT);
 		
-		Horse whiteHorse = new Horse(Allegiance.WHITE, 1, new ChessBoard());
+		Knight whiteHorse = new Knight(Allegiance.WHITE, 1, new ChessBoard());
 		Assert.assertEquals(whiteHorse.getMySymbol(), ChessPieceAllegianceType.WHITE_KNIGHT);
 	}
 
@@ -40,7 +40,7 @@ public class HorseTest {
 	public void testGetPossibleMoves() {
 		ChessBoard board = new ChessBoard();
 		Rook castle = new Rook(Allegiance.WHITE, 1, board);
-		Horse horse = new Horse(Allegiance.WHITE, 1, board);
+		Knight horse = new Knight(Allegiance.WHITE, 1, board);
 		Pawn pawn = new Pawn(Allegiance.WHITE, 2, board);
 		Pawn pawn2 = new Pawn(Allegiance.WHITE, 3, board);
 		
@@ -69,7 +69,7 @@ public class HorseTest {
 	public void testGetDefenseMoves() {
 		ChessBoard board = new ChessBoard();
 		Rook castle = new Rook(Allegiance.WHITE, 1, board);
-		Horse horse = new Horse(Allegiance.WHITE, 1, board);
+		Knight horse = new Knight(Allegiance.WHITE, 1, board);
 		Pawn pawn = new Pawn(Allegiance.WHITE, 2, board);
 		Pawn pawn2 = new Pawn(Allegiance.WHITE, 3, board);
 		
@@ -98,7 +98,7 @@ public class HorseTest {
 	public void testCanReach() {
 		ChessBoard board = new ChessBoard();
 		Rook castle = new Rook(Allegiance.WHITE, 1, board);
-		Horse horse = new Horse(Allegiance.WHITE, 1, board);
+		Knight horse = new Knight(Allegiance.WHITE, 1, board);
 		Pawn pawn = new Pawn(Allegiance.WHITE, 2, board);
 		Pawn pawn2 = new Pawn(Allegiance.WHITE, 3, board);
 		
@@ -133,7 +133,7 @@ public class HorseTest {
 	public void testCanDefend() {
 		ChessBoard board = new ChessBoard();
 		Rook castle = new Rook(Allegiance.WHITE, 1, board);
-		Horse horse = new Horse(Allegiance.WHITE, 1, board);
+		Knight horse = new Knight(Allegiance.WHITE, 1, board);
 		Pawn pawn = new Pawn(Allegiance.WHITE, 2, board);
 		Pawn pawn2 = new Pawn(Allegiance.WHITE, 3, board);
 		
@@ -167,7 +167,7 @@ public class HorseTest {
 	@Test
 	public void testMove() {
 		ChessBoard board = new ChessBoard();
-		Horse horse = new Horse(Allegiance.WHITE, 1, board);
+		Knight horse = new Knight(Allegiance.WHITE, 1, board);
 		board.addChessPiece(horse, board.getLocation("d4"));
 		Assert.assertEquals(horse.getLocation() == board.getLocation("d4"), true);
 		

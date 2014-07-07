@@ -44,7 +44,7 @@ public class PawnTest {
 		ChessBoard board = new ChessBoard();
 		Pawn pawn = new Pawn(Allegiance.WHITE, 1, board);
 		Pawn pawn2 = new Pawn(Allegiance.BLACK, 2, board);
-		Horse horse = new Horse(Allegiance.WHITE, 1, board);
+		Knight horse = new Knight(Allegiance.WHITE, 1, board);
 		
 		// no moves
 		board.addChessPiece(pawn, board.getLocation("a2"));
@@ -69,7 +69,7 @@ public class PawnTest {
 	public void testGetDefenseMoves() {
 		ChessBoard board = new ChessBoard();
 		Pawn pawn = new Pawn(Allegiance.WHITE, 1, board);
-		Horse horse = new Horse(Allegiance.WHITE, 1, board);
+		Knight horse = new Knight(Allegiance.WHITE, 1, board);
 		Pawn pawn2 = new Pawn(Allegiance.WHITE, 2, board);
 		
 		// neighbors
@@ -100,7 +100,7 @@ public class PawnTest {
 		Pawn pawn4 = new Pawn(Allegiance.WHITE, 4, board);
 		Pawn pawn5 = new Pawn(Allegiance.WHITE, 5, board);
 		Pawn blackPawn = new Pawn(Allegiance.BLACK, 1, board);
-		Horse horse = new Horse(Allegiance.WHITE, 1, board);
+		Knight horse = new Knight(Allegiance.WHITE, 1, board);
 		
 		
 		// neighbors

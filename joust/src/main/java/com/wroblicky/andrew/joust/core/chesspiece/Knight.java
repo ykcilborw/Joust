@@ -16,16 +16,16 @@ import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceType;
  * @author Andrew Wroblicky
  *
  */
-public class Horse extends ChessPiece {
+public class Knight extends ChessPiece {
 	
-	public Horse() {
+	public Knight() {
 		this.allegiance = Allegiance.BLACK;
 		this.alive = true;
 		this.chessID = "n1";
 		this.chessBoard = new ChessBoard();
 	}
 	
-	public Horse(Allegiance allegiance, int chessID, ChessBoard chessBoard) {
+	public Knight(Allegiance allegiance, int chessID, ChessBoard chessBoard) {
 		this.allegiance = allegiance;
 		this.alive = true;
 		this.chessID = getMySymbol().getChessPieceAllegianceType() + chessID;
