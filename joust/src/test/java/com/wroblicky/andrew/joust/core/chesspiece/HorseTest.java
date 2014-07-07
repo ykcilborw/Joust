@@ -39,7 +39,7 @@ public class HorseTest {
 	@Test
 	public void testGetPossibleMoves() {
 		ChessBoard board = new ChessBoard();
-		Castle castle = new Castle(Allegiance.WHITE, 1, board);
+		Rook castle = new Rook(Allegiance.WHITE, 1, board);
 		Horse horse = new Horse(Allegiance.WHITE, 1, board);
 		Pawn pawn = new Pawn(Allegiance.WHITE, 2, board);
 		Pawn pawn2 = new Pawn(Allegiance.WHITE, 3, board);
@@ -68,7 +68,7 @@ public class HorseTest {
 	@Test
 	public void testGetDefenseMoves() {
 		ChessBoard board = new ChessBoard();
-		Castle castle = new Castle(Allegiance.WHITE, 1, board);
+		Rook castle = new Rook(Allegiance.WHITE, 1, board);
 		Horse horse = new Horse(Allegiance.WHITE, 1, board);
 		Pawn pawn = new Pawn(Allegiance.WHITE, 2, board);
 		Pawn pawn2 = new Pawn(Allegiance.WHITE, 3, board);
@@ -97,7 +97,7 @@ public class HorseTest {
 	@Test
 	public void testCanReach() {
 		ChessBoard board = new ChessBoard();
-		Castle castle = new Castle(Allegiance.WHITE, 1, board);
+		Rook castle = new Rook(Allegiance.WHITE, 1, board);
 		Horse horse = new Horse(Allegiance.WHITE, 1, board);
 		Pawn pawn = new Pawn(Allegiance.WHITE, 2, board);
 		Pawn pawn2 = new Pawn(Allegiance.WHITE, 3, board);
@@ -132,7 +132,7 @@ public class HorseTest {
 	@Test
 	public void testCanDefend() {
 		ChessBoard board = new ChessBoard();
-		Castle castle = new Castle(Allegiance.WHITE, 1, board);
+		Rook castle = new Rook(Allegiance.WHITE, 1, board);
 		Horse horse = new Horse(Allegiance.WHITE, 1, board);
 		Pawn pawn = new Pawn(Allegiance.WHITE, 2, board);
 		Pawn pawn2 = new Pawn(Allegiance.WHITE, 3, board);

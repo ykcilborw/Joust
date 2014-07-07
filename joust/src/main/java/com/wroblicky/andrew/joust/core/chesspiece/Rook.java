@@ -13,21 +13,21 @@ import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceType;
 
 /**
- * Represents the castle chess piece
+ * Represents the rook chess piece
  * 
  * @author Andrew Wroblicky
  *
  */
-public class Castle extends ChessPiece {
+public class Rook extends ChessPiece {
 	
-	public Castle() {
+	public Rook() {
 		this.alive = true;
 		this.allegiance = Allegiance.BLACK;
 		this.chessID = "b1";
 		this.chessBoard = new ChessBoard(new Location[8][8]);
 	}
 	
-	public Castle(Allegiance allegiance, int chessID, ChessBoard chessBoard) {
+	public Rook(Allegiance allegiance, int chessID, ChessBoard chessBoard) {
 		this.allegiance = allegiance;
 		this.alive = true;
 		this.chessBoard = chessBoard;
