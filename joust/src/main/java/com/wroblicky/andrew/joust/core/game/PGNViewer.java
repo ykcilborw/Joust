@@ -95,6 +95,7 @@ public final class PGNViewer {
 	}
 		
 	private void analyzeMove(String currentMove) {
+		System.out.println("Next move: " + currentMove);
 		//System.out.println("curentMove: " + currentMove);
 		if (currentMove.equals("1/2-1/2") || currentMove.equals("1-0") ||
 				currentMove.equals("0-1")) {
@@ -263,24 +264,26 @@ public final class PGNViewer {
 	private void handleKingSideCastle() {
 		if (gameManager.isWhiteTurn()) {
 			// white's turn
-			ChessPiece king = fetchCastlePiece(ChessPieceAllegianceType.WHITE_KING, "e1");
+			ChessPiece king = fetchChessPiece(ChessPieceAllegianceType.WHITE_KING, "e1");
 			Location destination = gameManager.getBoard().getLocation("g1");
 			king.move(destination);
-			ChessPiece rook = fetchCastlePiece(ChessPieceAllegianceType.WHITE_ROOK, "h1");
+			ChessPiece rook = fetchChessPiece(ChessPieceAllegianceType.WHITE_ROOK, "h1");
 			//Location destination2 = gameManager.getBoard().getLocation("f1");
-			gameManager.updateBoard("f1", rook);
+			gameManager.updateBoard(new Turn(new Move(rook, rook.getLocation(),
+					gameManager.getBoard().getLocation("f1"))));
 		} else {
-			ChessPiece king = fetchCastlePiece(ChessPieceAllegianceType.BLACK_KING, "e8");
+			ChessPiece king = fetchChessPiece(ChessPieceAllegianceType.BLACK_KING, "e8");
 			Location destination = gameManager.getBoard().getLocation("g8");
 			king.move(destination);
-			ChessPiece rook = fetchCastlePiece(ChessPieceAllegianceType.BLACK_ROOK, "h8");
+			ChessPiece rook = fetchChessPiece(ChessPieceAllegianceType.BLACK_ROOK, "h8");
 			//Location destination2 = gameManager.getBoard().getLocation("f1");
-			gameManager.updateBoard("f8", rook);	
+			gameManager.updateBoard(new Turn(new Move(rook, rook.getLocation(),
+					gameManager.getBoard().getLocation("f8"))));
 		}
 	}
 	
-	// utility method to find the white king piece used in castling
-	private ChessPiece fetchCastlePiece(ChessPieceAllegianceType chessPieceAllegianceType,
+	// utility method to find a piece used in castling
+	private ChessPiece fetchChessPiece(ChessPieceAllegianceType chessPieceAllegianceType,
 			String initialPosition) {
 		ChessPiece toReturn = null;
 		Set<ChessPiece> kings = gameManager.getChessPieces(chessPieceAllegianceType);
@@ -298,19 +301,21 @@ public final class PGNViewer {
 	private void handleQueenSideCastle() {
 		if (gameManager.isWhiteTurn()) {
 			// white's turn
-			ChessPiece king = fetchCastlePiece(ChessPieceAllegianceType.WHITE_KING, "e1");
+			ChessPiece king = fetchChessPiece(ChessPieceAllegianceType.WHITE_KING, "e1");
 			Location destination = gameManager.getBoard().getLocation("c1");
 			king.move(destination);
-			ChessPiece rook = fetchCastlePiece(ChessPieceAllegianceType.WHITE_ROOK, "a1");
+			ChessPiece rook = fetchChessPiece(ChessPieceAllegianceType.WHITE_ROOK, "a1");
 			//Location destination2 = gameManager.getBoard().getLocation("d1");
-			gameManager.updateBoard("d1", rook);
+			gameManager.updateBoard(new Turn(new Move(rook, rook.getLocation(),
+					gameManager.getBoard().getLocation("d1"))));
 		} else {
-			ChessPiece king = fetchCastlePiece(ChessPieceAllegianceType.BLACK_KING, "e8");
+			ChessPiece king = fetchChessPiece(ChessPieceAllegianceType.BLACK_KING, "e8");
 			Location destination = gameManager.getBoard().getLocation("c8");
 			king.move(destination);
-			ChessPiece rook = fetchCastlePiece(ChessPieceAllegianceType.BLACK_ROOK, "a8");
+			ChessPiece rook = fetchChessPiece(ChessPieceAllegianceType.BLACK_ROOK, "a8");
 			//Location destination2 = gameManager.getBoard().getLocation("d1");
-			gameManager.updateBoard("d8", rook);
+			gameManager.updateBoard(new Turn(new Move(rook, rook.getLocation(),
+					gameManager.getBoard().getLocation("d8"))));
 		}
 	}
 	

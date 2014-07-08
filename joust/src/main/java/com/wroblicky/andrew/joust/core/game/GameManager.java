@@ -8,7 +8,6 @@ import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.general.ChessPieceLookup;
 import com.wroblicky.andrew.joust.core.general.ChessPieceSubsetManager;
-import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.move.Move;
 import com.wroblicky.andrew.joust.core.move.Turn;
 import com.wroblicky.andrew.joust.core.qualifiable.Qualifiable;
@@ -110,7 +109,8 @@ public class GameManager {
 		// update metadata
 		capturer = chessPiece;
 		captured = dead;
-		updateBoard(algebraicDestination, chessPiece);
+		updateBoard(new Turn(new Move(chessPiece, chessPiece.getLocation(), 
+				getBoard().getLocation(algebraicDestination))));
 	}
 	
 	public void handleCheck(String algebraicDestination, String checkType,
@@ -120,24 +120,19 @@ public class GameManager {
 		} else {
 			game.setCheckmate(true);
 		}
-		updateBoard(algebraicDestination, chessPiece);
+		updateBoard(new Turn(new Move(chessPiece, chessPiece.getLocation(), 
+				getBoard().getLocation(algebraicDestination))));
 	}
 	
 	public void handleGameOver() {
 		game.setInProgress(false);
 	}
 	
-	@Deprecated
-	public void updateBoard(String algebraicDestination, ChessPiece chessPiece) {
-		Location destination = game.getBoard().getLocation(algebraicDestination);
-		chessPiece.move(destination);
-		game.incrementRound();
-	}
-	
 	public void updateBoard(Turn turn) {
 		for (Move move : turn.getMoves()) {
 			handleMove(move);
 		}
+		game.incrementRound();
 	}
 	
 	private void handleMove(Move move) {
@@ -148,7 +143,6 @@ public class GameManager {
 		} else {
 			chessPiece.move(destination);
 		}
-		game.incrementRound();
 	}
 	
 	@Deprecated
