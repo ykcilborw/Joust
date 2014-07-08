@@ -86,49 +86,48 @@ public final class PGNViewer {
 		}
 	}
 	
-	private void play(String move) {
-		analyzeMove(move);
+	private void play(String moveToken) {
+		analyzeMove(moveToken);
 	}
 	
-	private void undo(String move) {
-		analyzeMove(move);
+	private void undo(String moveToken) {
+		analyzeMove(moveToken);
 	}
 		
-	private void analyzeMove(String currentMove) {
-		System.out.println("Next move: " + currentMove);
-		//System.out.println("curentMove: " + currentMove);
-		if (currentMove.equals("1/2-1/2") || currentMove.equals("1-0") ||
-				currentMove.equals("0-1")) {
+	private void analyzeMove(String moveToken) {
+		System.out.println("Next move: " + moveToken);
+		if (moveToken.equals("1/2-1/2") || moveToken.equals("1-0") ||
+				moveToken.equals("0-1")) {
 			gameManager.handleGameOver();
-		} else if (currentMove.length() == 2) {
-			handleLengthTwoMove(currentMove);
-		} else if(currentMove.length() == 3){
-			handleLengthThreeMove(currentMove);
-		} else if(currentMove.length() == 4){
-			handleLengthFourMove(currentMove);
-		} else if (currentMove.length() == 5) {
-			handleLengthFiveMove(currentMove);
+		} else if (moveToken.length() == 2) {
+			handleLengthTwoMove(moveToken);
+		} else if(moveToken.length() == 3){
+			handleLengthThreeMove(moveToken);
+		} else if(moveToken.length() == 4){
+			handleLengthFourMove(moveToken);
+		} else if (moveToken.length() == 5) {
+			handleLengthFiveMove(moveToken);
 		} else {// not sure what this is
-			throw new RuntimeException("Unknown PGN move: " + currentMove);
+			throw new RuntimeException("Unknown PGN move: " + moveToken);
 		}
 	}
 	
-	private void handleLengthTwoMove(String move) {
-		ChessPiece chessPiece = determineChessPiece(move);
+	private void handleLengthTwoMove(String moveToken) {
+		ChessPiece chessPiece = determineChessPiece(moveToken);
 		Turn turn = new Turn(new Move(chessPiece, chessPiece.getLocation(), 
-				gameManager.getBoard().getLocation(move)));
+				gameManager.getBoard().getLocation(moveToken)));
 		gameManager.updateBoard(turn);
 	}
 	
-	private void handleLengthThreeMove(String currentMove) {
+	private void handleLengthThreeMove(String moveToken) {
 		// could be a pawn check
-		if (currentMove.substring(2, 3).equals("+") || currentMove.substring(2, 3).equals("#")) {
-			handleLengthThreeCheck(currentMove);
-		} else if (currentMove.equals("O-O")) {
+		if (moveToken.substring(2, 3).equals("+") || moveToken.substring(2, 3).equals("#")) {
+			handleLengthThreeCheck(moveToken);
+		} else if (moveToken.equals("O-O")) {
 			handleKingSideCastle();
 		} else {
-			String piece = currentMove.substring(0, 1);
-			String move = currentMove.substring(1, 3);
+			String piece = moveToken.substring(0, 1);
+			String move = moveToken.substring(1, 3);
 			ChessPiece chessPiece = determineChessPiece(move, piece);
 			Turn turn = new Turn(new Move(chessPiece, chessPiece.getLocation(), 
 					gameManager.getBoard().getLocation(move)));
@@ -136,15 +135,15 @@ public final class PGNViewer {
 		}
 	}
 	
-	private void handleLengthFourMove(String currentMove) {
-		if (currentMove.substring(1, 2).equals("x")) {
-			handleLengthFourCapture(currentMove);
-		} else if (currentMove.contains("+") || currentMove.contains("#")){
-			handleLengthFourCheck(currentMove);
+	private void handleLengthFourMove(String moveToken) {
+		if (moveToken.substring(1, 2).equals("x")) {
+			handleLengthFourCapture(moveToken);
+		} else if (moveToken.contains("+") || moveToken.contains("#")){
+			handleLengthFourCheck(moveToken);
 		} else {
-			String piece = currentMove.substring(0, 1);
-			String file = currentMove.substring(1, 2);
-			String move = currentMove.substring(2, 4);
+			String piece = moveToken.substring(0, 1);
+			String file = moveToken.substring(1, 2);
+			String move = moveToken.substring(2, 4);
 			ChessPiece chessPiece = determineFileChessPiece(file, piece, move);
 			Turn turn = new Turn(new Move(chessPiece, chessPiece.getLocation(), 
 					gameManager.getBoard().getLocation(move)));
@@ -153,30 +152,30 @@ public final class PGNViewer {
 		// TODO Implement pawn promotion
 	}
 	
-	private void handleLengthFiveMove(String currentMove) {
-		if (currentMove.contains("x")) {
-			handleLengthFiveCapture(currentMove);
-		} else if (currentMove.equals("O-O-O")) { 
+	private void handleLengthFiveMove(String moveToken) {
+		if (moveToken.contains("x")) {
+			handleLengthFiveCapture(moveToken);
+		} else if (moveToken.equals("O-O-O")) { 
 			handleQueenSideCastle();
 		} else {
-			if (currentMove.substring(4, 5).equals("+") || currentMove.substring(4, 5).equals("#")) {
-				handleLengthFiveCheck(currentMove);
+			if (moveToken.substring(4, 5).equals("+") || moveToken.substring(4, 5).equals("#")) {
+				handleLengthFiveCheck(moveToken);
 			} else {
 				// TODO
 				// could be generic move specifying moving piece, its file, its rank, and where went
 				// also could be pawn promotion with check/checkmate
-				throw new RuntimeException("Unknown length five move: " + currentMove);
+				throw new RuntimeException("Unknown length five move: " + moveToken);
 			}
 		}
 	}
 	
-	private ChessPiece determineChessPiece(String move) {
+	private ChessPiece determineChessPiece(String algebraicDestination) {
 		// must be a pawn
-		return determineChessPiece(move, gameManager.isWhiteTurn() ? "P" : "p");
+		return determineChessPiece(algebraicDestination, gameManager.isWhiteTurn() ? "P" : "p");
 	}
 	
-	private ChessPiece determineChessPiece(String move, String piece) {
-		Location destination = gameManager.getBoard().getLocation(move);
+	private ChessPiece determineChessPiece(String algebraicDestination, String piece) {
+		Location destination = gameManager.getBoard().getLocation(algebraicDestination);
 		return evaluateSuspects(piece, destination);
 	}
 	
@@ -200,25 +199,27 @@ public final class PGNViewer {
 	}
 	
 	// helper method that converts a character representing a chess piece 
-	// to the appropriate ChessPieceAllegianceType
-	private ChessPieceAllegianceType convert(String s) {
-		String lookup = enumLookup.get(s);
-		return ChessPieceAllegianceType.valueOf(lookup);
+	// to the appropriate ChessPieceAllegianceType enum
+	private ChessPieceAllegianceType convert(String chessPieceSymbol) {
+		String enumRepresentation = enumLookup.get(chessPieceSymbol);
+		return ChessPieceAllegianceType.valueOf(enumRepresentation);
 	}
 	
-	private ChessPiece determineFileChessPiece(String file, String piece, String move) {
+	private ChessPiece determineFileChessPiece(String file, String piece, 
+			String algebraicDestination) {
 		Character c = file.charAt(0);
 		if (Character.isDigit(c)) {
-			return determineRankChessPiece(file, piece, move);
+			return determineRankChessPiece(file, piece, algebraicDestination);
 		} else {
-			return determineFileChessPieceHelper(file, piece, move);
+			return determineFileChessPieceHelper(file, piece, algebraicDestination);
 		}
 	}
 	
-	private ChessPiece determineFileChessPieceHelper(String file, String piece, String move) {
+	private ChessPiece determineFileChessPieceHelper(String file, String piece, 
+			String algebraicDestination) {
 		// setup
 		ChessPiece reachablePiece = null;
-		Location destination = gameManager.getBoard().getLocation(move);
+		Location destination = gameManager.getBoard().getLocation(algebraicDestination);
 		piece = gameManager.isWhiteTurn() ? piece : piece.toLowerCase();
 		
 		// loop over suspects
@@ -233,7 +234,8 @@ public final class PGNViewer {
 		// throw error if nothing found
 		if (reachablePiece == null) {
 			throw new RuntimeException("Improperly formatted PGN file. " +
-					"Could not find a piece that could've legally moved to " + move);
+					"Could not find a piece that could've legally moved to " 
+					+ algebraicDestination);
 		}
 		
 		// return result
@@ -319,9 +321,9 @@ public final class PGNViewer {
 		}
 	}
 	
-	private void handleLengthFourCapture(String currentMove) {
-		String type = currentMove.substring(0, 1);
-		String algebraicDestination = currentMove.substring(2, 4);
+	private void handleLengthFourCapture(String moveToken) {
+		String type = moveToken.substring(0, 1);
+		String algebraicDestination = moveToken.substring(2, 4);
 		ChessPiece chessPiece = null;
 		if (Character.isLowerCase(type.charAt(0))) {
 			// a pawn moved
@@ -339,10 +341,10 @@ public final class PGNViewer {
 	}
 	
 	// Captures with 5 chars!
-	private void handleLengthFiveCapture(String currentMove) {
-		if (currentMove.substring(4, 5).equals("+") || currentMove.substring(4, 5).equals("#")) {
-			String checkorMate = currentMove.substring(4, 5);
-			String capture = currentMove.substring(0,4);
+	private void handleLengthFiveCapture(String moveToken) {
+		if (moveToken.substring(4, 5).equals("+") || moveToken.substring(4, 5).equals("#")) {
+			String checkorMate = moveToken.substring(4, 5);
+			String capture = moveToken.substring(0,4);
 			handleLengthFourCapture(capture);
 			if (checkorMate.equals("+")) {
 				gameManager.getGame().setCheck(true);
@@ -351,9 +353,9 @@ public final class PGNViewer {
 			}
 		} else {
 			// parse relevant pieces
-			String type = currentMove.substring(0, 1);
-			String file = currentMove.substring(1, 2);
-			String algebraicDestination = currentMove.substring(3, 5);
+			String type = moveToken.substring(0, 1);
+			String file = moveToken.substring(1, 2);
+			String algebraicDestination = moveToken.substring(3, 5);
 			
 			// a normal piece moved (pawns not possible!)
 			ChessPiece chessPiece = determineFileChessPiece(file, type, algebraicDestination);
@@ -361,33 +363,33 @@ public final class PGNViewer {
 		}
 	}
 	
-	private void handleLengthThreeCheck(String currentMove) {
+	private void handleLengthThreeCheck(String moveToken) {
 		// parse relevant pieces
-		String algebraicDestination = currentMove.substring(0, 2);
-		String checkType = currentMove.substring(2, 3);
+		String algebraicDestination = moveToken.substring(0, 2);
+		String checkType = moveToken.substring(2, 3);
 		
 		// handle
 		ChessPiece chessPiece = determineChessPiece(algebraicDestination);
 		gameManager.handleCheck(algebraicDestination, checkType, chessPiece);
 	}
 	
-	private void handleLengthFourCheck(String currentMove) {
+	private void handleLengthFourCheck(String moveToken) {
 		// parse relevant pieces
-		String type = currentMove.substring(0, 1);
-		String algebraicDestination = currentMove.substring(1, 3);
-		String checkType = currentMove.substring(3, 4);
+		String type = moveToken.substring(0, 1);
+		String algebraicDestination = moveToken.substring(1, 3);
+		String checkType = moveToken.substring(3, 4);
 		
 		// handle
 		ChessPiece chessPiece = determineChessPiece(algebraicDestination, type);
 		gameManager.handleCheck(algebraicDestination, checkType, chessPiece);
 	}
 	
-	private void handleLengthFiveCheck(String currentMove) {
+	private void handleLengthFiveCheck(String moveToken) {
 		// parse relevant pieces
-		String type = currentMove.substring(0, 1);
-		String file = currentMove.substring(1, 2);
-		String algebraicDestination = currentMove.substring(2, 4);
-		String checkType = currentMove.substring(4, 5);
+		String type = moveToken.substring(0, 1);
+		String file = moveToken.substring(1, 2);
+		String algebraicDestination = moveToken.substring(2, 4);
+		String checkType = moveToken.substring(4, 5);
 		
 		// handle
 		ChessPiece chessPiece = determineFileChessPiece(file, type, algebraicDestination);
