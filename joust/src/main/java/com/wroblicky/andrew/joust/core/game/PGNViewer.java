@@ -1,16 +1,15 @@
 package com.wroblicky.andrew.joust.core.game;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
-import com.wroblicky.andrew.joust.core.general.CastleMove;
 import com.wroblicky.andrew.joust.core.general.Util;
+import com.wroblicky.andrew.joust.core.move.Move;
+import com.wroblicky.andrew.joust.core.move.Turn;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
 import com.wroblicky.andrew.joust.core.qualifiable.Scope;
 import com.wroblicky.andrew.joust.pgn.PGNGame;
@@ -115,7 +114,9 @@ public final class PGNViewer {
 	
 	private void handleLengthTwoMove(String move) {
 		ChessPiece chessPiece = determineChessPiece(move);
-		gameManager.updateBoard(move, chessPiece);
+		Turn turn = new Turn(new Move(chessPiece, chessPiece.getLocation(), 
+				gameManager.getBoard().getLocation(move)));
+		gameManager.updateBoard(turn);
 	}
 	
 	private void handleLengthThreeMove(String currentMove) {
@@ -127,8 +128,10 @@ public final class PGNViewer {
 		} else {
 			String piece = currentMove.substring(0, 1);
 			String move = currentMove.substring(1, 3);
-			ChessPiece c = determineChessPiece(move, piece);
-			gameManager.updateBoard(move, c);
+			ChessPiece chessPiece = determineChessPiece(move, piece);
+			Turn turn = new Turn(new Move(chessPiece, chessPiece.getLocation(), 
+					gameManager.getBoard().getLocation(move)));
+			gameManager.updateBoard(turn);
 		}
 	}
 	
@@ -141,8 +144,10 @@ public final class PGNViewer {
 			String piece = currentMove.substring(0, 1);
 			String file = currentMove.substring(1, 2);
 			String move = currentMove.substring(2, 4);
-			ChessPiece c = determineFileChessPiece(file, piece, move);
-			gameManager.updateBoard(move, c);
+			ChessPiece chessPiece = determineFileChessPiece(file, piece, move);
+			Turn turn = new Turn(new Move(chessPiece, chessPiece.getLocation(), 
+					gameManager.getBoard().getLocation(move)));
+			gameManager.updateBoard(turn);
 		}
 		// TODO Implement pawn promotion
 	}
@@ -193,33 +198,45 @@ public final class PGNViewer {
 				+ destination);
 	}
 	
+	// helper method that converts a character representing a chess piece 
+	// to the appropriate ChessPieceAllegianceType
 	private ChessPieceAllegianceType convert(String s) {
 		String lookup = enumLookup.get(s);
 		return ChessPieceAllegianceType.valueOf(lookup);
 	}
 	
 	private ChessPiece determineFileChessPiece(String file, String piece, String move) {
-		ChessPiece icanReach = null;
-		Location l = gameManager.getBoard().getLocation(move);
 		Character c = file.charAt(0);
 		if (Character.isDigit(c)) {
-			icanReach = determineRankChessPiece(file, piece, move);
+			return determineRankChessPiece(file, piece, move);
 		} else {
-			piece = gameManager.isWhiteTurn() ? piece : piece.toLowerCase();
-			Set<ChessPiece> suspects = gameManager.getChessPieces(
-					ChessPieceAllegianceType.valueOf(enumLookup.get(piece)));
-			for (ChessPiece suspect : suspects) {
-				if (suspect.getFile().equals(file) && suspect.canReach(l)) {
-					icanReach = suspect;
-					break;
-				}
-			}
-			if (icanReach == null) {
-				throw new RuntimeException("Improperly formatted PGN file. " +
-						"Could not find a piece that could've legally moved to " + move);
+			return determineFileChessPieceHelper(file, piece, move);
+		}
+	}
+	
+	private ChessPiece determineFileChessPieceHelper(String file, String piece, String move) {
+		// setup
+		ChessPiece reachablePiece = null;
+		Location destination = gameManager.getBoard().getLocation(move);
+		piece = gameManager.isWhiteTurn() ? piece : piece.toLowerCase();
+		
+		// loop over suspects
+		Set<ChessPiece> suspects = gameManager.getChessPieces(convert(piece));
+		for (ChessPiece suspect : suspects) {
+			if (suspect.getFile().equals(file) && suspect.canReach(destination)) {
+				reachablePiece = suspect;
+				break;
 			}
 		}
-		return icanReach;
+		
+		// throw error if nothing found
+		if (reachablePiece == null) {
+			throw new RuntimeException("Improperly formatted PGN file. " +
+					"Could not find a piece that could've legally moved to " + move);
+		}
+		
+		// return result
+		return reachablePiece;
 	}
 	
 	private ChessPiece determineRankChessPiece(String rank, String piece,
@@ -246,64 +263,54 @@ public final class PGNViewer {
 	private void handleKingSideCastle() {
 		if (gameManager.isWhiteTurn()) {
 			// white's turn
-			Set<ChessPiece> kings = gameManager.getChessPieces(
-					ChessPieceAllegianceType.WHITE_KING);
-			ChessPiece king = (ChessPiece) kings.toArray()[0];
-			Location l = gameManager.getBoard().getLocation("g1");
-			king.move(l);
-			Set<ChessPiece> rooks = gameManager.getChessPieces(
-					ChessPieceAllegianceType.WHITE_ROOK);
-			ChessPiece r = null;
-			for (ChessPiece rook : rooks) {
-				if (rook.getLocation().getAlgebraicLocation().equals("h1")) {
-					r = rook;
-				}
-			}
-			gameManager.updateBoard("f1", r);
+			ChessPiece king = fetchCastlePiece(ChessPieceAllegianceType.WHITE_KING, "e1");
+			Location destination = gameManager.getBoard().getLocation("g1");
+			king.move(destination);
+			ChessPiece rook = fetchCastlePiece(ChessPieceAllegianceType.WHITE_ROOK, "h1");
+			//Location destination2 = gameManager.getBoard().getLocation("f1");
+			gameManager.updateBoard("f1", rook);
 		} else {
-			Set<ChessPiece> kings = gameManager.getChessPieces(ChessPieceAllegianceType.BLACK_KING);
-			ChessPiece k = (ChessPiece) kings.toArray()[0];
-			Location l = new Location("g8");
-			k.move(l);
-			Set<ChessPiece> rooks = gameManager.getChessPieces(ChessPieceAllegianceType.BLACK_ROOK);
-			ChessPiece r = null;
-			for (ChessPiece rook : rooks) {
-				if (rook.getLocation().getAlgebraicLocation().equals("h8")) {
-					r = rook;
-				}
-			}
-			gameManager.updateBoard("f8", r);
+			ChessPiece king = fetchCastlePiece(ChessPieceAllegianceType.BLACK_KING, "e8");
+			Location destination = gameManager.getBoard().getLocation("g8");
+			king.move(destination);
+			ChessPiece rook = fetchCastlePiece(ChessPieceAllegianceType.BLACK_ROOK, "h8");
+			//Location destination2 = gameManager.getBoard().getLocation("f1");
+			gameManager.updateBoard("f8", rook);	
 		}
+	}
+	
+	// utility method to find the white king piece used in castling
+	private ChessPiece fetchCastlePiece(ChessPieceAllegianceType chessPieceAllegianceType,
+			String initialPosition) {
+		ChessPiece toReturn = null;
+		Set<ChessPiece> kings = gameManager.getChessPieces(chessPieceAllegianceType);
+		for (ChessPiece chessPiece : kings) {
+			if (chessPiece.getLocation().getAlgebraicLocation().equals(initialPosition)) {
+				toReturn = chessPiece;
+			}
+		}
+		if (toReturn == null) {
+			throw new RuntimeException("Could not find valid piece for castling");
+		}
+		return toReturn;
 	}
 	
 	private void handleQueenSideCastle() {
 		if (gameManager.isWhiteTurn()) {
 			// white's turn
-			Set<ChessPiece> kings = gameManager.getChessPieces(ChessPieceAllegianceType.WHITE_KING);
-			ChessPiece k = (ChessPiece) kings.toArray()[0];
-			Location l = new Location("c1");
-			k.move(l);
-			Set<ChessPiece> rooks = gameManager.getChessPieces(ChessPieceAllegianceType.WHITE_ROOK);
-			ChessPiece r = null;
-			for (ChessPiece rook : rooks) {
-				if (rook.getLocation().equals(new Location("a1"))) {
-					r = rook;
-				}
-			}
-			gameManager.updateBoard("d1", r);
+			ChessPiece king = fetchCastlePiece(ChessPieceAllegianceType.WHITE_KING, "e1");
+			Location destination = gameManager.getBoard().getLocation("c1");
+			king.move(destination);
+			ChessPiece rook = fetchCastlePiece(ChessPieceAllegianceType.WHITE_ROOK, "a1");
+			//Location destination2 = gameManager.getBoard().getLocation("d1");
+			gameManager.updateBoard("d1", rook);
 		} else {
-			Set<ChessPiece> kings = gameManager.getChessPieces(ChessPieceAllegianceType.BLACK_KING);
-			ChessPiece k = (ChessPiece) kings.toArray()[0];
-			Location l = new Location("c8");
-			k.move(l);
-			Set<ChessPiece> rooks = gameManager.getChessPieces(ChessPieceAllegianceType.BLACK_ROOK);
-			ChessPiece r = null;
-			for (ChessPiece rook : rooks) {
-				if (rook.getLocation().equals(new Location("a8"))) {
-					r = rook;
-				}
-			}
-			gameManager.updateBoard("d8", r);
+			ChessPiece king = fetchCastlePiece(ChessPieceAllegianceType.BLACK_KING, "e8");
+			Location destination = gameManager.getBoard().getLocation("c8");
+			king.move(destination);
+			ChessPiece rook = fetchCastlePiece(ChessPieceAllegianceType.BLACK_ROOK, "a8");
+			//Location destination2 = gameManager.getBoard().getLocation("d1");
+			gameManager.updateBoard("d8", rook);
 		}
 	}
 	
