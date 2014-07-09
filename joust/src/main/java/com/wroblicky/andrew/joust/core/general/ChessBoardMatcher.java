@@ -375,11 +375,13 @@ public class ChessBoardMatcher {
 				} else {
 					toReturn = false;
 				}
-			}  else if (next.equals("captured")) {
+			}  
+			/*else if (next.equals("captured")) {
 				String arg1 = (String) ast.get(1);
 				String arg2 = (String) ast.get(2);
 				toReturn = execCaptured(arg1, arg2);
-			} else if (next.equals("sameFile")) {
+			} */
+			  else if (next.equals("sameFile")) {
 				String arg1 = (String) ast.get(1);
 				String arg2 = (String) ast.get(2);
 				toReturn = execSameFile(arg1, arg2);
@@ -1951,7 +1953,7 @@ public class ChessBoardMatcher {
 		return goodSoFar;
 	}
 	
-	private boolean execCaptured(String arg1, String arg2) {
+	/*private boolean execCaptured(String arg1, String arg2) {
 		//System.out.println("exec captured: " + arg1 + ", " + arg2);
 		boolean toReturn = false;
 		boolean didCapture = false;
@@ -2142,7 +2144,7 @@ public class ChessBoardMatcher {
 			}
 		}
 		return toReturn;
-	}
+	} */
 	
 	private boolean execDifferent(ArrayList<String> args) {
 		boolean toReturn = false;

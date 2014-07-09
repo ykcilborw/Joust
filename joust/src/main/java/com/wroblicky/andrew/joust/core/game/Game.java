@@ -1,5 +1,6 @@
 package com.wroblicky.andrew.joust.core.game;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -18,7 +19,7 @@ import com.wroblicky.andrew.joust.core.qualifiable.Qualifiable;
 public class Game {
 	
 	private ChessBoard board;
-	private List<Turn> turns;
+	private List<Turn> turns = new ArrayList<Turn>();
 	private ChessPieceSubsetManager chessPieceSubsetManager;
 	
 	// game properties
@@ -48,8 +49,8 @@ public class Game {
 		return turns;
 	}
 	
-	public void setTurns(List<Turn> turns) {
-		this.turns = turns;
+	public void addTurn(Turn turn) {
+		this.turns.add(turn);
 	}
 	
 	public Set<ChessPiece> getChessPieces(Qualifiable qualification) {

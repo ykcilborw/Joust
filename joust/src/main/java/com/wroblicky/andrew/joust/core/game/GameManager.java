@@ -22,8 +22,8 @@ import com.wroblicky.andrew.joust.core.qualifiable.Scope;
  */
 public class GameManager {
 	private Game game;
-	private ChessPiece capturer;
-	private ChessPiece captured;
+	//private ChessPiece capturer;
+	//private ChessPiece captured;
 	private ChessPieceLookup chessPieceLookup;
 
 	public GameManager(Game game) {
@@ -76,13 +76,13 @@ public class GameManager {
 		return game.isInProgress();
 	}
 	
-	public ChessPiece getCapturer() {
+	/*public ChessPiece getCapturer() {
 		return capturer;
 	}
 	
 	public ChessPiece getCaptured() {
 		return captured;
-	}
+	}*/
 	
 	public Game getGame() {
 		return game;
@@ -100,17 +100,21 @@ public class GameManager {
 		return game.getRound() % 2 == 0;
 	}
 	
-	public void handleCapture(String algebraicDestination, ChessPiece chessPiece) {
+	public void handleCapture(String algebraicDestination, ChessPiece capturer) {
 		// remove old piece
 		Location destination = game.getBoard().getLocation(algebraicDestination);
-		ChessPiece dead = game.getBoard().getChessPieceByLocation(destination);
-		removePiece(dead);
+		ChessPiece captured = game.getBoard().getChessPieceByLocation(destination);
+		// null destination means piece was captured
+		Turn turn = new Turn(new Move(captured, captured.getLocation(), null)); 
 		
 		// update metadata
-		capturer = chessPiece;
-		captured = dead;
-		updateBoard(new Turn(new Move(chessPiece, chessPiece.getLocation(), 
-				getBoard().getLocation(algebraicDestination))));
+		//capturer = chessPiece;
+		//captured = dead;
+		turn.setCaptured(captured);
+		turn.setCapturer(capturer);
+		turn.addMove(new Move(capturer, capturer.getLocation(), 
+				getBoard().getLocation(algebraicDestination)));
+		updateBoard(turn);
 	}
 	
 	public void handleCheck(String algebraicDestination, String checkType,
@@ -133,6 +137,7 @@ public class GameManager {
 			handleMove(move);
 		}
 		game.incrementRound();
+		game.addTurn(turn);
 	}
 	
 	private void handleMove(Move move) {
