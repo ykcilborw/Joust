@@ -88,7 +88,7 @@ public class Game {
 	}
 	
 	public Turn getCurrentTurn() {
-		return turns.get(round);
+		return turns.get(round - 1);
 	}
 
 	public boolean isWhiteCastleMoveAllowed() {

@@ -10,6 +10,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
+import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.general.Util;
@@ -17,6 +18,7 @@ import com.wroblicky.andrew.joust.core.move.Move;
 import com.wroblicky.andrew.joust.core.move.Turn;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
 import com.wroblicky.andrew.joust.core.qualifiable.Scope;
+import com.wroblicky.andrew.joust.core.ui.ChessDisplay;
 import com.wroblicky.andrew.joust.pgn.PGNGame;
 import com.wroblicky.andrew.joust.pgn.PGNParser;
 
@@ -398,15 +400,42 @@ public final class PGNViewer {
 	
 	// the PGN View program is self contained
 	public static void main(String[] args) {
-		if (args.length > 0) {
-			String pgnGame = args[0];
+		if (args.length > 1) {
+			String runType = args[0];
+			String pgnGame = args[1];
 			PGNViewer pgnViewer = new PGNViewer(PGNParser.getPGNGame(pgnGame));
-			pgnViewer.initializeGame();
-			while (pgnViewer.getGame().isInProgress()) {
-				Game game = pgnViewer.playNextTurn();
-				Util.print("Current Round: " + game.getRound() + "\n");
-				game.getBoard().printBoard(game.getChessPieces(Scope.ACTIVE));
+			
+			if (runType.equals("-n")) { // non-interactive mode
+				runNonInteractiveMode(pgnViewer);
+			} else if (runType.equals("-c")) {
+				runCommandLineInteractiveMode(pgnViewer);
+			} else if (runType.equals("-s")) {
+				runSwingDisplay(pgnViewer);
+			} else {
+				System.err.print("An unknown command line option was specified: " + args[1]);
 			}
+		} else {
+			System.err.print("An invalid number of arguments were specified");
 		}
+	}
+	
+	private static void runNonInteractiveMode(PGNViewer pgnViewer) {
+		pgnViewer.initializeGame();
+		while (pgnViewer.getGame().isInProgress()) {
+			Game game = pgnViewer.playNextTurn();
+			Util.print("Current Round: " + game.getRound() + "\n");
+			game.getBoard().printBoard(game.getChessPieces(Scope.ACTIVE));
+		}
+	}
+	
+	private static void runCommandLineInteractiveMode(PGNViewer pgnViewer) {
+		// TODO
+	}
+	
+	private static void runSwingDisplay(PGNViewer pgnViewer) {
+		Game game = pgnViewer.initializeGame();
+		ChessBoard chessBoard = game.getBoard();
+		//chessBoard.printBoard(game.getChessPieces(Scope.ACTIVE));
+		ChessDisplay.start(game.getBoard(), pgnViewer);
 	}
 }

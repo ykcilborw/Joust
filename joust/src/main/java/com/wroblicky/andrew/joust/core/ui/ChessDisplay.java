@@ -2,6 +2,8 @@ package com.wroblicky.andrew.joust.core.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -28,6 +30,8 @@ import com.wroblicky.andrew.joust.core.game.Game;
 import com.wroblicky.andrew.joust.core.game.GameSetup;
 import com.wroblicky.andrew.joust.core.game.PGNViewer;
 import com.wroblicky.andrew.joust.core.general.Util;
+import com.wroblicky.andrew.joust.core.move.GameStateChange;
+import com.wroblicky.andrew.joust.core.move.Move;
 import com.wroblicky.andrew.joust.core.move.Turn;
 
 @SuppressWarnings("serial")
@@ -125,14 +129,29 @@ public class ChessDisplay extends JFrame implements ActionListener {
 			Util.print("io: " + e);
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		String which = e.getActionCommand();
 		if(which.equals("next")) {
-			Turn turn = pgnViewer.playNextTurn().getCurrentTurn();
-			// TODO move chess piece giving turn data
+			Game game = pgnViewer.playNextTurn();
+			Turn turn = game.getCurrentTurn();
+			for (GameStateChange gameStateChange : turn.getGameStateChanges()) {
+				if (gameStateChange instanceof Move) {
+					Move move = (Move) gameStateChange;
+					Component component = chessBoardPanel.getComponent(
+							move.getStart().getComponentNumber());
+					JLabel chessPiece = (JLabel) component.getComponentAt(1, 0);
+					chessPiece.setVisible(false);
+					Location destination = move.getDestination();
+					if (destination != null) {
+						JPanel jPanel =  (JPanel) chessBoardPanel.getComponent(
+								destination.getComponentNumber());
+						jPanel.add(chessPiece);
+						chessPiece.setVisible(true);
+					}
+				}
+			}
 		}
 	}
 	
@@ -145,7 +164,7 @@ public class ChessDisplay extends JFrame implements ActionListener {
 		frame.setVisible(true);
 	}
 	
-	public void start(ChessBoard chessBoard, PGNViewer pgnViewer) {
+	public static void start(ChessBoard chessBoard, PGNViewer pgnViewer) {
 		JFrame frame = new ChessDisplay(chessBoard, pgnViewer);
 		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE );
 		frame.pack();

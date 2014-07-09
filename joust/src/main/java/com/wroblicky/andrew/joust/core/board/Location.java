@@ -1,6 +1,7 @@
 package com.wroblicky.andrew.joust.core.board;
 
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
+import com.wroblicky.andrew.joust.core.general.Util;
 
 public class Location {
 	private int myX;
@@ -67,7 +68,7 @@ public class Location {
 	}
 	
 	public int getComponentNumber() {
-		return myY*8 + myX;
+		return Util.reverseNum(myY)*8 + myX;
 	}
 	
 	public ChessPiece getChessPiece() {
