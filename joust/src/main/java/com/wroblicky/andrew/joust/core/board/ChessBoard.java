@@ -280,6 +280,13 @@ public class ChessBoard {
 	}
 	
 	/**
+	 * Returns an iterator to loop over the locations on the board
+	 */
+	public ChessBoardIterator iterator() {
+		return new ChessBoardIterator(chessBoard);
+	}
+	
+	/**
 	 * Initializes the Location objects for every space of the board
 	 */
 	private void createBackingBoard() {

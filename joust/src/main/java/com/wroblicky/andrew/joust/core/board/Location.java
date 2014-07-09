@@ -66,6 +66,10 @@ public class Location {
 		return myRank;
 	}
 	
+	public int getComponentNumber() {
+		return myY*8 + myX;
+	}
+	
 	public ChessPiece getChessPiece() {
 		return myChessPiece;
 	}

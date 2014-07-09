@@ -167,6 +167,7 @@ public class GameSetup {
 	
 		Game game = new Game(chessBoard, new ArrayList<Turn>(), new ChessPieceSubsetManager(actives));
 		GameManager gameManager = new GameManager(game);
+		
 		return gameManager;
 	}
 
