@@ -10,7 +10,6 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
@@ -26,16 +25,18 @@ import com.wroblicky.andrew.joust.core.board.ChessBoardIterator;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.game.GameSetup;
+import com.wroblicky.andrew.joust.core.game.PGNViewer;
 import com.wroblicky.andrew.joust.core.general.Util;
-import com.wroblicky.andrew.joust.core.move.Turn;
 
 @SuppressWarnings("serial")
 public class ChessDisplay extends JFrame implements ActionListener {
 	
 	private JLayeredPane layeredPane;
 	private JPanel chessBoardPanel;
+	private PGNViewer pgnViewer;
 
-	public ChessDisplay(ChessBoard chessBoard, List<Turn> turns) {
+	public ChessDisplay(ChessBoard chessBoard, PGNViewer pgnViewer) {
+		this.pgnViewer = pgnViewer;
 		Dimension boardSize = new Dimension(600, 600);
 		
 		layeredPane = new JLayeredPane();
@@ -129,6 +130,7 @@ public class ChessDisplay extends JFrame implements ActionListener {
 	
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
+		// if next button clicked, calls PGNViewer.playNextTurn()
 		
 	}
 	
