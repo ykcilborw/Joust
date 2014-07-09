@@ -82,6 +82,14 @@ public class Game {
 	public void incrementRound() {
 		this.round += 1;
 	}
+	
+	public void decrementRound() {
+		this.round -= 1;
+	}
+	
+	public Turn getCurrentTurn() {
+		return turns.get(round);
+	}
 
 	public boolean isWhiteCastleMoveAllowed() {
 		return isWhiteCastleMoveAllowed;

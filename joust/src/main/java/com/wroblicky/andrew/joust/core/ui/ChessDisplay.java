@@ -24,9 +24,11 @@ import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.board.ChessBoardIterator;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
+import com.wroblicky.andrew.joust.core.game.Game;
 import com.wroblicky.andrew.joust.core.game.GameSetup;
 import com.wroblicky.andrew.joust.core.game.PGNViewer;
 import com.wroblicky.andrew.joust.core.general.Util;
+import com.wroblicky.andrew.joust.core.move.Turn;
 
 @SuppressWarnings("serial")
 public class ChessDisplay extends JFrame implements ActionListener {
@@ -35,7 +37,7 @@ public class ChessDisplay extends JFrame implements ActionListener {
 	private JPanel chessBoardPanel;
 	private PGNViewer pgnViewer;
 
-	public ChessDisplay(ChessBoard chessBoard, PGNViewer pgnViewer) {
+	private ChessDisplay(ChessBoard chessBoard, PGNViewer pgnViewer) {
 		this.pgnViewer = pgnViewer;
 		Dimension boardSize = new Dimension(600, 600);
 		
@@ -64,8 +66,6 @@ public class ChessDisplay extends JFrame implements ActionListener {
 			Location current = chessBoardIterator.next();
 			ChessPiece chessPiece = current.getChessPiece();
 			if (chessPiece != null) {
-				
-				Util.print("" + chessPiece.getMySymbol());
 				switch (chessPiece.getMySymbol()) {
 					case BLACK_PAWN:	addChessPiece(current, "SnippingPawn.JPG");
 										break;
@@ -128,14 +128,25 @@ public class ChessDisplay extends JFrame implements ActionListener {
 		
 	}
 	
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		// if next button clicked, calls PGNViewer.playNextTurn()
-		
+	public void actionPerformed(ActionEvent e) {
+		String which = e.getActionCommand();
+		if(which.equals("next")) {
+			Turn turn = pgnViewer.playNextTurn().getCurrentTurn();
+			// TODO move chess piece giving turn data
+		}
 	}
 	
 	public static void main(String[] args) {
 		JFrame frame = new ChessDisplay(GameSetup.setupDefaultGame().getBoard(), null);
+		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE );
+		frame.pack();
+		frame.setResizable(true);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+	}
+	
+	public void start(ChessBoard chessBoard, PGNViewer pgnViewer) {
+		JFrame frame = new ChessDisplay(chessBoard, pgnViewer);
 		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE );
 		frame.pack();
 		frame.setResizable(true);

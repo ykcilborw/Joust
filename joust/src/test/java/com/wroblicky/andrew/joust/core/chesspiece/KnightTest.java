@@ -12,7 +12,7 @@ import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Allegiance;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceType;
 
-public class HorseTest {
+public class KnightTest {
 
 	@Test
 	public void testGetID() {
