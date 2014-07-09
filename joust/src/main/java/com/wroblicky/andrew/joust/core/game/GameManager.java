@@ -8,6 +8,7 @@ import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.general.ChessPieceLookup;
 import com.wroblicky.andrew.joust.core.general.ChessPieceSubsetManager;
+import com.wroblicky.andrew.joust.core.move.GameStateChange;
 import com.wroblicky.andrew.joust.core.move.Move;
 import com.wroblicky.andrew.joust.core.move.Turn;
 import com.wroblicky.andrew.joust.core.qualifiable.Qualifiable;
@@ -120,20 +121,23 @@ public class GameManager {
 	}
 	
 	public void updateBoard(Turn turn) {
-		for (Move move : turn.getMoves()) {
-			handleMove(move);
+		for (GameStateChange gameStateChange : turn.getGameStateChanges()) {
+			handleMove(gameStateChange);
 		}
 		game.incrementRound();
 		game.addTurn(turn);
 	}
 	
-	private void handleMove(Move move) {
-		ChessPiece chessPiece = move.getChessPiece();
-		Location destination = move.getDestination();
-		if (destination == null) {
-			game.removeChessPiece(chessPiece);
-		} else {
-			chessPiece.move(destination);
+	private void handleMove(GameStateChange gameStateChange) {
+		if (gameStateChange instanceof Move) {
+			Move move = (Move) gameStateChange;
+			ChessPiece chessPiece = move.getChessPiece();
+			Location destination = move.getDestination();
+			if (destination == null) {
+				game.removeChessPiece(chessPiece);
+			} else {
+				chessPiece.move(destination);
+			}
 		}
 	}
 }

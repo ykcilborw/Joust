@@ -3,7 +3,7 @@ package com.wroblicky.andrew.joust.core.move;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 
-public class Move {
+public class Move extends GameStateChange {
 	
 	private ChessPiece chessPiece;
 	private Location start;

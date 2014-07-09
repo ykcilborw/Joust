@@ -6,7 +6,7 @@ import java.util.List;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 
 /**
- * Represents a move or sequence of chess piece moves that a player
+ * Represents a move or sequence of chess piece gameStateChanges that a player
  * can make during his or her turn.
  * 
  * @author Andrew
@@ -14,29 +14,29 @@ import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
  */
 public class Turn {
 	
-	private List<Move> moves;
+	private List<GameStateChange> gameStateChanges;
 	private ChessPiece captured;
 	private ChessPiece capturer;
 
 	
 	public Turn(Move move) {
-		this.moves = new ArrayList<Move>();
-		this.moves.add(move);
+		this.gameStateChanges = new ArrayList<GameStateChange>();
+		this.gameStateChanges.add(move);
 	}
 	
 	public Turn(Move move, ChessPiece captured, ChessPiece capturer) {
-		this.moves = new ArrayList<Move>();
-		this.moves.add(move);
+		this.gameStateChanges = new ArrayList<GameStateChange>();
+		this.gameStateChanges.add(move);
 		this.captured = captured;
 		this.capturer = capturer;
 	}
 	
-	public List<Move> getMoves() {
-		return moves;
+	public List<GameStateChange> getGameStateChanges() {
+		return gameStateChanges;
 	}
 	
 	public void addMove(Move move) {
-		this.moves.add(move);
+		this.gameStateChanges.add(move);
 	}
 	
 	public ChessPiece getCaptured() {
