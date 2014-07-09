@@ -11,7 +11,7 @@ import com.wroblicky.andrew.joust.core.move.Turn;
 import com.wroblicky.andrew.joust.core.qualifiable.Qualifiable;
 
 /**
- * A simple class that stores all the internal properties of a chess game
+ * A class that stores all the internal properties of a chess game
  * 
  * @author Andrew Wroblicky
  *

@@ -14,16 +14,13 @@ import com.wroblicky.andrew.joust.core.qualifiable.Qualifiable;
 import com.wroblicky.andrew.joust.core.qualifiable.Scope;
 
 /**
- * Simple wrapper around the Game class for mutation operations
- * 
+ * Manages the state of the Game object
  * 
  * @author Andrew Wroblicky
  *
  */
 public class GameManager {
 	private Game game;
-	//private ChessPiece capturer;
-	//private ChessPiece captured;
 	private ChessPieceLookup chessPieceLookup;
 
 	public GameManager(Game game) {
@@ -76,14 +73,6 @@ public class GameManager {
 		return game.isInProgress();
 	}
 	
-	/*public ChessPiece getCapturer() {
-		return capturer;
-	}
-	
-	public ChessPiece getCaptured() {
-		return captured;
-	}*/
-	
 	public Game getGame() {
 		return game;
 	}
@@ -108,8 +97,6 @@ public class GameManager {
 		Turn turn = new Turn(new Move(captured, captured.getLocation(), null)); 
 		
 		// update metadata
-		//capturer = chessPiece;
-		//captured = dead;
 		turn.setCaptured(captured);
 		turn.setCapturer(capturer);
 		turn.addMove(new Move(capturer, capturer.getLocation(), 
@@ -148,10 +135,5 @@ public class GameManager {
 		} else {
 			chessPiece.move(destination);
 		}
-	}
-	
-	@Deprecated
-	public void removePiece(ChessPiece chessPiece) {
-		game.removeChessPiece(chessPiece);
 	}
 }
