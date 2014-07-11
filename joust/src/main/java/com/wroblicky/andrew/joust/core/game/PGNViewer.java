@@ -2,7 +2,7 @@ package com.wroblicky.andrew.joust.core.game;
 
 import java.util.ListIterator;
 
-import com.wroblicky.andrew.joust.core.general.Util;
+import com.wroblicky.andrew.joust.Util;
 import com.wroblicky.andrew.joust.core.qualifiable.Scope;
 import com.wroblicky.andrew.joust.core.ui.CommandLineDisplay;
 import com.wroblicky.andrew.joust.core.ui.DialogBoxDisplay;

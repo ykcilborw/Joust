@@ -1,4 +1,4 @@
-package com.wroblicky.andrew.joust.core.general;
+package com.wroblicky.andrew.joust;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,6 +8,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.wroblicky.andrew.joust.ChessPieceSubsetManager;
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.chesspiece.Bishop;
 import com.wroblicky.andrew.joust.core.chesspiece.Rook;

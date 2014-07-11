@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.wroblicky.andrew.joust.ChessPieceSubsetManager;
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
-import com.wroblicky.andrew.joust.core.general.ChessPieceSubsetManager;
 import com.wroblicky.andrew.joust.core.move.Turn;
 import com.wroblicky.andrew.joust.core.qualifiable.Qualifiable;
 

@@ -1,4 +1,4 @@
-package com.wroblicky.andrew.joust.core.general;
+package com.wroblicky.andrew.joust;
 
 import java.util.Set;
 

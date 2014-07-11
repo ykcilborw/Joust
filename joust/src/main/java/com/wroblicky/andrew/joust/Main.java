@@ -1,4 +1,4 @@
-package com.wroblicky.andrew.joust.core.general;
+package com.wroblicky.andrew.joust;
 
 /**
  * A simple wrapper that provides different options for interacting with the

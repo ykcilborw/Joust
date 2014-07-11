@@ -2,11 +2,11 @@ package com.wroblicky.andrew.joust.core.ui;
 
 import java.util.Scanner;
 
+import com.wroblicky.andrew.joust.Util;
 import com.wroblicky.andrew.joust.core.board.ChessBoardIterator;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.game.Game;
 import com.wroblicky.andrew.joust.core.game.PGNViewer;
-import com.wroblicky.andrew.joust.core.general.Util;
 
 public class CommandLineDisplay {
 	

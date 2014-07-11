@@ -24,8 +24,8 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-import com.wroblicky.andrew.joust.core.general.ChessBoardMatcher;
-import com.wroblicky.andrew.joust.core.general.Util;
+import com.wroblicky.andrew.joust.ChessBoardMatcher;
+import com.wroblicky.andrew.joust.Util;
 
 /* All code in this class taken from http://roseindia.net/java/example/java/swing/chess-application-swing.shtml
  * Deprecated and being transitioned to DialogBoxDisplay

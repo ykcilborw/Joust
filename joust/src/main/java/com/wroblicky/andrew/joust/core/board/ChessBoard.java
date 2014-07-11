@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.wroblicky.andrew.joust.Util;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
-import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.move.Move;
 
 public class ChessBoard {

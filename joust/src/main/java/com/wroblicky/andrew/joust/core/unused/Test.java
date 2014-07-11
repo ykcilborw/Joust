@@ -3,7 +3,7 @@ package com.wroblicky.andrew.joust.core.unused;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
-import com.wroblicky.andrew.joust.core.general.Main;
+import com.wroblicky.andrew.joust.Main;
 
 
 public class Test {

@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.wroblicky.andrew.joust.core.general.Util;
+import com.wroblicky.andrew.joust.Util;
 
 /**
  * Converts the moves described in a PGN text file into a

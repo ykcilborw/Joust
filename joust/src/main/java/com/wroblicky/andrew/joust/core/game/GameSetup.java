@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.wroblicky.andrew.joust.ChessPieceSubsetManager;
+import com.wroblicky.andrew.joust.Util;
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.Bishop;
@@ -20,8 +22,6 @@ import com.wroblicky.andrew.joust.core.chesspiece.Knight;
 import com.wroblicky.andrew.joust.core.chesspiece.King;
 import com.wroblicky.andrew.joust.core.chesspiece.Pawn;
 import com.wroblicky.andrew.joust.core.chesspiece.Queen;
-import com.wroblicky.andrew.joust.core.general.ChessPieceSubsetManager;
-import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.move.Turn;
 
 /**

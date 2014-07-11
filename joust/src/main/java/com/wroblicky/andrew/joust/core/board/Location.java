@@ -1,7 +1,7 @@
 package com.wroblicky.andrew.joust.core.board;
 
+import com.wroblicky.andrew.joust.Util;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
-import com.wroblicky.andrew.joust.core.general.Util;
 
 public class Location {
 	private int myX;

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.wroblicky.andrew.joust.Util;
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.board.Location;
-import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceType;
 

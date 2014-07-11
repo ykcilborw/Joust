@@ -3,11 +3,11 @@ package com.wroblicky.andrew.joust.core.game;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.wroblicky.andrew.joust.ChessPieceLookup;
+import com.wroblicky.andrew.joust.ChessPieceSubsetManager;
 import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
-import com.wroblicky.andrew.joust.core.general.ChessPieceLookup;
-import com.wroblicky.andrew.joust.core.general.ChessPieceSubsetManager;
 import com.wroblicky.andrew.joust.core.move.GameStateChange;
 import com.wroblicky.andrew.joust.core.move.Move;
 import com.wroblicky.andrew.joust.core.move.Turn;

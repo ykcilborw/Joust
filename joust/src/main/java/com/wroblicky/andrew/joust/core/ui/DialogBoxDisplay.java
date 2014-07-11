@@ -21,12 +21,12 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
+import com.wroblicky.andrew.joust.Util;
 import com.wroblicky.andrew.joust.core.board.ChessBoardIterator;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.game.Game;
 import com.wroblicky.andrew.joust.core.game.PGNViewer;
-import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.move.GameStateChange;
 import com.wroblicky.andrew.joust.core.move.Move;
 import com.wroblicky.andrew.joust.core.move.Turn;
