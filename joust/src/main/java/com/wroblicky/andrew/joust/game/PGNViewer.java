@@ -5,6 +5,7 @@ import java.util.ListIterator;
 import com.wroblicky.andrew.joust.Util;
 import com.wroblicky.andrew.joust.display.CommandLineDisplay;
 import com.wroblicky.andrew.joust.display.DialogBoxDisplay;
+import com.wroblicky.andrew.joust.display.DisplayConstants;
 import com.wroblicky.andrew.joust.game.subset.qualifiable.Scope;
 import com.wroblicky.andrew.joust.pgn.PGNGame;
 import com.wroblicky.andrew.joust.pgn.PGNParser;
@@ -76,13 +77,14 @@ public final class PGNViewer {
 			String runType = args[0];
 			String pgnGame = args[1];
 			PGNViewer pgnViewer = new PGNViewer(PGNParser.getPGNGame(pgnGame));
+			Game game = pgnViewer.initializeGame();
 			
 			if (runType.equals("-n")) { // non-interactive mode
-				runNonInteractiveMode(pgnViewer);
+				runNonInteractiveMode(pgnViewer, game);
 			} else if (runType.equals("-c")) {
-				runCommandLineInteractiveMode(pgnViewer);
+				runCommandLineInteractiveMode(pgnViewer, game);
 			} else if (runType.equals("-s")) {
-				runSwingDisplay(pgnViewer);
+				runSwingDisplay(pgnViewer, game);
 			} else {
 				System.err.print("An unknown command line option was specified: " + args[1]);
 			}
@@ -91,22 +93,15 @@ public final class PGNViewer {
 		}
 	}
 	
-	private static void runNonInteractiveMode(PGNViewer pgnViewer) {
-		pgnViewer.initializeGame();
-		while (pgnViewer.getGame().isInProgress()) {
-			Game game = pgnViewer.playNextTurn();
-			Util.print("Current Round: " + game.getRound() + "\n");
-			game.getBoard().printBoard(game.getChessPieces(Scope.ACTIVE));
-		}
+	private static void runNonInteractiveMode(PGNViewer pgnViewer, Game game) {
+		CommandLineDisplay.start(game, pgnViewer, DisplayConstants.NONINTERACTIVE_MODE);
 	}
 	
-	private static void runCommandLineInteractiveMode(PGNViewer pgnViewer) {
-		Game game = pgnViewer.initializeGame();
-		CommandLineDisplay.start(game, pgnViewer);
+	private static void runCommandLineInteractiveMode(PGNViewer pgnViewer, Game game) {
+		CommandLineDisplay.start(game, pgnViewer, DisplayConstants.INTERACTIVE_MODE);
 	}
 	
-	private static void runSwingDisplay(PGNViewer pgnViewer) {
-		Game game = pgnViewer.initializeGame();
+	private static void runSwingDisplay(PGNViewer pgnViewer, Game game) {
 		DialogBoxDisplay.start(game, pgnViewer);
 	}
 }

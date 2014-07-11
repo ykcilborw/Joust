@@ -8,22 +8,26 @@ import com.wroblicky.andrew.joust.game.PGNViewer;
 import com.wroblicky.andrew.joust.game.board.ChessBoardIterator;
 import com.wroblicky.andrew.joust.game.board.Location;
 
-public class CommandLineDisplay {
+public final class CommandLineDisplay {
 	
 	private Game game;
 	private PGNViewer pgnViewer;
 	
-	private static String NEXT = "next";
-	private static String PREVIOUS = "previous";
-	private static String EXIT = "exit";
+	private static final String NEXT = "next";
+	private static final String PREVIOUS = "previous";
+	private static final String EXIT = "exit";
 	
-	public CommandLineDisplay(Game game, PGNViewer pgnViewer) {
+	public CommandLineDisplay(Game game, PGNViewer pgnViewer, String mode) {
 		this.game = game;
 		this.pgnViewer = pgnViewer;
-		run();
+		if (mode.equals(DisplayConstants.INTERACTIVE_MODE)) {
+			runInteractiveMode();
+		} else {
+			runNonInteractiveMode();
+		}
 	}
 	
-	private void run() {
+	private void runInteractiveMode() {
 		Util.print("Welcome to Joust");
 		Util.print("Type 'next' to advance the game by one turn, 'previous' to undo a turn," +
 				" and 'exit' to leave");
@@ -37,6 +41,15 @@ public class CommandLineDisplay {
 			Scanner in = new Scanner(System.in);
 			nextInstruction = in.nextLine();
 			this.game = evaluateNextInstruction(nextInstruction);
+		}
+	}
+	
+	private void runNonInteractiveMode() {
+		// run main display loop
+		while (game.isInProgress()) {
+			Util.print("Round: " + game.getRound());
+			displayBoard();
+			this.game = pgnViewer.playNextTurn();
 		}
 	}
 	
@@ -82,7 +95,7 @@ public class CommandLineDisplay {
 		}
 	}
 	
-	public static void start(Game game, PGNViewer pgnViewer) {
-		new CommandLineDisplay(game, pgnViewer);
+	public static void start(Game game, PGNViewer pgnViewer, String mode) {
+		new CommandLineDisplay(game, pgnViewer, mode);
 	}
 }
