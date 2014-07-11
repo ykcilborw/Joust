@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.wroblicky.andrew.joust.core.board.Location;
-import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
-import com.wroblicky.andrew.joust.core.game.GameManager;
-import com.wroblicky.andrew.joust.core.game.PGNViewer;
-import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
+import com.wroblicky.andrew.joust.game.GameManager;
+import com.wroblicky.andrew.joust.game.PGNViewer;
+import com.wroblicky.andrew.joust.game.board.Location;
+import com.wroblicky.andrew.joust.game.chesspiece.ChessPiece;
+import com.wroblicky.andrew.joust.game.subset.qualifiable.ChessPieceAllegianceType;
 import com.wroblicky.andrew.joust.pgn.PGNParser;
 
 import fri.patterns.interpreter.parsergenerator.examples.Joust;

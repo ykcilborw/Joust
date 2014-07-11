@@ -2,8 +2,9 @@ package com.wroblicky.andrew.joust;
 
 import java.util.Set;
 
-import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
-import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
+import com.wroblicky.andrew.joust.game.chesspiece.ChessPiece;
+import com.wroblicky.andrew.joust.game.subset.ChessPieceSubsetManager;
+import com.wroblicky.andrew.joust.game.subset.qualifiable.ChessPieceAllegianceType;
 
 @Deprecated
 // Temporary class to aid in transition to subset manager

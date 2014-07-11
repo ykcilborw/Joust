@@ -3,9 +3,9 @@ package com.wroblicky.andrew.joust;
 import java.util.List;
 import java.util.Set;
 
-import com.wroblicky.andrew.joust.core.board.Location;
-import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
-import com.wroblicky.andrew.joust.core.ui.ChessGameDemo;
+import com.wroblicky.andrew.joust.display.ChessGameDemo;
+import com.wroblicky.andrew.joust.game.board.Location;
+import com.wroblicky.andrew.joust.game.chesspiece.ChessPiece;
 
 public class Util {
 	

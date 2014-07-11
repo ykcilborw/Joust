@@ -8,19 +8,19 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.wroblicky.andrew.joust.ChessPieceSubsetManager;
-import com.wroblicky.andrew.joust.core.board.ChessBoard;
-import com.wroblicky.andrew.joust.core.chesspiece.Bishop;
-import com.wroblicky.andrew.joust.core.chesspiece.Rook;
-import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
-import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece.Allegiance;
-import com.wroblicky.andrew.joust.core.chesspiece.Knight;
-import com.wroblicky.andrew.joust.core.chesspiece.King;
-import com.wroblicky.andrew.joust.core.chesspiece.Pawn;
-import com.wroblicky.andrew.joust.core.chesspiece.Queen;
-import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
-import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceType;
-import com.wroblicky.andrew.joust.core.qualifiable.Scope;
+import com.wroblicky.andrew.joust.game.board.ChessBoard;
+import com.wroblicky.andrew.joust.game.chesspiece.Bishop;
+import com.wroblicky.andrew.joust.game.chesspiece.ChessPiece;
+import com.wroblicky.andrew.joust.game.chesspiece.King;
+import com.wroblicky.andrew.joust.game.chesspiece.Knight;
+import com.wroblicky.andrew.joust.game.chesspiece.Pawn;
+import com.wroblicky.andrew.joust.game.chesspiece.Queen;
+import com.wroblicky.andrew.joust.game.chesspiece.Rook;
+import com.wroblicky.andrew.joust.game.chesspiece.ChessPiece.Allegiance;
+import com.wroblicky.andrew.joust.game.subset.ChessPieceSubsetManager;
+import com.wroblicky.andrew.joust.game.subset.qualifiable.ChessPieceAllegianceType;
+import com.wroblicky.andrew.joust.game.subset.qualifiable.ChessPieceType;
+import com.wroblicky.andrew.joust.game.subset.qualifiable.Scope;
 
 public class ChessPieceSubsetManagerTest {
 	
