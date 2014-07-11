@@ -3,7 +3,6 @@ package com.wroblicky.andrew.joust.core.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -22,26 +21,30 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-import com.wroblicky.andrew.joust.core.board.ChessBoard;
 import com.wroblicky.andrew.joust.core.board.ChessBoardIterator;
 import com.wroblicky.andrew.joust.core.board.Location;
 import com.wroblicky.andrew.joust.core.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.core.game.Game;
-import com.wroblicky.andrew.joust.core.game.GameSetup;
 import com.wroblicky.andrew.joust.core.game.PGNViewer;
 import com.wroblicky.andrew.joust.core.general.Util;
 import com.wroblicky.andrew.joust.core.move.GameStateChange;
 import com.wroblicky.andrew.joust.core.move.Move;
 import com.wroblicky.andrew.joust.core.move.Turn;
 
+/**
+ * Manages the ui for displaying a chess game as a dialog box
+ * 
+ * @author Andrew Wroblicky
+ *
+ */
 @SuppressWarnings("serial")
-public class ChessDisplay extends JFrame implements ActionListener {
+public class DialogBoxDisplay extends JFrame implements ActionListener {
 	
 	private JLayeredPane layeredPane;
 	private JPanel chessBoardPanel;
 	private PGNViewer pgnViewer;
 
-	private ChessDisplay(ChessBoard chessBoard, PGNViewer pgnViewer) {
+	private DialogBoxDisplay(Game game, PGNViewer pgnViewer) {
 		this.pgnViewer = pgnViewer;
 		Dimension boardSize = new Dimension(600, 600);
 		
@@ -65,7 +68,7 @@ public class ChessDisplay extends JFrame implements ActionListener {
 				square.setBackground( i % 2 == 0 ? Color.red : Color.black );
 		}
 		
-		ChessBoardIterator chessBoardIterator = chessBoard.iterator();
+		ChessBoardIterator chessBoardIterator = game.getBoard().iterator();
 		while (chessBoardIterator.hasNext()) {
 			Location current = chessBoardIterator.next();
 			ChessPiece chessPiece = current.getChessPiece();
@@ -155,18 +158,9 @@ public class ChessDisplay extends JFrame implements ActionListener {
 		}
 	}
 	
-	public static void main(String[] args) {
-		JFrame frame = new ChessDisplay(GameSetup.setupDefaultGame().getBoard(), null);
-		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE );
-		frame.pack();
-		frame.setResizable(true);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-	}
-	
-	public static void start(ChessBoard chessBoard, PGNViewer pgnViewer) {
-		JFrame frame = new ChessDisplay(chessBoard, pgnViewer);
-		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE );
+	public static void start(Game game, PGNViewer pgnViewer) {
+		JFrame frame = new DialogBoxDisplay(game, pgnViewer);
+		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		frame.pack();
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);

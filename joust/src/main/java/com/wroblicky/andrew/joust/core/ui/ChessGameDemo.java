@@ -28,7 +28,7 @@ import com.wroblicky.andrew.joust.core.general.ChessBoardMatcher;
 import com.wroblicky.andrew.joust.core.general.Util;
 
 /* All code in this class taken from http://roseindia.net/java/example/java/swing/chess-application-swing.shtml
- * 
+ * Deprecated and being transitioned to DialogBoxDisplay
  */
 @SuppressWarnings("serial")
 public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionListener, ActionListener {

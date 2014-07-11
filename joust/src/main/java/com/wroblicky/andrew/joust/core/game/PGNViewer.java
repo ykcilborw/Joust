@@ -18,7 +18,8 @@ import com.wroblicky.andrew.joust.core.move.Move;
 import com.wroblicky.andrew.joust.core.move.Turn;
 import com.wroblicky.andrew.joust.core.qualifiable.ChessPieceAllegianceType;
 import com.wroblicky.andrew.joust.core.qualifiable.Scope;
-import com.wroblicky.andrew.joust.core.ui.ChessDisplay;
+import com.wroblicky.andrew.joust.core.ui.CommandLineDisplay;
+import com.wroblicky.andrew.joust.core.ui.DialogBoxDisplay;
 import com.wroblicky.andrew.joust.pgn.PGNGame;
 import com.wroblicky.andrew.joust.pgn.PGNParser;
 
@@ -429,13 +430,12 @@ public final class PGNViewer {
 	}
 	
 	private static void runCommandLineInteractiveMode(PGNViewer pgnViewer) {
-		// TODO
+		Game game = pgnViewer.initializeGame();
+		CommandLineDisplay.start(game, pgnViewer);
 	}
 	
 	private static void runSwingDisplay(PGNViewer pgnViewer) {
 		Game game = pgnViewer.initializeGame();
-		ChessBoard chessBoard = game.getBoard();
-		//chessBoard.printBoard(game.getChessPieces(Scope.ACTIVE));
-		ChessDisplay.start(game.getBoard(), pgnViewer);
+		DialogBoxDisplay.start(game, pgnViewer);
 	}
 }
