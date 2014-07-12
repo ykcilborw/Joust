@@ -2,7 +2,7 @@ package com.wroblicky.andrew.joust.game.move;
 
 import com.wroblicky.andrew.joust.game.chesspiece.ChessPiece.Allegiance;
 
-public class Termination extends GameStateChange {
+public final class Termination extends GameStateChange {
 	
 	private Allegiance winner;
 	

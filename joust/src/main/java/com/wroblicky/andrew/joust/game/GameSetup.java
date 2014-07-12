@@ -30,7 +30,7 @@ import com.wroblicky.andrew.joust.game.subset.ChessPieceSubsetManager;
  * @author Andrew Wroblicky
  *
  */
-public class GameSetup {
+public final class GameSetup {
 	
 	public static GameManager setupDefaultGame() {
 		// Load initial default initial configuration into gameManager

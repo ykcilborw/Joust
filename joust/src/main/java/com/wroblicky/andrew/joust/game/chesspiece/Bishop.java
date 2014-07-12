@@ -19,7 +19,7 @@ import com.wroblicky.andrew.joust.game.subset.qualifiable.ChessPieceType;
  * @author Andrew Wroblicky
  *
  */
-public class Bishop extends ChessPiece {
+public final class Bishop extends ChessPiece {
 	
 	public Bishop() {
 		this.alive = true;

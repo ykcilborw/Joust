@@ -17,7 +17,7 @@ import com.wroblicky.andrew.joust.game.subset.qualifiable.Scope;
  * @author Andrew Wroblicky
  *
  */
-public class ChessPieceSubsetManager {
+public final class ChessPieceSubsetManager {
 	
 	private Set<ChessPiece> allPieces;
 	private Set<ChessPiece> actives;

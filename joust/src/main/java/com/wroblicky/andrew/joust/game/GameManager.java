@@ -20,7 +20,7 @@ import com.wroblicky.andrew.joust.game.subset.qualifiable.Scope;
  * @author Andrew Wroblicky
  *
  */
-public class GameManager {
+public final class GameManager {
 	private Game game;
 	private ChessPieceLookup chessPieceLookup;
 

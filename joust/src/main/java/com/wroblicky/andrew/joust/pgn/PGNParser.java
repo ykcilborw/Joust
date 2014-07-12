@@ -8,8 +8,6 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.wroblicky.andrew.joust.Util;
-
 /**
  * Converts the moves described in a PGN text file into a
  * list of string tokens
@@ -17,7 +15,7 @@ import com.wroblicky.andrew.joust.Util;
  * @author Andrew Wroblicky
  *
  */
-public class PGNParser {
+public final class PGNParser {
 	
 
 	public static PGNGame getPGNGame(String pgnTextFile) {

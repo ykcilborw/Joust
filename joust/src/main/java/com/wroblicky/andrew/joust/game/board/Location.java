@@ -3,7 +3,7 @@ package com.wroblicky.andrew.joust.game.board;
 import com.wroblicky.andrew.joust.Util;
 import com.wroblicky.andrew.joust.game.chesspiece.ChessPiece;
 
-public class Location {
+public final class Location {
 	private int myX;
 	private int myY;
 	private String myAlgebraicLocation;

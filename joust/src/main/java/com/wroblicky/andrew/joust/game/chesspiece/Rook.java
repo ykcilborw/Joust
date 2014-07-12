@@ -18,7 +18,7 @@ import com.wroblicky.andrew.joust.game.subset.qualifiable.ChessPieceType;
  * @author Andrew Wroblicky
  *
  */
-public class Rook extends ChessPiece {
+public final class Rook extends ChessPiece {
 	
 	public Rook() {
 		this.alive = true;

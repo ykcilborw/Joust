@@ -1,6 +1,12 @@
 package com.wroblicky.andrew.joust.game.board;
 
-public class ChessBoardIterator {
+/**
+ * Utility class for iterating over chess board squares
+ * 
+ * @author Andrew Wroblicky
+ *
+ */
+public final class ChessBoardIterator {
 	
 	private Location[][] chessBoard;
 	private int currentX;

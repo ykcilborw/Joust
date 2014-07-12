@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import com.wroblicky.andrew.joust.Main;
 
 
-public class Test {
+public class IntegrationTest {
 	
 	
 	public static void main(String[] args) {

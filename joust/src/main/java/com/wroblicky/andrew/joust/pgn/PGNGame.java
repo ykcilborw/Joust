@@ -8,7 +8,7 @@ import java.util.List;
  * @author Andrew Wroblicky
  *
  */
-public class PGNGame {
+public final class PGNGame {
 	
 	private static final String UNKNOWN = "Unknown";
 	

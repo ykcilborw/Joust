@@ -20,7 +20,7 @@ import fri.patterns.interpreter.parsergenerator.examples.Joust;
  * The interpreter for the Joust language, it is designed to mirror the
  * Matcher class for regexes in Java
  */
-public class ChessBoardMatcher {
+public final class ChessBoardMatcher {
 	GameManager myGame;
 	PGNViewer pgnViewer;
 	List<String> myMoves;

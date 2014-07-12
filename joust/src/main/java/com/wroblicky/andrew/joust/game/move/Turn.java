@@ -12,7 +12,7 @@ import com.wroblicky.andrew.joust.game.chesspiece.ChessPiece;
  * @author Andrew
  *
  */
-public class Turn {
+public final class Turn {
 	
 	private List<GameStateChange> gameStateChanges;
 	private ChessPiece captured;

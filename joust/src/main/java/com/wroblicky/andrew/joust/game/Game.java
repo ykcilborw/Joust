@@ -16,7 +16,7 @@ import com.wroblicky.andrew.joust.game.subset.qualifiable.Qualifiable;
  * @author Andrew Wroblicky
  *
  */
-public class Game {
+public final class Game {
 	
 	private ChessBoard board;
 	private List<Turn> turns = new ArrayList<Turn>();

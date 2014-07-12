@@ -22,7 +22,7 @@ import com.wroblicky.andrew.joust.game.subset.qualifiable.ChessPieceAllegianceTy
  * @author Andrew Wroblicky
  *
  */
-public class MoveTokenAnalyzer {
+public final class MoveTokenAnalyzer {
 	
 	private GameManager gameManager;
 	private final Map<String, String> enumLookup = new HashMap<String, String>();

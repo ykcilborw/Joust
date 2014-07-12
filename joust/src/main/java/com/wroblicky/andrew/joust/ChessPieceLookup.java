@@ -8,7 +8,7 @@ import com.wroblicky.andrew.joust.game.subset.qualifiable.ChessPieceAllegianceTy
 
 @Deprecated
 // Temporary class to aid in transition to subset manager
-public class ChessPieceLookup {
+public final class ChessPieceLookup {
 	
 	private ChessPieceSubsetManager chessPieceSubsetManager;
 	

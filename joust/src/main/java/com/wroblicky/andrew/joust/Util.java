@@ -7,7 +7,7 @@ import com.wroblicky.andrew.joust.display.ChessGameDemo;
 import com.wroblicky.andrew.joust.game.board.Location;
 import com.wroblicky.andrew.joust.game.chesspiece.ChessPiece;
 
-public class Util {
+public final class Util {
 	
 	public static String[][] getStringBoard(Set<ChessPiece> actives) {
 		String[][] newBoard = new String[8][8];

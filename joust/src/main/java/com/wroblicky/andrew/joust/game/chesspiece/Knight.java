@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import com.wroblicky.andrew.joust.Util;
 import com.wroblicky.andrew.joust.game.board.ChessBoard;
 import com.wroblicky.andrew.joust.game.board.Location;
 import com.wroblicky.andrew.joust.game.subset.qualifiable.ChessPieceAllegianceType;
@@ -16,7 +15,7 @@ import com.wroblicky.andrew.joust.game.subset.qualifiable.ChessPieceType;
  * @author Andrew Wroblicky
  *
  */
-public class Knight extends ChessPiece {
+public final class Knight extends ChessPiece {
 	
 	public Knight() {
 		this.allegiance = Allegiance.BLACK;

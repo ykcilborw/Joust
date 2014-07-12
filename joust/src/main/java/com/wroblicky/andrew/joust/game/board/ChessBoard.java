@@ -9,7 +9,7 @@ import com.wroblicky.andrew.joust.Util;
 import com.wroblicky.andrew.joust.game.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.game.move.Move;
 
-public class ChessBoard {
+public final class ChessBoard {
 	
 	private Location[][] chessBoard;
 	private Map<String, Location> chessPieceToLocation;

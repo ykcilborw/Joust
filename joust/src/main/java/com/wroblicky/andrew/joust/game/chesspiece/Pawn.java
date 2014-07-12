@@ -6,7 +6,6 @@ import static com.wroblicky.andrew.joust.game.chesspiece.ChessPiece.Occupier.UNO
 import java.util.ArrayList;
 import java.util.List;
 
-import com.wroblicky.andrew.joust.Util;
 import com.wroblicky.andrew.joust.game.board.ChessBoard;
 import com.wroblicky.andrew.joust.game.board.Location;
 import com.wroblicky.andrew.joust.game.subset.qualifiable.ChessPieceAllegianceType;
@@ -18,7 +17,7 @@ import com.wroblicky.andrew.joust.game.subset.qualifiable.ChessPieceType;
  * @author Andrew Wroblicky
  *
  */
-public class Pawn extends ChessPiece {
+public final class Pawn extends ChessPiece {
 	
 	private boolean hasMovedAtAll;
 	private boolean movedTwice;
