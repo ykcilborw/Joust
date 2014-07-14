@@ -38,7 +38,7 @@ import com.wroblicky.andrew.joust.game.move.Turn;
  *
  */
 @SuppressWarnings("serial")
-public class DialogBoxDisplay extends JFrame implements ActionListener {
+public final class DialogBoxDisplay extends JFrame implements ActionListener {
 	
 	private JLayeredPane layeredPane;
 	private JPanel chessBoardPanel;

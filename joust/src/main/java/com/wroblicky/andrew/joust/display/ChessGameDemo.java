@@ -31,7 +31,7 @@ import com.wroblicky.andrew.joust.Util;
  * Deprecated and being transitioned to DialogBoxDisplay
  */
 @SuppressWarnings("serial")
-public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionListener, ActionListener {
+public final class ChessGameDemo extends JFrame implements MouseListener, MouseMotionListener, ActionListener {
 	JLayeredPane layeredPane;
 	JPanel chessBoard;
 	JLabel chessPiece;
