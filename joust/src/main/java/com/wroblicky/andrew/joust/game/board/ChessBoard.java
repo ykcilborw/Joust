@@ -14,48 +14,6 @@ public final class ChessBoard {
 	private Location[][] chessBoard;
 	private Map<String, Location> chessPieceToLocation;
 	
-	public enum Direction {
-			
-		NORTH("north"),
-		NORTHWEST("northwest"),
-		WEST("west"),
-		SOUTHWEST("southwest"),
-		SOUTH("south"),
-		SOUTHEAST("southeast"),
-		EAST("east"),
-		NORTHEAST("northeast");
-		
-		private String direction;
-		
-		Direction (String direction) {
-			this.direction = direction;
-		}
-		
-		public String getDirection() {
-			return this.direction;
-		}
-		
-		public Direction reverse() {
-			if (direction.equals("north")) {
-				return SOUTH;
-			} else if (direction.equals("northwest")) {
-				return SOUTHWEST;
-			} else if (direction.equals("northeast")) {
-				return SOUTHEAST;
-			} else if (direction.equals("south")) {
-				return NORTH;
-			} else if (direction.equals("southwest")) {
-				return NORTHWEST;
-			} else if (direction.equals("southeast")) {
-				return NORTHEAST;
-			} else if (direction.equals("west")) {
-				return WEST;
-			} else {
-				return EAST;
-			}
-		}
-	}
-	
 	// constructors
 	public ChessBoard() {
 		this.chessBoard = new Location[8][8];

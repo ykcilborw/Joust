@@ -50,11 +50,6 @@ public final class GameManager {
 		return game.getBoard();
 	}
 	
-	@Deprecated
-	public void setRound(int round) {
-		this.game.setRound(round);
-	}
-	
 	public boolean getBlackCastle() {
 		return game.isBlackCastleMoveAllowed();
 	}
