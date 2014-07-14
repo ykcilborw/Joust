@@ -2,11 +2,9 @@ package com.wroblicky.andrew.joust.game;
 
 import java.util.ListIterator;
 
-import com.wroblicky.andrew.joust.Util;
 import com.wroblicky.andrew.joust.display.CommandLineDisplay;
 import com.wroblicky.andrew.joust.display.DialogBoxDisplay;
 import com.wroblicky.andrew.joust.display.DisplayConstants;
-import com.wroblicky.andrew.joust.game.subset.qualifiable.Scope;
 import com.wroblicky.andrew.joust.pgn.PGNGame;
 import com.wroblicky.andrew.joust.pgn.PGNParser;
 

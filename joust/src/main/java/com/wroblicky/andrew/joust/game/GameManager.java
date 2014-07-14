@@ -1,16 +1,13 @@
 package com.wroblicky.andrew.joust.game;
 
-import java.util.HashSet;
 import java.util.Set;
 
-import com.wroblicky.andrew.joust.ChessPieceLookup;
 import com.wroblicky.andrew.joust.game.board.ChessBoard;
 import com.wroblicky.andrew.joust.game.board.Location;
 import com.wroblicky.andrew.joust.game.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.game.move.GameStateChange;
 import com.wroblicky.andrew.joust.game.move.Move;
 import com.wroblicky.andrew.joust.game.move.Turn;
-import com.wroblicky.andrew.joust.game.subset.ChessPieceSubsetManager;
 import com.wroblicky.andrew.joust.game.subset.qualifiable.Qualifiable;
 import com.wroblicky.andrew.joust.game.subset.qualifiable.Scope;
 
@@ -21,12 +18,12 @@ import com.wroblicky.andrew.joust.game.subset.qualifiable.Scope;
  *
  */
 public final class GameManager {
+	
 	private Game game;
-	private ChessPieceLookup chessPieceLookup;
 
+	
 	public GameManager(Game game) {
 		this.game = game;
-		chessPieceLookup = new ChessPieceLookup(new ChessPieceSubsetManager(new HashSet<ChessPiece>()));
 	}
 	
 	public int getRound() {
@@ -47,10 +44,6 @@ public final class GameManager {
 	
 	public Set<ChessPiece> getChessPieces(Qualifiable qualification) {
 		return game.getChessPieces(qualification);
-	}
-	
-	public ChessPieceLookup getChessPieceLookup() {
-		return chessPieceLookup;
 	}
 	
 	public ChessBoard getBoard() {

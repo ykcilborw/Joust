@@ -1,9 +1,7 @@
 package com.wroblicky.andrew.joust;
 
-import java.util.List;
 import java.util.Set;
 
-import com.wroblicky.andrew.joust.display.ChessGameDemo;
 import com.wroblicky.andrew.joust.game.board.Location;
 import com.wroblicky.andrew.joust.game.chesspiece.ChessPiece;
 
