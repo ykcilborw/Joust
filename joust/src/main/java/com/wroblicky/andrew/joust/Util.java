@@ -24,23 +24,6 @@ public final class Util {
 		return newBoard;
 	}
 	
-	// eventually want separate UI thread that runs concurrently to the main process
-	public static void handleResults(List<String[][]> boards, List<Integer> rounds, ChessBoardMatcher jo, String joustProgram) {
-		System.out.println("Printing RESULTS: ");
-		for (int i = 0; i < boards.size(); i++) {
-			int round = rounds.get(i);
-			String[][] board = boards.get(i);
-			System.out.println("Current Round: " + round);
-				for (int j = 7; j > -1; j--) {
-					for (int k = 0; k < 8; k++) {
-						System.out.print(board[k][j] + " ");
-					}
-					System.out.println("");
-				}
-		}
-		ChessGameDemo.start(boards, jo, joustProgram);
-	}
-	
 	public static int reverseNum(int num) {
 		int toReturn = num;
 		if (num == 0) {
