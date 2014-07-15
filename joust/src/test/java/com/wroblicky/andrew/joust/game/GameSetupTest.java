@@ -69,9 +69,9 @@ public class GameSetupTest {
 		Assert.assertEquals(board.getChessPieceByLocation(board.getLocation("c1")).getChessPieceAllegianceType(),
 				ChessPieceAllegianceType.WHITE_BISHOP);
 		Assert.assertEquals(board.getChessPieceByLocation(board.getLocation("d1")).getChessPieceAllegianceType(),
-				ChessPieceAllegianceType.WHITE_KING);
-		Assert.assertEquals(board.getChessPieceByLocation(board.getLocation("e1")).getChessPieceAllegianceType(),
 				ChessPieceAllegianceType.WHITE_QUEEN);
+		Assert.assertEquals(board.getChessPieceByLocation(board.getLocation("e1")).getChessPieceAllegianceType(),
+				ChessPieceAllegianceType.WHITE_KING);
 		Assert.assertEquals(board.getChessPieceByLocation(board.getLocation("f1")).getChessPieceAllegianceType(),
 				ChessPieceAllegianceType.WHITE_BISHOP);
 		Assert.assertEquals(board.getChessPieceByLocation(board.getLocation("g1")).getChessPieceAllegianceType(),
@@ -87,9 +87,9 @@ public class GameSetupTest {
 		Assert.assertEquals(board.getChessPieceByLocation(board.getLocation("c8")).getChessPieceAllegianceType(),
 				ChessPieceAllegianceType.BLACK_BISHOP);
 		Assert.assertEquals(board.getChessPieceByLocation(board.getLocation("d8")).getChessPieceAllegianceType(),
-				ChessPieceAllegianceType.BLACK_KING);
-		Assert.assertEquals(board.getChessPieceByLocation(board.getLocation("e8")).getChessPieceAllegianceType(),
 				ChessPieceAllegianceType.BLACK_QUEEN);
+		Assert.assertEquals(board.getChessPieceByLocation(board.getLocation("e8")).getChessPieceAllegianceType(),
+				ChessPieceAllegianceType.BLACK_KING);
 		Assert.assertEquals(board.getChessPieceByLocation(board.getLocation("f8")).getChessPieceAllegianceType(),
 				ChessPieceAllegianceType.BLACK_BISHOP);
 		Assert.assertEquals(board.getChessPieceByLocation(board.getLocation("g8")).getChessPieceAllegianceType(),
