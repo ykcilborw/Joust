@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.wroblicky.andrew.joust.game.board.ChessBoard;
 import com.wroblicky.andrew.joust.game.board.Location;
 import com.wroblicky.andrew.joust.game.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.game.move.Move;
@@ -48,7 +49,6 @@ public final class MoveTokenAnalyzer {
 	}
 	
 	public void analyzeMove(String moveToken) {
-		System.out.println("Next move: " + moveToken);
 		if (moveToken.equals("1/2-1/2") || moveToken.equals("1-0") ||
 				moveToken.equals("0-1")) {
 			gameManager.handleGameOver();
@@ -81,7 +81,7 @@ public final class MoveTokenAnalyzer {
 		} else {
 			String piece = moveToken.substring(0, 1);
 			String move = moveToken.substring(1, 3);
-			ChessPiece chessPiece = determineChessPiece(move, piece);
+			ChessPiece chessPiece = determineChessPiece(piece, move);
 			Turn turn = new Turn(new Move(chessPiece, chessPiece.getLocation(), 
 					gameManager.getBoard().getLocation(move)));
 			gameManager.updateBoard(turn);
@@ -97,7 +97,7 @@ public final class MoveTokenAnalyzer {
 			String piece = moveToken.substring(0, 1);
 			String file = moveToken.substring(1, 2);
 			String move = moveToken.substring(2, 4);
-			ChessPiece chessPiece = determineFileChessPiece(file, piece, move);
+			ChessPiece chessPiece = determineChessPiece(file, piece, move);
 			Turn turn = new Turn(new Move(chessPiece, chessPiece.getLocation(), 
 					gameManager.getBoard().getLocation(move)));
 			gameManager.updateBoard(turn);
@@ -122,21 +122,34 @@ public final class MoveTokenAnalyzer {
 		}
 	}
 	
+	/**
+	 * Determines the chess piece on the board given an algebraic destination
+	 */
 	private ChessPiece determineChessPiece(String algebraicDestination) {
 		// must be a pawn
-		return determineChessPiece(algebraicDestination, gameManager.isWhiteTurn() ? "P" : "p");
+		return determineChessPiece("P", algebraicDestination);
 	}
 	
-	private ChessPiece determineChessPiece(String algebraicDestination, String piece) {
+	/**
+	 * Determines the chess piece on the board given an algebraic destination
+	 * and the chess piece unit
+	 */
+	private ChessPiece determineChessPiece(String piece, String algebraicDestination) {
 		Location destination = gameManager.getBoard().getLocation(algebraicDestination);
-		return evaluateSuspects(piece, destination);
+		ChessPieceAllegianceType chessPieceAllegianceType = convert(
+				gameManager.isWhiteTurn() ? piece : piece.toLowerCase());
+		
+		return evaluateSuspects(chessPieceAllegianceType, destination);
 	}
 	
-	private ChessPiece evaluateSuspects(String piece, Location destination) {
+	/**
+	 * Finds a chess piece given a ChessPieceAllegianceType and a destination
+	 * position
+	 */
+	private ChessPiece evaluateSuspects(ChessPieceAllegianceType chessPieceAllegianceType,
+			Location destination) {
 		// get suspects
-		piece = gameManager.isWhiteTurn() ? piece : piece.toLowerCase();
-		Set<ChessPiece> suspects = gameManager.getChessPieces(
-				convert(piece)); 
+		Set<ChessPiece> suspects = gameManager.getChessPieces(chessPieceAllegianceType); 
 		
 		// evaluate
 		for (ChessPiece suspect : suspects) {
@@ -145,76 +158,86 @@ public final class MoveTokenAnalyzer {
 			}
 		}
 		
-		// eventually will want to catch and display message to end user
 		throw new RuntimeException("Improperly formatted PGN file. " +
 				"Could not find a piece that could've legally moved to " 
 				+ destination);
 	}
 	
-	// helper method that converts a character representing a chess piece 
-	// to the appropriate ChessPieceAllegianceType enum
+	/**
+	 * Finds a chess piece given a ChessPieceAllegianceType and an initial position
+	 */
+	private ChessPiece fetchChessPiece(ChessPieceAllegianceType chessPieceAllegianceType,
+			String initialPosition) {
+		
+		ChessBoard chessBoard = gameManager.getBoard();
+		
+		ChessPiece toReturn = chessBoard.getChessPieceByLocation(new Location(initialPosition));
+		
+		if (toReturn != null && toReturn.getMySymbol() == chessPieceAllegianceType) {
+			return toReturn;
+		} else {
+			throw new RuntimeException("fetchChessPiece could not find the " +
+					"corresponding chess piece " + chessPieceAllegianceType);
+		}
+	}
+	
+	/** 
+	 *  Converts a character representing a chess piece 
+	 *  to the appropriate ChessPieceAllegianceType enum 
+	 */
 	private ChessPieceAllegianceType convert(String chessPieceSymbol) {
 		String enumRepresentation = enumLookup.get(chessPieceSymbol);
 		return ChessPieceAllegianceType.valueOf(enumRepresentation);
 	}
 	
-	private ChessPiece determineFileChessPiece(String file, String piece, 
+	private ChessPiece determineChessPiece(String file, String piece, 
 			String algebraicDestination) {
+		// setup
+		Location destination = gameManager.getBoard().getLocation(algebraicDestination);
+		piece = gameManager.isWhiteTurn() ? piece : piece.toLowerCase();
+		Set<ChessPiece> suspects = gameManager.getChessPieces(convert(piece));
+		
 		Character c = file.charAt(0);
 		if (Character.isDigit(c)) {
-			return determineRankChessPiece(file, piece, algebraicDestination);
+			return determineRankChessPiece(file, suspects, destination);
 		} else {
-			return determineFileChessPieceHelper(file, piece, algebraicDestination);
+			return determineFileChessPiece(file, suspects, destination);
 		}
 	}
 	
-	private ChessPiece determineFileChessPieceHelper(String file, String piece, 
-			String algebraicDestination) {
-		// setup
-		ChessPiece reachablePiece = null;
-		Location destination = gameManager.getBoard().getLocation(algebraicDestination);
-		piece = gameManager.isWhiteTurn() ? piece : piece.toLowerCase();
-		
+	private ChessPiece determineFileChessPiece(String file, Set<ChessPiece> suspects, 
+			Location destination) {
 		// loop over suspects
-		Set<ChessPiece> suspects = gameManager.getChessPieces(convert(piece));
 		for (ChessPiece suspect : suspects) {
 			if (suspect.getFile().equals(file) && suspect.canReach(destination)) {
-				reachablePiece = suspect;
-				break;
+				return suspect;
 			}
 		}
 		
 		// throw error if nothing found
-		if (reachablePiece == null) {
-			throw new RuntimeException("Improperly formatted PGN file. " +
-					"Could not find a piece that could've legally moved to " 
-					+ algebraicDestination);
-		}
-		
-		// return result
-		return reachablePiece;
+		throw new RuntimeException("Improperly formatted PGN file. " +
+				"Could not find a piece that could've legally moved to " 
+				+ destination.getAlgebraicLocation());
 	}
 	
-	private ChessPiece determineRankChessPiece(String rank, String piece,
-			String algebraicDestination) {
-		ChessPiece icanReach = null;
-		Location destination = gameManager.getBoard().getLocation(algebraicDestination);
-		piece = gameManager.isWhiteTurn() ? piece : piece.toLowerCase();
-		// white's turn
-		Set<ChessPiece> suspects = gameManager.getChessPieces(convert(piece));
+	private ChessPiece determineRankChessPiece(String rank, Set<ChessPiece> suspects, 
+			Location destination) {
+		// loop over suspects
 		for (ChessPiece suspect : suspects) {
 			if (suspect.getRank().equals(rank) && suspect.canReach(destination)) {
-				icanReach = suspect;
-				break;
+				return suspect;
 			}
 		}
-		if (icanReach == null) {
-			throw new RuntimeException("Improperly formatted PGN file. " +
-					"Could not find a piece that could've legally moved to " + algebraicDestination);
-		}
-		return icanReach;
+		
+		// throw error if nothing found
+		throw new RuntimeException("Improperly formatted PGN file. " +
+				"Could not find a piece that could've legally moved to "
+				+ destination.getAlgebraicLocation());
 	}
 	
+	//*************************************************************
+	//* Castle Related Logic
+	//*************************************************************
 	private void handleKingSideCastle() {
 		if (gameManager.isWhiteTurn()) {
 			handleCastle(WHITE_KING, WHITE_ROOK, "e1", "g1", "h1", "f1");
@@ -248,22 +271,10 @@ public final class MoveTokenAnalyzer {
 		gameManager.updateBoard(turn);
 	}
 	
-	// utility method to find a piece used in castling
-	private ChessPiece fetchChessPiece(ChessPieceAllegianceType chessPieceAllegianceType,
-			String initialPosition) {
-		ChessPiece toReturn = null;
-		Set<ChessPiece> kings = gameManager.getChessPieces(chessPieceAllegianceType);
-		for (ChessPiece chessPiece : kings) {
-			if (chessPiece.getLocation().getAlgebraicLocation().equals(initialPosition)) {
-				toReturn = chessPiece;
-			}
-		}
-		if (toReturn == null) {
-			throw new RuntimeException("fetchChessPiece could not find the corresponding chess piece");
-		}
-		return toReturn;
-	}
 	
+	//*************************************************************
+	//* Capture Related Logic
+	//*************************************************************
 	private void handleLengthFourCapture(String moveToken) {
 		String type = moveToken.substring(0, 1);
 		String algebraicDestination = moveToken.substring(2, 4);
@@ -272,13 +283,13 @@ public final class MoveTokenAnalyzer {
 			// a pawn moved
 			String file = type;
 			if (gameManager.isWhiteTurn()) {
-				chessPiece = determineFileChessPiece(file, "P", algebraicDestination);
+				chessPiece = determineChessPiece(file, "P", algebraicDestination);
 			} else {
-				chessPiece = determineFileChessPiece(file, "p", algebraicDestination);
+				chessPiece = determineChessPiece(file, "p", algebraicDestination);
 			}
 		} else {
 			// a normal piece moved
-			chessPiece = determineChessPiece(algebraicDestination, type);
+			chessPiece = determineChessPiece(type, algebraicDestination);
 		}
 		gameManager.handleCapture(algebraicDestination, chessPiece);
 	}
@@ -301,11 +312,14 @@ public final class MoveTokenAnalyzer {
 			String algebraicDestination = moveToken.substring(3, 5);
 			
 			// a normal piece moved (pawns not possible!)
-			ChessPiece chessPiece = determineFileChessPiece(file, type, algebraicDestination);
+			ChessPiece chessPiece = determineChessPiece(file, type, algebraicDestination);
 			gameManager.handleCapture(algebraicDestination, chessPiece);
 		}
 	}
 	
+	//*************************************************************
+	//* Check Related Logic
+	//*************************************************************
 	private void handleLengthThreeCheck(String moveToken) {
 		// parse relevant pieces
 		String algebraicDestination = moveToken.substring(0, 2);
@@ -323,7 +337,7 @@ public final class MoveTokenAnalyzer {
 		String checkType = moveToken.substring(3, 4);
 		
 		// handle
-		ChessPiece chessPiece = determineChessPiece(algebraicDestination, type);
+		ChessPiece chessPiece = determineChessPiece(type, algebraicDestination);
 		gameManager.handleCheck(algebraicDestination, checkType, chessPiece);
 	}
 	
@@ -335,7 +349,7 @@ public final class MoveTokenAnalyzer {
 		String checkType = moveToken.substring(4, 5);
 		
 		// handle
-		ChessPiece chessPiece = determineFileChessPiece(file, type, algebraicDestination);
+		ChessPiece chessPiece = determineChessPiece(file, type, algebraicDestination);
 		gameManager.handleCheck(algebraicDestination, checkType, chessPiece);
 	}
 }
