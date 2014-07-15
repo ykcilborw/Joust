@@ -7,6 +7,7 @@ import com.wroblicky.andrew.joust.game.board.Location;
 import com.wroblicky.andrew.joust.game.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.game.move.GameStateChange;
 import com.wroblicky.andrew.joust.game.move.Move;
+import com.wroblicky.andrew.joust.game.move.Termination;
 import com.wroblicky.andrew.joust.game.move.Turn;
 import com.wroblicky.andrew.joust.game.subset.qualifiable.Qualifiable;
 import com.wroblicky.andrew.joust.game.subset.qualifiable.Scope;
@@ -78,45 +79,21 @@ public final class GameManager {
 		return game.getRound() % 2 == 0;
 	}
 	
-	public void handleCapture(String algebraicDestination, ChessPiece capturer) {
-		// remove old piece
-		Location destination = game.getBoard().getLocation(algebraicDestination);
-		ChessPiece captured = game.getBoard().getChessPieceByLocation(destination);
-		// null destination means piece was captured
-		Turn turn = new Turn(new Move(captured, captured.getLocation(), null)); 
-		
-		// update metadata
-		turn.setCaptured(captured);
-		turn.setCapturer(capturer);
-		turn.addMove(new Move(capturer, capturer.getLocation(), 
-				getBoard().getLocation(algebraicDestination)));
-		updateBoard(turn);
-	}
-	
-	public void handleCheck(String algebraicDestination, String checkType,
-			ChessPiece chessPiece) {
-		if (checkType.equals("+")) {
-			game.setCheck(true);
-		} else {
-			game.setCheckmate(true);
-		}
-		updateBoard(new Turn(new Move(chessPiece, chessPiece.getLocation(), 
-				getBoard().getLocation(algebraicDestination))));
-	}
-	
-	public void handleGameOver() {
-		game.setInProgress(false);
-	}
-	
-	public void updateBoard(Turn turn) {
+	public void playTurn(Turn turn) {
 		for (GameStateChange gameStateChange : turn.getGameStateChanges()) {
-			handleMove(gameStateChange);
+			playGameStateChange(gameStateChange);
+		}
+		if (turn.isCheck()) {
+			game.setCheck(true);
+		}
+		if (turn.isCheckMate()) {
+			game.setCheckmate(true);
 		}
 		game.incrementRound();
 		game.addTurn(turn);
 	}
 	
-	private void handleMove(GameStateChange gameStateChange) {
+	private void playGameStateChange(GameStateChange gameStateChange) {
 		if (gameStateChange instanceof Move) {
 			Move move = (Move) gameStateChange;
 			ChessPiece chessPiece = move.getChessPiece();
@@ -126,6 +103,33 @@ public final class GameManager {
 			} else {
 				chessPiece.move(destination);
 			}
+		} else if (gameStateChange instanceof Termination) {
+			game.setInProgress(false);
+		}
+	}
+	
+	public void undoTurn(Turn turn) {
+		for (GameStateChange gameStateChange : turn.getGameStateChanges()) {
+			undoGameStateChange(gameStateChange);
+		}
+		if (turn.isCheck()) {
+			game.setCheck(false);
+		}
+		if (turn.isCheckMate()) {
+			game.setCheckmate(false);
+		}
+		game.decrementRound();
+		game.removeTurn();
+	}
+	
+	private void undoGameStateChange(GameStateChange gameStateChange) {
+		if (gameStateChange instanceof Move) {
+			Move move = (Move) gameStateChange;
+			ChessPiece chessPiece = move.getChessPiece();
+			Location destination = move.getStart();
+			chessPiece.move(destination);
+		} else if (gameStateChange instanceof Termination) {
+			game.setInProgress(true);
 		}
 	}
 }

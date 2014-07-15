@@ -6,6 +6,10 @@ public final class Termination extends GameStateChange {
 	
 	private Allegiance winner;
 	
+	public Termination() {
+		
+	}
+	
 	public Termination (Allegiance winner) {
 		this.winner = winner;
 	}

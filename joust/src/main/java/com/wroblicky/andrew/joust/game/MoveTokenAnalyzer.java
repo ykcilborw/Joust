@@ -13,6 +13,7 @@ import com.wroblicky.andrew.joust.game.board.ChessBoard;
 import com.wroblicky.andrew.joust.game.board.Location;
 import com.wroblicky.andrew.joust.game.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.game.move.Move;
+import com.wroblicky.andrew.joust.game.move.Termination;
 import com.wroblicky.andrew.joust.game.move.Turn;
 import com.wroblicky.andrew.joust.game.subset.qualifiable.ChessPieceAllegianceType;
 
@@ -51,7 +52,7 @@ public final class MoveTokenAnalyzer {
 	public void analyzeMove(String moveToken) {
 		if (moveToken.equals("1/2-1/2") || moveToken.equals("1-0") ||
 				moveToken.equals("0-1")) {
-			gameManager.handleGameOver();
+			handleGameOver(moveToken);
 		} else if (moveToken.length() == 2) {
 			evaluateLengthTwoMove(moveToken);
 		} else if(moveToken.length() == 3){
@@ -118,7 +119,7 @@ public final class MoveTokenAnalyzer {
 		ChessPiece chessPiece = determineChessPiece(algebraicLocation);
 		Turn turn = new Turn(new Move(chessPiece, chessPiece.getLocation(), 
 				gameManager.getBoard().getLocation(algebraicLocation)));
-		gameManager.updateBoard(turn);
+		gameManager.playTurn(turn);
 	}
 	
 	private void handleLengthThreeMove(String moveToken) {
@@ -127,7 +128,7 @@ public final class MoveTokenAnalyzer {
 		ChessPiece chessPiece = determineChessPiece(piece, move);
 		Turn turn = new Turn(new Move(chessPiece, chessPiece.getLocation(), 
 				gameManager.getBoard().getLocation(move)));
-		gameManager.updateBoard(turn);
+		gameManager.playTurn(turn);
 	}
 	
 	private void handleLengthFourMove(String moveToken) {
@@ -137,7 +138,7 @@ public final class MoveTokenAnalyzer {
 		ChessPiece chessPiece = determineChessPiece(file, piece, move);
 		Turn turn = new Turn(new Move(chessPiece, chessPiece.getLocation(), 
 				gameManager.getBoard().getLocation(move)));
-		gameManager.updateBoard(turn);
+		gameManager.playTurn(turn);
 	}
 	
 	//*************************************************************
@@ -173,7 +174,7 @@ public final class MoveTokenAnalyzer {
 		ChessPiece rook = fetchChessPiece(rookAllegianceType, rookInitialPosition);
 		Location rookDestination = gameManager.getBoard().getLocation(rookAlgebraicDestination);
 		turn.addMove(new Move(rook, rook.getLocation(), rookDestination));
-		gameManager.updateBoard(turn);
+		gameManager.playTurn(turn);
 	}
 	
 	
@@ -196,7 +197,7 @@ public final class MoveTokenAnalyzer {
 			// a normal piece moved
 			chessPiece = determineChessPiece(type, algebraicDestination);
 		}
-		gameManager.handleCapture(algebraicDestination, chessPiece);
+		handleCapture(algebraicDestination, chessPiece);
 	}
 	
 	// Captures with 5 chars!
@@ -218,8 +219,23 @@ public final class MoveTokenAnalyzer {
 			
 			// a normal piece moved (pawns not possible!)
 			ChessPiece chessPiece = determineChessPiece(file, type, algebraicDestination);
-			gameManager.handleCapture(algebraicDestination, chessPiece);
+			handleCapture(algebraicDestination, chessPiece);
 		}
+	}
+	
+	private void handleCapture(String algebraicDestination, ChessPiece capturer) {
+		// remove old piece
+		Location destination = gameManager.getBoard().getLocation(algebraicDestination);
+		ChessPiece captured = gameManager.getBoard().getChessPieceByLocation(destination);
+		// null destination means piece was captured
+		Turn turn = new Turn(new Move(captured, captured.getLocation(), null)); 
+		
+		// update metadata
+		turn.setCaptured(captured);
+		turn.setCapturer(capturer);
+		turn.addMove(new Move(capturer, capturer.getLocation(), 
+				gameManager.getBoard().getLocation(algebraicDestination)));
+		gameManager.playTurn(turn);
 	}
 	
 	//*************************************************************
@@ -232,7 +248,7 @@ public final class MoveTokenAnalyzer {
 		
 		// handle
 		ChessPiece chessPiece = determineChessPiece(algebraicDestination);
-		gameManager.handleCheck(algebraicDestination, checkType, chessPiece);
+		handleCheck(algebraicDestination, checkType, chessPiece);
 	}
 	
 	private void handleLengthFourCheck(String moveToken) {
@@ -243,7 +259,7 @@ public final class MoveTokenAnalyzer {
 		
 		// handle
 		ChessPiece chessPiece = determineChessPiece(type, algebraicDestination);
-		gameManager.handleCheck(algebraicDestination, checkType, chessPiece);
+		handleCheck(algebraicDestination, checkType, chessPiece);
 	}
 	
 	private void handleLengthFiveCheck(String moveToken) {
@@ -255,7 +271,28 @@ public final class MoveTokenAnalyzer {
 		
 		// handle
 		ChessPiece chessPiece = determineChessPiece(file, type, algebraicDestination);
-		gameManager.handleCheck(algebraicDestination, checkType, chessPiece);
+		handleCheck(algebraicDestination, checkType, chessPiece);
+	}
+	
+	private void handleCheck(String algebraicDestination, String checkType,
+			ChessPiece chessPiece) {
+		boolean check = false;
+		boolean checkMate = false;
+		if (checkType.equals("+")) {
+			check = true;
+		} else {
+			checkMate = true;
+		}
+		gameManager.playTurn(new Turn(new Move(chessPiece, chessPiece.getLocation(), 
+				gameManager.getBoard().getLocation(algebraicDestination)), check, checkMate));
+	}
+	
+	//*************************************************************
+	//* Game Over Handler Methods
+	//*************************************************************
+	private void handleGameOver(String moveToken) {
+		Turn turn = new Turn(new Termination());
+		gameManager.playTurn(turn);
 	}
 	
 	//*************************************************************

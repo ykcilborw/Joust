@@ -53,6 +53,10 @@ public final class Game {
 		this.turns.add(turn);
 	}
 	
+	public void removeTurn() {
+		this.turns.remove(turns.size() - 1);
+	}
+	
 	public Set<ChessPiece> getChessPieces(Qualifiable qualification) {
 		return chessPieceSubsetManager.getChessPieces(qualification);
 	}

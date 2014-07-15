@@ -52,7 +52,6 @@ public final class PGNViewer {
 			moveTokenAnalyzer.analyzeMove(moves.next());
 			return gameManager.getGame();
 		} else {
-			gameManager.handleGameOver();
 			return gameManager.getGame();
 		}
 	}
