@@ -74,15 +74,15 @@ public final class ChessPieceSubsetManager {
 		} else {
 			whiteActives.remove(chessPiece);
 		}
-		Set<ChessPiece> typeSet = chessPieceTypeMap.get(chessPiece.getMyType());
+		Set<ChessPiece> typeSet = chessPieceTypeMap.get(chessPiece.getChessPieceType());
 		typeSet.remove(chessPiece);
 		// not sure needed
-		chessPieceTypeMap.put(chessPiece.getMyType(), typeSet);
+		chessPieceTypeMap.put(chessPiece.getChessPieceType(), typeSet);
 		
-		Set<ChessPiece> allegianceSet = chessPieceAllegianceTypeMap.get(chessPiece.getMySymbol());
+		Set<ChessPiece> allegianceSet = chessPieceAllegianceTypeMap.get(chessPiece.getChessPieceAllegianceType());
 		allegianceSet.remove(chessPiece);
 		// not sure needed
-		chessPieceAllegianceTypeMap.put(chessPiece.getMySymbol(), allegianceSet);
+		chessPieceAllegianceTypeMap.put(chessPiece.getChessPieceAllegianceType(), allegianceSet);
 	}
 	
 	private void initialize() {
@@ -99,12 +99,12 @@ public final class ChessPieceSubsetManager {
 				} else {
 					whiteActives.add(chessPiece);
 				}
-				Set<ChessPiece> typeSet =  chessPieceTypeMap.get(chessPiece.getMyType());
+				Set<ChessPiece> typeSet =  chessPieceTypeMap.get(chessPiece.getChessPieceType());
 				typeSet.add(chessPiece);
-				chessPieceTypeMap.put(chessPiece.getMyType(), typeSet);
-				Set<ChessPiece> allegianceSet =  chessPieceAllegianceTypeMap.get(chessPiece.getMySymbol());
+				chessPieceTypeMap.put(chessPiece.getChessPieceType(), typeSet);
+				Set<ChessPiece> allegianceSet =  chessPieceAllegianceTypeMap.get(chessPiece.getChessPieceAllegianceType());
 				allegianceSet.add(chessPiece);
-				chessPieceAllegianceTypeMap.put(chessPiece.getMySymbol(), allegianceSet);
+				chessPieceAllegianceTypeMap.put(chessPiece.getChessPieceAllegianceType(), allegianceSet);
 			}
 		}
 	}

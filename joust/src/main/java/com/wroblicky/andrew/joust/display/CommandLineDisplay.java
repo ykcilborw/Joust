@@ -68,7 +68,7 @@ public final class CommandLineDisplay {
 			Location current = chessBoardIterator.next();
 			if (current.getChessPiece() != null) {
 				board[current.getXCoordinate()][current.getYCoordinate()] =
-						current.getChessPiece().getMySymbol().getChessPieceAllegianceType();
+						current.getChessPiece().getChessPieceAllegianceType().getChessPieceAllegianceType();
 			}
 		}
 		

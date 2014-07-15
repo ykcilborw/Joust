@@ -131,7 +131,7 @@ public class ChessBoardTest {
 		Location location = board.getLocation("a1");
 		Pawn pawn = new Pawn();
 		board.addChessPiece(pawn, location);
-		Assert.assertEquals(board.getChessPieceByLocation(location).getMySymbol(), ChessPieceAllegianceType.BLACK_PAWN);
+		Assert.assertEquals(board.getChessPieceByLocation(location).getChessPieceAllegianceType(), ChessPieceAllegianceType.BLACK_PAWN);
 	}
 
 	@Test
@@ -142,7 +142,7 @@ public class ChessBoardTest {
 		board.addChessPiece(pawn, originalLocation);
 		
 		// make sure chess piece was added
-		Assert.assertEquals(board.getChessPieceByLocation(originalLocation).getMySymbol(), ChessPieceAllegianceType.BLACK_PAWN);
+		Assert.assertEquals(board.getChessPieceByLocation(originalLocation).getChessPieceAllegianceType(), ChessPieceAllegianceType.BLACK_PAWN);
 	}
 
 	@Test
@@ -154,13 +154,13 @@ public class ChessBoardTest {
 		board.addChessPiece(pawn, originalLocation);
 		
 		// make sure chess piece was added
-		Assert.assertEquals(board.getChessPieceByLocation(originalLocation).getMySymbol(), ChessPieceAllegianceType.BLACK_PAWN);
+		Assert.assertEquals(board.getChessPieceByLocation(originalLocation).getChessPieceAllegianceType(), ChessPieceAllegianceType.BLACK_PAWN);
 		
 		// make sure chess piece was not already in new location
 		Assert.assertEquals(board.getChessPieceByLocation(newLocation), null);
 		
 		board.moveChessPiece(new Move(pawn, originalLocation, newLocation));
-		Assert.assertEquals(board.getChessPieceByLocation(newLocation).getMySymbol(), ChessPieceAllegianceType.BLACK_PAWN);
+		Assert.assertEquals(board.getChessPieceByLocation(newLocation).getChessPieceAllegianceType(), ChessPieceAllegianceType.BLACK_PAWN);
 	}
 
 	@Test
@@ -169,7 +169,7 @@ public class ChessBoardTest {
 		Location location = board.getLocation("a1");
 		Pawn pawn = new Pawn();
 		board.addChessPiece(pawn, location);
-		Assert.assertEquals(board.getChessPieceByLocation(location).getMySymbol(), ChessPieceAllegianceType.BLACK_PAWN);
+		Assert.assertEquals(board.getChessPieceByLocation(location).getChessPieceAllegianceType(), ChessPieceAllegianceType.BLACK_PAWN);
 		board.removeChessPiece(pawn, location);
 		Assert.assertEquals(board.getChessPieceByLocation(location), null);
 	}

@@ -145,7 +145,7 @@ public abstract class ChessPiece {
 	 * e.g. Pawn, Queen, etc.
 	 * 
 	 */
-	public abstract ChessPieceType getMyType();
+	public abstract ChessPieceType getChessPieceType();
 	
 	/**
 	 * Returns a character representing the particular chess piece.
@@ -153,7 +153,7 @@ public abstract class ChessPiece {
 	 * e.g. q for queen
 	 * 
 	 */
-	public abstract ChessPieceAllegianceType getMySymbol();
+	public abstract ChessPieceAllegianceType getChessPieceAllegianceType();
 	
 	/**
 	 * Returns a list of the possible positions, the current chess piece
@@ -251,6 +251,6 @@ public abstract class ChessPiece {
 	}
 	
 	public String toString() {
-		return "[ " + getMyType() + ", " + getLocation() + " ]";
+		return "[ " + getChessPieceType() + ", " + getLocation() + " ]";
 	}
 }

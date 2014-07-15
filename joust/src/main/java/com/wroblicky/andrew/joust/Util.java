@@ -17,7 +17,7 @@ public final class Util {
 		for (ChessPiece active: actives) {
 			int currX = active.getLocation().getXCoordinate();
 			int currY = active.getLocation().getYCoordinate();
-			newBoard[currX - 1][currY - 1] = active.getMySymbol().toString(); 
+			newBoard[currX - 1][currY - 1] = active.getChessPieceAllegianceType().toString(); 
 		}
 		return newBoard;
 	}

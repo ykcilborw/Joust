@@ -27,16 +27,16 @@ public class KnightTest {
 	@Test
 	public void testGetMyType() {
 		Knight horse = new Knight();
-		Assert.assertEquals(horse.getMyType(), ChessPieceType.KNIGHT);
+		Assert.assertEquals(horse.getChessPieceType(), ChessPieceType.KNIGHT);
 	}
 
 	@Test
 	public void testGetMySymbol() {
 		Knight blackHorse = new Knight(Allegiance.BLACK, 1, new ChessBoard());
-		Assert.assertEquals(blackHorse.getMySymbol(), ChessPieceAllegianceType.BLACK_KNIGHT);
+		Assert.assertEquals(blackHorse.getChessPieceAllegianceType(), ChessPieceAllegianceType.BLACK_KNIGHT);
 		
 		Knight whiteHorse = new Knight(Allegiance.WHITE, 1, new ChessBoard());
-		Assert.assertEquals(whiteHorse.getMySymbol(), ChessPieceAllegianceType.WHITE_KNIGHT);
+		Assert.assertEquals(whiteHorse.getChessPieceAllegianceType(), ChessPieceAllegianceType.WHITE_KNIGHT);
 	}
 
 	@Test

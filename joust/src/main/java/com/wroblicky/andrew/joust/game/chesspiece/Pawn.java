@@ -36,7 +36,7 @@ public final class Pawn extends ChessPiece {
 		this.hasMovedAtAll = false;
 		this.movedTwice = false;
 		this.alive = true;
-		this.chessID = getMySymbol().getChessPieceAllegianceType() + chessID;
+		this.chessID = getChessPieceAllegianceType().getChessPieceAllegianceType() + chessID;
 		this.chessBoard = chessBoard;
 	}
 	
@@ -49,12 +49,12 @@ public final class Pawn extends ChessPiece {
 	}
 	
 	@Override
-	public ChessPieceType getMyType() {
+	public ChessPieceType getChessPieceType() {
 		return ChessPieceType.PAWN;
 	}
 	
 	@Override
-	public ChessPieceAllegianceType getMySymbol() {
+	public ChessPieceAllegianceType getChessPieceAllegianceType() {
 		if (isBlack()) {
 			return ChessPieceAllegianceType.BLACK_PAWN;
 		} else {

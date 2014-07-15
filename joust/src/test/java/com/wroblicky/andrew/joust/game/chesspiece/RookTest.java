@@ -30,16 +30,16 @@ public class RookTest {
 	@Test
 	public void testGetMyType() {
 		Rook castle = new Rook();
-		Assert.assertEquals(castle.getMyType(), ChessPieceType.ROOK);
+		Assert.assertEquals(castle.getChessPieceType(), ChessPieceType.ROOK);
 	}
 
 	@Test
 	public void testGetMySymbol() {
 		Rook blackCastle = new Rook(Allegiance.BLACK, 1, new ChessBoard());
-		Assert.assertEquals(blackCastle.getMySymbol(), ChessPieceAllegianceType.BLACK_ROOK);
+		Assert.assertEquals(blackCastle.getChessPieceAllegianceType(), ChessPieceAllegianceType.BLACK_ROOK);
 		
 		Rook whiteCastle = new Rook(Allegiance.WHITE, 1, new ChessBoard());
-		Assert.assertEquals(whiteCastle.getMySymbol(), ChessPieceAllegianceType.WHITE_ROOK);
+		Assert.assertEquals(whiteCastle.getChessPieceAllegianceType(), ChessPieceAllegianceType.WHITE_ROOK);
 	}
 
 	@Test

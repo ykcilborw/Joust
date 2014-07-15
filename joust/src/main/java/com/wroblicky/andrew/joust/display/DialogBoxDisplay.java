@@ -73,7 +73,7 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 			Location current = chessBoardIterator.next();
 			ChessPiece chessPiece = current.getChessPiece();
 			if (chessPiece != null) {
-				switch (chessPiece.getMySymbol()) {
+				switch (chessPiece.getChessPieceAllegianceType()) {
 					case BLACK_PAWN:	addChessPiece(current, "SnippingPawn.JPG");
 										break;
 					case WHITE_PAWN:	addChessPiece(current, "SnippingWhitePawn.JPG");

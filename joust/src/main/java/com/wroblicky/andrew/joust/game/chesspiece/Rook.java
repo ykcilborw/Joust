@@ -31,16 +31,16 @@ public final class Rook extends ChessPiece {
 		this.allegiance = allegiance;
 		this.alive = true;
 		this.chessBoard = chessBoard;
-		this.chessID = getMySymbol().getChessPieceAllegianceType() + chessID;
+		this.chessID = getChessPieceAllegianceType().getChessPieceAllegianceType() + chessID;
 	}
 	
 	@Override
-	public ChessPieceType getMyType() {
+	public ChessPieceType getChessPieceType() {
 		return ChessPieceType.ROOK;
 	}
 	
 	@Override
-	public ChessPieceAllegianceType getMySymbol() {
+	public ChessPieceAllegianceType getChessPieceAllegianceType() {
 		if (isBlack()) {
 			return ChessPieceAllegianceType.BLACK_ROOK;
 		} else {

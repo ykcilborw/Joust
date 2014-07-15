@@ -349,7 +349,7 @@ public final class MoveTokenAnalyzer {
 		
 		ChessPiece toReturn = chessBoard.getChessPieceByLocation(new Location(initialPosition));
 		
-		if (toReturn != null && toReturn.getMySymbol() == chessPieceAllegianceType) {
+		if (toReturn != null && toReturn.getChessPieceAllegianceType() == chessPieceAllegianceType) {
 			return toReturn;
 		} else {
 			throw new RuntimeException("fetchChessPiece could not find the " +

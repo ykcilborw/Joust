@@ -29,16 +29,16 @@ public class BishopTest {
 	@Test
 	public void testGetMyType() {
 		Bishop bishop = new Bishop();
-		Assert.assertEquals(bishop.getMyType(), ChessPieceType.BISHOP);
+		Assert.assertEquals(bishop.getChessPieceType(), ChessPieceType.BISHOP);
 	}
 
 	@Test
 	public void testGetMySymbol() {
 		Bishop blackBishop = new Bishop(Allegiance.BLACK, 1, new ChessBoard());
-		Assert.assertEquals(blackBishop.getMySymbol(), ChessPieceAllegianceType.BLACK_BISHOP);
+		Assert.assertEquals(blackBishop.getChessPieceAllegianceType(), ChessPieceAllegianceType.BLACK_BISHOP);
 		
 		Bishop whiteBishop = new Bishop(Allegiance.WHITE, 1, new ChessBoard());
-		Assert.assertEquals(whiteBishop.getMySymbol(), ChessPieceAllegianceType.WHITE_BISHOP);
+		Assert.assertEquals(whiteBishop.getChessPieceAllegianceType(), ChessPieceAllegianceType.WHITE_BISHOP);
 	}
 
 	@Test

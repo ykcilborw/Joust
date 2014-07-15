@@ -29,16 +29,16 @@ public class PawnTest {
 	@Test
 	public void testGetMyType() {
 		Pawn pawn = new Pawn();
-		Assert.assertEquals(pawn.getMyType(), ChessPieceType.PAWN);
+		Assert.assertEquals(pawn.getChessPieceType(), ChessPieceType.PAWN);
 	}
 
 	@Test
 	public void testGetMySymbol() {
 		Pawn blackPawn = new Pawn(Allegiance.BLACK, 1, new ChessBoard());
-		Assert.assertEquals(blackPawn.getMySymbol(), ChessPieceAllegianceType.BLACK_PAWN);
+		Assert.assertEquals(blackPawn.getChessPieceAllegianceType(), ChessPieceAllegianceType.BLACK_PAWN);
 		
 		Pawn whitePawn = new Pawn(Allegiance.WHITE, 1, new ChessBoard());
-		Assert.assertEquals(whitePawn.getMySymbol(), ChessPieceAllegianceType.WHITE_PAWN);
+		Assert.assertEquals(whitePawn.getChessPieceAllegianceType(), ChessPieceAllegianceType.WHITE_PAWN);
 	}
 
 	@Test

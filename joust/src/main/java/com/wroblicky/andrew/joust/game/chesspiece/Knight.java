@@ -27,17 +27,17 @@ public final class Knight extends ChessPiece {
 	public Knight(Allegiance allegiance, int chessID, ChessBoard chessBoard) {
 		this.allegiance = allegiance;
 		this.alive = true;
-		this.chessID = getMySymbol().getChessPieceAllegianceType() + chessID;
+		this.chessID = getChessPieceAllegianceType().getChessPieceAllegianceType() + chessID;
 		this.chessBoard = chessBoard;
 	}
 	
 	@Override
-	public ChessPieceType getMyType() {
+	public ChessPieceType getChessPieceType() {
 		return ChessPieceType.KNIGHT;
 	}
 	
 	@Override
-	public ChessPieceAllegianceType getMySymbol() {
+	public ChessPieceAllegianceType getChessPieceAllegianceType() {
 		if (isBlack()) {
 			return ChessPieceAllegianceType.BLACK_KNIGHT;
 		} else {

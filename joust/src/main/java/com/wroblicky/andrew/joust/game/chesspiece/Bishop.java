@@ -31,17 +31,17 @@ public final class Bishop extends ChessPiece {
 	public Bishop(Allegiance allegiance, int chessID, ChessBoard chessBoard) {
 		this.alive = true;
 		this.allegiance = allegiance;
-		this.chessID = getMySymbol().getChessPieceAllegianceType() + chessID;
+		this.chessID = getChessPieceAllegianceType().getChessPieceAllegianceType() + chessID;
 		this.chessBoard = chessBoard;
 	}
 	
 	@Override
-	public ChessPieceType getMyType() {
+	public ChessPieceType getChessPieceType() {
 		return ChessPieceType.BISHOP;
 	}
 	
 	@Override
-	public ChessPieceAllegianceType getMySymbol() {
+	public ChessPieceAllegianceType getChessPieceAllegianceType() {
 		if (isBlack()) {
 			return ChessPieceAllegianceType.BLACK_BISHOP;
 		} else {

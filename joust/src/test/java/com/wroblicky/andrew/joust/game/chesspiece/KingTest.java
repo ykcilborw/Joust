@@ -28,16 +28,16 @@ public class KingTest {
 	@Test
 	public void testGetMyType() {
 		King king = new King();
-		Assert.assertEquals(king.getMyType(), ChessPieceType.KING);
+		Assert.assertEquals(king.getChessPieceType(), ChessPieceType.KING);
 	}
 
 	@Test
 	public void testGetMySymbol() {
 		King blackKing = new King(Allegiance.BLACK, 1, new ChessBoard());
-		Assert.assertEquals(blackKing.getMySymbol(), ChessPieceAllegianceType.BLACK_KING);
+		Assert.assertEquals(blackKing.getChessPieceAllegianceType(), ChessPieceAllegianceType.BLACK_KING);
 		
 		King whiteKing = new King(Allegiance.WHITE, 1, new ChessBoard());
-		Assert.assertEquals(whiteKing.getMySymbol(), ChessPieceAllegianceType.WHITE_KING);
+		Assert.assertEquals(whiteKing.getChessPieceAllegianceType(), ChessPieceAllegianceType.WHITE_KING);
 	}
 
 	@Test

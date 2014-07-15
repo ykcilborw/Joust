@@ -279,7 +279,7 @@ public final class ChessBoard {
 			ChessPiece current = chessPiece;
 			int currX = current.getLocation().getXCoordinate();
 			int currY = current.getLocation().getYCoordinate();
-			board[currX][currY] = current.getMySymbol().getChessPieceAllegianceType(); 
+			board[currX][currY] = current.getChessPieceAllegianceType().getChessPieceAllegianceType(); 
 		}
 		
 		for (int j = 7; j > -1; j--) {
