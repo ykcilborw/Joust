@@ -18,7 +18,7 @@ public final class Turn {
 	private ChessPiece captured;
 	private ChessPiece capturer;
 	private boolean check = false;
-	private boolean checkMate = false;
+	private boolean checkmate = false;
 	
 
 	public Turn(GameStateChange gameStateChange) {
@@ -37,7 +37,7 @@ public final class Turn {
 		this.gameStateChanges = new ArrayList<GameStateChange>();
 		this.gameStateChanges.add(move);
 		this.check = check;
-		this.checkMate = checkMate;
+		this.checkmate = checkMate;
 	}
 	
 	public Turn(Move move, ChessPiece captured, ChessPiece capturer, boolean check, boolean checkMate) {
@@ -46,7 +46,7 @@ public final class Turn {
 		this.captured = captured;
 		this.capturer = capturer;
 		this.check = check;
-		this.checkMate = checkMate;
+		this.checkmate = checkMate;
 	}
 	
 	public List<GameStateChange> getGameStateChanges() {
@@ -81,11 +81,11 @@ public final class Turn {
 		this.check = check;
 	}
 
-	public boolean isCheckMate() {
-		return checkMate;
+	public boolean isCheckmate() {
+		return checkmate;
 	}
 
-	public void setCheckMate(boolean checkMate) {
-		this.checkMate = checkMate;
+	public void setCheckmate(boolean checkmate) {
+		this.checkmate = checkmate;
 	}
 }

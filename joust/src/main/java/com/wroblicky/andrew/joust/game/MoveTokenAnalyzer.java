@@ -205,12 +205,13 @@ public final class MoveTokenAnalyzer {
 		if (moveToken.substring(4, 5).equals("+") || moveToken.substring(4, 5).equals("#")) {
 			String checkorMate = moveToken.substring(4, 5);
 			String capture = moveToken.substring(0,4);
+			Turn turn = handleLengthFourCapture(capture);
 			if (checkorMate.equals("+")) {
-				gameManager.getGame().setCheck(true);
+				turn.setCheck(true);
 			} else {
-				gameManager.getGame().setCheckmate(true);
+				turn.setCheckmate(true);
 			}
-			return handleLengthFourCapture(capture);
+			return turn;
 		} else {
 			// parse relevant pieces
 			String type = moveToken.substring(0, 1);

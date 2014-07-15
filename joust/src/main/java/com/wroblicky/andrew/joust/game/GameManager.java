@@ -86,7 +86,7 @@ public final class GameManager {
 		if (turn.isCheck()) {
 			game.setCheck(true);
 		}
-		if (turn.isCheckMate()) {
+		if (turn.isCheckmate()) {
 			game.setCheckmate(true);
 		}
 		game.incrementRound();
@@ -116,7 +116,7 @@ public final class GameManager {
 		if (turn.isCheck()) {
 			game.setCheck(false);
 		}
-		if (turn.isCheckMate()) {
+		if (turn.isCheckmate()) {
 			game.setCheckmate(false);
 		}
 		game.decrementRound();
