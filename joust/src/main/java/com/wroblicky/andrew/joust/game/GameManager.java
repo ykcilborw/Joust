@@ -108,7 +108,8 @@ public final class GameManager {
 		}
 	}
 	
-	public void undoTurn(Turn turn) {
+	public void undoTurn() {
+		Turn turn = game.getTurns().get(game.getRound() - 1);
 		for (GameStateChange gameStateChange : turn.getGameStateChanges()) {
 			undoGameStateChange(gameStateChange);
 		}

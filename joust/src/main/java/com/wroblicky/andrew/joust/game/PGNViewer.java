@@ -5,6 +5,7 @@ import java.util.ListIterator;
 import com.wroblicky.andrew.joust.display.CommandLineDisplay;
 import com.wroblicky.andrew.joust.display.DialogBoxDisplay;
 import com.wroblicky.andrew.joust.display.DisplayConstants;
+import com.wroblicky.andrew.joust.game.move.Turn;
 import com.wroblicky.andrew.joust.pgn.PGNGame;
 import com.wroblicky.andrew.joust.pgn.PGNParser;
 
@@ -49,7 +50,8 @@ public final class PGNViewer {
 	 */
 	public Game playNextTurn() {
 		if (moves.hasNext()) {
-			moveTokenAnalyzer.analyzeMove(moves.next());
+			Turn turn = moveTokenAnalyzer.analyzeMove(moves.next());
+			gameManager.playTurn(turn);
 			return gameManager.getGame();
 		} else {
 			return gameManager.getGame();
@@ -61,7 +63,8 @@ public final class PGNViewer {
 	 */
 	public Game undoCurrentTurn() {
 		if (moves.hasPrevious()) {
-			moveTokenAnalyzer.analyzeMove(moves.previous());
+			moves.previous(); // still need to adjust iterator 
+			gameManager.undoTurn();
 			return gameManager.getGame();
 		} else { // nothing to do
 			return gameManager.getGame();

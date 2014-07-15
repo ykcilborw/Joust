@@ -62,7 +62,7 @@ public final class Pawn extends ChessPiece {
 		}
 	}
 	
-	public void setMovedYet(boolean hasMovedAtAll) {
+	public void setMovedAtAll(boolean hasMovedAtAll) {
 		this.hasMovedAtAll = hasMovedAtAll;
 	}
 	
@@ -72,7 +72,7 @@ public final class Pawn extends ChessPiece {
 	
 	
 	//TODO
-	// add support for becoming a queen 
+	// add support for pawn promotion
 	@Override
 	public List<Location> getPossibleMoves() {
 		List<Location> possibles = new ArrayList<Location>();
