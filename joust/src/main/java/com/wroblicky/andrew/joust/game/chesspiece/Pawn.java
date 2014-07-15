@@ -76,19 +76,10 @@ public final class Pawn extends ChessPiece {
 	@Override
 	public List<Location> getPossibleMoves() {
 		List<Location> possibles = new ArrayList<Location>();
-		Location currentLocation = getLocation();
-		Location moveUpLeft = null;
-		Location moveUpRight = null;
-		Location left = chessBoard.getWestNeighbor(currentLocation);
-		Location right = chessBoard.getEastNeighbor(currentLocation);
-		
-		if(isWhite()) {
-			moveUpLeft = chessBoard.getNorthWestNeighbor(currentLocation);
-			moveUpRight = chessBoard.getNorthEastNeighbor(currentLocation);
-		} else {
-			moveUpLeft = chessBoard.getSouthWestNeighbor(currentLocation);
-			moveUpRight = chessBoard.getSouthEastNeighbor(currentLocation);
-		}
+		Location moveUpLeft = getWestAttackNeighbor();
+		Location moveUpRight = getEastAttackNeighbor();
+		Location left = chessBoard.getWestNeighbor(getLocation());
+		Location right = chessBoard.getEastNeighbor(getLocation());
 		
 		// forward moves
 		possibles = getForwardMoves(possibles);
@@ -123,6 +114,18 @@ public final class Pawn extends ChessPiece {
 		}
 		
 		return possibles;
+	}
+	
+	private Location getEastAttackNeighbor() {
+		Location currentLocation = getLocation();
+		return isWhite() ?  chessBoard.getNorthEastNeighbor(currentLocation) :
+			chessBoard.getSouthEastNeighbor(currentLocation);
+	}
+	
+	private Location getWestAttackNeighbor() {
+		Location currentLocation = getLocation();
+		return isWhite() ?  chessBoard.getNorthWestNeighbor(currentLocation) :
+			chessBoard.getSouthWestNeighbor(currentLocation);
 	}
 	
 	/**
