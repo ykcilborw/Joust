@@ -72,34 +72,7 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		while (chessBoardIterator.hasNext()) {
 			Location current = chessBoardIterator.next();
 			ChessPiece chessPiece = current.getChessPiece();
-			if (chessPiece != null) {
-				switch (chessPiece.getChessPieceAllegianceType()) {
-					case BLACK_PAWN:	addChessPiece(current, "SnippingPawn.JPG");
-										break;
-					case WHITE_PAWN:	addChessPiece(current, "SnippingWhitePawn.JPG");
-										break;
-					case BLACK_ROOK:	addChessPiece(current, "SnippingRook.JPG");
-										break;
-					case WHITE_ROOK:	addChessPiece(current, "SnippingWhiteRook.JPG");
-										break;
-					case BLACK_KNIGHT:	addChessPiece(current, "SnippingHorse.JPG");
-										break;
-					case WHITE_KNIGHT:	addChessPiece(current, "SnippingWhiteHorse.JPG");
-										break;
-					case BLACK_BISHOP:	addChessPiece(current, "SnippingBishop.JPG");
-										break;
-					case WHITE_BISHOP:	addChessPiece(current, "SnippingWhiteBishop.JPG");
-										break;
-					case BLACK_QUEEN:	addChessPiece(current, "SnippingQueen.JPG");
-										break;
-					case WHITE_QUEEN:	addChessPiece(current, "SnippingWhiteQueen.JPG");
-										break;
-					case BLACK_KING:	addChessPiece(current, "SnippingKing.JPG");
-										break;
-					case WHITE_KING:	addChessPiece(current, "SnippingWhiteKing.JPG");
-										break;			
-				}
-			}
+			addChessPiece(current, chessPiece);
 		}
 		
 		// fast forward button
@@ -140,6 +113,37 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		chessBoardPanel.add(fastForwardButton);
 	}
 	
+	private void addChessPiece(Location location, ChessPiece chessPiece) {
+		if (chessPiece != null) {
+			switch (chessPiece.getChessPieceAllegianceType()) {
+				case BLACK_PAWN:	addChessPiece(location, "SnippingPawn.JPG");
+									break;
+				case WHITE_PAWN:	addChessPiece(location, "SnippingWhitePawn.JPG");
+									break;
+				case BLACK_ROOK:	addChessPiece(location, "SnippingRook.JPG");
+									break;
+				case WHITE_ROOK:	addChessPiece(location, "SnippingWhiteRook.JPG");
+									break;
+				case BLACK_KNIGHT:	addChessPiece(location, "SnippingHorse.JPG");
+									break;
+				case WHITE_KNIGHT:	addChessPiece(location, "SnippingWhiteHorse.JPG");
+									break;
+				case BLACK_BISHOP:	addChessPiece(location, "SnippingBishop.JPG");
+									break;
+				case WHITE_BISHOP:	addChessPiece(location, "SnippingWhiteBishop.JPG");
+									break;
+				case BLACK_QUEEN:	addChessPiece(location, "SnippingQueen.JPG");
+									break;
+				case WHITE_QUEEN:	addChessPiece(location, "SnippingWhiteQueen.JPG");
+									break;
+				case BLACK_KING:	addChessPiece(location, "SnippingKing.JPG");
+									break;
+				case WHITE_KING:	addChessPiece(location, "SnippingWhiteKing.JPG");
+									break;
+			}
+		}
+	}
+	
 	private void addChessPiece(Location location, String imageName) {
 		try {
 			BufferedImage myPicture = ImageIO.read(new File(imageName));
@@ -157,25 +161,7 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		if(which.equals("next")) {
 			handleNext();
 		} else if(which.equals("back")) {
-			Game game = pgnViewer.getGame();
-			Turn turn = game.getCurrentTurn();
-			pgnViewer.undoCurrentTurn();
-			for (GameStateChange gameStateChange : turn.getGameStateChanges()) {
-				if (gameStateChange instanceof Move) {
-					Move move = (Move) gameStateChange;
-					Component component = chessBoardPanel.getComponent(
-							move.getDestination().getComponentNumber());
-					JLabel chessPiece = (JLabel) component.getComponentAt(1, 0);
-					chessPiece.setVisible(false);
-					Location destination = move.getStart();
-					if (destination != null) {
-						JPanel jPanel =  (JPanel) chessBoardPanel.getComponent(
-								destination.getComponentNumber());
-						jPanel.add(chessPiece);
-						chessPiece.setVisible(true);
-					}
-				}
-			}
+			handleBack();
 		} else if (which.equals("fastforward")) {
 			// TODO
 		} else if (which.equals("rewing")) {
@@ -189,23 +175,53 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		for (GameStateChange gameStateChange : turn.getGameStateChanges()) {
 			if (gameStateChange instanceof Move) {
 				Move move = (Move) gameStateChange;
-				JPanel sourcePanel = (JPanel) chessBoardPanel.getComponent(
-						move.getStart().getComponentNumber());
-				JLabel chessPiece = (JLabel) sourcePanel.getComponentAt(1, 0);
-				chessPiece.setVisible(false);
-				Location destination = move.getDestination();
-				if (destination != null) {
-					JPanel destinationPanel =  (JPanel) chessBoardPanel.getComponent(
-							destination.getComponentNumber());
-					destinationPanel.add(chessPiece);
-					chessPiece.setVisible(true);
+				if (move.getDestination() == null) {
+					removeChessPiece(move.getStart());
 				} else {
-					sourcePanel.remove(chessPiece);
-					sourcePanel.revalidate();
-					sourcePanel.repaint();
+					moveChessPiece(move.getStart(), move.getDestination());
 				}
 			}
 		}
+	}
+	
+	private void handleBack() {
+		Game game = pgnViewer.getGame();
+		Turn turn = game.getCurrentTurn();
+		pgnViewer.undoCurrentTurn();
+		for (GameStateChange gameStateChange : turn.getGameStateChanges()) {
+			if (gameStateChange instanceof Move) {
+				Move move = (Move) gameStateChange;
+				if (move.getDestination() == null) {
+					addChessPiece(move.getStart(), move.getChessPiece());
+				} else {
+					moveChessPiece(move.getDestination(), move.getStart());
+				}
+			}
+		}
+	}
+	
+	private void moveChessPiece(Location initial, Location destination) {
+		// prepare sourcePanel
+		JPanel sourcePanel = (JPanel) chessBoardPanel.getComponent(
+				initial.getComponentNumber());
+		JLabel chessPiece = (JLabel) sourcePanel.getComponentAt(1, 0);
+		chessPiece.setVisible(false);
+		
+		// prepare destinationPanel
+		JPanel destinationPanel =  (JPanel) chessBoardPanel.getComponent(
+				destination.getComponentNumber());
+		destinationPanel.add(chessPiece);
+		chessPiece.setVisible(true);
+	}
+	
+	private void removeChessPiece(Location location) {
+		JPanel sourcePanel = (JPanel) chessBoardPanel.getComponent(
+				location.getComponentNumber());
+		JLabel chessPiece = (JLabel) sourcePanel.getComponentAt(1, 0);
+		chessPiece.setVisible(false);
+		sourcePanel.remove(chessPiece);
+		sourcePanel.revalidate();
+		sourcePanel.repaint();
 	}
 	
 	public static void start(Game game, PGNViewer pgnViewer) {
