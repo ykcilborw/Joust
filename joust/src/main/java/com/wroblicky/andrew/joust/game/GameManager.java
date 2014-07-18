@@ -1,5 +1,7 @@
 package com.wroblicky.andrew.joust.game;
 
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 
 import com.wroblicky.andrew.joust.game.board.ChessBoard;
@@ -110,9 +112,13 @@ public final class GameManager {
 	
 	public void undoTurn() {
 		Turn turn = game.getTurns().get(game.getRound() - 1);
-		for (GameStateChange gameStateChange : turn.getGameStateChanges()) {
-			undoGameStateChange(gameStateChange);
+		// iterate in reverse
+		List<GameStateChange> gameStateChanges = turn.getGameStateChanges();
+		ListIterator<GameStateChange> gameStateChangeIterator = gameStateChanges.listIterator(gameStateChanges.size());
+		while (gameStateChangeIterator.hasPrevious()) {
+			undoGameStateChange(gameStateChangeIterator.previous());
 		}
+		
 		if (turn.isCheck()) {
 			game.setCheck(false);
 		}
@@ -127,8 +133,12 @@ public final class GameManager {
 		if (gameStateChange instanceof Move) {
 			Move move = (Move) gameStateChange;
 			ChessPiece chessPiece = move.getChessPiece();
-			Location destination = move.getStart();
-			chessPiece.move(destination);
+			if (move.getDestination() == null) {
+				game.addChessPiece(chessPiece, move.getStart());
+			} else {
+				Location destination = move.getStart(); // start since undoing
+				chessPiece.move(destination);
+			}
 		} else if (gameStateChange instanceof Termination) {
 			game.setInProgress(true);
 		}

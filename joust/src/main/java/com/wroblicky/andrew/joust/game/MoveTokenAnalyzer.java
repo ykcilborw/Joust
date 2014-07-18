@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.wroblicky.andrew.joust.Util;
 import com.wroblicky.andrew.joust.game.board.ChessBoard;
 import com.wroblicky.andrew.joust.game.board.Location;
 import com.wroblicky.andrew.joust.game.chesspiece.ChessPiece;
@@ -50,6 +51,7 @@ public final class MoveTokenAnalyzer {
 	}
 	
 	public Turn analyzeMove(String moveToken) {
+		//Util.print("moveToken: " + moveToken);
 		if (moveToken.equals("1/2-1/2") || moveToken.equals("1-0") ||
 				moveToken.equals("0-1")) {
 			return handleGameOver(moveToken);

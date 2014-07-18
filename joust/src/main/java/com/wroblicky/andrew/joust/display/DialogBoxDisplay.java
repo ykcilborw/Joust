@@ -164,7 +164,7 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 			handleBack();
 		} else if (which.equals("fastforward")) {
 			// TODO
-		} else if (which.equals("rewing")) {
+		} else if (which.equals("rewind")) {
 			// TODO
 		}
 	}

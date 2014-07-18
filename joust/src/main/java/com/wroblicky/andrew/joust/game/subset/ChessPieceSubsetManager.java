@@ -60,6 +60,24 @@ public final class ChessPieceSubsetManager {
 			return allPieces;
 		}
 	}
+	
+	/**
+	 * Adds the chess piece back in to the backing store
+	 */
+	public void addChessPiece(ChessPiece chessPiece) {
+		deceasedPieces.remove(chessPiece);
+		actives.add(chessPiece);
+		if (chessPiece.isBlack()) {
+			blackActives.add(chessPiece);
+		} else {
+			whiteActives.add(chessPiece);
+		}
+		Set<ChessPiece> typeSet = chessPieceTypeMap.get(chessPiece.getChessPieceType());
+		typeSet.add(chessPiece);
+		
+		Set<ChessPiece> allegianceSet = chessPieceAllegianceTypeMap.get(chessPiece.getChessPieceAllegianceType());
+		allegianceSet.add(chessPiece);
+	}
 
 	/**
 	 * Removes the chess piece from the backing store

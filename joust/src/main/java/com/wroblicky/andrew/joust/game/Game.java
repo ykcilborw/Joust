@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.wroblicky.andrew.joust.game.board.ChessBoard;
+import com.wroblicky.andrew.joust.game.board.Location;
 import com.wroblicky.andrew.joust.game.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.game.move.Turn;
 import com.wroblicky.andrew.joust.game.subset.ChessPieceSubsetManager;
@@ -59,6 +60,11 @@ public final class Game {
 	
 	public Set<ChessPiece> getChessPieces(Qualifiable qualification) {
 		return chessPieceSubsetManager.getChessPieces(qualification);
+	}
+	
+	public void addChessPiece(ChessPiece chessPiece, Location location) {
+		board.addChessPiece(chessPiece, location);
+		chessPieceSubsetManager.addChessPiece(chessPiece);
 	}
 
 	public void removeChessPiece(ChessPiece chessPiece) {
