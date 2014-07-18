@@ -189,16 +189,20 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		for (GameStateChange gameStateChange : turn.getGameStateChanges()) {
 			if (gameStateChange instanceof Move) {
 				Move move = (Move) gameStateChange;
-				Component component = chessBoardPanel.getComponent(
+				JPanel sourcePanel = (JPanel) chessBoardPanel.getComponent(
 						move.getStart().getComponentNumber());
-				JLabel chessPiece = (JLabel) component.getComponentAt(1, 0);
+				JLabel chessPiece = (JLabel) sourcePanel.getComponentAt(1, 0);
 				chessPiece.setVisible(false);
 				Location destination = move.getDestination();
 				if (destination != null) {
-					JPanel jPanel =  (JPanel) chessBoardPanel.getComponent(
+					JPanel destinationPanel =  (JPanel) chessBoardPanel.getComponent(
 							destination.getComponentNumber());
-					jPanel.add(chessPiece);
+					destinationPanel.add(chessPiece);
 					chessPiece.setVisible(true);
+				} else {
+					sourcePanel.remove(chessPiece);
+					sourcePanel.revalidate();
+					sourcePanel.repaint();
 				}
 			}
 		}
