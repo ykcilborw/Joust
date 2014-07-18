@@ -19,6 +19,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import com.wroblicky.andrew.joust.Util;
@@ -51,6 +54,8 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		layeredPane = new JLayeredPane();
 		getContentPane().add(layeredPane);
 		layeredPane.setPreferredSize(boardSize);
+		
+		addMenuBar();
 		
 		// setup chess board
 		chessBoardPanel = new JPanel();
@@ -111,6 +116,21 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 	    chessBoardPanel.add(backButton);
 		chessBoardPanel.add(nextButton);
 		chessBoardPanel.add(fastForwardButton);
+	}
+	
+	// http://zetcode.com/tutorials/javaswingtutorial/menusandtoolbars/
+	private void addMenuBar() {
+		JMenuBar menubar = new JMenuBar();
+		JMenu file = new JMenu("File");
+        file.setMnemonic(KeyEvent.VK_F);
+        
+        JMenuItem eMenuItem = new JMenuItem("Exit");
+        eMenuItem.setMnemonic(KeyEvent.VK_E);
+        eMenuItem.setToolTipText("Exit application");
+        
+        file.add(eMenuItem);
+        menubar.add(file);
+        setJMenuBar(menubar);
 	}
 	
 	private void addChessPiece(Location location, ChessPiece chessPiece) {
