@@ -88,11 +88,17 @@ public final class Game {
 	}
 	
 	public void decrementRound() {
-		this.round -= 1;
+		if (this.round > 0) {
+			this.round -= 1;
+		}
 	}
 	
 	public Turn getCurrentTurn() {
-		return turns.get(round - 1);
+		if (!turns.isEmpty()) {
+			return turns.get(round - 1);
+		} else {
+			return new Turn();
+		}
 	}
 
 	public boolean isWhiteCastleMoveAllowed() {

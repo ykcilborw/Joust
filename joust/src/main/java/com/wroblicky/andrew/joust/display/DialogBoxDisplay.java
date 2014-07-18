@@ -102,24 +102,42 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 			}
 		}
 		
-		// set up next button
-		JButton nextButton = new JButton("Next");
+		// fast forward button
+		JButton fastForwardButton = new JButton(">>");
+		fastForwardButton.setVerticalTextPosition(AbstractButton.CENTER);
+	    fastForwardButton.setHorizontalTextPosition(AbstractButton.CENTER);
+	    fastForwardButton.setMnemonic(KeyEvent.VK_D);
+	    fastForwardButton.setActionCommand("fastForwardButton");
+	    fastForwardButton.addActionListener(this);
+
+		// next button
+		JButton nextButton = new JButton(">");
 	    nextButton.setVerticalTextPosition(AbstractButton.CENTER);
 	    nextButton.setHorizontalTextPosition(AbstractButton.CENTER);
 	    nextButton.setMnemonic(KeyEvent.VK_D);
 	    nextButton.setActionCommand("next");
 	    nextButton.addActionListener(this);
 	    
-	    // set up back button
-	    JButton backButton = new JButton("Back");
+	    // back button
+	    JButton backButton = new JButton("<");
 	    backButton.setVerticalTextPosition(AbstractButton.CENTER);
 	    backButton.setHorizontalTextPosition(AbstractButton.CENTER);
 	    backButton.setMnemonic(KeyEvent.VK_D);
 	    backButton.setActionCommand("back");
 	    backButton.addActionListener(this);
 	    
+	    // rewind button
+	    JButton rewindButton = new JButton("<<");
+	    rewindButton.setVerticalTextPosition(AbstractButton.CENTER);
+	    rewindButton.setHorizontalTextPosition(AbstractButton.CENTER);
+	    rewindButton.setMnemonic(KeyEvent.VK_D);
+	    rewindButton.setActionCommand("rewind");
+	    rewindButton.addActionListener(this);
+	    
+	    chessBoardPanel.add(rewindButton);
 	    chessBoardPanel.add(backButton);
 		chessBoardPanel.add(nextButton);
+		chessBoardPanel.add(fastForwardButton);
 	}
 	
 	private void addChessPiece(Location location, String imageName) {
@@ -137,22 +155,50 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String which = e.getActionCommand();
 		if(which.equals("next")) {
-			Game game = pgnViewer.playNextTurn();
+			handleNext();
+		} else if(which.equals("back")) {
+			Game game = pgnViewer.getGame();
 			Turn turn = game.getCurrentTurn();
+			pgnViewer.undoCurrentTurn();
 			for (GameStateChange gameStateChange : turn.getGameStateChanges()) {
 				if (gameStateChange instanceof Move) {
 					Move move = (Move) gameStateChange;
 					Component component = chessBoardPanel.getComponent(
-							move.getStart().getComponentNumber());
+							move.getDestination().getComponentNumber());
 					JLabel chessPiece = (JLabel) component.getComponentAt(1, 0);
 					chessPiece.setVisible(false);
-					Location destination = move.getDestination();
+					Location destination = move.getStart();
 					if (destination != null) {
 						JPanel jPanel =  (JPanel) chessBoardPanel.getComponent(
 								destination.getComponentNumber());
 						jPanel.add(chessPiece);
 						chessPiece.setVisible(true);
 					}
+				}
+			}
+		} else if (which.equals("fastforward")) {
+			// TODO
+		} else if (which.equals("rewing")) {
+			// TODO
+		}
+	}
+	
+	private void handleNext() {
+		Game game = pgnViewer.playNextTurn();
+		Turn turn = game.getCurrentTurn();
+		for (GameStateChange gameStateChange : turn.getGameStateChanges()) {
+			if (gameStateChange instanceof Move) {
+				Move move = (Move) gameStateChange;
+				Component component = chessBoardPanel.getComponent(
+						move.getStart().getComponentNumber());
+				JLabel chessPiece = (JLabel) component.getComponentAt(1, 0);
+				chessPiece.setVisible(false);
+				Location destination = move.getDestination();
+				if (destination != null) {
+					JPanel jPanel =  (JPanel) chessBoardPanel.getComponent(
+							destination.getComponentNumber());
+					jPanel.add(chessPiece);
+					chessPiece.setVisible(true);
 				}
 			}
 		}

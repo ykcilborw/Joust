@@ -34,14 +34,25 @@ public final class PGNViewer {
 		this.moveTokenAnalyzer = new MoveTokenAnalyzer(gameManager);
 	}
 	
-	public GameManager getGame() {
-		return gameManager;
+	public Game getGame() {
+		return gameManager.getGame();
 	}
 	
 	/**
 	 * Returns the initial gameManager state object
 	 */
 	public Game initializeGame() {
+		return gameManager.getGame();
+	}
+	
+	/**
+	 * Fast forwards to the end of the game
+	 */
+	public Game fastForward() {
+		while (moves.hasNext()) {
+			Turn turn = moveTokenAnalyzer.analyzeMove(moves.next());
+			gameManager.playTurn(turn);
+		}
 		return gameManager.getGame();
 	}
 	
@@ -56,6 +67,17 @@ public final class PGNViewer {
 		} else {
 			return gameManager.getGame();
 		}
+	}
+	
+	/**
+	 * Fast forwards to the end of the game
+	 */
+	public Game rewind() {
+		while (moves.hasPrevious()) {
+			moves.previous();
+			gameManager.undoTurn();
+		}
+		return gameManager.getGame();
 	}
 	
 	/**

@@ -20,6 +20,9 @@ public final class Turn {
 	private boolean check = false;
 	private boolean checkmate = false;
 	
+	public Turn() {
+		this.gameStateChanges = new ArrayList<GameStateChange>();
+	}
 
 	public Turn(GameStateChange gameStateChange) {
 		this.gameStateChanges = new ArrayList<GameStateChange>();
