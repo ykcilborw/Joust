@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,6 +21,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import com.wroblicky.andrew.joust.Util;
 import com.wroblicky.andrew.joust.game.Game;
@@ -82,32 +82,32 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 
 		// end button
 		JButton fastForwardButton = new JButton("End");
-		fastForwardButton.setVerticalTextPosition(AbstractButton.CENTER);
-		fastForwardButton.setHorizontalTextPosition(AbstractButton.CENTER);
+		fastForwardButton.setVerticalTextPosition(SwingConstants.CENTER);
+		fastForwardButton.setHorizontalTextPosition(SwingConstants.CENTER);
 		fastForwardButton.setMnemonic(KeyEvent.VK_D);
-		fastForwardButton.setActionCommand("fastForwardButton");
+		fastForwardButton.setActionCommand("fastforward");
 		fastForwardButton.addActionListener(this);
 
 		// next button
 		JButton nextButton = new JButton("Next");
-		nextButton.setVerticalTextPosition(AbstractButton.CENTER);
-		nextButton.setHorizontalTextPosition(AbstractButton.CENTER);
+		nextButton.setVerticalTextPosition(SwingConstants.CENTER);
+		nextButton.setHorizontalTextPosition(SwingConstants.CENTER);
 		nextButton.setMnemonic(KeyEvent.VK_D);
 		nextButton.setActionCommand("next");
 		nextButton.addActionListener(this);
 
 		// back button
 		JButton backButton = new JButton("Back");
-		backButton.setVerticalTextPosition(AbstractButton.CENTER);
-		backButton.setHorizontalTextPosition(AbstractButton.CENTER);
+		backButton.setVerticalTextPosition(SwingConstants.CENTER);
+		backButton.setHorizontalTextPosition(SwingConstants.CENTER);
 		backButton.setMnemonic(KeyEvent.VK_D);
 		backButton.setActionCommand("back");
 		backButton.addActionListener(this);
 
 		// start button
 		JButton rewindButton = new JButton("Start");
-		rewindButton.setVerticalTextPosition(AbstractButton.CENTER);
-		rewindButton.setHorizontalTextPosition(AbstractButton.CENTER);
+		rewindButton.setVerticalTextPosition(SwingConstants.CENTER);
+		rewindButton.setHorizontalTextPosition(SwingConstants.CENTER);
 		rewindButton.setMnemonic(KeyEvent.VK_D);
 		rewindButton.setActionCommand("rewind");
 		rewindButton.addActionListener(this);
@@ -184,7 +184,7 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 					.getComponentNumber());
 			panel.add(piece);
 		} catch (IOException e) {
-			Util.print("io: " + e);
+			Util.println("The function addChessPiece had an exception: " + e);
 			e.printStackTrace();
 		}
 	}
@@ -197,9 +197,9 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		} else if (which.equals("back")) {
 			handleBack();
 		} else if (which.equals("fastforward")) {
-			// TODO
+			handleFastForward();
 		} else if (which.equals("rewind")) {
-			// TODO
+			handleRewind();
 		}
 	}
 
@@ -231,6 +231,18 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 					moveChessPiece(move.getDestination(), move.getStart());
 				}
 			}
+		}
+	}
+
+	private void handleFastForward() {
+		while (pgnViewer.getGame().isInProgress()) {
+			handleNext();
+		}
+	}
+
+	private void handleRewind() {
+		while (pgnViewer.getGame().getRound() > 0) {
+			handleBack();
 		}
 	}
 
