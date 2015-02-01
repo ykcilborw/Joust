@@ -16,6 +16,8 @@ import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -34,6 +36,7 @@ import com.wroblicky.andrew.joust.game.chesspiece.ChessPiece;
 import com.wroblicky.andrew.joust.game.move.GameStateChange;
 import com.wroblicky.andrew.joust.game.move.Move;
 import com.wroblicky.andrew.joust.game.move.Turn;
+import com.wroblicky.andrew.joust.pgn.PGNParser;
 
 /**
  * Manages the ui for displaying a chess game as a dialog box
@@ -46,7 +49,7 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 
 	// private final JLayeredPane layeredPane;
 	private final JPanel chessBoardPanel;
-	private final PGNViewer pgnViewer;
+	private PGNViewer pgnViewer;
 
 	private DialogBoxDisplay(Game game, PGNViewer pgnViewer) {
 		this.pgnViewer = pgnViewer;
@@ -142,23 +145,51 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		getContentPane().add(mainPanel);
 	}
 
+	void setPGNViewer(PGNViewer pgnViewer) {
+		this.pgnViewer = pgnViewer;
+	}
+
 	// http://zetcode.com/tutorials/javaswingtutorial/menusandtoolbars/
 	private void addMenuBar() {
-		JMenuBar menubar = new JMenuBar();
+		final JMenuBar menubar = new JMenuBar();
+
 		JMenu file = new JMenu("File");
 		file.setMnemonic(KeyEvent.VK_F);
 
-		JMenuItem eMenuItem = new JMenuItem("Exit");
-		eMenuItem.setMnemonic(KeyEvent.VK_E);
-		eMenuItem.setToolTipText("Exit application");
-		eMenuItem.addActionListener(new ActionListener() {
+		JMenuItem openMenuItem = new JMenuItem("Open");
+		openMenuItem.setMnemonic(KeyEvent.VK_O);
+		openMenuItem.setToolTipText("Open file");
+		openMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setCurrentDirectory(new File(System
+						.getProperty("user.home")));
+				int result = fileChooser.showOpenDialog((JComponent) event
+						.getSource());
+				if (result == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = fileChooser.getSelectedFile();
+					PGNViewer newPgnViewer = new PGNViewer(PGNParser
+							.getPGNGame(selectedFile.getAbsolutePath()));
+					newPgnViewer.initializeGame();
+					setPGNViewer(newPgnViewer);
+				}
+			}
+		});
+
+		JMenuItem exitMenuItem = new JMenuItem("Exit");
+		exitMenuItem.setMnemonic(KeyEvent.VK_E);
+		exitMenuItem.setToolTipText("Exit application");
+		exitMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				System.exit(0);
 			}
 		});
 
-		file.add(eMenuItem);
+		file.add(openMenuItem);
+		file.add(new JSeparator());
+		file.add(exitMenuItem);
 		menubar.add(file);
 		setJMenuBar(menubar);
 	}
