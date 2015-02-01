@@ -23,3 +23,6 @@ java PGNViewer -s [name of pgn file]
 ```
 
 <p>In the graphical display there are buttons that allow the user to advance or rewing the state of the game.</p>
+
+<b>Dependencies</b>
+<p>Java 7</p>
