@@ -2,6 +2,7 @@ package com.wroblicky.andrew.joust.pgn;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -74,7 +75,7 @@ public final class PGNParser {
 					}
 				}
 			}
-		} catch (Exception e) {
+		} catch (IOException e) {
 			System.err.println("An error occurred trying to read the pgnTextFile");
 			e.printStackTrace();
 			System.exit(-1);
