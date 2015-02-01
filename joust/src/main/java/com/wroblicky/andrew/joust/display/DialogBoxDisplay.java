@@ -2,6 +2,7 @@ package com.wroblicky.andrew.joust.display;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -12,15 +13,16 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 import com.wroblicky.andrew.joust.Util;
@@ -42,7 +44,7 @@ import com.wroblicky.andrew.joust.game.move.Turn;
 @SuppressWarnings("serial")
 public class DialogBoxDisplay extends JFrame implements ActionListener {
 
-	private final JLayeredPane layeredPane;
+	// private final JLayeredPane layeredPane;
 	private final JPanel chessBoardPanel;
 	private final PGNViewer pgnViewer;
 
@@ -50,18 +52,17 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		this.pgnViewer = pgnViewer;
 		Dimension boardSize = new Dimension(600, 600);
 
-		layeredPane = new JLayeredPane();
-		getContentPane().add(layeredPane);
-		layeredPane.setPreferredSize(boardSize);
-
 		addMenuBar();
 
 		// setup chess board
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
 		chessBoardPanel = new JPanel();
-		layeredPane.add(chessBoardPanel, JLayeredPane.DEFAULT_LAYER);
-		chessBoardPanel.setLayout(new GridLayout(9, 8));
+		chessBoardPanel.setLayout(new GridLayout(8, 8));
 		chessBoardPanel.setPreferredSize(boardSize);
 		chessBoardPanel.setBounds(0, 0, boardSize.width, boardSize.height);
+		chessBoardPanel.setAlignmentY(TOP_ALIGNMENT);
 		for (int i = 0; i < 64; i++) {
 			JPanel square = new JPanel(new BorderLayout());
 			chessBoardPanel.add(square);
@@ -72,6 +73,7 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 				square.setBackground(i % 2 == 0 ? Color.red : Color.black);
 			}
 		}
+		mainPanel.add(chessBoardPanel);
 
 		ChessBoardIterator chessBoardIterator = game.getBoard().iterator();
 		while (chessBoardIterator.hasNext()) {
@@ -111,11 +113,33 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		rewindButton.setMnemonic(KeyEvent.VK_D);
 		rewindButton.setActionCommand("rewind");
 		rewindButton.addActionListener(this);
+		nextButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		rewindButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		fastForwardButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		chessBoardPanel.add(rewindButton);
-		chessBoardPanel.add(backButton);
-		chessBoardPanel.add(nextButton);
-		chessBoardPanel.add(fastForwardButton);
+		// moveButtonsPanel
+		JPanel moveButtonsPanel = new JPanel();
+		moveButtonsPanel.setBackground(Color.BLACK);
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.setHgap(15);
+		moveButtonsPanel.setLayout(gridLayout);
+		moveButtonsPanel.setAlignmentY(BOTTOM_ALIGNMENT);
+		moveButtonsPanel.setPreferredSize(new Dimension(25, 25));
+		moveButtonsPanel.add(rewindButton, BorderLayout.EAST);
+		moveButtonsPanel.add(backButton, BorderLayout.CENTER);
+		moveButtonsPanel.add(nextButton, BorderLayout.WEST);
+		moveButtonsPanel.add(fastForwardButton, BorderLayout.NORTH);
+
+		// separator
+		JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
+		separator.setBackground(Color.BLACK);
+
+		// putting it all together
+		mainPanel.setBackground(Color.BLACK);
+		mainPanel.add(separator);
+		mainPanel.add(moveButtonsPanel);
+		getContentPane().add(mainPanel);
 	}
 
 	// http://zetcode.com/tutorials/javaswingtutorial/menusandtoolbars/
@@ -127,6 +151,12 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		JMenuItem eMenuItem = new JMenuItem("Exit");
 		eMenuItem.setMnemonic(KeyEvent.VK_E);
 		eMenuItem.setToolTipText("Exit application");
+		eMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				System.exit(0);
+			}
+		});
 
 		file.add(eMenuItem);
 		menubar.add(file);
