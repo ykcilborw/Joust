@@ -6,22 +6,23 @@ import com.wroblicky.andrew.joust.game.board.Location;
 import com.wroblicky.andrew.joust.game.chesspiece.ChessPiece;
 
 public final class Util {
-	
+
 	public static String[][] getStringBoard(Set<ChessPiece> actives) {
 		String[][] newBoard = new String[8][8];
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				newBoard[i][j] = "-"; //denotes unoccupied
+				newBoard[i][j] = "-"; // denotes unoccupied
 			}
 		}
-		for (ChessPiece active: actives) {
+		for (ChessPiece active : actives) {
 			int currX = active.getLocation().getXCoordinate();
 			int currY = active.getLocation().getYCoordinate();
-			newBoard[currX - 1][currY - 1] = active.getChessPieceAllegianceType().toString(); 
+			newBoard[currX - 1][currY - 1] = active
+					.getChessPieceAllegianceType().toString();
 		}
 		return newBoard;
 	}
-	
+
 	public static int reverseNum(int num) {
 		int toReturn = num;
 		if (num == 0) {
@@ -43,7 +44,7 @@ public final class Util {
 		}
 		return toReturn;
 	}
-	
+
 	public static int fileToNum(String file) {
 		int toReturn = 0;
 		if (file.equals("a")) {
@@ -65,7 +66,7 @@ public final class Util {
 		}
 		return toReturn;
 	}
-	
+
 	public static int rankToNum(String rank) {
 		int toReturn = 0;
 		if (rank.equals("1")) {
@@ -87,19 +88,23 @@ public final class Util {
 		}
 		return toReturn;
 	}
-	
+
 	// called by Game when loading special config file
 	public static Location getLocation(String id, Location[][] board) {
 		int file = Util.fileToNum(id.substring(0, 1)) - 1;
 		int rank = Integer.parseInt(id.substring(1, 2)) - 1;
 		return board[rank][file];
 	}
-	
-	// convenience method for more succinct code
+
+	// convenience method for printing
 	public static void print(String s) {
-		System.out.println(s);
+		System.out.print(s);
 	}
-	
+
+	public static void println(String s) {
+		System.out.print(s + "\n");
+	}
+
 	public static void error(String s) {
 		System.err.println(s);
 	}
