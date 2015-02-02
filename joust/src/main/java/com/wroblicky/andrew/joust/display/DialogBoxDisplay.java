@@ -86,12 +86,12 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		}
 
 		// end button
-		JButton fastForwardButton = new JButton("End");
-		fastForwardButton.setVerticalTextPosition(SwingConstants.CENTER);
-		fastForwardButton.setHorizontalTextPosition(SwingConstants.CENTER);
-		fastForwardButton.setMnemonic(KeyEvent.VK_D);
-		fastForwardButton.setActionCommand("fastforward");
-		fastForwardButton.addActionListener(this);
+		JButton lastButton = new JButton("Last");
+		lastButton.setVerticalTextPosition(SwingConstants.CENTER);
+		lastButton.setHorizontalTextPosition(SwingConstants.CENTER);
+		lastButton.setMnemonic(KeyEvent.VK_D);
+		lastButton.setActionCommand("last");
+		lastButton.addActionListener(this);
 
 		// next button
 		JButton nextButton = new JButton("Next");
@@ -110,16 +110,16 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		backButton.addActionListener(this);
 
 		// start button
-		JButton rewindButton = new JButton("Start");
-		rewindButton.setVerticalTextPosition(SwingConstants.CENTER);
-		rewindButton.setHorizontalTextPosition(SwingConstants.CENTER);
-		rewindButton.setMnemonic(KeyEvent.VK_D);
-		rewindButton.setActionCommand("rewind");
-		rewindButton.addActionListener(this);
+		JButton firstButton = new JButton("First");
+		firstButton.setVerticalTextPosition(SwingConstants.CENTER);
+		firstButton.setHorizontalTextPosition(SwingConstants.CENTER);
+		firstButton.setMnemonic(KeyEvent.VK_D);
+		firstButton.setActionCommand("first");
+		firstButton.addActionListener(this);
 		nextButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		rewindButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		firstButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		fastForwardButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lastButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		// moveButtonsPanel
 		JPanel moveButtonsPanel = new JPanel();
@@ -129,10 +129,10 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		moveButtonsPanel.setLayout(gridLayout);
 		moveButtonsPanel.setAlignmentY(BOTTOM_ALIGNMENT);
 		moveButtonsPanel.setPreferredSize(new Dimension(25, 25));
-		moveButtonsPanel.add(rewindButton, BorderLayout.EAST);
+		moveButtonsPanel.add(firstButton, BorderLayout.EAST);
 		moveButtonsPanel.add(backButton, BorderLayout.CENTER);
 		moveButtonsPanel.add(nextButton, BorderLayout.WEST);
-		moveButtonsPanel.add(fastForwardButton, BorderLayout.NORTH);
+		moveButtonsPanel.add(lastButton, BorderLayout.NORTH);
 
 		// separator
 		JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
@@ -152,8 +152,10 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 	// http://zetcode.com/tutorials/javaswingtutorial/menusandtoolbars/
 	private void addMenuBar() {
 		final JMenuBar menubar = new JMenuBar();
+		menubar.setBackground(Color.GRAY);
 
 		JMenu file = new JMenu("File");
+		file.setBackground(Color.GRAY);
 		file.setMnemonic(KeyEvent.VK_F);
 
 		JMenuItem openMenuItem = new JMenuItem("Open");
@@ -257,10 +259,10 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 			handleNext();
 		} else if (which.equals("back")) {
 			handleBack();
-		} else if (which.equals("fastforward")) {
-			handleFastForward();
-		} else if (which.equals("rewind")) {
-			handleRewind();
+		} else if (which.equals("last")) {
+			handleLast();
+		} else if (which.equals("first")) {
+			handleFirst();
 		}
 	}
 
@@ -295,13 +297,13 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		}
 	}
 
-	private void handleFastForward() {
+	private void handleLast() {
 		while (pgnViewer.getGame().isInProgress()) {
 			handleNext();
 		}
 	}
 
-	private void handleRewind() {
+	private void handleFirst() {
 		while (pgnViewer.getGame().getRound() > 0) {
 			handleBack();
 		}
