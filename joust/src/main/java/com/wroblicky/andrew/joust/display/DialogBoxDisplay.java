@@ -90,7 +90,7 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		JButton lastButton = new JButton("Last");
 		lastButton.setVerticalTextPosition(SwingConstants.CENTER);
 		lastButton.setHorizontalTextPosition(SwingConstants.CENTER);
-		lastButton.setMnemonic(KeyEvent.VK_D);
+		lastButton.setMnemonic(KeyEvent.VK_L);
 		lastButton.setActionCommand("last");
 		lastButton.addActionListener(this);
 
@@ -98,7 +98,7 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		JButton nextButton = new JButton("Next");
 		nextButton.setVerticalTextPosition(SwingConstants.CENTER);
 		nextButton.setHorizontalTextPosition(SwingConstants.CENTER);
-		nextButton.setMnemonic(KeyEvent.VK_D);
+		nextButton.setMnemonic(KeyEvent.VK_N);
 		nextButton.setActionCommand("next");
 		nextButton.addActionListener(this);
 
@@ -106,7 +106,7 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		JButton backButton = new JButton("Back");
 		backButton.setVerticalTextPosition(SwingConstants.CENTER);
 		backButton.setHorizontalTextPosition(SwingConstants.CENTER);
-		backButton.setMnemonic(KeyEvent.VK_D);
+		backButton.setMnemonic(KeyEvent.VK_B);
 		backButton.setActionCommand("back");
 		backButton.addActionListener(this);
 
@@ -114,7 +114,7 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		JButton firstButton = new JButton("First");
 		firstButton.setVerticalTextPosition(SwingConstants.CENTER);
 		firstButton.setHorizontalTextPosition(SwingConstants.CENTER);
-		firstButton.setMnemonic(KeyEvent.VK_D);
+		firstButton.setMnemonic(KeyEvent.VK_I);
 		firstButton.setActionCommand("first");
 		firstButton.addActionListener(this);
 		nextButton.setAlignmentX(Component.CENTER_ALIGNMENT);
