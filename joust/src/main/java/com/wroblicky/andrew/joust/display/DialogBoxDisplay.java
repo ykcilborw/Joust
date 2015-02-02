@@ -47,7 +47,6 @@ import com.wroblicky.andrew.joust.pgn.PGNParser;
 @SuppressWarnings("serial")
 public class DialogBoxDisplay extends JFrame implements ActionListener {
 
-	// private final JLayeredPane layeredPane;
 	private final JPanel chessBoardPanel;
 	private PGNViewer pgnViewer;
 
@@ -139,7 +138,6 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		moveButtonsPanel.add(lastButton, BorderLayout.NORTH);
 
 		// putting it all together
-		// mainPanel.setBackground(Color.BLACK);
 		mainPanel.add(moveButtonsPanel);
 		getContentPane().add(mainPanel);
 	}
@@ -300,6 +298,7 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 					PGNParser.getPGNGame(selectedFile.getAbsolutePath()));
 			newPgnViewer.initializeGame();
 			pgnViewer = newPgnViewer;
+			this.setTitle(selectedFile.getName());
 		}
 	}
 
@@ -333,6 +332,7 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 
 	public static void start(Game game, PGNViewer pgnViewer) {
 		JFrame frame = new DialogBoxDisplay(game, pgnViewer);
+		frame.setTitle(pgnViewer.getFilename());
 		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		frame.pack();
 		frame.setResizable(true);
