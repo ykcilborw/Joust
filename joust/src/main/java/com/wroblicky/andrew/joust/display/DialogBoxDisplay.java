@@ -13,10 +13,10 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -60,6 +60,7 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		// setup chess board
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		mainPanel.setPreferredSize(new Dimension(680, 680));
 
 		chessBoardPanel = new JPanel();
 		chessBoardPanel.setLayout(new GridLayout(8, 8));
@@ -123,9 +124,12 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 
 		// moveButtonsPanel
 		JPanel moveButtonsPanel = new JPanel();
-		moveButtonsPanel.setBackground(Color.BLACK);
+		moveButtonsPanel.setPreferredSize(new Dimension(30, 30));
+		moveButtonsPanel.setBackground(Color.GRAY);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.setHgap(15);
+		moveButtonsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK,
+				10));
 		moveButtonsPanel.setLayout(gridLayout);
 		moveButtonsPanel.setAlignmentY(BOTTOM_ALIGNMENT);
 		moveButtonsPanel.setPreferredSize(new Dimension(25, 25));
@@ -134,19 +138,10 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		moveButtonsPanel.add(nextButton, BorderLayout.WEST);
 		moveButtonsPanel.add(lastButton, BorderLayout.NORTH);
 
-		// separator
-		JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
-		separator.setBackground(Color.BLACK);
-
 		// putting it all together
-		mainPanel.setBackground(Color.BLACK);
-		mainPanel.add(separator);
+		// mainPanel.setBackground(Color.BLACK);
 		mainPanel.add(moveButtonsPanel);
 		getContentPane().add(mainPanel);
-	}
-
-	void setPGNViewer(PGNViewer pgnViewer) {
-		this.pgnViewer = pgnViewer;
 	}
 
 	// http://zetcode.com/tutorials/javaswingtutorial/menusandtoolbars/
@@ -161,33 +156,14 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		JMenuItem openMenuItem = new JMenuItem("Open");
 		openMenuItem.setMnemonic(KeyEvent.VK_O);
 		openMenuItem.setToolTipText("Open file");
-		openMenuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				JFileChooser fileChooser = new JFileChooser();
-				fileChooser.setCurrentDirectory(new File(System
-						.getProperty("user.home")));
-				int result = fileChooser.showOpenDialog((JComponent) event
-						.getSource());
-				if (result == JFileChooser.APPROVE_OPTION) {
-					File selectedFile = fileChooser.getSelectedFile();
-					PGNViewer newPgnViewer = new PGNViewer(PGNParser
-							.getPGNGame(selectedFile.getAbsolutePath()));
-					newPgnViewer.initializeGame();
-					setPGNViewer(newPgnViewer);
-				}
-			}
-		});
+		openMenuItem.setActionCommand("open");
+		openMenuItem.addActionListener(this);
 
 		JMenuItem exitMenuItem = new JMenuItem("Exit");
 		exitMenuItem.setMnemonic(KeyEvent.VK_E);
 		exitMenuItem.setToolTipText("Exit application");
-		exitMenuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				System.exit(0);
-			}
-		});
+		exitMenuItem.setActionCommand("exit");
+		exitMenuItem.addActionListener(this);
 
 		file.add(openMenuItem);
 		file.add(new JSeparator());
@@ -263,6 +239,10 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 			handleLast();
 		} else if (which.equals("first")) {
 			handleFirst();
+		} else if (which.equals("open")) {
+			handleOpen();
+		} else if (which.equals("exit")) {
+			handleExit();
 		}
 	}
 
@@ -307,6 +287,24 @@ public class DialogBoxDisplay extends JFrame implements ActionListener {
 		while (pgnViewer.getGame().getRound() > 0) {
 			handleBack();
 		}
+	}
+
+	private void handleOpen() {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setCurrentDirectory(new File(System
+				.getProperty("user.home")));
+		int result = fileChooser.showOpenDialog(this);
+		if (result == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = fileChooser.getSelectedFile();
+			PGNViewer newPgnViewer = new PGNViewer(
+					PGNParser.getPGNGame(selectedFile.getAbsolutePath()));
+			newPgnViewer.initializeGame();
+			pgnViewer = newPgnViewer;
+		}
+	}
+
+	private static void handleExit() {
+		System.exit(0);
 	}
 
 	private void moveChessPiece(Location initial, Location destination) {
