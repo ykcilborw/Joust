@@ -2,30 +2,29 @@ package com.wroblicky.andrew.joust.game.board;
 
 /**
  * Utility class for iterating over chess board squares
- * 
+ *
  * @author Andrew Wroblicky
  *
  */
 public final class ChessBoardIterator {
-	
-	private Location[][] chessBoard;
+
+	private final Location[][] chessBoard;
 	private int currentX;
 	private int currentY;
-	
+
 	public ChessBoardIterator(Location[][] chessBoard) {
 		this.chessBoard = chessBoard;
 		this.currentX = 0;
 		this.currentY = 0;
 	}
-	
+
 	public boolean hasNext() {
 		if (currentX < 8 && currentY < 8) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
-	
+
 	public Location next() {
 		Location toReturn = chessBoard[currentX][currentY];
 		if (currentX < 7) {
